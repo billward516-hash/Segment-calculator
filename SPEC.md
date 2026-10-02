@@ -100,9 +100,12 @@ Every strip on the cut list includes a **safety length of 5 in (127 mm) added to
 - Wood-movement warnings (mixed end-grain and long-grain rings, large species differences).
 - Printable page with cut list, ring diagram, and the safety note.
 
+### Geometry and units
+- **Radius reference:** outside radius. Inside and centerline radii are shown as derived values.
+- **Cuts:** flat miters only. Tilted (compound-angle) rings are out of scope.
+- **Open rings:** segments do not have to meet on every surface, so the finished piece is decorative and not watertight. The tool states this on screen and on the printout. Because faces need not match, the user can set the gap or the segment length freely, and the other is derived.
+- **Species list:** a built-in list of common species (with color swatches) that the user can add to and edit; custom species are saved on the device.
+- **Default units:** US standard (inches, shown as fractions with decimal option). A metric toggle remains available.
+
 ## Open questions
-- Radius reference (inside / outside / centerline)
-- Flat miters only vs. tilted (compound-angle) rings
-- Open-ring definition (gap size, segment count, or segment length)
-- Species list: built-in vs. user-entered; color swatches
-- Default units
+None blocking. Next step: build `index.html`.
