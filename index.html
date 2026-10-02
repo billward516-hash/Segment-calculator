@@ -21,19 +21,19 @@
     --bg:#17120e; --card:#211a14; --ink:#f1e8de; --muted:#b5a594; --line:#3a2f25;
     --accent:#d9944f; --accent-ink:#1a120b; --soft:#2b2219; --input:#1b1510;
     --err:#ff8a80; --err-bg:#3a1c1a; --warn:#ffcf66; --warn-bg:#352a12; --info:#8cc4f2; --info-bg:#16283a;
-    --ok:#8fd18f; --focus:#e9a865;
+    --ok:#8fd18f; --focus:#e9a865; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#17120e; --card:#211a14; --ink:#f1e8de; --muted:#b5a594; --line:#3a2f25;
   --accent:#d9944f; --accent-ink:#1a120b; --soft:#2b2219; --input:#1b1510;
   --err:#ff8a80; --err-bg:#3a1c1a; --warn:#ffcf66; --warn-bg:#352a12; --info:#8cc4f2; --info-bg:#16283a;
-  --ok:#8fd18f; --focus:#e9a865;
+  --ok:#8fd18f; --focus:#e9a865; color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
-header.top{position:sticky;top:0;z-index:5;background:var(--accent);color:var(--accent-ink);padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--accent);color:var(--accent-ink);padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
 header.top h1{font-size:1.1rem;margin:0;font-weight:700}
 main{max-width:860px;margin:0 auto;padding:12px 16px 80px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
@@ -110,6 +110,7 @@ dl.gloss dd{margin:2px 0 0 0;color:var(--muted);font-size:.92rem}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:.9rem;z-index:20;max-width:90vw}
 .muted{color:var(--muted)}
 .print-only{display:none}
+body.hosted .no-hosted{display:none !important}
 .tpl{page-break-before:always}
 @media print{
   :root{--bg:#fff;--card:#fff;--ink:#000;--muted:#444;--line:#bbb;--soft:#f3f3f3}
@@ -790,6 +791,17 @@ dl.gloss dd{margin:2px 0 0 0;color:var(--muted);font-size:.92rem}
   const $ = (sel, el) => (el || document).querySelector(sel);
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+  // Set by the hosted (artifact) build, where the viewer blocks print, downloads and confirm().
+  const HOSTED = !!window.SEG_HOSTED;
+  let pendingConfirm = null;
+  function askConfirm(msg, key) {
+    if (!HOSTED) return confirm(msg);
+    if (pendingConfirm && pendingConfirm.key === key && Date.now() - pendingConfirm.t < 6000) { pendingConfirm = null; return true; }
+    pendingConfirm = { key, t: Date.now() };
+    toast(msg + ' Tap the same button again to confirm.', 5000);
+    return false;
+  }
+
   // ---------- State ----------
   let state = loadState();
   let design = state.designs[state.currentId];
@@ -1019,12 +1031,16 @@ dl.gloss dd{margin:2px 0 0 0;color:var(--muted);font-size:.92rem}
       '<div class="row" style="margin-top:10px">' +
       '<button type="button" data-action="new-design">New</button>' +
       '<button type="button" data-action="dup-design">Duplicate</button>' +
-      '<button type="button" data-action="share">Copy share link</button>' +
-      '<button type="button" data-action="export">Export file</button>' +
-      '<label class="btn" style="display:inline-flex;align-items:center">Import file<input type="file" id="importFile" accept=".json,application/json" hidden></label>' +
-      '<button type="button" data-action="print" class="primary">Print shop sheet</button>' +
+      '<button type="button" data-action="share" class="no-hosted">Copy share link</button>' +
+      '<button type="button" data-action="export" class="no-hosted">Export file</button>' +
+      '<label class="btn no-hosted" style="display:inline-flex;align-items:center">Import file<input type="file" id="importFile" accept=".json,application/json" hidden></label>' +
+      '<button type="button" data-action="print" class="primary no-hosted">Print shop sheet</button>' +
       '<button type="button" data-action="del-design" class="danger">Delete</button>' +
-      '</div>';
+      '</div>' +
+      '<details style="margin-top:10px"><summary class="btn" style="display:inline-flex;align-items:center">Share code</summary>' +
+      '<p class="help">Tap "Make code" to get a code for this design. Send it to a friend by text or email. They paste it here and tap "Open code".</p>' +
+      '<label class="fld"><span>Share code</span><textarea id="shareBox" spellcheck="false" autocomplete="off" placeholder="Paste a share code here"></textarea></label>' +
+      '<div class="row" style="margin-top:8px"><button type="button" data-action="code-make">Make code</button><button type="button" data-action="code-open" class="primary">Open code</button></div></details>';
   }
 
   function renderShape() {
@@ -1296,7 +1312,7 @@ dl.gloss dd{margin:2px 0 0 0;color:var(--muted);font-size:.92rem}
 
     // Template
     if (s.template) h += templateHtml(R);
-    h += '<section class="card no-print">' + chk('settings.template', 'Add a full-size (1:1) template of the selected ring to the printout', s.template) + '</section>';
+    h += '<section class="card no-print no-hosted">' + chk('settings.template', 'Add a full-size (1:1) template of the selected ring to the printout', s.template) + '</section>';
 
     $('#results').innerHTML = h;
     if (errorCount) $('#secSummary').setAttribute('data-errors', errorCount);
@@ -1708,7 +1724,7 @@ dl.gloss dd{margin:2px 0 0 0;color:var(--muted);font-size:.92rem}
         design.rings.push(nr); openRings.add(nr.id); selectedRing = design.rings.length - 1;
         renderRings(); renderBase(); break;
       }
-      case 'ring-del': if (confirm('Delete ring ' + (i + 1) + '?')) { design.rings.splice(i, 1); renderRings(); renderBase(); } break;
+      case 'ring-del': if (askConfirm('Delete ring ' + (i + 1) + '?', 'ring' + r.id)) { design.rings.splice(i, 1); renderRings(); renderBase(); } break;
       case 'ring-dup': { const c = JSON.parse(JSON.stringify(r)); c.id = C.defaultRing().id; design.rings.splice(i + 1, 0, c); openRings.add(c.id); if (design.source === 'profile') design.source = 'manual'; renderShape(); renderRings(); break; }
       case 'ring-up': if (i < design.rings.length - 1) { swapRings(i, i + 1); } break;
       case 'ring-down': if (i > 0) { swapRings(i, i - 1); } break;
@@ -1729,10 +1745,27 @@ dl.gloss dd{margin:2px 0 0 0;color:var(--muted);font-size:.92rem}
       case 'dup-design': { const d = JSON.parse(JSON.stringify(design)); d.id = newDesign().id; d.name = design.name + ' (copy)'; addDesign(d); return; }
       case 'del-design': {
         if (Object.keys(state.designs).length <= 1) { toast('This is your only design.'); return; }
-        if (!confirm('Delete "' + design.name + '"? This cannot be undone.')) return;
+        if (!askConfirm('Delete "' + design.name + '"? This cannot be undone.', 'design' + design.id)) return;
         delete state.designs[design.id];
         state.currentId = Object.keys(state.designs)[0];
         design = state.designs[state.currentId]; renderAll(); saveNow(); return;
+      }
+      case 'code-make': {
+        const box = $('#shareBox');
+        box.value = C.encodeDesign(portable());
+        box.focus(); box.select();
+        const done = () => toast('Code copied. Paste it into a message.');
+        const fail = () => toast('Code ready. Select it and copy.');
+        try { navigator.clipboard.writeText(box.value).then(done, fail); } catch (e) { fail(); }
+        return;
+      }
+      case 'code-open': {
+        let txt = $('#shareBox').value.trim();
+        const m = txt.match(/#d=([A-Za-z0-9_-]+)/);
+        if (m) txt = m[1];
+        if (!txt) { toast('Paste a share code first.'); return; }
+        try { importPortable(C.decodeDesign(txt)); } catch (e) { toast('That code could not be read.'); }
+        return;
       }
       case 'share': shareLink(); return;
       case 'export': exportFile(); return;
@@ -1749,7 +1782,7 @@ dl.gloss dd{margin:2px 0 0 0;color:var(--muted);font-size:.92rem}
       case 'spec-del': {
         const s = state.customSpecies[+btn.dataset.k];
         const inUse = Object.values(state.designs).some((d) => JSON.stringify(d).includes('"' + s.id + '"'));
-        if (inUse && !confirm(s.name + ' is used in a design. Delete anyway?')) return;
+        if (inUse && !askConfirm(s.name + ' is used in a design. Delete anyway?', 'spec' + s.id)) return;
         state.customSpecies.splice(+btn.dataset.k, 1);
         saveNow(); renderSpecies(); renderRings(); renderResults(); $('#secSpecies details').open = true; return;
       }
@@ -1802,11 +1835,11 @@ dl.gloss dd{margin:2px 0 0 0;color:var(--muted);font-size:.92rem}
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   }
 
-  function toast(msg) {
+  function toast(msg, ms) {
     const t = document.createElement('div');
     t.className = 'toast'; t.setAttribute('role', 'status'); t.textContent = msg;
     document.body.appendChild(t);
-    setTimeout(() => t.remove(), 2600);
+    setTimeout(() => t.remove(), ms || 2600);
   }
 
   document.addEventListener('input', (e) => {
@@ -1865,6 +1898,7 @@ dl.gloss dd{margin:2px 0 0 0;color:var(--muted);font-size:.92rem}
   }
 
   try {
+    if (HOSTED) document.body.classList.add('hosted');
     renderAll();
     loadFromHash();
   } catch (err) {

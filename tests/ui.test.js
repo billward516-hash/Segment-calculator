@@ -368,3 +368,49 @@ test('works inside a sandboxed frame with no storage access, and survives corrup
   assert.ok(await p2.locator('#secCutList').count());
   await c2.close();
 });
+
+test('share code: make it, open it in a fresh browser, and bad codes are refused', async () => {
+  const { context, page, errors } = await open({ permissions: ['clipboard-read', 'clipboard-write'] });
+  await page.selectOption('#samplePick', 'brick');
+  await page.locator('[data-bind="name"]').fill('Code test');
+  await page.locator('#secDesign summary').click();
+  await page.click('[data-action="code-make"]');
+  const code = await page.locator('#shareBox').inputValue();
+  assert.match(code, /^[A-Za-z0-9_-]{100,}$/);
+  const other = await open();
+  await other.page.locator('#secDesign summary').click();
+  await other.page.fill('#shareBox', 'not a real code!!');
+  await other.page.click('[data-action="code-open"]');
+  assert.match(await other.page.locator('.toast').first().textContent(), /could not be read/);
+  await other.page.fill('#shareBox', code);
+  await other.page.click('[data-action="code-open"]');
+  await other.page.waitForFunction(() => window.__segApp.design.name === 'Code test');
+  assert.equal((await design(other.page)).rings.length, (await design(page)).rings.length);
+  assert.deepEqual(other.errors, []);
+  assert.deepEqual(errors, []);
+  await other.context.close();
+  await context.close();
+});
+
+test('hosted mode: no print/export/download buttons, delete asks for a second tap', async () => {
+  const context = await browser.newContext(PHONE);
+  await context.addInitScript(() => { window.SEG_HOSTED = true; window.confirm = () => { throw new Error('confirm must not be used when hosted'); }; });
+  const page = await context.newPage();
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(String(e)));
+  await page.goto(URL);
+  await page.waitForSelector('#secCutList');
+  for (const a of ['print', 'export', 'share']) assert.ok(!(await page.locator('[data-action="' + a + '"]').isVisible()), a + ' should be hidden');
+  assert.ok(!(await page.locator('[data-bind="settings.template"]').isVisible()));
+  assert.ok(await page.locator('[data-action="code-make"]').count());
+  await page.check('input[name="src"][value="manual"]');
+  const before = (await design(page)).rings.length;
+  await page.locator('details.ring[data-ring="0"] summary').click();
+  await page.locator('details.ring[data-ring="0"] [data-action="ring-del"]').click();
+  assert.equal((await design(page)).rings.length, before, 'first tap does not delete');
+  assert.match(await page.locator('.toast').last().textContent(), /Tap the same button again/);
+  await page.locator('details.ring[data-ring="0"] [data-action="ring-del"]').click();
+  assert.equal((await design(page)).rings.length, before - 1, 'second tap deletes');
+  assert.deepEqual(errors, []);
+  await context.close();
+});
