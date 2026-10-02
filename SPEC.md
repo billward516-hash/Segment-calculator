@@ -9,6 +9,11 @@ A calculator for woodturners building segmented bowls, vases, and similar forms 
   - *Beginner mode:* presets (e.g. 12-segment bowl), guided steps, plain-language explanations, warnings for unsafe or unbuildable choices.
   - *Advanced mode:* full manual control of every ring, progressive thickness, custom rings, open segments, kerf and tilt options.
 
+- **Devices:** phone (used in the shop) and printout. Mobile-first layout plus a print stylesheet.
+- **Cost / license:** free to use.
+- **Persistence:** designs are remembered on the user's device (localStorage), with export/import so they can move between devices.
+- **Safety note:** a short, visible disclaimer next to the safety length (cutting small pieces is hazardous; use your own judgment).
+
 ## Goals
 
 Given a design (rings, radii, thicknesses, species), output everything needed to cut and glue it up: segment count, miter angle, segment dimensions, board stock required, and a layout of colors/species per ring.
@@ -68,16 +73,36 @@ Every strip on the cut list includes a **safety length of 5 in (127 mm) added to
 - Segment width (radial): `R_out − R_in` (measured at the centerline, accounting for the miter)
 - Open ring: segment length is shortened by the gap; gap = `2 · R · sin(180°/n) − L_seg`
 
+## Additional decisions
+
+### Tools and cutting method
+- The user chooses the tools they have (e.g. miter saw, table saw with sled, chop saw with stop block, bandsaw) and the cut list adapts its instructions and waste allowances to that choice.
+
+### Strips and grouping
+- If the user assigns the same species/color to more than one ring, the cut list groups strips of matching width and thickness so material is shared.
+- Rings may be built from multiple pieces per segment (brick, stave, mosaic looks). The user chooses the number of pieces; patterns can alternate two colors or use many colors.
+- Veneer/accent strips between wedges are supported, and segments within a ring may have different lengths.
+- The cut list states **how many of each piece to cut, by length and angle**, per species.
+- Rings can be rotated half a segment against the ring below (brick lay).
+- Pattern repeat check: shows counts per species (e.g. 4 maple, 8 walnut) and flags counts that do not divide evenly.
+
+### Design
+- Ring count can be set from a target height, or rings can be added one at a time (both options).
+- Vase profiles that curve in and out are supported.
+- Reverse mode: given a target diameter and height, the tool suggests a design.
+- Turning allowance of 1/8 in per side by default (adjustable).
+- Wall-thickness check against the finished inside and outside curves.
+- Base ring supports recess, tenon, or chuck-mount allowances.
+
+### Glue-up and checks
+- Glue-up notes (clamping, flattening between rings, reference marks).
+- Test-fit check showing the expected gap for a given miter-angle error (e.g. 0.1 degree).
+- Wood-movement warnings (mixed end-grain and long-grain rings, large species differences).
+- Printable page with cut list, ring diagram, and the safety note.
+
 ## Open questions
-
-Resolved: delivery format (single HTML file) and audience (beginners and advanced).
-
-Still open:
 - Radius reference (inside / outside / centerline)
-- Profile-drawing mode vs. manual ring entry
 - Flat miters only vs. tilted (compound-angle) rings
 - Open-ring definition (gap size, segment count, or segment length)
 - Species list: built-in vs. user-entered; color swatches
-- Stock/waste optimization and grain direction
-- Safety checks (minimum segment size, wall thickness)
-- Kerf handling, visual preview, save/load and export, default units
+- Default units
