@@ -1,0 +1,1863 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6b4226">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Segment Calc">
+<title>Segment Calculator</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='translate(50 50)'%3E%3Cpath d='M0-46 33-33 46 0 33 33 0 46-33 33-46 0-33-33Z' fill='%236b4226'/%3E%3Cpath d='M0-46 33-33 0 0ZM46 0 33 33 0 0ZM0 46-33 33 0 0ZM-46 0-33-33 0 0Z' fill='%23e8d3ae'/%3E%3Ccircle r='18' fill='%23fff'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f7f3ee; --card:#ffffff; --ink:#24190f; --muted:#6c5d50; --line:#e2d8cc;
+  --accent:#8a4f22; --accent-ink:#ffffff; --soft:#f1e7da; --input:#fffdfa;
+  --err:#b3261e; --err-bg:#fdecea; --warn:#8a5a00; --warn-bg:#fff4d6; --info:#1d5a8a; --info-bg:#e7f1fa;
+  --ok:#2f6b2f; --focus:#c77a2c;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17120e; --card:#211a14; --ink:#f1e8de; --muted:#b5a594; --line:#3a2f25;
+    --accent:#d9944f; --accent-ink:#1a120b; --soft:#2b2219; --input:#1b1510;
+    --err:#ff8a80; --err-bg:#3a1c1a; --warn:#ffcf66; --warn-bg:#352a12; --info:#8cc4f2; --info-bg:#16283a;
+    --ok:#8fd18f; --focus:#e9a865;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17120e; --card:#211a14; --ink:#f1e8de; --muted:#b5a594; --line:#3a2f25;
+  --accent:#d9944f; --accent-ink:#1a120b; --soft:#2b2219; --input:#1b1510;
+  --err:#ff8a80; --err-bg:#3a1c1a; --warn:#ffcf66; --warn-bg:#352a12; --info:#8cc4f2; --info-bg:#16283a;
+  --ok:#8fd18f; --focus:#e9a865;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+header.top{position:sticky;top:0;z-index:5;background:var(--accent);color:var(--accent-ink);padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+header.top h1{font-size:1.1rem;margin:0;font-weight:700}
+main{max-width:860px;margin:0 auto;padding:12px 16px 80px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
+.card>h2{font-size:1.1rem;margin:0 0 8px}
+h3{font-size:1rem;margin:14px 0 6px}
+.step{display:inline-block;background:var(--soft);color:var(--accent);border-radius:999px;padding:0 9px;font-size:.8rem;margin-right:6px;font-weight:700;vertical-align:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.fld{display:flex;flex-direction:column;gap:3px;font-size:.85rem;color:var(--muted);min-width:0}
+.fld>span{font-weight:600}
+.fld small{font-weight:400}
+input[type=text],input[type=number],select,textarea{font:inherit;color:var(--ink);background:var(--input);border:1px solid var(--line);border-radius:8px;padding:9px 10px;min-height:44px;width:100%;min-width:0}
+textarea{min-height:110px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9rem}
+input:focus,select:focus,textarea:focus,button:focus-visible,summary:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+input.bad{border-color:var(--err);background:var(--err-bg)}
+.chk{display:flex;align-items:center;gap:8px;font-size:.92rem;min-height:44px}
+.chk input{width:22px;height:22px;accent-color:var(--accent)}
+button,.btn{font:inherit;font-size:.92rem;border:1px solid var(--accent);background:var(--card);color:var(--accent);border-radius:8px;padding:8px 12px;min-height:44px;cursor:pointer;font-weight:600}
+button.primary{background:var(--accent);color:var(--accent-ink)}
+button.small{min-height:36px;padding:4px 10px;font-size:.85rem}
+button.danger{border-color:var(--err);color:var(--err)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid rgba(255,255,255,.6);border-radius:8px;overflow:hidden}
+.seg button{border:0;border-radius:0;min-height:36px;padding:4px 10px;background:transparent;color:inherit;font-size:.85rem}
+.seg button[aria-pressed=true]{background:rgba(255,255,255,.95);color:#6b4226}
+.help{font-size:.88rem;color:var(--muted);margin:4px 0 10px}
+body.advanced .beginner-only{display:none}
+body.beginner .adv{display:none !important}
+details.ring{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--card)}
+details.ring>summary{cursor:pointer;padding:10px 12px;list-style:none;display:flex;gap:10px;align-items:center;min-height:48px}
+details.ring>summary::-webkit-details-marker{display:none}
+details.ring>summary .swatches{display:flex;gap:2px;flex-shrink:0}
+details.ring>summary .sum-text{flex:1;min-width:0;font-size:.92rem}
+details.ring>summary .sum-text b{display:block}
+details.ring .body{padding:0 12px 12px}
+.sw{display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid rgba(0,0,0,.25);vertical-align:-2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{display:flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:8px;padding:2px 4px 2px 6px;background:var(--soft)}
+.chip select{min-height:36px;padding:4px 6px;width:auto;max-width:150px}
+.chip button{min-height:32px;padding:0 8px;border:0;background:transparent;color:var(--muted)}
+.msgs{list-style:none;padding:0;margin:0}
+.msgs li{border-radius:8px;padding:8px 10px;margin:6px 0;font-size:.9rem}
+.msgs li.error{background:var(--err-bg);color:var(--err)}
+.msgs li.warn{background:var(--warn-bg);color:var(--warn)}
+.msgs li.info{background:var(--info-bg);color:var(--info)}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:6px 0}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{border-bottom:1px solid var(--line);padding:6px 6px;text-align:left;vertical-align:top}
+th{font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+td.num,th.num{text-align:right;white-space:nowrap}
+.dec{color:var(--muted);font-size:.78rem;display:block}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.stat{background:var(--soft);border-radius:10px;padding:8px 10px}
+.stat .k{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.stat .v{font-size:1.15rem;font-weight:700}
+.strip{border:1px solid var(--line);border-left:6px solid var(--accent);border-radius:10px;padding:10px 12px;margin:10px 0;break-inside:avoid}
+.strip h4{margin:0 0 4px;font-size:1rem}
+.formula{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85rem;background:var(--soft);border-radius:8px;padding:8px;margin:6px 0;overflow-wrap:anywhere}
+.formula .safety{color:var(--err);font-weight:700}
+.safety-note{border:2px solid var(--err);border-radius:10px;padding:10px 12px;background:var(--err-bg);color:var(--ink);font-size:.9rem;margin:8px 0}
+.safety-note b{color:var(--err)}
+.open-note{border:2px solid var(--info);border-radius:10px;padding:10px 12px;background:var(--info-bg);font-size:.9rem;margin:8px 0}
+svg{max-width:100%;height:auto;display:block}
+.diagrams{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:640px){.diagrams{grid-template-columns:1fr 1fr}}
+.diag{background:var(--soft);border-radius:10px;padding:8px}
+.diag .cap{font-size:.8rem;color:var(--muted);margin-bottom:4px}
+.checklist{list-style:none;padding:0;margin:0}
+.checklist li{border-bottom:1px solid var(--line)}
+.checklist label{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:.92rem;min-height:44px}
+.checklist input{width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:var(--accent)}
+.checklist input:checked+span{text-decoration:line-through;color:var(--muted)}
+dl.gloss dt{font-weight:700;margin-top:8px}
+dl.gloss dd{margin:2px 0 0 0;color:var(--muted);font-size:.92rem}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:.9rem;z-index:20;max-width:90vw}
+.muted{color:var(--muted)}
+.print-only{display:none}
+.tpl{page-break-before:always}
+@media print{
+  :root{--bg:#fff;--card:#fff;--ink:#000;--muted:#444;--line:#bbb;--soft:#f3f3f3}
+  body{background:#fff;font-size:11pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  header.top,.no-print,button,details.ring,.toast{display:none !important}
+  .diag,.card>h2{break-inside:avoid;break-after:avoid}
+  main{max-width:none;padding:0}
+  .card{border:0;padding:0;margin:0 0 10pt}
+  .print-only{display:block}
+  .strip,.stat,table,tr{break-inside:avoid}
+  .tbl-wrap{overflow:visible}
+  .checklist input{display:inline-block}
+  a{color:inherit;text-decoration:none}
+  .tpl svg{max-width:none}
+}
+</style>
+</head>
+<body class="beginner">
+<header class="top">
+  <h1>Segment Calculator</h1>
+  <div class="row">
+    <div class="seg" role="group" aria-label="Experience level">
+      <button type="button" data-action="mode" data-value="beginner" id="modeBeginner">Beginner</button>
+      <button type="button" data-action="mode" data-value="advanced" id="modeAdvanced">Advanced</button>
+    </div>
+    <div class="seg" role="group" aria-label="Units">
+      <button type="button" data-action="units" data-value="in" id="unitsIn">in</button>
+      <button type="button" data-action="units" data-value="mm" id="unitsMm">mm</button>
+    </div>
+  </div>
+</header>
+<main id="app"></main>
+<noscript><p style="padding:16px">This calculator needs JavaScript turned on.</p></noscript>
+
+<script id="seg-core">
+// ===CORE-START===
+// Pure calculation code. No DOM access here — the test suite loads this block on its own.
+(function (root) {
+  'use strict';
+
+  const MM_PER_IN = 25.4;
+  const DEG = Math.PI / 180;
+
+  // Built-in species. Colors are approximate swatches; shrinkage is approximate
+  // tangential shrinkage (green to oven-dry, %), used only for movement warnings.
+  const SPECIES = [
+    { id: 'maple', name: 'Hard maple', color: '#e8d3ae', shrink: 9.9 },
+    { id: 'walnut', name: 'Black walnut', color: '#5a3a22', shrink: 7.8 },
+    { id: 'cherry', name: 'Cherry', color: '#a5603a', shrink: 7.1 },
+    { id: 'redoak', name: 'Red oak', color: '#c49a6c', shrink: 8.6 },
+    { id: 'whiteoak', name: 'White oak', color: '#b8925e', shrink: 10.5 },
+    { id: 'ash', name: 'White ash', color: '#d9c49a', shrink: 7.8 },
+    { id: 'birch', name: 'Yellow birch', color: '#e2c99b', shrink: 9.5 },
+    { id: 'beech', name: 'Beech', color: '#d8b48a', shrink: 11.9 },
+    { id: 'hickory', name: 'Hickory', color: '#c9a77c', shrink: 11.5 },
+    { id: 'poplar', name: 'Poplar', color: '#d3cc98', shrink: 8.2 },
+    { id: 'basswood', name: 'Basswood', color: '#e9dcc0', shrink: 9.3 },
+    { id: 'holly', name: 'Holly', color: '#f2ede0', shrink: 9.9 },
+    { id: 'mahogany', name: 'Mahogany', color: '#9c4a2e', shrink: 4.1 },
+    { id: 'sapele', name: 'Sapele', color: '#8a4b2f', shrink: 7.2 },
+    { id: 'teak', name: 'Teak', color: '#a0763c', shrink: 5.8 },
+    { id: 'padauk', name: 'Padauk', color: '#b5452b', shrink: 5.2 },
+    { id: 'purpleheart', name: 'Purpleheart', color: '#6b2d5c', shrink: 6.1 },
+    { id: 'bloodwood', name: 'Bloodwood', color: '#8b1a1a', shrink: 6.8 },
+    { id: 'yellowheart', name: 'Yellowheart', color: '#e3b23c', shrink: 6.6 },
+    { id: 'osage', name: 'Osage orange', color: '#d79a1f', shrink: 7.1 },
+    { id: 'canarywood', name: 'Canarywood', color: '#d9a35a', shrink: 7.6 },
+    { id: 'jatoba', name: 'Jatoba', color: '#8a3e22', shrink: 8.0 },
+    { id: 'bubinga', name: 'Bubinga', color: '#8e3b2f', shrink: 8.4 },
+    { id: 'zebrawood', name: 'Zebrawood', color: '#c9a66b', shrink: 9.4 },
+    { id: 'cocobolo', name: 'Cocobolo', color: '#8b3a1e', shrink: 4.3 },
+    { id: 'wenge', name: 'Wenge', color: '#3b2a20', shrink: 9.0 },
+    { id: 'ebony', name: 'Ebony', color: '#1e1a18', shrink: 10.0 },
+    { id: 'veneer-black', name: 'Black veneer (dyed)', color: '#111111', shrink: null },
+    { id: 'veneer-white', name: 'White veneer (holly/maple)', color: '#f4efe2', shrink: null }
+  ];
+
+  // Cutting tools. kerf = blade width; cleanup = extra length per piece to sand off afterward.
+  const TOOLS = {
+    miter: { name: 'Miter saw', kerf: 0.125, cleanup: 0,
+      how: 'Set the miter saw to {angle} from square. Clamp a stop block at the long-point length. Flip the strip end-over-end (rotate it 180° face up) after every cut so each cut makes one segment.' },
+    sled: { name: 'Table saw with segment sled', kerf: 0.125, cleanup: 0,
+      how: 'Set the sled fence to {angle} from square (a gauge that reads 90° at square should read {comp}). Use the sled stop at the long-point length and flip the strip after every cut. Keep hands on the sled, never on the offcut.' },
+    thinkerf: { name: 'Table saw, thin-kerf blade + sled', kerf: 0.094, cleanup: 0,
+      how: 'Set the sled fence to {angle} from square (a gauge that reads 90° at square should read {comp}). Use the sled stop at the long-point length and flip the strip after every cut.' },
+    chop: { name: 'Chop saw + stop block', kerf: 0.125, cleanup: 0,
+      how: 'Set the saw to {angle}. Clamp a stop block at the long-point length, with a relief gap so pieces cannot bind between blade and block. Flip the strip after every cut.' },
+    bandsaw: { name: 'Band saw + disc sander', kerf: 0.04, cleanup: 0.0625,
+      how: 'Cut slightly long on the band saw using a {angle} sled, then sand each end to final length on a disc sander with a jig set to {angle}.' },
+    hand: { name: 'Hand saw + miter box', kerf: 0.06, cleanup: 0.03125,
+      how: 'Set the miter box to {angle}. Cut slightly long and plane or sand to the long-point length with a shooting board set to {angle}.' },
+    other: { name: 'Other / my own method', kerf: 0.125, cleanup: 0,
+      how: 'Cut each end at {angle} from square to the long-point length. Flip the strip between cuts.' }
+  };
+
+  const MOUNTS = {
+    none: { name: 'None', depth: 0 },
+    tenon: { name: 'Tenon (adds height)', depth: 0.25 },
+    recess: { name: 'Recess (cut into base)', depth: 0.1875 },
+    glueblock: { name: 'Waste glue block', depth: 0.75 },
+    faceplate: { name: 'Faceplate screws (adds height)', depth: 0.375 }
+  };
+
+  const isNum = (v) => typeof v === 'number' && isFinite(v);
+  const round = (v, step) => Math.round(v / step) * step;
+  const ceilTo = (v, step) => Math.ceil(v / step - 1e-9) * step;
+  function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a || 1; }
+
+  // ---------- Units ----------
+
+  // Parses "3", "3.5", ".5", "3 1/2", "3-1/2", "1/2", '3"', "3 in", "90mm", "9cm".
+  // Returns inches, or NaN if it cannot be read.
+  function parseLength(str, units) {
+    if (typeof str === 'number') return isFinite(str) ? str : NaN;
+    if (str == null) return NaN;
+    let s = String(str).trim().toLowerCase().replace(/[″”]/g, '"');
+    if (!s) return NaN;
+    let unit = units === 'mm' ? 'mm' : 'in';
+    let m;
+    if ((m = s.match(/^(.*?)\s*mm$/))) { unit = 'mm'; s = m[1]; }
+    else if ((m = s.match(/^(.*?)\s*cm$/))) { unit = 'cm'; s = m[1]; }
+    else if ((m = s.match(/^(.*?)\s*(?:inches|inch|in|")$/))) { unit = 'in'; s = m[1]; }
+    s = s.trim();
+    let sign = 1;
+    if (s.startsWith('-')) { sign = -1; s = s.slice(1).trim(); }
+    let v;
+    if ((m = s.match(/^(\d*\.?\d+)$/))) v = parseFloat(m[1]);
+    else if ((m = s.match(/^(\d+)(?:\s+|\s*-\s*)(\d+)\s*\/\s*(\d+)$/))) v = +m[3] === 0 ? NaN : +m[1] + (+m[2]) / (+m[3]);
+    else if ((m = s.match(/^(\d+)\s*\/\s*(\d+)$/))) v = +m[2] === 0 ? NaN : (+m[1]) / (+m[2]);
+    else return NaN;
+    if (!isFinite(v)) return NaN;
+    v *= sign;
+    if (unit === 'mm') return v / MM_PER_IN;
+    if (unit === 'cm') return v * 10 / MM_PER_IN;
+    return v;
+  }
+
+  // Inches as a reduced fraction to the nearest 1/denom ("3 5/16"), no unit mark.
+  function toFraction(inches, denom) {
+    const sign = inches < 0 ? '-' : '';
+    const total = Math.round(Math.abs(inches) * denom);
+    const whole = Math.floor(total / denom);
+    let num = total % denom;
+    if (!num) return sign + String(whole);
+    const g = gcd(num, denom);
+    const frac = (num / g) + '/' + (denom / g);
+    return sign + (whole ? whole + ' ' + frac : frac);
+  }
+
+  // Formats inches for display. denom 0 = decimal inches.
+  // opts.plain: no unit mark (for input boxes).
+  function formatLength(inches, units, denom, opts) {
+    opts = opts || {};
+    if (!isNum(inches)) return '—';
+    if (units === 'mm') {
+      const mm = inches * MM_PER_IN;
+      const s = (Math.abs(mm) >= 100 ? mm.toFixed(0) : mm.toFixed(1)).replace(/\.0$/, '');
+      return opts.plain ? s : s + ' mm';
+    }
+    // Small values (kerf, veneer) get finer fractions so 1/32 does not show as 1/16.
+    let dd = denom;
+    while (dd && dd < 64 && inches !== 0 && Math.abs(inches) < 8 / dd) dd *= 2;
+    const s = dd ? toFraction(inches, dd) : String(+inches.toFixed(3));
+    return opts.plain ? s : s + '″';
+  }
+
+  const formatAngle = (deg) => isNum(deg) ? deg.toFixed(2) + '°' : '—';
+
+  // Repeats a pattern list to length n: expand(['a','b'], 5) -> a b a b a
+  function expandPattern(pattern, n) {
+    const p = (pattern && pattern.length) ? pattern : [null];
+    const out = [];
+    for (let i = 0; i < n; i++) out.push(p[i % p.length]);
+    return out;
+  }
+
+  // Counts per species for one ring's pattern.
+  function patternCounts(pattern, n) {
+    const counts = {};
+    for (const s of expandPattern(pattern, n)) counts[s] = (counts[s] || 0) + 1;
+    return counts;
+  }
+
+  // ---------- Ring geometry ----------
+  //
+  // Each segment is a trapezoid. The polygon must fully contain the turned ring, so:
+  //   outer flat (apothem) = finished outside radius + turning allowance        (Ro)
+  //   inner corners must sit inside the hole: inner apothem = ri * cos(theta)   (ri = finished inside radius − allowance)
+  //   long point  Lout = 2 * Ro   * tan(theta) − reduction
+  //   short point Lin  = 2 * aIn  * tan(theta) − reduction
+  //   board width W    = Ro − aIn
+  //   theta (miter angle, each end, from square) = half the segment's share of 360°.
+  // reduction = gap (open ring, along the outer edge) or veneer / cos(theta) (closed ring).
+  function ringGeometry(ring, ctx) {
+    const errors = [], warnings = [];
+    const ta = ctx.turnAllow || 0;
+    const n = Math.round(ring.segments || 0);
+    const R = ring.outerR;
+    const width = ring.width;
+    const r = R - width;
+    const sand = isNum(ring.sand) ? ring.sand : (ctx.sandAllow || 0);
+    const out = { n, R, r, width, centerR: (R + r) / 2, sand, finishedT: ring.thickness,
+      roughT: ring.thickness + sand, segs: [], errors, warnings, open: ring.type === 'open' };
+    if (!(n >= 3)) { errors.push('Needs at least 3 segments.'); return out; }
+    if (!(R > 0)) { errors.push('Outside radius must be greater than 0.'); return out; }
+    if (!(width > 0)) { errors.push('Ring width must be greater than 0.'); return out; }
+    if (!(ring.thickness > 0)) { errors.push('Thickness must be greater than 0.'); return out; }
+
+    const open = ring.type === 'open';
+    const useSpans = !open && ring.spans && ring.spans.length && ring.spans.some((w) => w !== ring.spans[0]);
+    const weights = useSpans ? expandPattern(ring.spans, n).map((w) => (w > 0 ? w : 1)) : expandPattern([1], n);
+    const sumW = weights.reduce((a, b) => a + b, 0);
+    const thetas = weights.map((w) => Math.PI * w / sumW); // half of each segment's angle
+    const thetaMax = Math.max.apply(null, thetas);
+    if (thetaMax >= Math.PI / 2 - 1e-9) { errors.push('One segment would cover half the ring or more. Use more segments.'); return out; }
+
+    const Ro = R + ta;
+    const ri = r - ta;
+    out.Ro = Ro; out.ri = ri;
+    if (!(ri > 0)) {
+      errors.push('The inside radius is smaller than the turning allowance, so the segments would meet in the middle. Make the ring narrower, or use a solid disc for this level.');
+      return out;
+    }
+    const aIn = ri * Math.cos(thetaMax);
+    const W = Ro - aIn;
+    out.aIn = aIn; out.W = W;
+    out.cornerR = Ro / Math.cos(thetaMax); // radius of the outer corners
+    out.thetaMaxDeg = thetaMax / DEG;
+
+    const species = expandPattern(ring.pattern, n);
+    const veneerT = !open && ring.veneer && ring.veneer.t > 0 ? ring.veneer.t : 0;
+    out.veneerT = veneerT;
+    out.veneerSpecies = veneerT ? ring.veneer.species : null;
+
+    let gap = 0;
+    if (open) {
+      const fullOut = 2 * Ro * Math.tan(thetas[0]);
+      if (ring.openBy === 'length') {
+        gap = fullOut - (ring.segLen || 0);
+      } else {
+        gap = ring.gap || 0;
+      }
+      if (gap < 0) { errors.push('Open-ring segments are longer than a closed ring allows. Shorten the segment length.'); gap = 0; }
+      out.gap = gap;
+      out.gapPerp = gap * Math.cos(thetas[0]);
+      if (ring.spans && ring.spans.some((w) => w !== ring.spans[0])) warnings.push('Unequal segment lengths are ignored on open rings.');
+      if (ring.veneer && ring.veneer.t > 0) warnings.push('Veneer between segments is ignored on open rings.');
+    }
+
+    let angleAccum = 0;
+    for (let i = 0; i < n; i++) {
+      const th = thetas[i];
+      const red = open ? gap : veneerT / Math.cos(th);
+      const lOut = 2 * Ro * Math.tan(th) - red;
+      const lIn = 2 * aIn * Math.tan(th) - red;
+      const center = angleAccum + th; // bisector angle (radians), measured from segment 0's start
+      angleAccum += 2 * th;
+      out.segs.push({ i, species: species[i], weight: weights[i], theta: th / DEG, lOut, lIn, center });
+      if (lIn <= 0) { errors.push('The gap or veneer is wider than the segments. Use fewer segments, a smaller gap, or thinner veneer.'); break; }
+    }
+    return out;
+  }
+
+  // ---------- Profile (shape) ----------
+
+  // Cosine interpolation through points [[z, R], ...] sorted by z.
+  function cosInterp(points, z) {
+    if (!points.length) return 0;
+    if (z <= points[0][0]) return points[0][1];
+    for (let i = 1; i < points.length; i++) {
+      const [z0, r0] = points[i - 1], [z1, r1] = points[i];
+      if (z <= z1) {
+        const t = z1 === z0 ? 1 : (z - z0) / (z1 - z0);
+        const mu = (1 - Math.cos(t * Math.PI)) / 2;
+        return r0 + (r1 - r0) * mu;
+      }
+    }
+    return points[points.length - 1][1];
+  }
+
+  // Parses custom profile text: one "height, diameter" pair per line.
+  function parseProfilePoints(text, units) {
+    const pts = [];
+    for (const line of String(text || '').split(/\n/)) {
+      const t = line.trim();
+      if (!t || t.startsWith('#')) continue;
+      const parts = t.split(/\s*[,;\t]\s*/);
+      if (parts.length < 2) return null;
+      const z = parseLength(parts[0], units), d = parseLength(parts[1], units);
+      if (!isNum(z) || !isNum(d) || z < 0 || d <= 0) return null;
+      pts.push([z, d / 2]);
+    }
+    pts.sort((a, b) => a[0] - b[0]);
+    return pts.length >= 2 ? pts : null;
+  }
+
+  // Returns the outside-radius control points for a profile, plus its height.
+  function profilePoints(p, units) {
+    const H = p.height;
+    if (p.shape === 'custom') {
+      const pts = parseProfilePoints(p.points, units);
+      if (!pts) return null;
+      const z0 = pts[0][0];
+      return pts.map(([z, r]) => [z - z0, r]);
+    }
+    const Rm = p.maxDia / 2, Rb = p.baseDia / 2;
+    if (p.shape === 'cylinder') return [[0, Rm], [H, Rm]];
+    if (p.shape === 'vase') {
+      const belly = Math.min(0.8, Math.max(0.15, p.bellyAt || 0.4));
+      return [[0, Rb], [belly * H, Rm], [0.85 * H, p.neckDia / 2], [H, p.lipDia / 2]];
+    }
+    // bowl: flares from base to rim, widest at the rim
+    const pts = [];
+    for (let i = 0; i <= 20; i++) {
+      const t = i / 20;
+      pts.push([t * H, Rb + (Rm - Rb) * (1 - (1 - t) * (1 - t))]);
+    }
+    return pts;
+  }
+
+  function profileOuter(pts, z) {
+    if (pts.length > 4) { // dense (bowl): linear between samples
+      if (z <= pts[0][0]) return pts[0][1];
+      for (let i = 1; i < pts.length; i++) {
+        if (z <= pts[i][0]) {
+          const [z0, r0] = pts[i - 1], [z1, r1] = pts[i];
+          return r0 + (r1 - r0) * ((z - z0) / ((z1 - z0) || 1));
+        }
+      }
+      return pts[pts.length - 1][1];
+    }
+    return cosInterp(pts, z);
+  }
+
+  // Inside radius: outer minus the wall measured square to the surface.
+  function profileInner(pts, z, wall) {
+    const h = 0.01;
+    // One-sided at the ends so the slope is not flattened at the bottom or top.
+    const a = Math.max(z - h, pts[0][0]), b = Math.min(z + h, pts[pts.length - 1][0]);
+    const slope = b > a ? (profileOuter(pts, b) - profileOuter(pts, a)) / (b - a) : 0;
+    return profileOuter(pts, z) - wall * Math.sqrt(1 + slope * slope);
+  }
+
+  // Ring thicknesses that fill height H, starting at t0 and changing by step each ring.
+  function ringThicknesses(H, t0, step) {
+    const ts = [];
+    let sum = 0;
+    const minT = 0.125;
+    for (let i = 0; i < 200 && sum < H - 1e-6; i++) {
+      let t = Math.max(minT, t0 + i * (step || 0));
+      const rem = H - sum;
+      if (t > rem) {
+        if (rem >= 0.25 || !ts.length) t = rem;
+        else { ts[ts.length - 1] += rem; sum += rem; break; }
+      }
+      ts.push(t);
+      sum += t;
+    }
+    return ts;
+  }
+
+  // Builds rings from a profile. Keeps each existing ring's style (colors, pattern, open/closed...).
+  function generateRings(p, existing, units) {
+    const pts = profilePoints(p, units);
+    if (!pts) return { rings: existing || [], error: 'Custom profile needs at least two "height, diameter" lines.' };
+    const H = pts[pts.length - 1][0];
+    if (!(H > 0)) return { rings: existing || [], error: 'Height must be greater than 0.' };
+    const ts = ringThicknesses(H, p.ringT, p.step);
+    const rings = [];
+    let z = 0;
+    for (let i = 0; i < ts.length; i++) {
+      const z0 = z, z1 = z + ts[i];
+      let R = 0, r = Infinity;
+      for (let k = 0; k <= 60; k++) {
+        const zz = z0 + (z1 - z0) * k / 60;
+        R = Math.max(R, profileOuter(pts, zz));
+        r = Math.min(r, profileInner(pts, zz, p.wall));
+      }
+      r = Math.max(r, 0);
+      const prev = (existing && existing[i]) || {};
+      const ring = Object.assign(defaultRing(p.species || 'walnut'), prev, {
+        outerR: R, width: R - r, thickness: ts[i], z0
+      });
+      if (!prev.customSeg) ring.segments = p.segments;
+      rings.push(ring);
+      z = z1;
+    }
+    return { rings, height: H, pts };
+  }
+
+  // Suggests a segment count so the long point is close to 2 inches.
+  function suggestSegments(R, turnAllow) {
+    const opts = [8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 48];
+    let best = 12, bestErr = Infinity;
+    for (const n of opts) {
+      const L = 2 * (R + (turnAllow || 0)) * Math.tan(Math.PI / n);
+      const e = Math.abs(L - 2);
+      if (e < bestErr) { bestErr = e; best = n; }
+    }
+    return best;
+  }
+
+  let ringSeq = 0;
+  function defaultRing(species) {
+    ringSeq++;
+    return {
+      id: 'r' + Date.now().toString(36) + ringSeq,
+      label: '', role: 'body', segments: 12, customSeg: false,
+      outerR: 3, width: 0.75, thickness: 0.75, sand: null,
+      type: 'closed', openBy: 'gap', gap: 0.25, segLen: 1,
+      pattern: [species || 'walnut'], spans: [1],
+      veneer: { t: 0, species: 'veneer-black' },
+      offsetHalf: false, grain: 'long',
+      lam: { on: false, layers: [{ species: 'maple', t: 0.375 }, { species: 'walnut', t: 0.375 }] }
+    };
+  }
+
+  // ---------- Whole design ----------
+
+  function speciesMap(custom) {
+    const map = {};
+    for (const s of SPECIES) map[s.id] = s;
+    for (const s of (custom || [])) map[s.id] = s;
+    return map;
+  }
+
+  function computeDesign(d, custom) {
+    const sp = speciesMap(custom);
+    const set = d.settings;
+    const ctx = { turnAllow: set.turnAllow, sandAllow: set.sandAllow };
+    const rings = d.rings.map((ring) => ringGeometry(ring, ctx));
+    const base = baseInfo(d, rings);
+    const finishedH = base.finishedT + d.rings.reduce((a, r) => a + (r.thickness || 0), 0);
+    const roughH = base.roughT + rings.reduce((a, g) => a + (g.roughT || 0), 0);
+    const cut = buildCutList(d, rings, sp);
+    const messages = checkDesign(d, rings, base, sp);
+    let maxR = base.R || 0;
+    for (const g of rings) if (isNum(g.R)) maxR = Math.max(maxR, g.R);
+    return { rings, base, finishedH, roughH, maxR, cut, messages, species: sp };
+  }
+
+  function baseInfo(d, rings) {
+    const b = d.base;
+    if (!b || b.type === 'none') return { type: 'none', finishedT: 0, roughT: 0 };
+    const first = d.rings[0];
+    const auto = first ? first.outerR : 1.5;
+    const R = b.autoDia || !(b.diameter > 0) ? auto : b.diameter / 2;
+    const mount = MOUNTS[b.mount] || MOUNTS.none;
+    const depth = isNum(b.mountDepth) ? b.mountDepth : mount.depth;
+    const addsHeight = b.mount === 'tenon' || b.mount === 'faceplate';
+    const sand = d.settings.sandAllow || 0;
+    const blankT = b.thickness + sand + (addsHeight ? depth : 0);
+    const side = 2 * (R + (d.settings.turnAllow || 0));
+    return { type: 'disc', R, species: b.species, finishedT: b.thickness, roughT: blankT,
+      blankT, side, mount: b.mount, depth, addsHeight,
+      bf: side * side * blankT / 144 };
+  }
+
+  // ---------- Cut list ----------
+
+  function buildCutList(d, geoms, sp) {
+    const set = d.settings;
+    const tool = TOOLS[set.tool] || TOOLS.other;
+    const kerf = isNum(set.kerf) ? set.kerf : tool.kerf;
+    const cleanup = tool.cleanup;
+    const safety = isNum(set.safety) ? Math.max(0, set.safety) : 5;
+    const maxStrip = set.maxStrip > 0 ? set.maxStrip : 48;
+    const wStep = set.stripRound > 0 ? set.stripRound : 1 / 32;
+    const groups = new Map();
+    const tally = new Map();
+
+    geoms.forEach((g, ri) => {
+      if (g.errors.length || !g.segs.length) return;
+      const ring = d.rings[ri];
+      const W = ceilTo(g.W, wStep);
+      const T = round(g.roughT, 1 / 64);
+      for (const s of g.segs) {
+        const isLam = ring.lam && ring.lam.on && s.species === 'lam';
+        const key = isLam ? 'lam|' + ri : 'seg|' + s.species + '|' + T.toFixed(4) + '|' + W.toFixed(4);
+        if (!groups.has(key)) {
+          groups.set(key, { key, kind: isLam ? 'lam' : 'seg', species: isLam ? null : s.species, T, W,
+            layers: isLam ? ring.lam.layers.map((l) => ({ species: l.species, t: l.t })) : null,
+            ring: isLam ? ri : null, types: new Map() });
+        }
+        const grp = groups.get(key);
+        const tk = s.theta.toFixed(3) + '|' + s.lOut.toFixed(4) + '|' + s.lIn.toFixed(4);
+        if (!grp.types.has(tk)) grp.types.set(tk, { theta: s.theta, lOut: s.lOut, lIn: s.lIn, count: 0, rings: new Set() });
+        const ty = grp.types.get(tk);
+        ty.count++; ty.rings.add(ri + 1);
+
+        const tallyKey = (isLam ? 'lam' + ri : s.species) + '|' + tk + '|' + T.toFixed(4) + '|' + W.toFixed(4);
+        if (!tally.has(tallyKey)) tally.set(tallyKey, { species: isLam ? 'lam' : s.species, lamRing: isLam ? ri : null,
+          theta: s.theta, lOut: s.lOut, lIn: s.lIn, W, T, count: 0, rings: new Set() });
+        const tl = tally.get(tallyKey);
+        tl.count++; tl.rings.add(ri + 1);
+      }
+      if (g.veneerT > 0) {
+        const vkey = 'ven|' + g.veneerSpecies + '|' + g.veneerT.toFixed(4) + '|' + T.toFixed(4);
+        if (!groups.has(vkey)) groups.set(vkey, { key: vkey, kind: 'veneer', species: g.veneerSpecies, T: g.veneerT,
+          W: T, types: new Map() });
+        const grp = groups.get(vkey);
+        const tk = W.toFixed(4);
+        if (!grp.types.has(tk)) grp.types.set(tk, { theta: 0, lOut: W, lIn: W, count: 0, rings: new Set() });
+        const ty = grp.types.get(tk);
+        ty.count += g.n; ty.rings.add(ri + 1);
+      }
+    });
+
+    const strips = [];
+    const notes = [];
+    let letter = 0;
+    for (const grp of groups.values()) {
+      const types = [...grp.types.values()].sort((a, b) => b.lOut - a.lOut);
+      const thetaMax = Math.max.apply(null, types.map((t) => t.theta));
+      const trim = grp.kind === 'veneer' ? 0 : grp.W * Math.tan(thetaMax * DEG);
+      const per = (t) => (grp.kind === 'veneer' ? t.lOut : (t.lOut + t.lIn) / 2) +
+        kerf / Math.cos(t.theta * DEG) + cleanup;
+      const usable = maxStrip - safety - trim;
+      // Greedy fill: as many pieces per strip as fit under the maximum strip length.
+      const groupStrips = [];
+      let cur = null;
+      for (const t of types) {
+        for (let k = 0; k < t.count; k++) {
+          const need = per(t);
+          if (!cur || (cur.used + need > usable && cur.count > 0)) {
+            cur = { used: 0, count: 0, items: new Map() };
+            groupStrips.push(cur);
+          }
+          cur.used += need; cur.count++;
+          const ik = t.theta.toFixed(3) + '|' + t.lOut.toFixed(4) + '|' + t.lIn.toFixed(4);
+          if (!cur.items.has(ik)) cur.items.set(ik, { theta: t.theta, lOut: t.lOut, lIn: t.lIn, count: 0, rings: t.rings });
+          cur.items.get(ik).count++;
+        }
+      }
+      const name = String.fromCharCode(65 + (letter % 26)) + (letter >= 26 ? Math.floor(letter / 26) : '');
+      letter++;
+      groupStrips.forEach((st, idx) => {
+        let piecesLen = 0, kerfWaste = 0, cleanWaste = 0;
+        const items = [...st.items.values()];
+        for (const it of items) {
+          piecesLen += it.count * (grp.kind === 'veneer' ? it.lOut : (it.lOut + it.lIn) / 2);
+          kerfWaste += it.count * kerf / Math.cos(it.theta * DEG);
+          cleanWaste += it.count * cleanup;
+        }
+        const stripTrim = grp.kind === 'veneer' ? 0 : grp.W * Math.tan(Math.max.apply(null, items.map((i) => i.theta)) * DEG);
+        const total = piecesLen + kerfWaste + cleanWaste + stripTrim + safety;
+        const label = groupStrips.length > 1 ? name + (idx + 1) : name;
+        const layers = grp.layers || [{ species: grp.species, t: grp.T }];
+        const bf = layers.reduce((a, l) => a + l.t * grp.W * total / 144, 0);
+        strips.push({ label, kind: grp.kind, species: grp.species, layers: grp.layers, ring: grp.ring,
+          T: grp.T, W: grp.W, items, pieces: st.count, piecesLen, kerfWaste, cleanWaste, trim: stripTrim, safety, total, bf,
+          overMax: total > maxStrip + 1e-9 });
+      });
+      if (usable <= 0) notes.push('Strip ' + name + ': the safety length is longer than the maximum strip length.');
+    }
+
+    // Species totals (board feet, linear stock)
+    const bySpecies = {};
+    const add = (s, bf, len, T, W) => {
+      if (!bySpecies[s]) bySpecies[s] = { bf: 0, stock: [] };
+      bySpecies[s].bf += bf;
+      if (len) bySpecies[s].stock.push({ T, W, len });
+    };
+    for (const st of strips) {
+      if (st.kind === 'lam') for (const l of st.layers) add(l.species, l.t * st.W * st.total / 144, st.total, l.t, st.W);
+      else add(st.species, st.bf, st.total, st.T, st.W);
+    }
+    return { strips, tally: [...tally.values()], bySpecies, kerf, safety, cleanup, tool, maxStrip, notes,
+      totalPieces: [...tally.values()].reduce((a, t) => a + t.count, 0) };
+  }
+
+  // ---------- Checks ----------
+
+  function checkDesign(d, geoms, base, sp) {
+    const msgs = [];
+    const set = d.settings;
+    const wall = set.wall > 0 ? set.wall : 0.25;
+    const push = (level, text) => msgs.push({ level, text });
+    let anyOpen = false;
+    geoms.forEach((g, i) => {
+      const ring = d.rings[i];
+      const name = 'Ring ' + (i + 1);
+      for (const e of g.errors) push('error', name + ': ' + e);
+      for (const w of g.warnings) push('info', name + ': ' + w);
+      if (g.errors.length) return;
+      if (g.open) anyOpen = true;
+      // A piece is "small" when its average length is under 3/4" or it tapers to a sliver.
+      const small = g.segs.find((s) => (s.lOut + s.lIn) / 2 < 0.75 || s.lIn < 0.25);
+      if (small) push('warn', name + ': pieces are small (long point ' + formatLength(small.lOut, d.units, set.denom) +
+        ', short point ' + formatLength(small.lIn, d.units, set.denom) + '). Small pieces are dangerous to cut — use a sled or hold-down, never your fingers near the blade. Fewer segments make bigger pieces.');
+      if (g.width < wall - 1e-9) push('warn', name + ': the ring is narrower (' + formatLength(g.width, d.units, set.denom) +
+        ') than your wall thickness (' + formatLength(wall, d.units, set.denom) + ').');
+      if (g.roughT < 0.1875 && !(ring.role === 'feature')) push('warn', name + ': very thin ring (' +
+        formatLength(g.roughT, d.units, set.denom) + ' rough). Thin rings are hard to flatten without breaking.');
+      if (!g.open && g.n % 2) push('info', name + ': odd segment count (' + g.n + '). The "glue two half-rings" method needs an even count; glue it as a full ring instead.');
+      if (g.n > 48) push('warn', name + ': ' + g.n + ' segments is a lot of joints to keep tight.');
+      const pl = (ring.pattern || []).length;
+      if (pl > 1 && g.n % pl) {
+        const c = patternCounts(ring.pattern, g.n);
+        const desc = Object.keys(c).map((k) => c[k] + ' ' + spName(sp, k)).join(', ');
+        push('warn', name + ': the ' + pl + '-color pattern does not divide ' + g.n + ' segments evenly (' + desc +
+          '). The pattern will break where the ring closes.');
+      }
+      if (ring.lam && ring.lam.on && (ring.pattern || []).includes('lam')) {
+        const lt = ring.lam.layers.reduce((a, l) => a + (l.t || 0), 0);
+        if (Math.abs(lt - g.roughT) > 1 / 64) push('warn', name + ': laminated layers add up to ' +
+          formatLength(lt, d.units, set.denom) + ' but the ring is ' + formatLength(g.roughT, d.units, set.denom) + ' rough.');
+      }
+      // movement: species with very different shrinkage in one ring
+      const shr = [...new Set(expandPattern(ring.pattern, g.n))].map((s) => sp[s] && sp[s].shrink).filter(isNum);
+      if (shr.length > 1 && Math.max.apply(null, shr) - Math.min.apply(null, shr) > 5) push('warn', name +
+        ': mixes woods that move very differently with humidity. Joints may open. Use dry, stable stock.');
+      // neighbor checks
+      if (i > 0) {
+        const pg = geoms[i - 1];
+        if (!pg.errors.length) {
+          const overlap = Math.min(pg.R, g.R) - Math.max(pg.r, g.r);
+          if (overlap < wall - 1e-6) push('warn', 'Rings ' + i + ' and ' + (i + 1) + ' overlap by only ' +
+            formatLength(Math.max(overlap, 0), d.units, set.denom) + ' (wall target ' + formatLength(wall, d.units, set.denom) +
+            '). You may turn through the wall here. Widen one of the rings.');
+        }
+        const prev = d.rings[i - 1];
+        if ((prev.grain || 'long') !== (ring.grain || 'long')) push('warn', 'Rings ' + i + ' and ' + (i + 1) +
+          ': end-grain glued to long-grain moves differently and can crack. Keep end-grain rings thin and dry.');
+      }
+    });
+    if (base.type === 'disc' && geoms[0] && !geoms[0].errors.length) {
+      if (base.R < geoms[0].r + wall - 1e-6) push('warn', 'The base disc is too small to cover ring 1 with a full wall. Make the base at least ' +
+        formatLength(2 * (geoms[0].r + wall), d.units, set.denom) + ' across.');
+      if (base.mount === 'recess' && base.finishedT < base.depth + 0.25) push('warn', 'The base is too thin for a ' +
+        formatLength(base.depth, d.units, set.denom) + ' recess. Leave at least ' + formatLength(0.25, d.units, set.denom) + ' under the recess.');
+    }
+    if (anyOpen) push('info', 'Open-segment rings leave gaps, so the finished piece is decorative and will not hold water.');
+    if (!d.rings.length) push('info', 'Add a ring to get started.');
+    return msgs;
+  }
+
+  function spName(sp, id) {
+    if (id === 'lam') return 'laminated';
+    return (sp[id] && sp[id].name) || id || '?';
+  }
+
+  // Gap at the last joint if every cut is off by errDeg (2 cuts per segment add up around the ring).
+  function testFitGap(n, W, errDeg) {
+    const total = 2 * n * errDeg;
+    return { totalDeg: total, gap: W * Math.tan(Math.abs(total) * DEG) };
+  }
+
+  const boardFeet = (T, W, L) => T * W * L / 144;
+
+  // ---------- Sharing ----------
+  function encodeDesign(obj) {
+    const json = JSON.stringify(obj);
+    const b64 = btoa(unescape(encodeURIComponent(json)));
+    return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function decodeDesign(s) {
+    let b64 = String(s).replace(/-/g, '+').replace(/_/g, '/');
+    while (b64.length % 4) b64 += '=';
+    return JSON.parse(decodeURIComponent(escape(atob(b64))));
+  }
+
+  root.SegCore = {
+    MM_PER_IN, SPECIES, TOOLS, MOUNTS, parseLength, toFraction, formatLength, formatAngle,
+    expandPattern, patternCounts, ringGeometry, cosInterp, parseProfilePoints, profilePoints, profileOuter,
+    profileInner, ringThicknesses, generateRings, suggestSegments, defaultRing, speciesMap, computeDesign,
+    baseInfo, buildCutList, checkDesign, testFitGap, boardFeet, encodeDesign, decodeDesign, spName
+  };
+})(typeof window !== 'undefined' ? window : globalThis);
+// ===CORE-END===
+</script>
+
+<script>
+(function () {
+  'use strict';
+  const C = window.SegCore;
+  const STORE_KEY = 'segcalc.v1';
+  const $ = (sel, el) => (el || document).querySelector(sel);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  // ---------- State ----------
+  let state = loadState();
+  let design = state.designs[state.currentId];
+  let openRings = new Set();
+  let selectedRing = 0;
+  let lastResult = null;
+
+  function newDesign(name) {
+    return {
+      id: 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      name: name || 'My design', mode: 'beginner', units: 'in', source: 'profile',
+      settings: { tool: 'miter', kerf: 0.125, safety: 5, turnAllow: 0.125, sandAllow: 0.0625, maxStrip: 48,
+        denom: 16, wall: 0.3125, stripRound: 1 / 32, testErr: 0.1, template: false },
+      profile: { shape: 'bowl', height: 3, maxDia: 8, baseDia: 3.5, neckDia: 2.5, lipDia: 3, bellyAt: 0.4,
+        wall: 0.3125, ringT: 0.75, step: 0, segments: 12, species: 'walnut', points: '0, 3\n2, 6\n4, 5' },
+      base: { type: 'disc', autoDia: true, diameter: 3.5, thickness: 0.5, species: 'walnut', mount: 'tenon', mountDepth: null },
+      rings: [], checklist: {}, prices: {}
+    };
+  }
+
+  function loadState() {
+    let s = null;
+    try { s = JSON.parse(localStorage.getItem(STORE_KEY) || 'null'); } catch (e) { s = null; }
+    if (!s || !s.designs || !s.designs[s.currentId]) {
+      const d = sampleDesign('bowl');
+      s = { designs: { [d.id]: d }, currentId: d.id, customSpecies: [] };
+    }
+    for (const id in s.designs) s.designs[id] = migrate(s.designs[id]);
+    s.customSpecies = s.customSpecies || [];
+    return s;
+  }
+
+  // Fills in any fields missing from older or imported designs.
+  function migrate(d) {
+    const base = newDesign(d.name);
+    const out = Object.assign(base, d);
+    out.settings = Object.assign(newDesign().settings, d.settings || {});
+    out.profile = Object.assign(newDesign().profile, d.profile || {});
+    out.base = Object.assign(newDesign().base, d.base || {});
+    out.rings = (d.rings || []).map((r) => {
+      const def = C.defaultRing(r.pattern && r.pattern[0]);
+      const ring = Object.assign(def, r);
+      ring.veneer = Object.assign(def.veneer, r.veneer || {});
+      ring.lam = Object.assign({ on: false, layers: [] }, r.lam || {});
+      if (!ring.id) ring.id = def.id;
+      return ring;
+    });
+    out.checklist = d.checklist || {};
+    out.prices = d.prices || {};
+    return out;
+  }
+
+  let saveTimer = null;
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveNow, 250);
+  }
+  function saveNow() {
+    clearTimeout(saveTimer);
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* storage unavailable */ }
+  }
+  window.addEventListener('pagehide', saveNow);
+
+  // ---------- Samples ----------
+  function sampleDesign(kind) {
+    const d = newDesign();
+    const P = d.profile;
+    const style = (fn) => { d.rings.forEach(fn); };
+    if (kind === 'bowl') {
+      d.name = '12-segment bowl';
+      regenerate(d);
+      style((r, i) => { r.pattern = i % 2 ? ['maple'] : ['walnut', 'cherry']; });
+    } else if (kind === 'vase') {
+      d.name = 'Vase with feature ring';
+      Object.assign(P, { shape: 'vase', height: 9, maxDia: 6.5, baseDia: 3.5, neckDia: 3.25, lipDia: 3.75, bellyAt: 0.4, ringT: 0.75, segments: 12, species: 'cherry' });
+      d.base.species = 'cherry';
+      regenerate(d);
+      style((r) => { r.pattern = ['cherry']; });
+      const f = d.rings[4];
+      if (f) { f.role = 'feature'; f.label = 'Feature ring'; f.pattern = ['padauk', 'maple', 'walnut', 'maple']; f.veneer = { t: 1 / 32, species: 'veneer-black' }; }
+    } else if (kind === 'brick') {
+      d.name = 'Brick-pattern bowl';
+      Object.assign(P, { height: 3.5, maxDia: 9, baseDia: 4, ringT: 0.625, segments: 12, species: 'cherry' });
+      d.base.species = 'cherry';
+      regenerate(d);
+      style((r, i) => { r.pattern = ['cherry', 'maple']; r.offsetHalf = i % 2 === 1; });
+    } else if (kind === 'open') {
+      d.name = 'Open-segment vase';
+      d.mode = 'advanced';
+      Object.assign(P, { shape: 'vase', height: 8, maxDia: 7, baseDia: 4, neckDia: 4.5, lipDia: 5, ringT: 0.75, segments: 12, species: 'walnut', wall: 0.375 });
+      regenerate(d);
+      style((r, i) => {
+        if (i % 2 === 1 && i < d.rings.length - 1) { r.type = 'open'; r.gap = 0.25; r.pattern = ['maple']; r.offsetHalf = true; }
+        else r.pattern = ['walnut'];
+      });
+    } else if (kind === 'progressive') {
+      d.name = 'Progressive-thickness bowl';
+      d.mode = 'advanced';
+      Object.assign(P, { height: 4, maxDia: 9, baseDia: 4, ringT: 0.5, step: 0.125, segments: 16, species: 'maple' });
+      regenerate(d);
+      style((r, i) => { r.pattern = i % 2 ? ['maple'] : ['purpleheart', 'maple']; });
+    }
+    return d;
+  }
+
+  function regenerate(d) {
+    if (d.source !== 'profile') return null;
+    const res = C.generateRings(d.profile, d.rings, d.units);
+    if (!res.error) d.rings = res.rings;
+    return res.error || null;
+  }
+
+  // ---------- Formatting helpers ----------
+  const U = () => design.units;
+  const fmt = (v) => C.formatLength(v, U(), design.settings.denom);
+  function inputVal(v) {
+    if (!(typeof v === 'number' && isFinite(v))) return '';
+    if (U() === 'mm') return C.formatLength(v, 'mm', 0, { plain: true });
+    // Inputs show 1/64 fractions so typed values round-trip closely.
+    const f = C.toFraction(v, 64);
+    return Math.abs(C.parseLength(f, 'in') - v) < 1e-6 ? f : String(+v.toFixed(4));
+  }
+  function fmtCut(v) { // fraction plus decimal for precise cuts
+    if (U() === 'mm') return '<b>' + esc(fmt(v)) + '</b>';
+    const d = design.settings.denom;
+    return '<b>' + esc(fmt(v)) + '</b>' + (d ? '<span class="dec">' + v.toFixed(3) + '″</span>' : '');
+  }
+  const sp = () => C.speciesMap(state.customSpecies);
+  function spColor(id) { if (id === 'lam') return 'url(#lamfill)'; const s = sp()[id]; return s ? s.color : '#999'; }
+  function spSolid(id) { const s = sp()[id]; return s ? s.color : '#999'; }
+  const spName = (id) => C.spName(sp(), id);
+  const swatch = (id) => '<span class="sw" style="background:' + esc(spSolid(id)) + '"></span>';
+
+  function speciesOptions(selected, withLam) {
+    const all = C.SPECIES.concat(state.customSpecies);
+    let h = all.map((s) => '<option value="' + esc(s.id) + '"' + (s.id === selected ? ' selected' : '') + '>' + esc(s.name) + '</option>').join('');
+    if (withLam) h += '<option value="lam"' + (selected === 'lam' ? ' selected' : '') + '>Laminated stock</option>';
+    if (selected && selected !== 'lam' && !sp()[selected]) h += '<option value="' + esc(selected) + '" selected>' + esc(selected) + '</option>';
+    return h;
+  }
+
+  // Field builders. data-bind holds a path into the design.
+  function lenField(path, label, value, hint, cls) {
+    return '<label class="fld ' + (cls || '') + '"><span>' + label + ' <small>(' + (U() === 'mm' ? 'mm' : 'in') + ')</small></span>' +
+      '<input type="text" inputmode="decimal" autocomplete="off" data-bind="' + path + '" data-type="len" value="' + esc(inputVal(value)) + '">' +
+      (hint ? '<small>' + hint + '</small>' : '') + '</label>';
+  }
+  function numField(path, label, value, type, hint, cls, attrs) {
+    return '<label class="fld ' + (cls || '') + '"><span>' + label + '</span>' +
+      '<input type="text" inputmode="decimal" autocomplete="off" data-bind="' + path + '" data-type="' + (type || 'num') + '" value="' + esc(value == null ? '' : value) + '" ' + (attrs || '') + '>' +
+      (hint ? '<small>' + hint + '</small>' : '') + '</label>';
+  }
+  function selField(path, label, value, options, cls, hint) {
+    return '<label class="fld ' + (cls || '') + '"><span>' + label + '</span><select data-bind="' + path + '" data-type="str">' +
+      options.map(([v, t]) => '<option value="' + esc(v) + '"' + (String(v) === String(value) ? ' selected' : '') + '>' + esc(t) + '</option>').join('') +
+      '</select>' + (hint ? '<small>' + hint + '</small>' : '') + '</label>';
+  }
+  function spField(path, label, value, cls) {
+    return '<label class="fld ' + (cls || '') + '"><span>' + label + '</span><select data-bind="' + path + '" data-type="str">' + speciesOptions(value) + '</select></label>';
+  }
+  function chk(path, label, value, cls) {
+    return '<label class="chk ' + (cls || '') + '"><input type="checkbox" data-bind="' + path + '" data-type="bool"' + (value ? ' checked' : '') + '> ' + label + '</label>';
+  }
+
+  function getPath(obj, path) { return path.split('.').reduce((o, k) => (o == null ? o : o[k]), obj); }
+  function setPath(obj, path, val) {
+    const ks = path.split('.');
+    let o = obj;
+    for (let i = 0; i < ks.length - 1; i++) o = o[ks[i]];
+    o[ks[ks.length - 1]] = val;
+  }
+
+  // ---------- Rendering ----------
+  const app = $('#app');
+
+  function renderAll() {
+    document.body.classList.toggle('beginner', design.mode === 'beginner');
+    document.body.classList.toggle('advanced', design.mode !== 'beginner');
+    $('#modeBeginner').setAttribute('aria-pressed', design.mode === 'beginner');
+    $('#modeAdvanced').setAttribute('aria-pressed', design.mode !== 'beginner');
+    $('#unitsIn').setAttribute('aria-pressed', U() === 'in');
+    $('#unitsMm').setAttribute('aria-pressed', U() === 'mm');
+    app.innerHTML =
+      '<section class="card print-only"><h2>' + esc(design.name) + '</h2><div class="muted">Segment Calculator printout · ' + esc(new Date().toLocaleDateString()) + '</div></section>' +
+      '<section class="card no-print" id="secDesign"></section>' +
+      '<section class="card no-print" id="secShape"></section>' +
+      '<section class="card no-print" id="secRings"></section>' +
+      '<section class="card no-print" id="secBase"></section>' +
+      '<section class="card no-print" id="secCut"></section>' +
+      '<div id="results"></div>' +
+      '<section class="card no-print" id="secSpecies"></section>' +
+      '<section class="card no-print" id="secHelp"></section>';
+    renderDesignSec();
+    renderShape();
+    renderRings();
+    renderBase();
+    renderCutSettings();
+    renderSpecies();
+    renderHelp();
+    renderResults();
+  }
+
+  function renderDesignSec() {
+    const opts = Object.values(state.designs).map((d) => [d.id, d.name]);
+    $('#secDesign').innerHTML =
+      '<h2>Your design</h2>' +
+      '<p class="help beginner-only">Start from a sample, then change the shape, sizes, and woods. Everything saves on this device automatically.</p>' +
+      '<div class="grid">' +
+      '<label class="fld"><span>Name</span><input type="text" data-bind="name" data-type="str" value="' + esc(design.name) + '"></label>' +
+      '<label class="fld"><span>Saved designs</span><select id="designPick">' +
+      opts.map(([id, n]) => '<option value="' + esc(id) + '"' + (id === design.id ? ' selected' : '') + '>' + esc(n) + '</option>').join('') + '</select></label>' +
+      '<label class="fld"><span>Start from a sample</span><select id="samplePick"><option value="">Choose…</option>' +
+      '<option value="bowl">12-segment bowl</option><option value="vase">Vase with feature ring</option>' +
+      '<option value="brick">Brick-pattern bowl</option><option value="open">Open-segment vase</option>' +
+      '<option value="progressive">Progressive-thickness bowl</option></select></label>' +
+      '</div>' +
+      '<div class="row" style="margin-top:10px">' +
+      '<button type="button" data-action="new-design">New</button>' +
+      '<button type="button" data-action="dup-design">Duplicate</button>' +
+      '<button type="button" data-action="share">Copy share link</button>' +
+      '<button type="button" data-action="export">Export file</button>' +
+      '<label class="btn" style="display:inline-flex;align-items:center">Import file<input type="file" id="importFile" accept=".json,application/json" hidden></label>' +
+      '<button type="button" data-action="print" class="primary">Print shop sheet</button>' +
+      '<button type="button" data-action="del-design" class="danger">Delete</button>' +
+      '</div>';
+  }
+
+  function renderShape() {
+    const P = design.profile;
+    const isProfile = design.source === 'profile';
+    let h = '<h2><span class="step">Step 1</span>Shape and size</h2>' +
+      '<p class="help beginner-only">Pick a shape and its overall size. The calculator splits it into rings for you. You can fine-tune each ring in Step 2.</p>' +
+      '<div class="row" style="margin-bottom:10px">' +
+      '<label class="chk"><input type="radio" name="src" data-action="source" value="profile"' + (isProfile ? ' checked' : '') + '> Build from a shape</label>' +
+      '<label class="chk"><input type="radio" name="src" data-action="source" value="manual"' + (!isProfile ? ' checked' : '') + '> Ring by ring</label>' +
+      '</div>';
+    if (isProfile) {
+      h += '<div class="grid">' +
+        selField('profile.shape', 'Shape', P.shape, [['bowl', 'Bowl'], ['vase', 'Vase'], ['cylinder', 'Cylinder'], ['custom', 'Custom profile']]);
+      if (P.shape !== 'custom') {
+        h += lenField('profile.height', 'Height (above base)', P.height) +
+          lenField('profile.maxDia', P.shape === 'vase' ? 'Widest diameter' : (P.shape === 'bowl' ? 'Rim diameter' : 'Diameter'), P.maxDia);
+        if (P.shape !== 'cylinder') h += lenField('profile.baseDia', 'Bottom diameter', P.baseDia);
+        if (P.shape === 'vase') h += lenField('profile.neckDia', 'Neck diameter', P.neckDia) + lenField('profile.lipDia', 'Lip diameter', P.lipDia) +
+          numField('profile.bellyAt', 'Widest point (% of height)', Math.round(P.bellyAt * 100), 'pct', '15–80');
+      }
+      h += lenField('profile.wall', 'Wall thickness', P.wall, 'Finished wall after turning') +
+        lenField('profile.ringT', 'Ring thickness', P.ringT, 'Finished, after sanding') +
+        lenField('profile.step', 'Thicker each ring by', P.step, 'Progressive thickness; 0 = all the same; negative = thinner', 'adv') +
+        '<label class="fld"><span>Segments per ring</span><div class="row" style="flex-wrap:nowrap"><input type="text" inputmode="numeric" data-bind="profile.segments" data-type="int" value="' + esc(P.segments) + '"><button type="button" class="small" data-action="suggest">Suggest</button></div></label>' +
+        spField('profile.species', 'Main wood', P.species) +
+        '</div>';
+      if (P.shape === 'custom') {
+        h += '<label class="fld" style="margin-top:10px"><span>Profile points — one "height, outside diameter" per line, from the bottom up</span>' +
+          '<textarea data-bind="profile.points" data-type="str" spellcheck="false">' + esc(P.points) + '</textarea>' +
+          '<small>Example: 0, 3 then 2, 6 then 4, 5 gives a shape that flares out then closes in. Fractions like 2 1/2 are fine.</small></label>';
+      }
+      h += '<div id="shapeErr"></div>';
+    } else {
+      h += '<p class="help">Add rings one at a time in Step 2. Give each ring its outside radius, width, and thickness.</p>' +
+        '<div class="grid adv"><label class="fld"><span>Set thicknesses progressively</span><small>Start thickness and change per ring, applied to every ring</small></label>' +
+        '<label class="fld"><span>Start <small>(' + U() + ')</small></span><input type="text" inputmode="decimal" id="progStart" value="' + esc(inputVal(0.5)) + '"></label>' +
+        '<label class="fld"><span>Change per ring <small>(' + U() + ')</small></span><input type="text" inputmode="decimal" id="progStep" value="' + esc(inputVal(0.125)) + '"></label>' +
+        '<label class="fld"><span>&nbsp;</span><button type="button" data-action="apply-prog">Apply to all rings</button></label></div>';
+    }
+    $('#secShape').innerHTML = h;
+  }
+
+  function ringSummary(r, i) {
+    const pats = [...new Set(r.pattern || [])];
+    const kind = r.type === 'open' ? 'open' : 'closed';
+    return '<span class="swatches">' + pats.slice(0, 4).map((s) => s === 'lam' ? '<span class="sw" style="background:repeating-linear-gradient(0deg,#e8d3ae 0 3px,#5a3a22 3px 6px)"></span>' : swatch(s)).join('') + '</span>' +
+      '<span class="sum-text"><b>Ring ' + (i + 1) + (r.label ? ' · ' + esc(r.label) : '') + '</b>' +
+      esc(r.segments + ' seg · ' + kind + ' · Ø ' + fmt(2 * r.outerR) + ' · ' + fmt(r.thickness) + ' thick') + '</span>';
+  }
+
+  function renderRings() {
+    const isProfile = design.source === 'profile';
+    let h = '<h2><span class="step">Step 2</span>Rings and colors</h2>' +
+      '<p class="help beginner-only">Ring 1 sits on the base; higher numbers stack upward. Tap a ring to choose its woods and pattern. "Brick lay" turns a ring half a segment so its joints land in the middle of the segments below.</p>';
+    if (isProfile) h += '<p class="help">Sizes come from the shape in Step 1. <button type="button" class="small" data-action="unlock">Edit sizes by hand</button></p>';
+    h += '<div id="ringList">';
+    // Show top ring first so the list reads like the piece itself.
+    for (let i = design.rings.length - 1; i >= 0; i--) h += ringEditor(design.rings[i], i, isProfile);
+    h += '</div>';
+    h += '<div class="row" style="margin-top:8px">' +
+      (!isProfile ? '<button type="button" data-action="add-ring" class="primary">+ Add ring on top</button>' : '') +
+      '<button type="button" data-action="pattern-all" class="small">Copy ring ' + (design.rings.length ? 1 : '') + ' colors to all rings</button>' +
+      '<button type="button" data-action="brick-all" class="small">Brick lay every other ring</button></div>';
+    $('#secRings').innerHTML = h;
+  }
+
+  function ringEditor(r, i, isProfile) {
+    const p = 'rings.' + i + '.';
+    const lockedAttr = isProfile ? ' disabled' : '';
+    const hasLam = r.lam && r.lam.on;
+    let h = '<details class="ring" data-ring="' + i + '"' + (openRings.has(r.id) ? ' open' : '') + '><summary id="sum-' + i + '">' + ringSummary(r, i) + '</summary><div class="body">';
+    h += '<div class="grid">' +
+      '<label class="fld"><span>Name (optional)</span><input type="text" data-bind="' + p + 'label" data-type="str" value="' + esc(r.label) + '"></label>' +
+      selField(p + 'role', 'Role', r.role, [['body', 'Body ring'], ['feature', 'Feature / accent ring'], ['rim', 'Rim / top ring']]) +
+      numField(p + 'segments', 'Segments', r.segments, 'int') +
+      lenFieldLocked(p + 'outerR', 'Outside radius', r.outerR, 'Finished, before turning allowance', lockedAttr) +
+      lenFieldLocked(p + 'width', 'Ring width', r.width, 'Outside radius − inside radius', lockedAttr) +
+      lenFieldLocked(p + 'thickness', 'Thickness (finished)', r.thickness, '', lockedAttr) +
+      lenField(p + 'sand', 'Sanding allowance', r.sand, 'Blank = use default', 'adv') +
+      selField(p + 'type', 'Ring type', r.type, [['closed', 'Closed (solid ring)'], ['open', 'Open (gaps between segments)']], 'adv') +
+      '</div>';
+    if (r.type === 'open') {
+      h += '<div class="open-note adv">Open segments leave gaps on purpose. The finished piece is decorative and <b>will not hold water</b>.</div>' +
+        '<div class="grid adv">' + selField(p + 'openBy', 'Set by', r.openBy, [['gap', 'Gap size'], ['length', 'Segment length']]) +
+        (r.openBy === 'length' ? lenField(p + 'segLen', 'Segment long-point length', r.segLen) : lenField(p + 'gap', 'Gap (along outside edge)', r.gap)) + '</div>';
+    }
+    // Pattern
+    h += '<h3>Wood pattern</h3><p class="help">The colors repeat around the ring. Two colors = alternating. Add more for longer patterns.</p><div class="chips">';
+    (r.pattern || []).forEach((s, k) => {
+      h += '<span class="chip">' + swatch(s) + '<select data-bind="' + p + 'pattern.' + k + '" data-type="str" aria-label="Segment ' + (k + 1) + ' wood">' + speciesOptions(s, hasLam) + '</select>' +
+        ((r.pattern.length > 1) ? '<button type="button" data-action="pat-del" data-ring="' + i + '" data-k="' + k + '" aria-label="Remove">✕</button>' : '') + '</span>';
+    });
+    h += '<button type="button" class="small" data-action="pat-add" data-ring="' + i + '">+ Color</button></div>';
+    const counts = C.patternCounts(r.pattern, r.segments || 0);
+    h += '<p class="help" id="cnt-' + i + '">' + Object.keys(counts).map((k) => counts[k] + ' × ' + esc(spName(k))).join(', ') + '</p>';
+    h += chk(p + 'offsetHalf', 'Brick lay (turn this ring half a segment)', r.offsetHalf);
+    // Advanced extras
+    h += '<div class="adv">';
+    if (r.type !== 'open') {
+      h += '<h3>Different segment lengths</h3><p class="help">Relative sizes, repeated around the ring like the color pattern. "2, 1" makes long and short segments alternate. Leave as "1" for equal segments.</p>' +
+        '<div class="grid"><label class="fld"><span>Size pattern</span><input type="text" data-bind="' + p + 'spans" data-type="list" value="' + esc((r.spans || [1]).join(', ')) + '"></label></div>' +
+        '<h3>Veneer between segments</h3><div class="grid">' + lenField(p + 'veneer.t', 'Veneer thickness', r.veneer.t, '0 = none') + spField(p + 'veneer.species', 'Veneer wood', r.veneer.species) + '</div>';
+    }
+    h += '<h3>Laminated stock</h3>' + chk(p + 'lam.on', 'Cut some segments from a glued-up (laminated) blank', hasLam);
+    if (hasLam) {
+      h += '<p class="help">Layers are stacked in the ring\'s height. Pick "Laminated stock" as a color in the pattern above where you want it.</p>';
+      r.lam.layers.forEach((l, k) => {
+        h += '<div class="grid">' + spField(p + 'lam.layers.' + k + '.species', 'Layer ' + (k + 1) + ' wood', l.species) +
+          lenField(p + 'lam.layers.' + k + '.t', 'Layer ' + (k + 1) + ' thickness', l.t) +
+          '<label class="fld"><span>&nbsp;</span><button type="button" class="small danger" data-action="lam-del" data-ring="' + i + '" data-k="' + k + '">Remove layer</button></label></div>';
+      });
+      h += '<button type="button" class="small" data-action="lam-add" data-ring="' + i + '">+ Layer</button>';
+    }
+    h += '<div class="grid" style="margin-top:8px">' + selField(p + 'grain', 'Grain direction', r.grain, [['long', 'Long grain (normal)'], ['end', 'End grain (e.g. feature)']]) + '</div>';
+    h += '</div>';
+    h += '<div class="row" style="margin-top:10px">' +
+      '<button type="button" class="small" data-action="ring-up" data-ring="' + i + '">Move up</button>' +
+      '<button type="button" class="small" data-action="ring-down" data-ring="' + i + '">Move down</button>' +
+      '<button type="button" class="small" data-action="ring-dup" data-ring="' + i + '">Duplicate</button>' +
+      '<button type="button" class="small" data-action="ring-show" data-ring="' + i + '">Show in diagram</button>' +
+      '<button type="button" class="small danger" data-action="ring-del" data-ring="' + i + '">Delete</button></div>';
+    h += '</div></details>';
+    return h;
+  }
+  function lenFieldLocked(path, label, value, hint, lockedAttr) {
+    const f = lenField(path, label, value, hint);
+    return lockedAttr ? f.replace('<input ', '<input' + lockedAttr + ' ') : f;
+  }
+
+  function renderBase() {
+    const b = design.base;
+    let h = '<h2><span class="step">Step 3</span>Base</h2>' +
+      '<p class="help beginner-only">The base is a solid disc under ring 1. A tenon or recess gives your chuck something to hold.</p>' +
+      '<div class="grid">' + selField('base.type', 'Base', b.type, [['disc', 'Solid disc'], ['none', 'No base (ring 1 is the bottom)']]);
+    if (b.type === 'disc') {
+      h += chk('base.autoDia', 'Match ring 1 diameter', b.autoDia) +
+        (b.autoDia ? '' : lenField('base.diameter', 'Base diameter', b.diameter)) +
+        lenField('base.thickness', 'Base thickness (finished)', b.thickness) +
+        spField('base.species', 'Base wood', b.species) +
+        selField('base.mount', 'Chuck mounting', b.mount, Object.keys(C.MOUNTS).map((k) => [k, C.MOUNTS[k].name])) +
+        (b.mount !== 'none' ? lenField('base.mountDepth', 'Mount depth / allowance', b.mountDepth == null ? C.MOUNTS[b.mount].depth : b.mountDepth) : '');
+    }
+    h += '</div>';
+    $('#secBase').innerHTML = h;
+  }
+
+  function renderCutSettings() {
+    const s = design.settings;
+    const toolOpts = Object.keys(C.TOOLS).map((k) => [k, C.TOOLS[k].name]);
+    $('#secCut').innerHTML =
+      '<h2><span class="step">Step 4</span>Your tools and allowances</h2>' +
+      '<p class="help beginner-only">Pick the saw you will cut with. The cut list adds the blade width (kerf) and a safety length to every strip.</p>' +
+      '<div class="grid">' +
+      selField('settings.tool', 'How you cut segments', s.tool, toolOpts) +
+      lenField('settings.kerf', 'Blade kerf', s.kerf, 'Width of the saw cut') +
+      lenField('settings.safety', 'Safety length per strip', s.safety, 'Added to every strip. Default 5″') +
+      lenField('settings.turnAllow', 'Turning allowance', s.turnAllow, 'Extra per side, turned away') +
+      lenField('settings.sandAllow', 'Sanding allowance', s.sandAllow, 'Extra thickness per ring for flattening') +
+      lenField('settings.wall', 'Minimum wall', s.wall, 'Used for the wall checks', 'adv') +
+      lenField('settings.maxStrip', 'Longest strip you can handle', s.maxStrip, 'Longer strips are split', 'adv') +
+      selField('settings.denom', 'Show inches as', s.denom, [[8, 'Nearest 1/8'], [16, 'Nearest 1/16'], [32, 'Nearest 1/32'], [64, 'Nearest 1/64'], [0, 'Decimal']]) +
+      '</div>' +
+      '<div class="safety-note"><b>Safety:</b> each strip includes ' + esc(fmt(s.safety)) + ' of extra length so your hands stay well away from the blade while cutting the last short pieces. ' +
+      'If you have your own safe way to hold short stock (a sled, hold-down, or clamp-on jig), you can lower this. Cutting small pieces is hazardous — use your own judgment.</div>';
+  }
+
+  function renderSpecies() {
+    let h = '<h2>Wood species</h2><p class="help">Built-in woods with approximate colors. Add your own — they are saved on this device and included when you share a design.</p>';
+    h += '<details><summary class="btn" style="display:inline-flex;align-items:center">Show species list</summary><div class="tbl-wrap"><table><thead><tr><th>Color</th><th>Name</th><th class="num">Shrinkage %</th><th></th></tr></thead><tbody>';
+    for (const s of C.SPECIES) h += '<tr><td>' + swatch(s.id) + '</td><td>' + esc(s.name) + '</td><td class="num">' + (s.shrink == null ? '—' : s.shrink) + '</td><td></td></tr>';
+    state.customSpecies.forEach((s, k) => {
+      h += '<tr><td><input type="color" value="' + esc(s.color) + '" data-spec="' + k + '" data-field="color" aria-label="Color" style="width:44px;height:36px;border:0;padding:0"></td>' +
+        '<td><input type="text" value="' + esc(s.name) + '" data-spec="' + k + '" data-field="name" aria-label="Name"></td>' +
+        '<td class="num"><input type="text" inputmode="decimal" value="' + esc(s.shrink == null ? '' : s.shrink) + '" data-spec="' + k + '" data-field="shrink" aria-label="Shrinkage" style="max-width:80px"></td>' +
+        '<td><button type="button" class="small danger" data-action="spec-del" data-k="' + k + '">Delete</button></td></tr>';
+    });
+    h += '</tbody></table></div>' +
+      '<div class="grid" style="margin-top:8px"><label class="fld"><span>New wood name</span><input type="text" id="newSpecName" placeholder="e.g. Bocote"></label>' +
+      '<label class="fld"><span>Color</span><input type="color" id="newSpecColor" value="#9a6a3a" style="width:100%;height:44px;border:1px solid var(--line);border-radius:8px"></label>' +
+      '<label class="fld"><span>&nbsp;</span><button type="button" data-action="spec-add">Add wood</button></label></div></details>';
+    $('#secSpecies').innerHTML = h;
+  }
+
+  function renderHelp() {
+    $('#secHelp').innerHTML = '<h2>Help and glossary</h2><details><summary class="btn" style="display:inline-flex;align-items:center">Show glossary</summary><dl class="gloss">' +
+      '<dt>Segment</dt><dd>One wedge-shaped piece. Segments glue end to end to make a ring.</dd>' +
+      '<dt>Miter angle</dt><dd>The angle each end is cut, measured from square. For equal segments it is 180° ÷ number of segments (12 segments = 15°).</dd>' +
+      '<dt>Long point / short point</dt><dd>The outside and inside edge lengths of a segment. Set your stop block to the long point.</dd>' +
+      '<dt>Strip</dt><dd>A board ripped to the segment width and thickness. You cut segments from it, flipping it between cuts.</dd>' +
+      '<dt>Kerf</dt><dd>The width of wood the blade turns into sawdust.</dd>' +
+      '<dt>Safety length</dt><dd>Extra strip length (5″ by default) so you never hold a tiny piece near the blade. Shown as its own line in every strip.</dd>' +
+      '<dt>Closed ring</dt><dd>Segments touch all the way around. Watertight when glued well.</dd>' +
+      '<dt>Open segment ring</dt><dd>Segments have gaps between them. Decorative only — will not hold water.</dd>' +
+      '<dt>Brick lay</dt><dd>Turning a ring half a segment so joints sit over the middle of the segments below, like bricks.</dd>' +
+      '<dt>Turning allowance</dt><dd>Extra wood beyond the finished surface (1/8″ per side by default) so the lathe can true it up.</dd>' +
+      '<dt>Sanding allowance</dt><dd>Extra thickness per ring so you can flatten both faces before stacking.</dd>' +
+      '<dt>Feature ring</dt><dd>An accent ring with a different pattern, often with veneer between segments.</dd>' +
+      '<dt>Board foot</dt><dd>12″ × 12″ × 1″ of wood. Lumber is sold by the board foot.</dd>' +
+      '</dl></details>' +
+      '<p class="help" style="margin-top:12px">Segment Calculator is free to use and share. It runs entirely on your device — nothing is uploaded. Check measurements with a test cut before cutting your good wood.</p>';
+  }
+
+  // ---------- Results ----------
+  function renderResults() {
+    const R = C.computeDesign(design, state.customSpecies);
+    lastResult = R;
+    const s = design.settings;
+    if (selectedRing >= design.rings.length) selectedRing = Math.max(0, design.rings.length - 1);
+    const errorCount = R.messages.filter((m) => m.level === 'error').length;
+    let h = '';
+
+    // Summary
+    h += '<section class="card" id="secSummary"><h2><span class="step">Step 5</span>Results</h2><div class="stats">' +
+      stat('Rings', design.rings.length) +
+      stat('Total pieces', R.cut.totalPieces) +
+      stat('Finished height', fmt(R.finishedH)) +
+      stat('Rough stack height', fmt(R.roughH)) +
+      stat('Largest diameter', fmt(2 * R.maxR)) +
+      stat('Strips to rip', R.cut.strips.length) +
+      '</div>';
+    if (R.messages.length) {
+      h += '<h3>Checks</h3><ul class="msgs" id="msgs">' + R.messages.map((m) => '<li class="' + m.level + '">' + esc(m.text) + '</li>').join('') + '</ul>';
+    } else {
+      h += '<p class="help" style="color:var(--ok)">No problems found.</p>';
+    }
+    h += '</section>';
+
+    // Diagrams
+    h += '<section class="card" id="secDiagram"><h2>Layout</h2><div class="diagrams">' +
+      '<div class="diag"><div class="cap">Side view (cut ring sizes, finished profile dashed)</div>' + sideSvg(R) + '</div>' +
+      '<div class="diag"><div class="cap">Top view of ring <select id="ringPick" class="no-print" style="width:auto;min-height:32px;padding:2px 6px">' +
+      design.rings.map((r, i) => '<option value="' + i + '"' + (i === selectedRing ? ' selected' : '') + '>' + (i + 1) + '</option>').join('') + '</select>' +
+      '<span class="print-only">' + (selectedRing + 1) + '</span></div>' + topSvg(R, selectedRing) + '</div></div>' +
+      legend(R) + '</section>';
+
+    // Ring table
+    h += '<section class="card" id="secRingTable"><h2>Ring details</h2><p class="help beginner-only">Angles are measured from square, the way most miter saws are marked. Long point = outside edge. Width = how wide to rip each strip.</p>' +
+      '<div class="tbl-wrap"><table><thead><tr><th>Ring</th><th class="num">Seg</th><th class="num">Miter</th><th class="num">Long point</th><th class="num">Short point</th><th class="num">Strip width</th><th class="num">Rough thick</th><th class="num">Outside / inside Ø</th><th>Notes</th></tr></thead><tbody>';
+    for (let i = design.rings.length - 1; i >= 0; i--) {
+      const g = R.rings[i], r = design.rings[i];
+      if (g.errors.length) { h += '<tr><td>' + (i + 1) + '</td><td colspan="8" style="color:var(--err)">' + esc(g.errors[0]) + '</td></tr>'; continue; }
+      const uneven = g.segs.some((x) => Math.abs(x.theta - g.segs[0].theta) > 1e-6);
+      const s0 = g.segs[0];
+      const notes = [];
+      if (g.open) notes.push('Open, gap ' + fmt(g.gap));
+      if (g.veneerT) notes.push('Veneer ' + fmt(g.veneerT));
+      if (uneven) notes.push('Mixed sizes — see cut list');
+      if (r.offsetHalf) notes.push('Brick lay');
+      if (r.label) notes.unshift(r.label);
+      h += '<tr><td>' + (i + 1) + '</td><td class="num">' + g.n + '</td><td class="num">' + (uneven ? 'mixed' : C.formatAngle(s0.theta)) + '</td>' +
+        '<td class="num">' + (uneven ? '—' : fmtCut(s0.lOut)) + '</td><td class="num">' + (uneven ? '—' : fmtCut(s0.lIn)) + '</td>' +
+        '<td class="num">' + fmtCut(g.W) + '</td><td class="num">' + fmtCut(g.roughT) + '</td>' +
+        '<td class="num">' + esc(fmt(2 * g.R)) + ' / ' + esc(fmt(2 * Math.max(g.r, 0))) + '<span class="dec">centerline Ø ' + esc(fmt(2 * g.centerR)) + '</span></td><td>' + esc(notes.join('; ')) + '</td></tr>';
+    }
+    h += '</tbody></table></div></section>';
+
+    // Cut list
+    h += cutListHtml(R);
+
+    // Shopping
+    h += shoppingHtml(R);
+
+    // Test fit
+    h += testFitHtml(R);
+
+    // Build checklist
+    h += checklistHtml(R);
+
+    // Template
+    if (s.template) h += templateHtml(R);
+    h += '<section class="card no-print">' + chk('settings.template', 'Add a full-size (1:1) template of the selected ring to the printout', s.template) + '</section>';
+
+    $('#results').innerHTML = h;
+    if (errorCount) $('#secSummary').setAttribute('data-errors', errorCount);
+  }
+
+  function stat(k, v) { return '<div class="stat"><div class="k">' + esc(k) + '</div><div class="v">' + esc(v) + '</div></div>'; }
+
+  function legend(R) {
+    const used = new Set();
+    design.rings.forEach((r) => (r.pattern || []).forEach((p) => used.add(p)));
+    design.rings.forEach((r) => { if (r.veneer && r.veneer.t > 0 && r.type !== 'open') used.add(r.veneer.species); if (r.lam && r.lam.on) r.lam.layers.forEach((l) => used.add(l.species)); });
+    if (design.base.type === 'disc') used.add(design.base.species);
+    used.delete('lam');
+    return '<div class="chips" style="margin-top:8px">' + [...used].map((id) => '<span class="chip" style="padding:2px 8px">' + swatch(id) + ' ' + esc(spName(id)) + '</span>').join('') + '</div>';
+  }
+
+  function sideSvg(R) {
+    const rings = R.rings;
+    const H = R.roughH || 1;
+    const maxR = Math.max(R.maxR + design.settings.turnAllow, 0.5);
+    const pad = 0.3;
+    const Wd = 2 * maxR + 2 * pad, Hd = H + 2 * pad;
+    let g = '';
+    let z = 0;
+    const y = (zz) => Hd - pad - zz;
+    const base = R.base;
+    if (base.type === 'disc') {
+      const br = base.side / 2;
+      g += '<rect x="' + (maxR + pad - br) + '" y="' + y(base.roughT) + '" width="' + 2 * br + '" height="' + base.roughT + '" fill="' + esc(spSolid(base.species)) + '" stroke="#000" stroke-width="0.01" stroke-opacity=".4"/>';
+      z = base.roughT;
+    }
+    rings.forEach((gm, i) => {
+      const t = gm.roughT || 0;
+      if (!gm.errors.length && gm.segs.length) {
+        const r = design.rings[i];
+        const sps = (r.pattern || []);
+        const col = spSolid(sps[0] === 'lam' ? (r.lam.layers[0] || {}).species : sps[0]);
+        const col2 = sps.length > 1 ? spSolid(sps[1] === 'lam' ? (r.lam.layers[0] || {}).species : sps[1]) : col;
+        const x0 = maxR + pad;
+        for (const side of [-1, 1]) {
+          const xa = x0 + side * gm.aIn, xb = x0 + side * gm.Ro;
+          const xl = Math.min(xa, xb), w = Math.abs(xb - xa);
+          g += '<rect x="' + xl + '" y="' + y(z + t) + '" width="' + w + '" height="' + t + '" fill="' + esc(side < 0 ? col : col2) + '" stroke="#000" stroke-width="0.01" stroke-opacity=".4"' + (gm.open ? ' fill-opacity=".55"' : '') + '><title>Ring ' + (i + 1) + '</title></rect>';
+        }
+        if (i === selectedRing) g += '<rect x="' + (pad * 0.3) + '" y="' + y(z + t) + '" width="' + (Wd - pad * 0.6) + '" height="' + t + '" fill="none" style="stroke:var(--accent)" stroke-width="0.03" stroke-dasharray="0.08 0.05"/>';
+      }
+      z += t;
+    });
+    // finished profile (outer and inner) for each ring band
+    z = base.roughT || 0;
+    let outer = [], inner = [];
+    rings.forEach((gm, i) => {
+      const t = gm.roughT || 0;
+      if (!gm.errors.length) {
+        outer.push([gm.R, z], [gm.R, z + t]);
+        inner.push([Math.max(gm.r, 0), z], [Math.max(gm.r, 0), z + t]);
+      }
+      z += t;
+    });
+    const x0 = maxR + pad;
+    const path = (pts, s) => pts.map((p, k) => (k ? 'L' : 'M') + (x0 + s * p[0]).toFixed(3) + ' ' + y(p[1]).toFixed(3)).join(' ');
+    for (const s of [-1, 1]) {
+      if (outer.length) g += '<path d="' + path(outer, s) + '" fill="none" style="stroke:var(--ink)" stroke-width="0.025" stroke-dasharray="0.08 0.06"/>';
+      if (inner.length) g += '<path d="' + path(inner, s) + '" fill="none" style="stroke:var(--ink)" stroke-width="0.025" stroke-dasharray="0.08 0.06"/>';
+    }
+    g += '<line x1="' + x0 + '" y1="' + (pad * 0.5) + '" x2="' + x0 + '" y2="' + (Hd - pad * 0.5) + '" style="stroke:var(--muted)" stroke-width="0.015" stroke-dasharray="0.15 0.08"/>';
+    return '<svg viewBox="0 0 ' + Wd.toFixed(3) + ' ' + Hd.toFixed(3) + '" role="img" aria-label="Side view of the ring stack" style="max-height:420px">' + g + '</svg>';
+  }
+
+  // Top view geometry shared by the diagram and the full-size template.
+  function ringPolys(gm, r) {
+    const polys = [];
+    if (!gm || gm.errors.length || !gm.segs.length) return polys;
+    const total = gm.segs.reduce((a, s) => a + s.theta, 0) * 2 * Math.PI / 180;
+    const off = r.offsetHalf ? (gm.segs[0].theta * Math.PI / 180) : 0;
+    const start = -Math.PI / 2 + off - gm.segs[0].theta * Math.PI / 180;
+    for (const s of gm.segs) {
+      const phi = start + s.center * (2 * Math.PI / total);
+      const ux = Math.cos(phi), uy = Math.sin(phi), tx = -uy, ty = ux;
+      const p = (a, l) => [a * ux + l * tx, a * uy + l * ty];
+      polys.push({ species: s.species, pts: [p(gm.Ro, -s.lOut / 2), p(gm.Ro, s.lOut / 2), p(gm.aIn, s.lIn / 2), p(gm.aIn, -s.lIn / 2)] });
+      if (gm.veneerT > 0) {
+        const th = s.theta * Math.PI / 180;
+        const jphi = phi + th; // joint line after this segment
+        const jx = Math.cos(jphi), jy = Math.sin(jphi);
+        polys.push({ veneer: true, species: gm.veneerSpecies, line: [[jx * gm.aIn / Math.cos(th), jy * gm.aIn / Math.cos(th)], [jx * gm.Ro / Math.cos(th), jy * gm.Ro / Math.cos(th)]], w: gm.veneerT });
+      }
+    }
+    return polys;
+  }
+
+  function polySvg(gm, r, scaleUnit) {
+    let g = '';
+    const ptsStr = (pts) => pts.map((p) => p[0].toFixed(4) + ',' + p[1].toFixed(4)).join(' ');
+    let num = 0;
+    for (const P of ringPolys(gm, r)) {
+      if (P.veneer) {
+        g += '<line x1="' + P.line[0][0] + '" y1="' + P.line[0][1] + '" x2="' + P.line[1][0] + '" y2="' + P.line[1][1] + '" stroke="' + esc(spSolid(P.species)) + '" stroke-width="' + Math.max(P.w, 0.02) + '"/>';
+      } else {
+        const fill = P.species === 'lam' ? 'url(#lamfill)' : esc(spSolid(P.species));
+        g += '<polygon points="' + ptsStr(P.pts) + '" fill="' + fill + '" stroke="#000" stroke-opacity=".45" stroke-width="' + (scaleUnit * 0.012) + '"/>';
+        num++;
+        if (scaleUnit) {
+          const cx = P.pts.reduce((a, p) => a + p[0], 0) / 4, cy = P.pts.reduce((a, p) => a + p[1], 0) / 4;
+          g += '<text x="' + cx.toFixed(3) + '" y="' + cy.toFixed(3) + '" font-size="' + (scaleUnit * 0.16) + '" text-anchor="middle" dominant-baseline="middle" fill="#000" stroke="#fff" stroke-width="' + (scaleUnit * 0.02) + '" paint-order="stroke">' + num + '</text>';
+        }
+      }
+    }
+    g += '<circle r="' + gm.R + '" fill="none" style="stroke:var(--ink)" stroke-width="' + (scaleUnit * 0.015) + '" stroke-dasharray="' + (scaleUnit * 0.08) + ' ' + (scaleUnit * 0.06) + '"/>';
+    if (gm.r > 0) g += '<circle r="' + gm.r + '" fill="none" style="stroke:var(--ink)" stroke-width="' + (scaleUnit * 0.015) + '" stroke-dasharray="' + (scaleUnit * 0.08) + ' ' + (scaleUnit * 0.06) + '"/>';
+    return g;
+  }
+
+  const lamDefs = () => {
+    const ring = design.rings[selectedRing];
+    const layers = ring && ring.lam && ring.lam.on ? ring.lam.layers : [{ species: 'maple' }, { species: 'walnut' }];
+    const n = Math.max(layers.length, 1);
+    return '<defs><pattern id="lamfill" patternUnits="userSpaceOnUse" width="0.4" height="' + (0.08 * n) + '">' +
+      layers.map((l, k) => '<rect y="' + (0.08 * k) + '" width="0.4" height="0.08" fill="' + esc(spSolid(l.species)) + '"/>').join('') + '</pattern></defs>';
+  };
+
+  function topSvg(R, i) {
+    const gm = R.rings[i];
+    if (!gm || gm.errors.length) return '<p class="help">No diagram — fix this ring first.</p>';
+    const ext = (gm.cornerR || gm.Ro) + 0.2;
+    return '<svg viewBox="' + (-ext) + ' ' + (-ext) + ' ' + 2 * ext + ' ' + 2 * ext + '" role="img" aria-label="Top view of ring ' + (i + 1) + '" style="max-height:420px">' + lamDefs() + polySvg(gm, design.rings[i], ext / 3) + '</svg>';
+  }
+
+  function templateHtml(R) {
+    const gm = R.rings[selectedRing];
+    if (!gm || gm.errors.length) return '';
+    const ext = (gm.cornerR || gm.Ro) + 0.25;
+    return '<section class="card tpl print-only"><h2>Full-size template — ring ' + (selectedRing + 1) + '</h2><p class="help">Print at 100% (no "fit to page"). Check the 1″ bar with a ruler.</p>' +
+      '<svg width="1in" height="0.15in" viewBox="0 0 1 0.15"><rect width="1" height="0.15" fill="#000"/></svg>' +
+      '<svg width="' + (2 * ext).toFixed(3) + 'in" height="' + (2 * ext).toFixed(3) + 'in" viewBox="' + (-ext) + ' ' + (-ext) + ' ' + 2 * ext + ' ' + 2 * ext + '">' + lamDefs() + polySvg(gm, design.rings[selectedRing], 1) + '</svg></section>';
+  }
+
+  function cutListHtml(R) {
+    const cut = R.cut;
+    const s = design.settings;
+    const tool = cut.tool;
+    let h = '<section class="card" id="secCutList"><h2>Cut list</h2>';
+    h += '<div class="safety-note" id="safetyNote"><b>Safety length:</b> every strip below includes <b>' + esc(fmt(cut.safety)) + '</b> of extra length, shown as its own line. ' +
+      'It keeps your hands away from the blade while you cut the last pieces. Change it in Step 4 if you have your own safe method that wastes less wood. Cutting small pieces is hazardous — use your own judgment.</div>';
+    if (design.rings.some((r) => r.type === 'open')) h += '<div class="open-note">This design has open-segment rings. The finished piece is decorative and <b>will not hold water</b>.</div>';
+    h += '<p class="help">' + esc(tool.name) + ': blade kerf ' + esc(fmt(cut.kerf)) + (cut.cleanup ? ', plus ' + esc(fmt(cut.cleanup)) + ' per piece to sand off' : '') + '.</p>';
+
+    // How many of each piece
+    h += '<h3>Pieces to cut</h3><p class="help beginner-only">How many of each size to make. Same wood, angle, and length are grouped even when they go into different rings.</p>';
+    h += '<div class="tbl-wrap"><table id="tallyTable"><thead><tr><th>Wood</th><th class="num">Qty</th><th class="num">Angle</th><th class="num">Long point</th><th class="num">Short point</th><th class="num">Width</th><th class="num">Thick</th><th>Rings</th></tr></thead><tbody>';
+    const tally = cut.tally.slice().sort((a, b) => spName(a.species).localeCompare(spName(b.species)) || b.lOut - a.lOut);
+    for (const t of tally) {
+      const wood = t.species === 'lam' ? 'Laminated (ring ' + (t.lamRing + 1) + ')' : spName(t.species);
+      h += '<tr><td>' + (t.species === 'lam' ? '' : swatch(t.species) + ' ') + esc(wood) + '</td><td class="num"><b>' + t.count + '</b></td><td class="num">' + C.formatAngle(t.theta) + '</td>' +
+        '<td class="num">' + fmtCut(t.lOut) + '</td><td class="num">' + fmtCut(t.lIn) + '</td><td class="num">' + fmtCut(t.W) + '</td><td class="num">' + fmtCut(t.T) + '</td><td>' + [...t.rings].join(', ') + '</td></tr>';
+    }
+    h += '</tbody></table></div>';
+
+    // Strips
+    h += '<h3>Strips to rip</h3>';
+    for (const st of cut.strips) {
+      const color = st.kind === 'lam' ? '#888' : spSolid(st.species);
+      const title = st.kind === 'lam' ? 'Laminated blank for ring ' + (st.ring + 1) : (st.kind === 'veneer' ? 'Veneer: ' + spName(st.species) : spName(st.species));
+      h += '<div class="strip" style="border-left-color:' + esc(color) + '"><h4>Strip ' + esc(st.label) + ' — ' + esc(title) + '</h4>';
+      if (st.kind === 'lam') {
+        h += '<p class="help">Glue these layers face to face, then rip to width: ' + st.layers.map((l) => esc(spName(l.species)) + ' ' + esc(fmt(l.t))).join(' + ') + '</p>';
+      }
+      h += '<div class="muted" style="font-size:.9rem">' + (st.kind === 'veneer' ? 'Veneer thickness ' + esc(fmt(st.T)) + ', at least ' + esc(fmt(st.W)) + ' wide' : 'Thickness ' + esc(fmt(st.T)) + ' × width ' + esc(fmt(st.W))) + '</div>';
+      h += '<div class="formula">Strip length = pieces ' + esc(fmt(st.piecesLen)) + ' + saw kerf ' + esc(fmt(st.kerfWaste)) +
+        (st.trim ? ' + first angle trim ' + esc(fmt(st.trim)) : '') + (st.cleanWaste ? ' + sanding cleanup ' + esc(fmt(st.cleanWaste)) : '') +
+        ' + <span class="safety">safety ' + esc(fmt(st.safety)) + '</span> = <b>' + esc(fmt(st.total)) + '</b></div>';
+      h += '<ul style="margin:4px 0 0;padding-left:20px;font-size:.92rem">';
+      for (const it of st.items) {
+        if (st.kind === 'veneer') h += '<li><b>' + it.count + '</b> pieces ' + esc(fmt(it.lOut)) + ' long, square ends (rings ' + [...it.rings].join(', ') + ')</li>';
+        else h += '<li><b>' + it.count + '</b> × ' + esc(C.formatAngle(it.theta)) + ' each end, long point ' + esc(fmt(it.lOut)) + ', short point ' + esc(fmt(it.lIn)) + ' (rings ' + [...it.rings].join(', ') + ')</li>';
+      }
+      h += '</ul>';
+      if (st.kind !== 'veneer') {
+        const ang = st.items[0].theta;
+        h += '<p class="help" style="margin-top:6px">' + esc(tool.how.replace(/\{angle\}/g, C.formatAngle(ang)).replace(/\{comp\}/g, C.formatAngle(90 - ang))) + '</p>';
+      }
+      if (st.overMax) h += '<p class="help" style="color:var(--warn)">A single piece plus the safety length is longer than your maximum strip length.</p>';
+      h += '</div>';
+    }
+    if (!cut.strips.length) h += '<p class="help">Nothing to cut yet.</p>';
+    for (const n of cut.notes) h += '<p class="help" style="color:var(--warn)">' + esc(n) + '</p>';
+
+    // Base blank
+    if (R.base.type === 'disc') {
+      const b = R.base;
+      h += '<h3>Base blank</h3><div class="strip" style="border-left-color:' + esc(spSolid(b.species)) + '"><h4>' + esc(spName(b.species)) + ' base</h4>' +
+        '<div>Square blank ' + esc(fmt(b.side)) + ' × ' + esc(fmt(b.side)) + ', ' + esc(fmt(b.blankT)) + ' thick. Turn to ' + esc(fmt(2 * b.R)) + ' diameter.</div>' +
+        '<div class="help">Thickness = ' + esc(fmt(b.finishedT)) + ' finished + ' + esc(fmt(design.settings.sandAllow)) + ' sanding' + (b.addsHeight ? ' + ' + esc(fmt(b.depth)) + ' for the ' + esc(b.mount) : '') + '.' +
+        (b.mount === 'recess' ? ' Cut a ' + esc(fmt(b.depth)) + ' deep recess for your chuck.' : '') +
+        (b.mount === 'glueblock' ? ' Glue a ' + esc(fmt(b.depth)) + ' thick waste block (any wood) to the bottom for mounting.' : '') + '</div></div>';
+    }
+    h += '</section>';
+    return h;
+  }
+
+  function shoppingHtml(R) {
+    const by = R.cut.bySpecies;
+    const b = R.base;
+    const totals = {};
+    for (const k in by) totals[k] = { bf: by[k].bf, stock: by[k].stock };
+    if (b.type === 'disc') { totals[b.species] = totals[b.species] || { bf: 0, stock: [] }; totals[b.species].bf += b.bf; }
+    let h = '<section class="card" id="secShop"><h2>Shopping list</h2><p class="help">Board feet of rough-milled stock (thickness × width × length ÷ 144), including safety lengths. Buy 20–30% extra for defects and planing.</p>' +
+      '<div class="tbl-wrap"><table><thead><tr><th>Wood</th><th class="num">Board ft</th><th class="num">Strip length total</th><th class="num no-print">$ / bd ft</th><th class="num">Cost</th></tr></thead><tbody>';
+    let costSum = 0, bfSum = 0;
+    for (const k of Object.keys(totals).sort((a, c) => spName(a).localeCompare(spName(c)))) {
+      const t = totals[k];
+      const len = t.stock.reduce((a, s) => a + s.len, 0);
+      const price = design.prices[k];
+      const cost = price > 0 ? price * t.bf : 0;
+      costSum += cost; bfSum += t.bf;
+      h += '<tr><td>' + swatch(k) + ' ' + esc(spName(k)) + '</td><td class="num">' + t.bf.toFixed(2) + '</td><td class="num">' + (len ? esc(fmt(len)) : 'base only') + '</td>' +
+        '<td class="num no-print"><input type="text" inputmode="decimal" style="max-width:90px;min-height:36px" data-bind="prices.' + esc(k) + '" data-type="num" value="' + (price > 0 ? price : '') + '" aria-label="Price per board foot"></td>' +
+        '<td class="num">' + (cost ? '$' + cost.toFixed(2) : '—') + '</td></tr>';
+    }
+    h += '<tr><td><b>Total</b></td><td class="num"><b>' + bfSum.toFixed(2) + '</b></td><td></td><td class="no-print"></td><td class="num"><b>' + (costSum ? '$' + costSum.toFixed(2) : '—') + '</b></td></tr>';
+    h += '</tbody></table></div></section>';
+    return h;
+  }
+
+  function testFitHtml(R) {
+    const err = design.settings.testErr;
+    let h = '<section class="card" id="secFit"><h2>Test-fit check</h2><p class="help">Every segment has two cuts, so a tiny angle error adds up around the ring. This shows the gap at the last joint if each cut is off by the amount below. Cut a test ring from scrap first.</p>' +
+      '<div class="grid no-print">' + numField('settings.testErr', 'Angle error per cut (degrees)', err, 'num') + '</div>' +
+      '<div class="tbl-wrap"><table><thead><tr><th>Ring</th><th class="num">Total error</th><th class="num">Gap at last joint</th></tr></thead><tbody>';
+    for (let i = design.rings.length - 1; i >= 0; i--) {
+      const g = R.rings[i];
+      if (g.errors.length || g.open) continue;
+      const tf = C.testFitGap(g.n, g.W, err || 0);
+      h += '<tr><td>' + (i + 1) + '</td><td class="num">' + tf.totalDeg.toFixed(2) + '°</td><td class="num">' + esc(fmt(tf.gap)) + (U() === 'in' ? '<span class="dec">' + tf.gap.toFixed(3) + '″</span>' : '') + '</td></tr>';
+    }
+    h += '</tbody></table></div><p class="help">Gap on the outside = angle too small; gap on the inside = angle too big. If you glue two half-rings first, sand the half-ring faces flat on a disc sander and any small error disappears.</p></section>';
+    return h;
+  }
+
+  function checklistHtml(R) {
+    const steps = [];
+    const add = (key, text) => steps.push({ key, text });
+    const sps = new Set();
+    R.cut.strips.forEach((st) => (st.layers || [{ species: st.species }]).forEach((l) => sps.add(l.species)));
+    add('acclimate', 'Let all wood sit in your shop for a week or more so it is equally dry. Use stable, flat stock.');
+    for (const k of sps) add('mill-' + k, 'Mill ' + spName(k) + ' flat and square to thickness.');
+    for (const st of R.cut.strips) add('strip-' + st.label + '-' + st.T.toFixed(3) + '-' + st.W.toFixed(3), 'Rip strip ' + st.label + ' (' + (st.kind === 'lam' ? 'laminated' : spName(st.species)) + ') to ' + fmt(st.W) + ' wide, ' + fmt(st.total) + ' long (includes ' + fmt(st.safety) + ' safety).');
+    add('testcut', 'Cut a test ring from scrap and check the fit. Adjust the angle until there is no gap.');
+    add('cut', 'Cut all pieces. Number them and keep each ring\'s pieces together in a labeled tray.');
+    if (R.base.type === 'disc') add('base', 'Cut and glue up the base blank. Mount it on the lathe and true it flat.');
+    design.rings.forEach((r, i) => {
+      const g = R.rings[i];
+      if (g.errors.length) return;
+      const nm = 'Ring ' + (i + 1);
+      if (g.open) add('ring-' + r.id + '-glue', nm + ': open ring — glue each segment directly onto the ring below, spacing gaps evenly with a ' + fmt(g.gap) + ' spacer. Mark the ring below so the pattern lines up.');
+      else {
+        add('ring-' + r.id + '-glue', nm + ': ' + (g.n % 2 ? 'glue the full ring with a band clamp.' : 'glue two half-rings, sand the half faces flat, then glue the halves together.') + ' Let it cure.');
+        add('ring-' + r.id + '-flat', nm + ': flatten both faces to ' + fmt(g.roughT) + ' (sanding disc, drum sander, or on the lathe).');
+        add('ring-' + r.id + '-stack', nm + ': glue onto the stack, centered' + (r.offsetHalf ? ', turned half a segment (joints over the middle of the segments below)' : ', joints lined up with your reference mark') + '. Press with a clamp or lathe tailstock.');
+      }
+    });
+    add('turn', 'Turn the outside, then the inside, checking the wall often. Finish as you like.');
+    const done = steps.filter((s) => design.checklist[s.key]).length;
+    let h = '<section class="card" id="secBuild"><h2>Build checklist <span class="muted" style="font-size:.85rem">(' + done + ' of ' + steps.length + ' done)</span></h2>' +
+      '<p class="help">Tick steps as you go — they are saved with the design.</p><ul class="checklist">';
+    for (const s of steps) h += '<li><label><input type="checkbox" data-check="' + esc(s.key) + '"' + (design.checklist[s.key] ? ' checked' : '') + '><span>' + esc(s.text) + '</span></label></li>';
+    h += '</ul><details style="margin-top:10px"><summary class="btn no-print" style="display:inline-flex;align-items:center">Glue-up tips</summary><ul style="font-size:.92rem">' +
+      '<li>Draw a pencil line across each ring before stacking — it is your reference mark for lining up patterns.</li>' +
+      '<li>Use just enough glue to see a thin squeeze-out line. Too much makes rings slide.</li>' +
+      '<li>Flatten every ring on both faces before stacking. Gaps between rings come from rings that are not flat.</li>' +
+      '<li>Stack one or two rings at a time and true the top face on the lathe before adding the next.</li>' +
+      '<li>Keep end-grain feature rings thin, and do not mix very wet and very dry wood.</li></ul></details></section>';
+    return h;
+  }
+
+  // ---------- Events ----------
+  function onInput(e) {
+    const el = e.target;
+    const strict = e.type === 'change';
+    const bad = () => { el.dataset.invalid = '1'; if (strict) el.classList.add('bad'); };
+    if (el.dataset.spec != null) { updateCustomSpecies(el); return; }
+    if (el.dataset.check != null) {
+      design.checklist[el.dataset.check] = el.checked;
+      save();
+      const sec = $('#secBuild h2 .muted');
+      if (sec) { const all = document.querySelectorAll('#secBuild [data-check]'); const n = [...all].filter((x) => x.checked).length; sec.textContent = '(' + n + ' of ' + all.length + ' done)'; }
+      return;
+    }
+    const path = el.dataset.bind;
+    if (!path) return;
+    const type = el.dataset.type;
+    let val;
+    if (type === 'bool') val = el.checked;
+    else if (type === 'str') val = el.value;
+    else if (type === 'len') {
+      if (el.value.trim() === '' && /\.sand$|mountDepth$/.test(path)) val = null;
+      else {
+        val = C.parseLength(el.value, U());
+        const signed = path === 'profile.step';
+        if (!isFinite(val) || (!signed && val < 0)) { bad(); return; }
+      }
+    } else if (type === 'int') {
+      val = parseInt(el.value, 10);
+      if (!(val >= 3 && val <= 200)) { bad(); return; }
+    } else if (type === 'pct') {
+      val = parseFloat(el.value) / 100;
+      if (!(val > 0 && val < 1)) { bad(); return; }
+    } else if (type === 'list') {
+      val = el.value.split(/[,\s]+/).filter(Boolean).map(Number);
+      if (!val.length || val.some((v) => !(v > 0))) { bad(); return; }
+    } else { // num
+      if (el.value.trim() === '' && path.startsWith('prices.')) val = null;
+      else { val = parseFloat(el.value); if (!isFinite(val) || val < 0) { bad(); return; } }
+    }
+    if (type === 'str' && el.tagName === 'SELECT' && /^settings\.denom$/.test(path)) val = parseInt(val, 10);
+    el.classList.remove('bad');
+    delete el.dataset.invalid;
+    if (path === 'profile.species') {
+      // Rings and base that used the old main wood follow the new one.
+      const old = design.profile.species;
+      design.rings.forEach((r) => { if (r.pattern.length === 1 && r.pattern[0] === old) r.pattern = [val]; });
+      if (design.base.species === old) design.base.species = val;
+    }
+    setPath(design, path, val);
+    afterChange(path, el, e.type);
+  }
+
+  // Decides how much of the page needs redrawing after a field changes.
+  function afterChange(path, el, evType) {
+    const m = path.match(/^rings\.(\d+)\.(.+)$/);
+    if (m && m[2] === 'segments') design.rings[+m[1]].customSeg = true;
+    if (path === 'settings.tool') { design.settings.kerf = C.TOOLS[design.settings.tool].kerf; }
+    if (path === 'name') { renderDesignSecOptionsOnly(); save(); return; }
+    if (path.startsWith('profile.')) {
+      const err = regenerate(design);
+      if (evType === 'change' && el.tagName === 'SELECT') renderShape();
+      renderRings();
+      const se = $('#shapeErr');
+      if (se) se.innerHTML = err ? '<ul class="msgs"><li class="error">' + esc(err) + '</li></ul>' : '';
+      renderBase();
+      renderResults();
+      save();
+      return;
+    }
+    const structural = /^(base\.(type|mount|autoDia)|settings\.(denom|tool)|rings\.\d+\.(type|openBy|lam\.on|pattern\.\d+))$/.test(path);
+    if (structural) {
+      if (path.startsWith('rings.')) renderRings();
+      else if (path.startsWith('base.')) renderBase();
+      else renderCutSettings();
+      if (path === 'settings.denom') { renderRings(); renderBase(); }
+    } else if (m) {
+      const i = +m[1];
+      const sum = $('#sum-' + i);
+      if (sum) sum.innerHTML = ringSummary(design.rings[i], i);
+      const cnt = $('#cnt-' + i);
+      if (cnt) { const c = C.patternCounts(design.rings[i].pattern, design.rings[i].segments || 0); cnt.textContent = Object.keys(c).map((k) => c[k] + ' × ' + spName(k)).join(', '); }
+    } else if (path === 'settings.safety') {
+      const note = $('#secCut .safety-note');
+      if (note) note.innerHTML = '<b>Safety:</b> each strip includes ' + esc(fmt(design.settings.safety)) + ' of extra length so your hands stay well away from the blade while cutting the last short pieces. If you have your own safe way to hold short stock (a sled, hold-down, or clamp-on jig), you can lower this. Cutting small pieces is hazardous — use your own judgment.';
+    }
+    if (path === 'settings.template' || path.startsWith('prices.') || path === 'settings.testErr') {
+      // These live inside the results; redraw without losing the field the user is typing in.
+      const id = el.getAttribute('data-bind');
+      const pos = el.selectionStart;
+      renderResults();
+      const again = document.querySelector('[data-bind="' + id + '"]');
+      if (again && el.type !== 'checkbox') { again.focus(); try { again.setSelectionRange(pos, pos); } catch (x) { /* ignore */ } }
+    } else renderResults();
+    save();
+  }
+  function renderDesignSecOptionsOnly() {
+    const sel = $('#designPick');
+    if (sel) { const o = sel.querySelector('option[value="' + design.id + '"]'); if (o) o.textContent = design.name; }
+  }
+
+  function updateCustomSpecies(el) {
+    const k = +el.dataset.spec, f = el.dataset.field;
+    const s = state.customSpecies[k];
+    if (!s) return;
+    if (f === 'shrink') { const v = parseFloat(el.value); s.shrink = isFinite(v) ? v : null; }
+    else if (f === 'name') { if (!el.value.trim()) return; s.name = el.value.trim(); }
+    else s.color = el.value;
+    save();
+    if (f !== 'name' || el.type !== 'text') { renderRings(); }
+    renderResults();
+  }
+
+  function onAction(btn) {
+    const a = btn.dataset.action;
+    const i = btn.dataset.ring != null ? +btn.dataset.ring : null;
+    const r = i != null ? design.rings[i] : null;
+    switch (a) {
+      case 'mode': design.mode = btn.dataset.value; renderAll(); break;
+      case 'units': design.units = btn.dataset.value; renderAll(); break;
+      case 'source': return;
+      case 'suggest': {
+        const maxR = Math.max(...design.rings.map((x) => x.outerR), design.profile.maxDia / 2);
+        design.profile.segments = C.suggestSegments(maxR, design.settings.turnAllow);
+        design.rings.forEach((x) => { x.customSeg = false; });
+        regenerate(design); renderShape(); renderRings(); renderResults();
+        toast('Suggested ' + design.profile.segments + ' segments (long point near 2″).');
+        break;
+      }
+      case 'unlock': design.source = 'manual'; renderShape(); renderRings(); break;
+      case 'add-ring': {
+        const top = design.rings[design.rings.length - 1];
+        const nr = C.defaultRing(top ? top.pattern[0] : design.profile.species);
+        if (top) Object.assign(nr, { outerR: top.outerR, width: top.width, thickness: top.thickness, segments: top.segments, pattern: top.pattern.slice() });
+        design.rings.push(nr); openRings.add(nr.id); selectedRing = design.rings.length - 1;
+        renderRings(); renderBase(); break;
+      }
+      case 'ring-del': if (confirm('Delete ring ' + (i + 1) + '?')) { design.rings.splice(i, 1); renderRings(); renderBase(); } break;
+      case 'ring-dup': { const c = JSON.parse(JSON.stringify(r)); c.id = C.defaultRing().id; design.rings.splice(i + 1, 0, c); openRings.add(c.id); if (design.source === 'profile') design.source = 'manual'; renderShape(); renderRings(); break; }
+      case 'ring-up': if (i < design.rings.length - 1) { swapRings(i, i + 1); } break;
+      case 'ring-down': if (i > 0) { swapRings(i, i - 1); } break;
+      case 'ring-show': selectedRing = i; renderResults(); $('#secDiagram').scrollIntoView({ behavior: 'smooth' }); return save();
+      case 'pat-add': r.pattern.push(r.pattern[r.pattern.length - 1]); renderRings(); break;
+      case 'pat-del': r.pattern.splice(+btn.dataset.k, 1); renderRings(); break;
+      case 'lam-add': r.lam.layers.push({ species: 'maple', t: 0.25 }); renderRings(); break;
+      case 'lam-del': r.lam.layers.splice(+btn.dataset.k, 1); renderRings(); break;
+      case 'pattern-all': { const src = design.rings[0]; if (!src) break; design.rings.forEach((x) => { x.pattern = src.pattern.slice(); }); renderRings(); break; }
+      case 'brick-all': design.rings.forEach((x, k) => { x.offsetHalf = k % 2 === 1; }); renderRings(); break;
+      case 'apply-prog': {
+        const a0 = C.parseLength($('#progStart').value, U()), st = C.parseLength($('#progStep').value, U());
+        if (!(a0 > 0) || !isFinite(st)) { toast('Enter a start thickness and a change per ring.'); return; }
+        design.rings.forEach((x, k) => { x.thickness = Math.max(0.125, a0 + k * st); });
+        renderRings(); break;
+      }
+      case 'new-design': { const d = sampleDesign('bowl'); d.name = 'New design'; addDesign(d); return; }
+      case 'dup-design': { const d = JSON.parse(JSON.stringify(design)); d.id = newDesign().id; d.name = design.name + ' (copy)'; addDesign(d); return; }
+      case 'del-design': {
+        if (Object.keys(state.designs).length <= 1) { toast('This is your only design.'); return; }
+        if (!confirm('Delete "' + design.name + '"? This cannot be undone.')) return;
+        delete state.designs[design.id];
+        state.currentId = Object.keys(state.designs)[0];
+        design = state.designs[state.currentId]; renderAll(); saveNow(); return;
+      }
+      case 'share': shareLink(); return;
+      case 'export': exportFile(); return;
+      case 'print': saveNow(); window.print(); return;
+      case 'spec-add': {
+        const name = $('#newSpecName').value.trim();
+        if (!name) { toast('Type a name for the new wood.'); return; }
+        state.customSpecies.push({ id: 'c-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Date.now().toString(36).slice(-4), name, color: $('#newSpecColor').value, shrink: null, custom: true });
+        saveNow(); renderSpecies(); renderShape(); renderRings(); renderBase(); renderResults();
+        $('#secSpecies details').open = true;
+        toast('Added ' + name + '.');
+        return;
+      }
+      case 'spec-del': {
+        const s = state.customSpecies[+btn.dataset.k];
+        const inUse = Object.values(state.designs).some((d) => JSON.stringify(d).includes('"' + s.id + '"'));
+        if (inUse && !confirm(s.name + ' is used in a design. Delete anyway?')) return;
+        state.customSpecies.splice(+btn.dataset.k, 1);
+        saveNow(); renderSpecies(); renderRings(); renderResults(); $('#secSpecies details').open = true; return;
+      }
+      default: return;
+    }
+    renderResults();
+    save();
+  }
+  function swapRings(a, b) {
+    const t = design.rings[a]; design.rings[a] = design.rings[b]; design.rings[b] = t;
+    if (design.source === 'profile') design.source = 'manual';
+    renderShape(); renderRings(); renderBase();
+  }
+  function addDesign(d) {
+    state.designs[d.id] = migrate(d);
+    state.currentId = d.id;
+    design = state.designs[d.id];
+    openRings = new Set(); selectedRing = 0;
+    renderAll(); saveNow();
+    toast('Opened "' + d.name + '".');
+  }
+
+  // Bundles any custom species the design uses, so shared designs show the right woods.
+  function portable() {
+    const ids = JSON.stringify(design);
+    const used = state.customSpecies.filter((s) => ids.includes('"' + s.id + '"'));
+    return { app: 'segment-calculator', v: 1, design, species: used };
+  }
+  function importPortable(obj) {
+    if (!obj || !obj.design || !Array.isArray(obj.design.rings)) throw new Error('Not a Segment Calculator design');
+    for (const s of (obj.species || [])) if (!state.customSpecies.some((x) => x.id === s.id)) state.customSpecies.push(s);
+    const d = obj.design;
+    d.id = newDesign().id;
+    if (state.designs[d.id]) d.id += 'x';
+    addDesign(d);
+  }
+  function shareLink() {
+    const url = location.href.split('#')[0] + '#d=' + C.encodeDesign(portable());
+    const done = () => toast('Share link copied. Anyone who opens it gets a copy of this design.');
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, () => prompt('Copy this link:', url));
+    else prompt('Copy this link:', url);
+    window.__lastShareUrl = url;
+  }
+  function exportFile() {
+    const blob = new Blob([JSON.stringify(portable(), null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = (design.name || 'design').replace(/[^a-z0-9 _-]+/gi, '').trim().replace(/\s+/g, '-') + '.segcalc.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  function toast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast'; t.setAttribute('role', 'status'); t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2600);
+  }
+
+  document.addEventListener('input', (e) => {
+    const el = e.target;
+    if (el.tagName === 'SELECT' || el.type === 'checkbox' || el.type === 'radio' || el.type === 'color') return; // handled on change
+    if (el.dataset.bind === 'profile.points' || el.dataset.bind === 'name') { onInput(e); return; }
+    onInput(e);
+  });
+  document.addEventListener('change', (e) => {
+    const el = e.target;
+    if (el.id === 'designPick') { state.currentId = el.value; design = state.designs[el.value]; openRings = new Set(); selectedRing = 0; renderAll(); saveNow(); return; }
+    if (el.id === 'samplePick') { if (el.value) addDesign(sampleDesign(el.value)); return; }
+    if (el.id === 'ringPick') { selectedRing = +el.value; renderResults(); save(); return; }
+    if (el.id === 'importFile') {
+      const f = el.files[0]; if (!f) return;
+      f.text().then((txt) => { importPortable(JSON.parse(txt)); }).catch(() => toast('That file is not a Segment Calculator design.'));
+      return;
+    }
+    if (el.dataset.action === 'source') {
+      design.source = el.value;
+      if (design.source === 'profile') regenerate(design);
+      renderShape(); renderRings(); renderBase(); renderResults(); save(); return;
+    }
+    if (el.tagName === 'SELECT' || el.type === 'checkbox' || el.type === 'color' || el.dataset.spec != null) { onInput(e); return; }
+    // Text fields: flag bad values, and tidy the display after the user leaves the box.
+    if (el.dataset.invalid) { el.classList.add('bad'); return; }
+    if (el.dataset.type === 'len' && !el.classList.contains('bad') && el.value.trim() !== '') {
+      const v = getPath(design, el.dataset.bind);
+      if (typeof v === 'number') el.value = inputVal(v);
+    }
+  });
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn || btn.tagName === 'INPUT') return;
+    onAction(btn);
+  });
+  document.addEventListener('toggle', (e) => {
+    const d = e.target;
+    if (!d.matches || !d.matches('details.ring')) return;
+    const r = design.rings[+d.dataset.ring];
+    if (!r) return;
+    if (d.open) { openRings.add(r.id); selectedRing = +d.dataset.ring; const pick = $('#ringPick'); if (pick && +pick.value !== selectedRing) { renderResults(); } }
+    else openRings.delete(r.id);
+  }, true);
+
+  // Load a shared design from the link, if present.
+  function loadFromHash() {
+    const m = location.hash.match(/^#d=(.+)$/);
+    if (!m) return;
+    try {
+      const obj = C.decodeDesign(m[1]);
+      history.replaceState(null, '', location.href.split('#')[0]);
+      importPortable(obj);
+      toast('Loaded shared design "' + obj.design.name + '".');
+    } catch (err) { toast('That share link could not be read.'); }
+  }
+
+  renderAll();
+  loadFromHash();
+  window.__segApp = { get design() { return design; }, get state() { return state; }, get result() { return lastResult; }, saveNow };
+})();
+</script>
+</body>
+</html>

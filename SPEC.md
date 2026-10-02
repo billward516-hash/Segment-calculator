@@ -1,4 +1,4 @@
-# Segmented Glue-Up Calculator — Spec (Draft)
+# Segmented Glue-Up Calculator — Spec
 
 A calculator for woodturners building segmented bowls, vases, and similar forms from stacked rings of wood segments.
 
@@ -66,12 +66,20 @@ Every strip on the cut list includes a **safety length of 5 in (127 mm) added to
 - The cut list notes why it exists: keeping hands away from the blade while cutting short pieces.
 - Stock and board-foot totals are calculated using the adjusted strip lengths.
 
-## Core formulas (closed ring, n segments)
-- Miter angle (each end): `θ = 180° / n`
-- Segment outside edge length: `L_out = 2 · R_out · sin(180°/n)`
-- Segment inside edge length: `L_in = 2 · R_in · sin(180°/n)`
-- Segment width (radial): `R_out − R_in` (measured at the centerline, accounting for the miter)
-- Open ring: segment length is shortened by the gap; gap = `2 · R · sin(180°/n) − L_seg`
+## Core formulas (as built)
+The segment polygon must fully contain the turned ring: its outside *flats* sit at the outside radius plus the turning allowance, and its inside *corners* sit at the inside radius minus the allowance. (Putting the corners on the circle, i.e. `2·R·sin(180°/n)`, would leave the flats inside the wall.)
+
+For a ring with finished outside radius `R`, finished inside radius `r`, turning allowance `a`, and segment half-angle `θ = 180°/n`:
+- Miter angle, each end, from square: `θ` (12 segments = 15°)
+- `Ro = R + a`, `ri = r − a`, inner apothem `aIn = ri · cos θ`
+- Long point (outside edge): `L_out = 2 · Ro · tan θ`
+- Short point (inside edge): `L_in = 2 · aIn · tan θ`
+- Strip width: `W = Ro − aIn`
+- Open ring: both edges shortened by the gap `g` (along the outside edge); gap square to the faces = `g · cos θ`
+- Veneer of thickness `v` between closed segments: both edges shortened by `v / cos θ`
+- Unequal segments: each segment's `θ` is its share of 360°, halved; `W` uses the largest `θ`
+- Strip length = Σ (L_out + L_in)/2 + Σ kerf / cos θ + first-end trim `W · tan θ` + cleanup (band saw / hand saw) + **safety length**
+- Test-fit gap for an error `e` per cut: total `2·n·e`, gap ≈ `W · tan(2·n·e)`
 
 ## Additional decisions
 
@@ -107,5 +115,5 @@ Every strip on the cut list includes a **safety length of 5 in (127 mm) added to
 - **Species list:** a built-in list of common species (with color swatches) that the user can add to and edit; custom species are saved on the device.
 - **Default units:** US standard (inches, shown as fractions with decimal option). A metric toggle remains available.
 
-## Open questions
-None blocking. Next step: build `index.html`.
+## Status
+Built as `index.html`. Tests: `npm test` (core math in Node, plus browser tests in Chromium).
