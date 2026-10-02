@@ -407,6 +407,16 @@ test('species list: unique ids, valid colors, custom species merge', () => {
     assert.match(s.color, /^#[0-9a-f]{6}$/i);
   }
   assert.ok(C.SPECIES.length >= 25);
+  // Janka hardness (lbf): present for every real wood, absent for veneers, and in a believable range
+  const byId = Object.fromEntries(C.SPECIES.map((x) => [x.id, x]));
+  for (const x of C.SPECIES) {
+    if (x.id.startsWith('veneer')) assert.equal(x.hardness, null);
+    else assert.ok(x.hardness >= 300 && x.hardness <= 3500, x.id + ' hardness ' + x.hardness);
+  }
+  assert.ok(byId.basswood.hardness < byId.poplar.hardness && byId.poplar.hardness < byId.walnut.hardness);
+  assert.ok(byId.walnut.hardness < byId.maple.hardness && byId.maple.hardness < byId.padauk.hardness);
+  assert.ok(byId.padauk.hardness < byId.ebony.hardness);
+  assert.equal(byId.maple.hardness, 1450);
   const map = C.speciesMap([{ id: 'c-bocote', name: 'Bocote', color: '#8a6a2a' }]);
   assert.equal(map['c-bocote'].name, 'Bocote');
   assert.equal(map.walnut.name, 'Black walnut');

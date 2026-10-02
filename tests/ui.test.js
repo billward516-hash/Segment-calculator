@@ -414,3 +414,32 @@ test('hosted mode: no print/export/download buttons, delete asks for a second ta
   assert.deepEqual(errors, []);
   await context.close();
 });
+
+test('species list shows hardness, and custom woods can set and edit it', async () => {
+  const { context, page, errors } = await open();
+  await page.locator('#secSpecies summary').click();
+  const head = await page.locator('#secSpecies thead').textContent();
+  assert.match(head, /Janka \(lbf\)/);
+  const rows = await page.locator('#secSpecies tbody tr').allTextContents();
+  const maple = rows.find((r) => r.includes('Hard maple'));
+  assert.match(maple, /1450/);
+  assert.match(rows.find((r) => r.includes('Ebony')), /3080/);
+  assert.match(rows.find((r) => r.includes('Black veneer')), /—/);
+  await page.fill('#newSpecName', 'Bocote');
+  await page.fill('#newSpecHard', '1980');
+  await page.click('[data-action="spec-add"]');
+  assert.ok(await page.locator('#secSpecies details').evaluate((d) => d.open), 'list stays open after adding');
+  assert.equal(await page.locator('[data-spec="0"][data-field="hardness"]').inputValue(), '1980');
+  await page.locator('[data-spec="0"][data-field="hardness"]').fill('2000');
+  await page.locator('[data-spec="0"][data-field="hardness"]').dispatchEvent('change');
+  assert.equal((await page.evaluate(() => window.__segApp.state.customSpecies[0].hardness)), 2000);
+  // the table fits a phone: no sideways scroll, and the delete button is on screen
+  assert.ok((await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)) <= 0);
+  const fit = await page.evaluate(() => { const w = document.querySelector('#secSpecies .tbl-wrap'); const b = document.querySelector('#secSpecies [data-action="spec-del"]'); return { scrolls: w.scrollWidth > w.clientWidth, inside: b.getBoundingClientRect().right <= w.getBoundingClientRect().right + 1 }; });
+  assert.deepEqual(fit, { scrolls: false, inside: true });
+  // every built-in row shows its full hardness number (not clipped)
+  const clipped = await page.evaluate(() => [...document.querySelectorAll('#secSpecies tbody tr td:nth-child(3)')].filter((td) => td.scrollWidth > td.clientWidth).length);
+  assert.equal(clipped, 0);
+  assert.deepEqual(errors, []);
+  await context.close();
+});

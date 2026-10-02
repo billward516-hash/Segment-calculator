@@ -84,6 +84,15 @@ th,td{border-bottom:1px solid var(--line);padding:6px 6px;text-align:left;vertic
 th{font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
 td.num,th.num{text-align:right;white-space:nowrap}
 .dec{color:var(--muted);font-size:.78rem;display:block}
+.spec-table{table-layout:fixed}
+.spec-table th,.spec-table td{padding:6px 4px;overflow-wrap:anywhere}
+.spec-table th:nth-child(1),.spec-table td:nth-child(1){width:40px}
+.spec-table th:nth-child(3),.spec-table td:nth-child(3){width:68px}
+.spec-table th:nth-child(4),.spec-table td:nth-child(4){width:58px}
+.spec-table th:nth-child(5),.spec-table td:nth-child(5){width:44px}
+.spec-table td input[type=text]{width:100%}
+.spec-table input[type=text]{min-height:36px;padding:4px 6px}
+.spec-table input[type=color]{width:32px !important;height:32px !important}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
 .stat{background:var(--soft);border-radius:10px;padding:8px 10px}
 .stat .k{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
@@ -156,36 +165,37 @@ body.hosted .no-hosted{display:none !important}
 
   // Built-in species. Colors are approximate swatches; shrinkage is approximate
   // tangential shrinkage (green to oven-dry, %), used only for movement warnings.
+  // hardness is Janka hardness in pounds-force (approximate; higher = harder).
   const SPECIES = [
-    { id: 'maple', name: 'Hard maple', color: '#e8d3ae', shrink: 9.9 },
-    { id: 'walnut', name: 'Black walnut', color: '#5a3a22', shrink: 7.8 },
-    { id: 'cherry', name: 'Cherry', color: '#a5603a', shrink: 7.1 },
-    { id: 'redoak', name: 'Red oak', color: '#c49a6c', shrink: 8.6 },
-    { id: 'whiteoak', name: 'White oak', color: '#b8925e', shrink: 10.5 },
-    { id: 'ash', name: 'White ash', color: '#d9c49a', shrink: 7.8 },
-    { id: 'birch', name: 'Yellow birch', color: '#e2c99b', shrink: 9.5 },
-    { id: 'beech', name: 'Beech', color: '#d8b48a', shrink: 11.9 },
-    { id: 'hickory', name: 'Hickory', color: '#c9a77c', shrink: 11.5 },
-    { id: 'poplar', name: 'Poplar', color: '#d3cc98', shrink: 8.2 },
-    { id: 'basswood', name: 'Basswood', color: '#e9dcc0', shrink: 9.3 },
-    { id: 'holly', name: 'Holly', color: '#f2ede0', shrink: 9.9 },
-    { id: 'mahogany', name: 'Mahogany', color: '#9c4a2e', shrink: 4.1 },
-    { id: 'sapele', name: 'Sapele', color: '#8a4b2f', shrink: 7.2 },
-    { id: 'teak', name: 'Teak', color: '#a0763c', shrink: 5.8 },
-    { id: 'padauk', name: 'Padauk', color: '#b5452b', shrink: 5.2 },
-    { id: 'purpleheart', name: 'Purpleheart', color: '#6b2d5c', shrink: 6.1 },
-    { id: 'bloodwood', name: 'Bloodwood', color: '#8b1a1a', shrink: 6.8 },
-    { id: 'yellowheart', name: 'Yellowheart', color: '#e3b23c', shrink: 6.6 },
-    { id: 'osage', name: 'Osage orange', color: '#d79a1f', shrink: 7.1 },
-    { id: 'canarywood', name: 'Canarywood', color: '#d9a35a', shrink: 7.6 },
-    { id: 'jatoba', name: 'Jatoba', color: '#8a3e22', shrink: 8.0 },
-    { id: 'bubinga', name: 'Bubinga', color: '#8e3b2f', shrink: 8.4 },
-    { id: 'zebrawood', name: 'Zebrawood', color: '#c9a66b', shrink: 9.4 },
-    { id: 'cocobolo', name: 'Cocobolo', color: '#8b3a1e', shrink: 4.3 },
-    { id: 'wenge', name: 'Wenge', color: '#3b2a20', shrink: 9.0 },
-    { id: 'ebony', name: 'Ebony', color: '#1e1a18', shrink: 10.0 },
-    { id: 'veneer-black', name: 'Black veneer (dyed)', color: '#111111', shrink: null },
-    { id: 'veneer-white', name: 'White veneer (holly/maple)', color: '#f4efe2', shrink: null }
+    { id: 'maple', name: 'Hard maple', color: '#e8d3ae', shrink: 9.9, hardness: 1450 },
+    { id: 'walnut', name: 'Black walnut', color: '#5a3a22', shrink: 7.8, hardness: 1010 },
+    { id: 'cherry', name: 'Cherry', color: '#a5603a', shrink: 7.1, hardness: 950 },
+    { id: 'redoak', name: 'Red oak', color: '#c49a6c', shrink: 8.6, hardness: 1290 },
+    { id: 'whiteoak', name: 'White oak', color: '#b8925e', shrink: 10.5, hardness: 1360 },
+    { id: 'ash', name: 'White ash', color: '#d9c49a', shrink: 7.8, hardness: 1320 },
+    { id: 'birch', name: 'Yellow birch', color: '#e2c99b', shrink: 9.5, hardness: 1260 },
+    { id: 'beech', name: 'Beech', color: '#d8b48a', shrink: 11.9, hardness: 1300 },
+    { id: 'hickory', name: 'Hickory', color: '#c9a77c', shrink: 11.5, hardness: 1820 },
+    { id: 'poplar', name: 'Poplar', color: '#d3cc98', shrink: 8.2, hardness: 540 },
+    { id: 'basswood', name: 'Basswood', color: '#e9dcc0', shrink: 9.3, hardness: 410 },
+    { id: 'holly', name: 'Holly', color: '#f2ede0', shrink: 9.9, hardness: 1000 },
+    { id: 'mahogany', name: 'Mahogany', color: '#9c4a2e', shrink: 4.1, hardness: 800 },
+    { id: 'sapele', name: 'Sapele', color: '#8a4b2f', shrink: 7.2, hardness: 1410 },
+    { id: 'teak', name: 'Teak', color: '#a0763c', shrink: 5.8, hardness: 1155 },
+    { id: 'padauk', name: 'Padauk', color: '#b5452b', shrink: 5.2, hardness: 1725 },
+    { id: 'purpleheart', name: 'Purpleheart', color: '#6b2d5c', shrink: 6.1, hardness: 1860 },
+    { id: 'bloodwood', name: 'Bloodwood', color: '#8b1a1a', shrink: 6.8, hardness: 2900 },
+    { id: 'yellowheart', name: 'Yellowheart', color: '#e3b23c', shrink: 6.6, hardness: 1790 },
+    { id: 'osage', name: 'Osage orange', color: '#d79a1f', shrink: 7.1, hardness: 2620 },
+    { id: 'canarywood', name: 'Canarywood', color: '#d9a35a', shrink: 7.6, hardness: 1520 },
+    { id: 'jatoba', name: 'Jatoba', color: '#8a3e22', shrink: 8.0, hardness: 2350 },
+    { id: 'bubinga', name: 'Bubinga', color: '#8e3b2f', shrink: 8.4, hardness: 2410 },
+    { id: 'zebrawood', name: 'Zebrawood', color: '#c9a66b', shrink: 9.4, hardness: 1575 },
+    { id: 'cocobolo', name: 'Cocobolo', color: '#8b3a1e', shrink: 4.3, hardness: 2960 },
+    { id: 'wenge', name: 'Wenge', color: '#3b2a20', shrink: 9.0, hardness: 1930 },
+    { id: 'ebony', name: 'Ebony', color: '#1e1a18', shrink: 10.0, hardness: 3080 },
+    { id: 'veneer-black', name: 'Black veneer (dyed)', color: '#111111', shrink: null, hardness: null },
+    { id: 'veneer-white', name: 'White veneer (holly/maple)', color: '#f4efe2', shrink: null, hardness: null }
   ];
 
   // Cutting tools. kerf = blade width; cleanup = extra length per piece to sand off afterward.
@@ -1209,17 +1219,19 @@ body.hosted .no-hosted{display:none !important}
   }
 
   function renderSpecies() {
-    let h = '<h2>Wood species</h2><p class="help">Built-in woods with approximate colors. Add your own — they are saved on this device and included when you share a design.</p>';
-    h += '<details><summary class="btn" style="display:inline-flex;align-items:center">Show species list</summary><div class="tbl-wrap"><table><thead><tr><th>Color</th><th>Name</th><th class="num">Shrinkage %</th><th></th></tr></thead><tbody>';
-    for (const s of C.SPECIES) h += '<tr><td>' + swatch(s.id) + '</td><td>' + esc(s.name) + '</td><td class="num">' + (s.shrink == null ? '—' : s.shrink) + '</td><td></td></tr>';
+    let h = '<h2>Wood species</h2><p class="help">Built-in woods with approximate colors and Janka hardness (the force in pounds needed to press a steel ball into the wood; higher is harder, and harder woods are tougher to sand and turn). Add your own — they are saved on this device and included when you share a design.</p>';
+    h += '<details><summary class="btn" style="display:inline-flex;align-items:center">Show species list</summary><div class="tbl-wrap"><table class="spec-table"><thead><tr><th></th><th>Name</th><th class="num">Janka (lbf)</th><th class="num">Shrink %</th><th></th></tr></thead><tbody>';
+    for (const s of C.SPECIES) h += '<tr><td>' + swatch(s.id) + '</td><td>' + esc(s.name) + '</td><td class="num">' + (s.hardness == null ? '—' : s.hardness) + '</td><td class="num">' + (s.shrink == null ? '—' : s.shrink) + '</td><td></td></tr>';
     state.customSpecies.forEach((s, k) => {
-      h += '<tr><td><input type="color" value="' + esc(s.color) + '" data-spec="' + k + '" data-field="color" aria-label="Color" style="width:44px;height:36px;border:0;padding:0"></td>' +
-        '<td><input type="text" value="' + esc(s.name) + '" data-spec="' + k + '" data-field="name" aria-label="Name"></td>' +
-        '<td class="num"><input type="text" inputmode="decimal" value="' + esc(s.shrink == null ? '' : s.shrink) + '" data-spec="' + k + '" data-field="shrink" aria-label="Shrinkage" style="max-width:80px"></td>' +
-        '<td><button type="button" class="small danger" data-action="spec-del" data-k="' + k + '">Delete</button></td></tr>';
+      h += '<tr><td><input type="color" value="' + esc(s.color) + '" data-spec="' + k + '" data-field="color" aria-label="Color" style="border:0;padding:0"></td>' +
+        '<td><input type="text" value="' + esc(s.name) + '" data-spec="' + k + '" data-field="name" aria-label="Name" style="min-width:60px"></td>' +
+        '<td class="num"><input type="text" inputmode="numeric" value="' + esc(s.hardness == null ? '' : s.hardness) + '" data-spec="' + k + '" data-field="hardness" aria-label="Hardness in pounds-force" style="max-width:60px"></td>' +
+        '<td class="num"><input type="text" inputmode="decimal" value="' + esc(s.shrink == null ? '' : s.shrink) + '" data-spec="' + k + '" data-field="shrink" aria-label="Shrinkage" style="max-width:52px"></td>' +
+        '<td><button type="button" class="small danger" data-action="spec-del" data-k="' + k + '" aria-label="Delete ' + esc(s.name) + '">✕</button></td></tr>';
     });
     h += '</tbody></table></div>' +
       '<div class="grid" style="margin-top:8px"><label class="fld"><span>New wood name</span><input type="text" id="newSpecName" placeholder="e.g. Bocote"></label>' +
+      '<label class="fld"><span>Hardness (Janka lbf)</span><input type="text" inputmode="numeric" id="newSpecHard" placeholder="e.g. 1980"></label>' +
       '<label class="fld"><span>Color</span><input type="color" id="newSpecColor" value="#9a6a3a" style="width:100%;height:44px;border:1px solid var(--line);border-radius:8px"></label>' +
       '<label class="fld"><span>&nbsp;</span><button type="button" data-action="spec-add">Add wood</button></label></div></details>';
     $('#secSpecies').innerHTML = h;
@@ -1693,6 +1705,7 @@ body.hosted .no-hosted{display:none !important}
     const s = state.customSpecies[k];
     if (!s) return;
     if (f === 'shrink') { const v = parseFloat(el.value); s.shrink = isFinite(v) ? v : null; }
+    else if (f === 'hardness') { const v = parseFloat(el.value); s.hardness = isFinite(v) && v > 0 ? Math.round(v) : null; }
     else if (f === 'name') { if (!el.value.trim()) return; s.name = el.value.trim(); }
     else s.color = el.value;
     save();
@@ -1773,7 +1786,7 @@ body.hosted .no-hosted{display:none !important}
       case 'spec-add': {
         const name = $('#newSpecName').value.trim();
         if (!name) { toast('Type a name for the new wood.'); return; }
-        state.customSpecies.push({ id: 'c-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Date.now().toString(36).slice(-4), name, color: $('#newSpecColor').value, shrink: null, custom: true });
+        state.customSpecies.push({ id: 'c-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Date.now().toString(36).slice(-4), name, color: $('#newSpecColor').value, shrink: null, hardness: (() => { const v = parseFloat($('#newSpecHard').value); return isFinite(v) && v > 0 ? Math.round(v) : null; })(), custom: true });
         saveNow(); renderSpecies(); renderShape(); renderRings(); renderBase(); renderResults();
         $('#secSpecies details').open = true;
         toast('Added ' + name + '.');
