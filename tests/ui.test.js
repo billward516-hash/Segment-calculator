@@ -211,6 +211,7 @@ test('every sample design loads without errors', async () => {
     const r = await result(page);
     assert.ok(r.strips.length > 0, s);
     assert.ok(!r.messages.some((m) => m.level === 'error'), s + ': ' + JSON.stringify(r.messages.filter((m) => m.level === 'error')));
+    assert.deepEqual(r.messages.filter((m) => m.level === 'warn'), [], s + ' sample should open with no warnings');
     const d = await design(page);
     if (s === 'open') {
       assert.ok(d.rings.some((x) => x.type === 'open'));
@@ -440,6 +441,19 @@ test('species list shows hardness, and custom woods can set and edit it', async 
   // every built-in row shows its full hardness number (not clipped)
   const clipped = await page.evaluate(() => [...document.querySelectorAll('#secSpecies tbody tr td:nth-child(3)')].filter((td) => td.scrollWidth > td.clientWidth).length);
   assert.equal(clipped, 0);
+  assert.deepEqual(errors, []);
+  await context.close();
+});
+
+test('wood-mixing warning appears on screen when you pick very different woods', async () => {
+  const { context, page, errors } = await open();
+  await page.locator('details.ring[data-ring="3"] summary').click();
+  await page.locator('details.ring[data-ring="3"] [data-action="pat-add"]').click();
+  await page.locator('details.ring[data-ring="3"] .chip select').first().selectOption('basswood');
+  await page.locator('details.ring[data-ring="3"] .chip select').nth(1).selectOption('padauk');
+  const text = await page.locator('#msgs').textContent();
+  assert.match(text, /Ring 4: woods differ a lot in hardness \(Basswood 410 lbf, Padauk 1725 lbf\)/);
+  assert.ok(!/move very differently/.test(text), 'basswood and padauk shrink within 5 points, so no shrinkage warning');
   assert.deepEqual(errors, []);
   await context.close();
 });

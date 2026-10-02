@@ -428,3 +428,45 @@ test('share encoding round-trips, including non-ASCII names', () => {
   assert.match(s, /^[A-Za-z0-9_-]+$/, 'URL-safe');
   assert.deepEqual(plain(C.decodeDesign(s)), obj);
 });
+
+// ---------- Wood mixing warnings ----------
+test('warns when one ring mixes woods with very different hardness, naming both', () => {
+  const run = (pattern) => C.computeDesign(design({ rings: [ring({ outerR: 4, width: 1, pattern })] }), []).messages.map((m) => m.text);
+  const soft = run(['basswood', 'padauk']).find((t) => t.includes('differ a lot in hardness'));
+  assert.ok(soft, 'basswood next to padauk should warn');
+  assert.match(soft, /Basswood 410 lbf/);
+  assert.match(soft, /Padauk 1725 lbf/);
+  // Threshold is a gap of 800 lbf: poplar (540) vs maple (1450) warns, walnut (1010) vs maple (1450) does not
+  assert.ok(run(['poplar', 'maple']).some((t) => t.includes('differ a lot in hardness')));
+  assert.ok(!run(['walnut', 'maple']).some((t) => t.includes('differ a lot in hardness')));
+  assert.ok(!run(['cherry', 'walnut', 'maple']).some((t) => t.includes('differ a lot in hardness')));
+  assert.ok(!run(['maple']).some((t) => t.includes('hardness')), 'one wood never warns');
+});
+
+test('warns when woods in one ring, or in stacked rings, shrink very differently', () => {
+  const one = C.computeDesign(design({ rings: [ring({ outerR: 4, width: 1, pattern: ['mahogany', 'beech'] })] }), []).messages.map((m) => m.text);
+  const w = one.find((t) => t.includes('move very differently'));
+  assert.ok(w);
+  assert.match(w, /Mahogany 4\.1%/);
+  assert.match(w, /Beech 11\.9%/);
+  assert.ok(!C.computeDesign(design({ rings: [ring({ outerR: 4, width: 1, pattern: ['maple', 'walnut'] })] }), []).messages.some((m) => m.text.includes('move very differently')));
+  const stacked = C.computeDesign(design({ rings: [
+    ring({ outerR: 4, width: 1, pattern: ['holly'] }),
+    ring({ outerR: 4, width: 1, pattern: ['mahogany'] })
+  ] }), []).messages.map((m) => m.text);
+  const sw = stacked.find((t) => t.includes('is glued to'));
+  assert.ok(sw, stacked.join('\n'));
+  assert.match(sw, /^Rings 1 and 2: Holly \(9\.9% shrinkage\) is glued to Mahogany \(4\.1%\)/);
+  // similar woods stacked: no warning
+  assert.ok(!C.computeDesign(design({ rings: [ring({ outerR: 4, width: 1, pattern: ['maple'] }), ring({ outerR: 4, width: 1, pattern: ['walnut'] })] }), []).messages.some((m) => m.text.includes('is glued to')));
+});
+
+test('wood mixing checks count laminated layers, and ignore woods with no data', () => {
+  const lam = ring({ outerR: 4, width: 1, thickness: 0.75, pattern: ['lam', 'walnut'], lam: { on: true, layers: [{ species: 'basswood', t: 0.375 }, { species: 'padauk', t: 0.375 }] } });
+  assert.ok(C.computeDesign(design({ rings: [lam] }), []).messages.some((m) => m.text.includes('differ a lot in hardness')));
+  const custom = [{ id: 'c-x', name: 'Mystery', color: '#888888', shrink: null, hardness: null }];
+  const R = C.computeDesign(design({ rings: [ring({ outerR: 4, width: 1, pattern: ['c-x', 'maple'] })] }), custom);
+  assert.ok(!R.messages.some((m) => m.text.includes('hardness') || m.text.includes('move very differently')));
+  assert.equal(C.HARDNESS_GAP, 800);
+  assert.equal(C.SHRINK_GAP, 5);
+});

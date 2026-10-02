@@ -224,6 +224,10 @@ body.hosted .no-hosted{display:none !important}
     faceplate: { name: 'Faceplate screws (adds height)', depth: 0.375 }
   };
 
+  // Warning thresholds for mixing woods in one ring or in neighboring rings.
+  const SHRINK_GAP = 5;   // percentage points of shrinkage between two woods
+  const HARDNESS_GAP = 800; // Janka lbf between the softest and hardest wood
+
   const isNum = (v) => typeof v === 'number' && isFinite(v);
   const round = (v, step) => Math.round(v / step) * step;
   const ceilTo = (v, step) => Math.ceil(v / step - 1e-9) * step;
@@ -729,10 +733,22 @@ body.hosted .no-hosted{display:none !important}
         if (Math.abs(lt - g.roughT) > 1 / 64) push('warn', name + ': laminated layers add up to ' +
           formatLength(lt, d.units, set.denom) + ' but the ring is ' + formatLength(g.roughT, d.units, set.denom) + ' rough.');
       }
-      // movement: species with very different shrinkage in one ring
-      const shr = [...new Set(expandPattern(ring.pattern, g.n))].map((s) => sp[s] && sp[s].shrink).filter(isNum);
-      if (shr.length > 1 && Math.max.apply(null, shr) - Math.min.apply(null, shr) > 5) push('warn', name +
-        ': mixes woods that move very differently with humidity. Joints may open. Use dry, stable stock.');
+      // Woods that move or sand very differently, within this ring
+      const woods = woodsOf(ring, sp);
+      const shrinkers = woods.filter((w) => isNum(w.shrink));
+      if (shrinkers.length > 1) {
+        const lo = shrinkers.reduce((a, w) => (w.shrink < a.shrink ? w : a));
+        const hi = shrinkers.reduce((a, w) => (w.shrink > a.shrink ? w : a));
+        if (hi.shrink - lo.shrink > SHRINK_GAP) push('warn', name + ': mixes woods that move very differently with humidity (' +
+          lo.name + ' ' + lo.shrink + '% and ' + hi.name + ' ' + hi.shrink + '% shrinkage). Joints may open or crack. Use dry, stable stock and keep this ring thin.');
+      }
+      const hards = woods.filter((w) => isNum(w.hardness));
+      if (hards.length > 1) {
+        const soft = hards.reduce((a, w) => (w.hardness < a.hardness ? w : a));
+        const hard = hards.reduce((a, w) => (w.hardness > a.hardness ? w : a));
+        if (hard.hardness - soft.hardness >= HARDNESS_GAP) push('warn', name + ': woods differ a lot in hardness (' +
+          soft.name + ' ' + soft.hardness + ' lbf, ' + hard.name + ' ' + hard.hardness + ' lbf). They sand and turn unevenly, so the soft wood wears into dips beside the hard. Use sharp tools, light cuts, and sand through the grits evenly.');
+      }
       // neighbor checks
       if (i > 0) {
         const pg = geoms[i - 1];
@@ -743,6 +759,15 @@ body.hosted .no-hosted{display:none !important}
             '). You may turn through the wall here. Widen one of the rings.');
         }
         const prev = d.rings[i - 1];
+        // Stacked rings glued face to face move against each other
+        const wa = woodsOf(prev, sp).filter((w) => isNum(w.shrink)), wb = woodsOf(ring, sp).filter((w) => isNum(w.shrink));
+        let worst = null;
+        for (const a of wa) for (const b of wb) {
+          const gap = Math.abs(a.shrink - b.shrink);
+          if (gap > SHRINK_GAP && (!worst || gap > worst.gap)) worst = { gap, a, b };
+        }
+        if (worst) push('warn', 'Rings ' + i + ' and ' + (i + 1) + ': ' + worst.a.name + ' (' + worst.a.shrink + '% shrinkage) is glued to ' +
+          worst.b.name + ' (' + worst.b.shrink + '%). They swell and shrink by different amounts, which can crack the glue line. Use dry wood and avoid wide rings here.');
         if ((prev.grain || 'long') !== (ring.grain || 'long')) push('warn', 'Rings ' + i + ' and ' + (i + 1) +
           ': end-grain glued to long-grain moves differently and can crack. Keep end-grain rings thin and dry.');
       }
@@ -756,6 +781,16 @@ body.hosted .no-hosted{display:none !important}
     if (anyOpen) push('info', 'Open-segment rings leave gaps, so the finished piece is decorative and will not hold water.');
     if (!d.rings.length) push('info', 'Add a ring to get started.');
     return msgs;
+  }
+
+  // Unique woods used in a ring (laminated segments count as their layers), with their properties.
+  function woodsOf(ring, sp) {
+    const ids = new Set();
+    for (const id of (ring.pattern || [])) {
+      if (id === 'lam') { if (ring.lam && ring.lam.on) for (const l of ring.lam.layers) ids.add(l.species); }
+      else ids.add(id);
+    }
+    return [...ids].filter((id) => sp[id]).map((id) => ({ id, name: sp[id].name, shrink: sp[id].shrink, hardness: sp[id].hardness }));
   }
 
   function spName(sp, id) {
@@ -787,7 +822,7 @@ body.hosted .no-hosted{display:none !important}
     MM_PER_IN, SPECIES, TOOLS, MOUNTS, parseLength, toFraction, formatLength, formatAngle,
     expandPattern, patternCounts, ringGeometry, cosInterp, parseProfilePoints, profilePoints, profileOuter,
     profileInner, ringThicknesses, generateRings, suggestSegments, defaultRing, speciesMap, computeDesign,
-    baseInfo, buildCutList, checkDesign, testFitGap, boardFeet, encodeDesign, decodeDesign, spName
+    baseInfo, buildCutList, checkDesign, testFitGap, woodsOf, SHRINK_GAP, HARDNESS_GAP, boardFeet, encodeDesign, decodeDesign, spName
   };
 })(typeof window !== 'undefined' ? window : globalThis);
 // ===CORE-END===

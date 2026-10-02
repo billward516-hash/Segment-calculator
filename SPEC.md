@@ -106,6 +106,7 @@ For a ring with finished outside radius `R`, finished inside radius `r`, turning
 - Glue-up notes (clamping, flattening between rings, reference marks).
 - Test-fit check showing the expected gap for a given miter-angle error (e.g. 0.1 degree).
 - Wood-movement warnings (mixed end-grain and long-grain rings, large species differences).
+- Wood-mixing warnings, naming the woods and values: shrinkage gap of more than 5 percentage points within a ring or between stacked rings; Janka hardness gap of 800 lbf or more within a ring. Laminated layers count as woods in the ring; woods without data are ignored.
 - Printable page with cut list, ring diagram, and the safety note.
 
 ### Geometry and units

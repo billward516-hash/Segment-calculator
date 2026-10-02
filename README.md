@@ -19,7 +19,7 @@ Everything is in one file, **`index.html`**. It needs no install, no account, an
 - Color patterns of any length, brick lay, unequal segment sizes, veneer between segments, laminated blanks
 - Choose your cutting tool (miter saw, sled, chop saw, band saw, hand saw); kerf and instructions follow
 - Cut list grouped by wood, thickness, and width, with **every strip showing its safety length (default 5″) as its own line**, adjustable to suit your method
-- Checks for thin walls, poor ring overlap, small pieces, uneven patterns, and wood-movement risks
+- Checks for thin walls, poor ring overlap, small pieces, uneven patterns, and wood mixing: warns when woods in one ring (or in stacked rings) shrink very differently (more than 5 percentage points) or differ a lot in hardness (800+ Janka lbf)
 - Test-fit gap estimate, shopping list in board feet with optional prices, build checklist, glue-up tips
 - Print shop sheet with an optional full-size ring template; share links and export/import files
 
