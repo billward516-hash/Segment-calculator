@@ -335,3 +335,36 @@ test('open ring in advanced mode shows the not-watertight note and gap', async (
   assert.deepEqual(errors, []);
   await context.close();
 });
+
+test('with scripts blocked the page says why instead of going blank', async () => {
+  const context = await browser.newContext(Object.assign({}, PHONE, { javaScriptEnabled: false }));
+  const page = await context.newPage();
+  await page.goto(URL);
+  assert.match(await page.locator('#fallback').textContent(), /blocking scripts/);
+  await context.close();
+});
+
+test('works inside a sandboxed frame with no storage access, and survives corrupt saved data', async () => {
+  const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  const context = await browser.newContext(PHONE);
+  const page = await context.newPage();
+  await page.setContent('<iframe id="f" style="width:390px;height:800px" sandbox="allow-scripts"></iframe>');
+  await page.evaluate((h) => { document.getElementById('f').srcdoc = h; }, html);
+  await page.waitForFunction(() => { const f = document.getElementById('f'); return f.contentDocument === null || true; });
+  const frame = await (async () => { for (let i = 0; i < 50; i++) { const f = page.frames()[1]; if (f) { try { if (await f.locator('#secCutList').count()) return f; } catch (e) { /* retry */ } } await page.waitForTimeout(100); } throw new Error('frame did not render'); })();
+  assert.equal(await frame.locator('#fallback').count(), 0);
+  await frame.selectOption('#samplePick', 'vase');
+  assert.equal(await frame.locator('[data-bind="name"]').inputValue(), 'Vase with feature ring');
+  await frame.click('#modeAdvanced');
+  assert.ok(await frame.locator('[data-bind="settings.maxStrip"]').isVisible());
+  await context.close();
+
+  const c2 = await browser.newContext(PHONE);
+  const p2 = await c2.newPage();
+  await p2.addInitScript(() => { try { localStorage.setItem('segcalc.v1', '{"designs":{"x":{"rings":"oops"}},"currentId":"x"}'); } catch (e) { /* ignore */ } });
+  await p2.goto(URL);
+  await p2.waitForSelector('#secCutList');
+  assert.equal(await p2.locator('[data-bind="name"]').inputValue(), '12-segment bowl', 'unreadable saved design replaced by the sample');
+  assert.ok(await p2.locator('#secCutList').count());
+  await c2.close();
+});

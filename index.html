@@ -141,8 +141,8 @@ dl.gloss dd{margin:2px 0 0 0;color:var(--muted);font-size:.92rem}
     </div>
   </div>
 </header>
-<main id="app"></main>
-<noscript><p style="padding:16px">This calculator needs JavaScript turned on.</p></noscript>
+<main id="app"><div class="card" id="fallback"><h2>Loading the calculator…</h2>
+<p>If this message stays, the viewer you are using is blocking scripts. Open this file in a normal browser (Chrome, Safari, Edge, or Firefox) and it will work. Nothing is uploaded; everything runs on your device.</p></div></main>
 
 <script id="seg-core">
 // ===CORE-START===
@@ -813,23 +813,33 @@ dl.gloss dd{margin:2px 0 0 0;color:var(--muted);font-size:.92rem}
   function loadState() {
     let s = null;
     try { s = JSON.parse(localStorage.getItem(STORE_KEY) || 'null'); } catch (e) { s = null; }
-    if (!s || !s.designs || !s.designs[s.currentId]) {
-      const d = sampleDesign('bowl');
-      s = { designs: { [d.id]: d }, currentId: d.id, customSpecies: [] };
+    // Anything unreadable in saved data is dropped, never allowed to stop the app from starting.
+    if (s && s.designs && typeof s.designs === 'object') {
+      for (const id of Object.keys(s.designs)) {
+        try { s.designs[id] = migrate(s.designs[id]); } catch (e) { delete s.designs[id]; }
+      }
+    } else s = null;
+    if (!s || !s.designs[s.currentId]) {
+      const keep = s && Object.keys(s.designs)[0];
+      if (keep) s.currentId = keep;
+      else {
+        const d = sampleDesign('bowl');
+        s = { designs: { [d.id]: d }, currentId: d.id, customSpecies: (s && s.customSpecies) || [] };
+      }
     }
-    for (const id in s.designs) s.designs[id] = migrate(s.designs[id]);
-    s.customSpecies = s.customSpecies || [];
+    s.customSpecies = Array.isArray(s.customSpecies) ? s.customSpecies.filter((x) => x && x.id && x.name && x.color) : [];
     return s;
   }
 
   // Fills in any fields missing from older or imported designs.
   function migrate(d) {
+    if (!d || typeof d !== 'object' || !Array.isArray(d.rings)) throw new Error('bad design');
     const base = newDesign(d.name);
     const out = Object.assign(base, d);
     out.settings = Object.assign(newDesign().settings, d.settings || {});
     out.profile = Object.assign(newDesign().profile, d.profile || {});
     out.base = Object.assign(newDesign().base, d.base || {});
-    out.rings = (d.rings || []).map((r) => {
+    out.rings = d.rings.map((r) => {
       const def = C.defaultRing(r.pattern && r.pattern[0]);
       const ring = Object.assign(def, r);
       ring.veneer = Object.assign(def.veneer, r.veneer || {});
@@ -1854,8 +1864,15 @@ dl.gloss dd{margin:2px 0 0 0;color:var(--muted);font-size:.92rem}
     } catch (err) { toast('That share link could not be read.'); }
   }
 
-  renderAll();
-  loadFromHash();
+  try {
+    renderAll();
+    loadFromHash();
+  } catch (err) {
+    app.innerHTML = '<div class="card"><h2>Something went wrong</h2><p>The calculator could not start: ' + esc(err && err.message) +
+      '</p><p>Try opening this file in a normal browser (Chrome, Safari, Edge, or Firefox). If it still fails, clear this site\'s saved data and reload.</p>' +
+      '<button type="button" id="resetData">Clear saved data and reload</button></div>';
+    $('#resetData').onclick = () => { try { localStorage.removeItem(STORE_KEY); } catch (e) { /* ignore */ } location.reload(); };
+  }
   window.__segApp = { get design() { return design; }, get state() { return state; }, get result() { return lastResult; }, saveNow };
 })();
 </script>
