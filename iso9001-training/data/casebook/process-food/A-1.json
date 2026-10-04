@@ -1,0 +1,299 @@
+{
+  "id": "FOD-A-01",
+  "pack": "process-food",
+  "type": "A",
+  "title": "Line Start-Up Walk",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "You join the 6 a.m. start-up of packing line 2 at Meridian Foods, which is packing a breakfast cereal bar. The operations manager wants a quality management system walkthrough across receiving, weighing, processing, packing, and release before the customer's visit next week. Food safety requirements belong to the separate food safety system and are outside this visit. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Coverage",
+  "branches": [
+    "Evidence"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Ingredient store",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Ingredient racks and status labels",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Ingredient receiving records",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Weighing room",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Scale verification log",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Review",
+          "label": "Recipe sheet at the scale",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Processing area",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Oven temperature probe record",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Observe",
+          "label": "Line start-up checklist",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Packing line 2",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Label reel loaded on the labeler",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Observe",
+          "label": "Customer-supplied cartons",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Observe",
+          "label": "Radio playing in the area",
+          "evidenceId": "E12"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Release office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Batch release records for yesterday",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Laboratory results register",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Line supervisor",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "What happens when a label check fails",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Observe",
+          "label": "Handwritten shift note",
+          "evidenceId": "E13"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Rack B4 holds 2 bags of oat flakes with no lot label; the receiving record shows lot OF-551 was split into smaller bags yesterday.",
+      "clause": "8.5.2",
+      "whyItMatters": "Inputs must stay identified so each batch can be traced to its ingredient lots.",
+      "missedExplanation": "Look for repacked or split materials; labels are often lost at that step.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Scale S-3 verification log: the daily check weight test is blank for the last 4 working days.",
+      "clause": "7.1.5",
+      "whyItMatters": "Measuring resources must be verified at the planned interval so that weights can be trusted.",
+      "missedExplanation": "Read the dates on daily check logs, not just the header.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Recipe sheet at scale S-3 is version 7; the document register shows version 8 issued 10 days ago with a revised syrup quantity.",
+      "clause": "7.5.3",
+      "whyItMatters": "Only current approved documents should be at the point of use.",
+      "missedExplanation": "Compare version numbers at the point of use with the register.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "conforming",
+      "text": "Oven temperature probe TP-2 was verified against the reference probe 3 days ago; record signed.",
+      "clause": "7.1.5",
+      "whyItMatters": "Monitoring equipment is verified as planned.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The probe check is current. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Label reel on the labeler shows artwork revision 4; the approved artwork list shows revision 5 for this customer since week 22.",
+      "clause": "8.5.1, 7.5.3",
+      "whyItMatters": "Packing must use the current approved artwork; an old revision can mean wrong information reaches the customer.",
+      "missedExplanation": "Check artwork revision on loaded reels at every start-up.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "3 pallets of customer-supplied printed cartons are stored outside the dry store under a sheet; 1 pallet has water marks. No damage report is raised.",
+      "clause": "8.5.3",
+      "whyItMatters": "Customer property must be protected, and the customer told if it is damaged or unsuitable.",
+      "missedExplanation": "Ask who owns packaging and how it is protected.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Batch release records for yesterday: 5 batches released; 1 record has the release time written before the laboratory result time, corrected by hand without initials.",
+      "clause": "8.6",
+      "whyItMatters": "Release follows the planned checks. The correction lacks initials, so the record cannot show who changed it; a weakness to address.",
+      "missedExplanation": "Compare release times with result times.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Supervisor: \"If a label check fails we stop the line, hold every case back to the last good check, and call quality.\" Hold tags are stocked at the line.",
+      "clause": "8.7",
+      "whyItMatters": "Staff know how to control nonconforming output.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The supervisor describes sound control. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Ingredient receiving records: each of 14 deliveries this week has a certificate checked against the specification.",
+      "clause": "8.4",
+      "whyItMatters": "Externally provided inputs are verified.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Receiving checks are complete. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "conforming",
+      "text": "Line start-up checklist for line 2 today is completed and signed at 6:10 a.m.",
+      "clause": "8.5.1",
+      "whyItMatters": "Start-up checks are carried out as planned.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The checklist is complete. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "conforming",
+      "text": "Laboratory results register is complete for yesterday's 5 batches.",
+      "clause": "7.5.3",
+      "whyItMatters": "Results are retained.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The register is complete. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "A radio is playing quietly in the packing area.",
+      "clause": "7.1.4",
+      "whyItMatters": "Background music is not a quality requirement in this setting.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "A radio does not affect conformity here.",
+      "plantedPool": false
+    },
+    {
+      "id": "E13",
+      "kind": "redHerring",
+      "text": "A handwritten note on the board reads \"remember team meeting 2 p.m.\"",
+      "clause": "7.5.3",
+      "whyItMatters": "A reminder note sets no product requirement.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Reminders are not controlled documents.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What should happen on line 2 right now?",
+      "options": [
+        "Continue packing and fix issues after the shift",
+        "Stop packing, hold the cases packed with artwork revision 4, load revision 5, and inform quality",
+        "Pack with revision 4 until the reel runs out",
+        "Scrap all cartons in the building"
+      ],
+      "bestIndex": 1,
+      "rationale": "The wrong artwork affects output now. Stopping and holding limits exposure; the other issues can be corrected in parallel."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold cases packed with artwork revision 4 and the oat flakes without lot labels"
+    ],
+    "correction": [
+      "Load artwork revision 5, replace recipe sheet version 7, relabel or reject unidentified bags, and complete scale checks before use"
+    ],
+    "cause": [
+      "Line start-up checks do not include artwork revision, recipe version, or scale verification"
+    ],
+    "corrective": [
+      "Add artwork, recipe version, and scale verification to the start-up checklist with a stop point"
+    ],
+    "effectiveness": [
+      "Audit start-ups weekly for six weeks for artwork and version errors"
+    ]
+  },
+  "debriefText": {
+    "found": "You covered the line from ingredients to release.",
+    "missed": "At start-up, check what was loaded overnight: reels, recipes, and scales.",
+    "falseFinding": "A radio and a meeting reminder do not affect conformity."
+  }
+}

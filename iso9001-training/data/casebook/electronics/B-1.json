@@ -1,0 +1,298 @@
+{
+  "id": "ELX-B-01",
+  "pack": "electronics",
+  "type": "B",
+  "title": "Lot Genealogy",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "A customer of Meridian Microworks reports thickness out of limit on wafers from shipped lot {{lot}}. You need to trace the lot genealogy: which child lots, tools, and gauges were involved, and what else is affected. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Scope accuracy",
+  "branches": [
+    "Mapping",
+    "Control"
+  ],
+  "tokens": {
+    "lot": [
+      "L-7741",
+      "L-8120",
+      "L-6655"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Manufacturing execution system",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Lot history for {{lot}}",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Lot split and merge records",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Metrology",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Gauge TG-5 calibration record",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Measurement data for {{lot}}",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Polish bay",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Tool log for polisher P-2",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Pad change record",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Shipping",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Shipping records for child lots",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Observe",
+          "label": "Box labels",
+          "evidenceId": "E11"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Hold records",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Customer-supplied wafer register",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Process engineer",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "How rework lots are named",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Shift report formatting",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Lot history for {{lot}} shows polisher P-2, gauge TG-5, and a split into child lots {{lot}}.1 and {{lot}}.2.",
+      "clause": "8.5.2",
+      "whyItMatters": "Genealogy records link the lot to tools and instruments.",
+      "missedExplanation": "This record is the map for the trail.",
+      "falseFindingNote": "Complete history. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Split record: child lot {{lot}}.2 was merged with lot L-7790 for shipping; the merged carrier carries only the L-7790 number.",
+      "clause": "8.5.2",
+      "unlockedBy": [
+        "E1"
+      ],
+      "whyItMatters": "Identity must be kept through merges; otherwise affected wafers ship under another lot.",
+      "missedExplanation": "Follow every child lot to its end.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Gauge TG-5 failed its calibration 2 days after measuring {{lot}}; it read 0.8 micrometers low. No review of earlier results is recorded.",
+      "clause": "7.1.5",
+      "unlockedBy": [
+        "E1"
+      ],
+      "whyItMatters": "When an instrument is found out of tolerance, the validity of earlier results must be assessed.",
+      "missedExplanation": "Check calibration results after the lot date, not only before.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "conforming",
+      "text": "Measurement data shows {{lot}} passed at 0.3 micrometers inside the upper limit.",
+      "clause": "8.6",
+      "whyItMatters": "The lot passed as measured; the gauge error explains the escape.",
+      "missedExplanation": "Conforming as recorded.",
+      "falseFindingNote": "The data was recorded correctly.",
+      "plantedPool": false
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Polisher P-2 tool log shows a pad change was overdue by 140 wafers when {{lot}} ran.",
+      "clause": "8.5.1",
+      "whyItMatters": "Controlled conditions include defined consumable changes.",
+      "missedExplanation": "Compare consumable intervals with actual use.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "observation",
+      "text": "Pad change record form PC-2 does not show wafer count at the change, so intervals are calculated by hand.",
+      "clause": "7.5.1",
+      "whyItMatters": "Recording the count would make the control visible.",
+      "missedExplanation": "Ask how the interval is known.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Shipping records show child lot {{lot}}.1 and merged lot L-7790 went to 2 different customers.",
+      "clause": "8.5.2",
+      "whyItMatters": "The organization must know where affected output went.",
+      "missedExplanation": "Trace shipments for every child lot.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Hold record H-219 places all remaining {{lot}} material on hold as of today.",
+      "clause": "8.7",
+      "whyItMatters": "Containment started.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Hold is in place. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Customer-supplied wafer register for the customer is current.",
+      "clause": "8.5.3",
+      "whyItMatters": "Customer property recorded.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Register current. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "observation",
+      "text": "Engineer: \"Rework lots get a B suffix, but some technicians use .R instead.\" 2 naming styles found in week 30.",
+      "clause": "8.5.2",
+      "whyItMatters": "Consistent naming supports traceability.",
+      "missedExplanation": "Ask how special lots are named.",
+      "plantedPool": true
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Box labels show lot number, quantity, and date in the defined format.",
+      "clause": "8.5.2",
+      "whyItMatters": "Labels correct.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Labels are correct.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "Shift reports use different fonts.",
+      "clause": "7.5.2",
+      "whyItMatters": "Formatting is not a requirement.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Formatting is not a finding.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What is the scope of containment and review?",
+      "options": [
+        "Lot {{lot}} only",
+        "{{lot}} and both child lots, merged lot L-7790, and every lot measured on TG-5 since its last good calibration",
+        "All wafers ever polished on P-2",
+        "Only wafers still on site"
+      ],
+      "bestIndex": 1,
+      "rationale": "The merge, the gauge error, and the shipments each widen the scope."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold remaining material and notify both customers; review all lots measured on TG-5 since its last good calibration"
+    ],
+    "correction": [
+      "Re-measure held wafers with a verified gauge and disposition as authorized"
+    ],
+    "cause": [
+      "Merges do not preserve child lot identity, gauge failures do not trigger a review of earlier results, and pad changes are not counted"
+    ],
+    "corrective": [
+      "Block merges that drop lot identity; add an automatic look-back on failed calibration; record wafer count at pad changes"
+    ],
+    "effectiveness": [
+      "Audit merge records and calibration look-backs for three months"
+    ]
+  },
+  "debriefText": {
+    "found": "You traced the genealogy through splits, merges, and the gauge.",
+    "missed": "The most-missed card is the gauge failing calibration after the lot ran.",
+    "falseFinding": "Correct labels and formatting are not problems."
+  }
+}

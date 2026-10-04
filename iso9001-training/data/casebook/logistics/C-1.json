@@ -1,0 +1,270 @@
+{
+  "id": "LOG-C-01",
+  "pack": "logistics",
+  "type": "C",
+  "title": "The Weekly Mislabel",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Every week at Meridian Logistics one or two outbound pallets leave with another order's label. Each time the customer is called and the pallet swapped. Corrective action CA-60 says \"dispatch team reminded\". You have 12 visit points to interview staff and reach a system cause.",
+  "visitPoints": 12,
+  "goal": "Cause depth",
+  "branches": [
+    "Cause"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Corrective action CA-60",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Mislabel records",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Label printer area",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Label printing process",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Ask",
+          "label": "Dispatch clerk: how labels are printed",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "IT",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Label print change history",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Dispatch lanes",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Lane check method",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "Loader: how labels are applied",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Training",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Dispatch training records",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Shift lead",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Radio chatter",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Shift start time",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Review",
+          "label": "Peak volume chart",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "CA-60 cause \"team error\", action \"reminded\", closed without check; mislabels continued at 6 in 6 weeks.",
+      "clause": "10.2",
+      "whyItMatters": "Corrective action must remove the cause and be checked.",
+      "missedExplanation": "Check whether the problem stopped.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "observation",
+      "text": "Mislabel records show all cases on Mondays and Thursdays, the 2 peak days, with batch printing (records ML-1 to ML-6).",
+      "clause": "9.1.3",
+      "whyItMatters": "Pattern points to the batch printing method.",
+      "missedExplanation": "Look for timing patterns.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Labels for up to 30 pallets print in one batch onto a shared tray; loaders pick labels from the tray by hand.",
+      "clause": "8.5.2",
+      "whyItMatters": "Identification methods must prevent mix-ups.",
+      "missedExplanation": "Watch how labels travel to the pallet.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "conforming",
+      "text": "Clerk: \"On peak days we batch print to keep up. I raised it as a risk last month.\" Risk note RN-4 exists.",
+      "clause": "7.3",
+      "whyItMatters": "The clerk raised the risk.",
+      "missedExplanation": "Leads to the method.",
+      "falseFindingNote": "The clerk raised it properly.",
+      "plantedPool": false
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Change IT-33, 3 months ago, enabled batch printing to save time; no review of its effect on labeling.",
+      "clause": "8.5.6",
+      "whyItMatters": "Changes must be reviewed for effect.",
+      "missedExplanation": "Ask what changed when the problem began.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Lane check LC-2 counts pallets but does not scan labels against orders.",
+      "clause": "8.6",
+      "whyItMatters": "Checks must verify the characteristic that matters.",
+      "missedExplanation": "Read what the check actually verifies.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Loader applies labels as trained.",
+      "clause": "7.2",
+      "whyItMatters": "Method followed.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "As trained.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Training records for dispatch are current.",
+      "clause": "7.2",
+      "whyItMatters": "Training current; not the gap.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Current.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "Radio chatter is constant.",
+      "clause": "7.4",
+      "whyItMatters": "Not linked.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not linked.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Shift starts at 6 a.m. as planned.",
+      "clause": "7.1.2",
+      "whyItMatters": "Not linked.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not linked.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "observation",
+      "text": "Risk note RN-4 on batch printing was logged 5 weeks ago and has no owner or action.",
+      "clause": "6.1",
+      "whyItMatters": "Raised risks should be assessed and addressed.",
+      "missedExplanation": "Check what happened to raised risks.",
+      "plantedPool": true
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which statement best describes the system cause?",
+      "options": [
+        "Loaders are careless",
+        "Batch printing introduced without review puts many labels on one tray, the lane check does not scan labels against orders, and a raised risk was not acted on",
+        "Customers order too much on peak days",
+        "Labels are poor quality"
+      ],
+      "bestIndex": 1,
+      "rationale": "The cause is in the method, change review, and checks."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Scan-check every peak-day pallet label against its order before loading"
+    ],
+    "correction": [
+      "Swap mislabeled pallets and inform customers"
+    ],
+    "cause": [
+      "Unreviewed batch printing, a lane check that does not verify labels, and an unassigned risk note"
+    ],
+    "corrective": [
+      "Print labels per pallet at the lane, add label-to-order scanning, and assign owners to risk notes",
+      "Reopen CA-60"
+    ],
+    "effectiveness": [
+      "Track mislabels for twelve weeks, target zero"
+    ]
+  },
+  "debriefText": {
+    "found": "You linked the timing to the print change and the check.",
+    "missed": "Ask what happened to risks staff raised.",
+    "falseFinding": "Radio and shift times were not causes."
+  }
+}

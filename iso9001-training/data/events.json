@@ -1,0 +1,18 @@
+[
+{"id":"E01","text":"An outdated revision of an instruction, template, or procedure is used at Finishing.","mitigatedBy":["C03"],"impact":"2 work items defective"},
+{"id":"E02","text":"A measuring tool or test method drifts; false passes occur.","mitigatedBy":["C01"],"impact":"1 defective work item passes the final check"},
+{"id":"E03","text":"A new person is assigned to the core process without qualification.","mitigatedBy":["C02"],"impact":"Core process defect probability +15 points this round"},
+{"id":"E04","text":"An externally provided input is out of specification.","mitigatedBy":["C04"],"impact":"2 work items defective (1 with C04)"},
+{"id":"E05","text":"A customer reports a defect on a delivered work item.","mitigatedBy":["C05"],"impact":"4 work items held for review (1 with C05)"},
+{"id":"E06","text":"A change to the core process is made without review.","mitigatedBy":["C06"],"impact":"Core process defect probability +20 points this round"},
+{"id":"E07","text":"A work environment disruption (conditions, power, system outage, staffing gap).","mitigatedBy":["C14"],"impact":"2 work items defective at Finishing (1 with C14)"},
+{"id":"E08","text":"The final check finds a defective work item; a colleague suggests releasing it to meet the delivery date.","mitigatedBy":["C09","C12"],"impact":"Without C12 the team may yield to the pressure"},
+{"id":"E09","text":"A repeat of an earlier complaint type.","mitigatedBy":["C10"],"impact":"Repeat penalty if an earlier escape occurred"},
+{"id":"E10","text":"A surprise customer audit.","mitigatedBy":["C11"],"impact":"Reputation -2 unless at least 8 controls are owned"},
+{"id":"E11","text":"Rush order: pressure to skip the final check.","mitigatedBy":["C08","C12"],"impact":"Final check skipped; escapes likely"},
+{"id":"E12","text":"Core process equipment or system outage.","mitigatedBy":["C14"],"impact":"Core capacity -2 for one round (-1 with C14)"},
+{"id":"E13","text":"A measuring tool is found past its verification date during an audit walk.","mitigatedBy":["C01"],"impact":"Audit points lost; data validity questioned"},
+{"id":"E14","text":"Shift or team handoff misses a verbal process change.","mitigatedBy":["C03","C06"],"impact":"1 work item defective; no record of the change"},
+{"id":"E15","text":"The customer changes a requirement mid-order.","mitigatedBy":["C15"],"impact":"2 work items processed to the wrong requirement"},
+{"id":"E16","text":"An unrecorded training gap is found.","mitigatedBy":["C11","C02"],"impact":"Found later by the customer: penalty (halved with C02, none with C11)"}
+]

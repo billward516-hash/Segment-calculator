@@ -1,0 +1,269 @@
+{
+  "id": "HCS-D-01",
+  "pack": "healthcare",
+  "type": "D",
+  "title": "The Revised Transfer Form",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Meridian Care plans to replace the paper inter-ward transfer form with a revised version TF-3 next Monday. This visit covers management system topics only. Clinical decisions, clinical standards, and law are outside its scope; the investigator does not judge clinical care. You have 12 visit points to assess whether the change has been reviewed for risks, controls, communication, and records.",
+  "visitPoints": 12,
+  "goal": "Completeness",
+  "branches": [
+    "Control"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Document control",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Change record for TF-3",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Draft TF-3",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Wards",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Ward managers: have you seen TF-3",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Stock of old forms",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Risk register",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Risk assessment for the change",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Records",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Retention rules for transfer forms",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Training",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Briefing plan",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Pilot",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Pilot results",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Observe",
+          "label": "Form colour",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Font size",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Ask",
+          "label": "Who owns the form",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Change record DC-55 states the reason, the forms affected, and the approvers.",
+      "clause": "6.3, 7.5.2",
+      "whyItMatters": "Change properly started.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Draft TF-3 has a version number, owner, and approval block.",
+      "clause": "7.5.2",
+      "whyItMatters": "Document identification in place.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Correct.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "3 of 5 ward managers have not seen TF-3; go-live is in 4 days (survey note W-3).",
+      "clause": "7.4",
+      "whyItMatters": "Changes must be communicated to those who use them.",
+      "missedExplanation": "Ask the users.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Wards hold about 400 old TF-2 forms; DC-55 has no withdrawal step.",
+      "clause": "7.5.3",
+      "whyItMatters": "Obsolete documents must be withdrawn or marked.",
+      "missedExplanation": "Ask what happens to old stock.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "No risk assessment of the change exists; TF-3 removes the \"pending tasks\" section found on TF-2 (section D).",
+      "clause": "6.1",
+      "whyItMatters": "Risks from changes must be considered.",
+      "missedExplanation": "Compare old and new versions for removed content.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "observation",
+      "text": "Retention rules list TF-2 only; TF-3 is not added (schedule RS-2).",
+      "clause": "7.5.3",
+      "whyItMatters": "Records rules should cover the new form.",
+      "missedExplanation": "Check retention schedules.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Briefing plan BP-3 is a single email.",
+      "clause": "7.2",
+      "whyItMatters": "A fuller briefing would support adoption.",
+      "missedExplanation": "Ask how users will learn.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "nonconformity",
+      "text": "Pilot on 1 ward for 2 days: 6 of 20 transfers had blank fields; no review of results is recorded (pilot log PL-1).",
+      "clause": "8.5.6",
+      "whyItMatters": "Change results must be reviewed before rollout.",
+      "missedExplanation": "Read pilot results and the response to them.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "TF-3 is printed on a different colour paper.",
+      "clause": "7.5.2",
+      "whyItMatters": "Colour aids recognition.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not an issue.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Font size is slightly smaller than TF-2 but meets the house style.",
+      "clause": "7.5.2",
+      "whyItMatters": "Meets house style.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Meets style.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "conforming",
+      "text": "The document owner is named and available.",
+      "clause": "5.3",
+      "whyItMatters": "Responsibility defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Named owner.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Should TF-3 go live on Monday?",
+      "options": [
+        "Yes",
+        "Not yet. Complete the risk review of the removed section, review pilot results, brief every ward, plan withdrawal of TF-2, and update retention rules; then set a date",
+        "Go live on 1 ward only without review",
+        "Cancel the change"
+      ],
+      "bestIndex": 1,
+      "rationale": "The change may be sound but its review is incomplete."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Keep TF-2 in use until TF-3 is ready"
+    ],
+    "correction": [
+      "Complete risk review, pilot review, briefing, withdrawal plan, and retention update"
+    ],
+    "cause": [
+      "The document change process does not require risk review, pilot review, or withdrawal planning"
+    ],
+    "corrective": [
+      "Add these steps to the document change procedure"
+    ],
+    "effectiveness": [
+      "Audit the next five document changes"
+    ]
+  },
+  "debriefText": {
+    "found": "You checked communication, withdrawal, risk, and pilot review.",
+    "missed": "Compare old and new versions for content that was removed.",
+    "falseFinding": "Paper colour and font are not findings."
+  }
+}

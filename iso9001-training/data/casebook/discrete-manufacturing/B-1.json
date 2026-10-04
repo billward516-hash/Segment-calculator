@@ -1,0 +1,356 @@
+{
+  "id": "MFG-B-01",
+  "pack": "discrete-manufacturing",
+  "type": "B",
+  "title": "The Shifted Batch",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "A customer of Meridian Works reports that ten brackets from delivered batch {{batch}} failed a fit check at assembly. You are the internal auditor asked to trace the batch through the records. You have 12 visit points to trace batch {{batch}} and decide how far the problem extends before the containment meeting.",
+  "visitPoints": 12,
+  "goal": "Scope accuracy",
+  "branches": [
+    "Mapping",
+    "Control"
+  ],
+  "tokens": {
+    "batch": [
+      "4417",
+      "5203",
+      "3861"
+    ],
+    "batch2": [
+      "4418",
+      "5204",
+      "3862"
+    ],
+    "pallet": [
+      "P-31",
+      "P-17",
+      "P-44"
+    ]
+  },
+  "referenceSelection": {
+    "evidence": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6",
+      "E7",
+      "E8",
+      "E9",
+      "E10"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Shipping office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Pack-out records for the last two batches",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Machining cell",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Traveler for batch {{batch}}",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Machine 3 setup sheet",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Coolant concentration log",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notes posted at machine 3",
+          "evidenceId": "E9"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Calibration cabinet",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Calibration record for caliper CAL-12",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Observe",
+          "label": "Instrument storage and labels",
+          "evidenceId": "E13"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Receiving",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Material receiving log",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "Bar stock rack",
+          "evidenceId": "E11"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Nonconformance log",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Review",
+          "label": "Final inspection record for batch {{batch}}",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Review",
+          "label": "Reject trend chart for machine 3",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Cell supervisor",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "How drawing revisions reach the cell",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Traveler for batch {{batch}} lists material lot M-208, machine 3, and caliper CAL-12. The setup sheet reference is signed by the setter.",
+      "variants": [
+        "The traveler for batch {{batch}} records material lot M-208, machine 3, and caliper CAL-12, with a signed setup reference."
+      ],
+      "clause": "8.5.2",
+      "whyItMatters": "Identification on the traveler lets the organization trace a batch to its material, machine, and instruments. Here the traveler is complete, and it is the key to the other records.",
+      "missedExplanation": "The traveler is the map for the whole trail. Reading it first shows which instrument and machine to check next.",
+      "falseFindingNote": "A complete, signed traveler is conforming. Its value is in the leads it gives you.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Receiving log: the material certificate for lot M-208 matches purchase order 7716 and is filed with the delivery note.",
+      "clause": "8.4",
+      "whyItMatters": "Bought-in material is checked against the order before use. The check is recorded, so the material is not a cause here.",
+      "missedExplanation": "Confirming that the material is conforming narrows the investigation to the cell and the instruments.",
+      "falseFindingNote": "The certificate matches the order and is filed. This is evidence of control, not a problem.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Machine 3 setup sheet cites drawing revision B. The document system shows revision C was released nine days before batch {{batch}} started.",
+      "variants": [
+        "The setup sheet at machine 3 refers to drawing revision B, although the document system released revision C nine days before batch {{batch}} began."
+      ],
+      "clause": "7.5.3",
+      "unlockedBy": [
+        "E1"
+      ],
+      "whyItMatters": "People at the point of use must work from the current approved version of a document. An obsolete drawing at the machine can produce parts to the wrong requirement.",
+      "missedExplanation": "The setup sheet revision is easy to read past. Compare every revision letter at the point of use with the document system.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Calibration record: caliper CAL-12 was due for calibration 11 days before batch {{batch}} was completed. No extension or verification is recorded.",
+      "clause": "7.1.5",
+      "unlockedBy": [
+        "E1"
+      ],
+      "whyItMatters": "Measurements are only trustworthy when the instrument is calibrated or verified at the set interval. Results taken with an overdue instrument cannot be relied on, and earlier results need review.",
+      "missedExplanation": "This card is often missed because it needs the instrument identity from the traveler. Note every instrument number on a traveler and check its status.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Pack-out record: pallet {{pallet}} holds parts from batches {{batch}} and {{batch2}}. There is no separation label between the batches.",
+      "variants": [
+        "The pack-out sheet shows batches {{batch}} and {{batch2}} loaded together on pallet {{pallet}} with no label separating them."
+      ],
+      "clause": "8.5.2",
+      "whyItMatters": "Outputs must stay identified so that an affected batch can be found and held. A mixed pallet widens the population that must be reviewed.",
+      "missedExplanation": "Pack-out records show where parts went. When a batch is shared with another, the scope of containment grows.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Nonconformance log entry NC-0193: spindle drift on machine 3, opened six days before the complaint. No containment is recorded.",
+      "clause": "8.7",
+      "whyItMatters": "When a process problem is known, its output must be identified and controlled so that it is not delivered by mistake.",
+      "missedExplanation": "Open nonconformance records are a quick way to find known problems. Check what was done with the output while the record was open.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Cell supervisor: \"We keep running revision B until the old stock is used up. Nobody told us to stop.\" (interview note 14)",
+      "clause": "7.5.3, 8.5.6",
+      "supports": "E3",
+      "whyItMatters": "This statement confirms that an obsolete revision is used on purpose and that the release of revision C was not managed as a change at the cell.",
+      "missedExplanation": "Interviews often confirm what a record suggests. Ask how documents and changes reach the point of use.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "redHerring",
+      "text": "Coolant log shows one corrected entry: a single line through the error, the initials of the operator, and the date.",
+      "clause": "7.5.3",
+      "whyItMatters": "A correction that leaves the original entry readable, with initials and date, is a sound way to correct a record.",
+      "missedExplanation": "Not applicable: this card is conforming.",
+      "falseFindingNote": "A properly corrected record is conforming. Reporting it as a nonconformity lowers precision.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "A handwritten note on machine 3 reads \"check Z offset\". The operator explains that it repeats step 6 of the current work instruction WI-31.",
+      "clause": "7.5.3",
+      "whyItMatters": "Informal notes are acceptable when they agree with the current instruction and do not replace it.",
+      "missedExplanation": "Not applicable: this card is conforming.",
+      "falseFindingNote": "The note matches the current instruction. An unusual-looking note is not a nonconformity by itself.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "conforming",
+      "text": "Final inspection record for batch {{batch}} is signed by inspector badge 207, who is listed as authorized in the competence matrix.",
+      "clause": "8.6, 7.2",
+      "whyItMatters": "Release is signed by an authorized person whose competence is recorded. The release record is in order.",
+      "missedExplanation": "The release signature is in order. The problem lies upstream of final inspection.",
+      "falseFindingNote": "The inspector is authorized and the record is signed. This is conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "nonconformity",
+      "text": "Bar stock rack slot 4 holds offcuts from material lots M-208 and M-211 under one tag that names lot M-208 only.",
+      "clause": "8.5.2",
+      "whyItMatters": "Material must remain identified so that each batch can be traced to its material lot. Mixed offcuts break the link between batch and lot.",
+      "missedExplanation": "Storage areas hold traceability evidence too. Read the tags against what is in the slot.",
+      "plantedPool": true
+    },
+    {
+      "id": "E12",
+      "kind": "observation",
+      "text": "Reject trend chart for machine 3 shows rejects rising from 0.4 to 2.1 percent over four weeks. The monthly review minutes of week 11 do not mention it.",
+      "clause": "9.1.3",
+      "whyItMatters": "Data that is collected should be analyzed and used. The chart showed a warning before the complaint. This is an opportunity to improve the review, not yet a missed requirement.",
+      "missedExplanation": "Trend data often shows an issue before a customer does. Ask whether anyone reviewed it.",
+      "plantedPool": true
+    },
+    {
+      "id": "E13",
+      "kind": "conforming",
+      "text": "Instrument cabinet: each of the 14 instruments carries a label with its identity and due date; labels match the register.",
+      "clause": "7.1.5",
+      "whyItMatters": "Instruments are identified so that their calibration status can be seen at the point of use.",
+      "missedExplanation": "The labelling system works. The gap is in what happens when a due date passes.",
+      "falseFindingNote": "Labels and the register agree. The cabinet itself is conforming.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which work items need review before the containment meeting closes?",
+      "options": [
+        "Only the ten brackets the customer reported",
+        "All of batch {{batch}}; the parts of batch {{batch2}} on pallet {{pallet}}; any parts measured with CAL-12 in the overdue window; and production from machine 3 since record NC-0193 was opened",
+        "All of batch {{batch}} only",
+        "Every part made at Meridian Works in the last year"
+      ],
+      "bestIndex": 1,
+      "rationale": "The mixed pallet, the overdue instrument, and the open drift record each widen the affected population. The scope should follow the evidence: wide enough to include every affected item, and no wider than the evidence supports.",
+      "optionFeedback": [
+        "Ten reported parts are a symptom. The evidence shows the same conditions applied to the whole batch and beyond.",
+        "This scope follows each trail of evidence: batch identity, instrument status, and the known machine problem.",
+        "The batch is affected, but the mixed pallet, the instrument, and the drift record reach further.",
+        "A scope with no link to the evidence wastes effort and delays the response to the real problem."
+      ]
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold and review the identified work items, including stock at the customer",
+      "Notify the customer of the scope under review and the expected timing"
+    ],
+    "correction": [
+      "Re-inspect the held parts with a verified instrument; rework or dispose as authorized"
+    ],
+    "cause": [
+      "Revisions are not pushed to the cell and obsolete stock is not withdrawn",
+      "Calibration due dates give no alert before an instrument becomes overdue",
+      "Pack-out practice permits mixed pallets without separation labels"
+    ],
+    "corrective": [
+      "Revise the document release and withdrawal process so the cell receives revisions and removes obsolete copies",
+      "Add calibration due-date alerts and require separation labels on any shared pallet"
+    ],
+    "effectiveness": [
+      "Audit drawing revisions at the cell and overdue instruments monthly for three months, and check that no mixed pallets ship"
+    ]
+  },
+  "debriefText": {
+    "found": "You followed the traveler to the records that matter. A records trail succeeds when each card leads to the next.",
+    "missed": "The most-missed card in this case is usually the overdue caliper, because it needs the instrument number from the traveler.",
+    "falseFinding": "A properly corrected record and a note that matches the current instruction are both conforming. Report what breaks a requirement, not what looks unusual."
+  }
+}

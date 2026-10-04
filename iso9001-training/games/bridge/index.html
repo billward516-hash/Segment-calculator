@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 Bridge Games</title>
+<style>
+:root{--bg:#ffffff;--fg:#1b1f24;--muted:#46515c;--line:#b9c2cb;--panel:#f1f4f7;--primary:#0b4f9c;--primary-fg:#ffffff;--warn:#8a2d00;--warn-bg:#fff1e8;--ok:#0a5c2e;--ok-bg:#e7f6ec;--focus:#b85c00;--font:18px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151b;--fg:#e9eef3;--muted:#b0bac4;--line:#3b4651;--panel:#19212a;--primary:#8dbdff;--primary-fg:#08203c;--warn:#ffb88a;--warn-bg:#3a2316;--ok:#8fe0ae;--ok-bg:#12301f;--focus:#ffcf70}}
+:root[data-theme="dark"]{--bg:#10151b;--fg:#e9eef3;--muted:#b0bac4;--line:#3b4651;--panel:#19212a;--primary:#8dbdff;--primary-fg:#08203c;--warn:#ffb88a;--warn-bg:#3a2316;--ok:#8fe0ae;--ok-bg:#12301f;--focus:#ffcf70}
+*{box-sizing:border-box}
+html{font-size:var(--font)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
+header.top{border-bottom:2px solid var(--line);padding:.6rem 1rem;display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;align-items:center;justify-content:space-between}
+header.top h1{font-size:1.3rem;margin:0}
+header.top .meta{color:var(--muted);font-size:.9rem}
+nav.views{display:flex;flex-wrap:wrap;gap:.4rem;padding:.6rem 1rem;border-bottom:1px solid var(--line);background:var(--panel)}
+main{padding:1rem;max-width:1300px;margin:0 auto}
+h2{font-size:1.35rem;margin:1.2rem 0 .5rem}
+h3{font-size:1.1rem;margin:1rem 0 .4rem}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:.4rem .8rem;cursor:pointer;color:var(--fg)}
+button:hover:not(:disabled){border-color:var(--primary)}
+button.primary{background:var(--primary);color:var(--primary-fg);border-color:var(--primary);font-weight:600}
+button.big{font-size:1.15rem;padding:.7rem 1.4rem}
+button:disabled{opacity:.6;cursor:not-allowed}
+button[aria-current="page"],button[aria-pressed="true"]{border-color:var(--primary);box-shadow:inset 0 -4px 0 var(--primary);font-weight:700}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+input,select,textarea{max-width:100%;background:var(--bg);border:2px solid var(--line);border-radius:6px;padding:.3rem .5rem}
+textarea{width:100%;font-family:ui-monospace,Consolas,monospace;font-size:.85rem;min-height:10rem}
+label{font-weight:600}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.8rem 1rem;margin:.6rem 0}
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.caution{border:3px solid var(--warn);background:var(--warn-bg);color:var(--fg);border-radius:8px;padding:.7rem 1rem;margin:0 0 1rem}
+.caution .caution-label{font-weight:800;color:var(--warn);text-transform:uppercase;letter-spacing:.04em;font-size:.85rem}
+.caution p{margin:.2rem 0 0}
+.conf{display:inline-block;border:2px solid var(--warn);color:var(--warn);border-radius:4px;padding:0 .35rem;font-size:.8rem;font-weight:700;vertical-align:middle}
+.statement{border:3px solid var(--primary);border-radius:10px;padding:1rem 1.2rem;font-size:1.6rem;font-weight:600;background:var(--bg)}
+.answer{border:3px solid var(--ok);background:var(--ok-bg);border-radius:10px;padding:.8rem 1rem;margin-top:.8rem}
+table{border-collapse:collapse;width:100%;margin:.4rem 0}
+th,td{border:1px solid var(--line);padding:.35rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--panel)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.muted{color:var(--muted)}
+fieldset{border:1px solid var(--line);border-radius:8px;margin:.4rem 0;padding:.4rem .8rem}
+legend{font-weight:700}
+.opt{display:block;margin:.25rem 0;font-weight:400}
+.cons{border-left:4px solid var(--line);padding-left:.6rem;margin:.3rem 0}
+.cons.p2{border-left-color:var(--ok)}
+.cons.p0{border-left-color:var(--warn)}
+.safety{border:2px solid var(--primary);border-radius:8px;padding:.5rem .9rem;margin:.6rem 0}
+.notice{border:2px solid var(--line);border-radius:8px;padding:.6rem .9rem;font-size:.85rem;color:var(--muted);margin-top:1.5rem}
+.err{color:var(--warn);font-weight:700}
+.sr{position:absolute;left:-9999px}
+@media print{nav.views,.tools,button,.noprint{display:none!important}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div><h1>2026 Bridge Games</h1><div class="meta" id="hdrmeta"></div></div>
+  <div class="tools row">
+    <button type="button" data-act="textsize" aria-pressed="false">Large text</button>
+    <button type="button" data-act="theme">Switch theme</button>
+  </div>
+</header>
+<nav class="views" aria-label="Games" id="nav"></nav>
+<main id="app" tabindex="-1"></main>
+<div id="live" class="sr" role="status" aria-live="polite"></div>
+<footer><main><p class="notice">This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body. Fictional organization: Meridian Group. Examples are illustrative. Statements about the 2026 edition are paraphrased from secondary commentary, carry confidence labels, and are unverified.</p></main></footer>
+
+<script type="application/json" id="bridge-config">{"teams":4,"teamNames":[],"seed":2026,"sprintStatements":12,"points":{"match":2,"verify":1,"support":1}}</script>
+<script type="application/json" id="bridge-data">{"meta":{"caution":"CAUTION: PRELIMINARY 2026 INFORMATION. This section describes the 2026 edition of ISO 9001 using the best available secondary commentary and informed estimates. It has not been verified against the published standard and may contain errors, omissions, or incorrect clause references. Do not use it as a substitute for the standard in audit preparation, certification decisions, procedure revisions, or training records. Always consult the published ISO 9001:2026 text and your certification body.","sprintCards":{"unchanged":"Unchanged","changed":"New or changed in 2026","verify":"Not sure; verify"},"cultureScoring":"Each role choice earns 0, 1 or 2 points. A supervisor or manager response that supports the person who raised the concern earns 1 extra point.","cultureSafety":["Fictional scenarios only.","No real names or incidents.","The facilitator stops any discussion that turns to real individuals.","Ethics content is reviewed by Human Resources or Legal before delivery; no disciplinary or legal guidance is given in this game."],"cultureRoles":["operator","technician","supervisor","manager"]},"sprintStatements":[{"id":"BS01","statement":"Top management promotes and demonstrates a quality culture and ethical behavior.","answer":"changed","alsoAccept":[],"clause2015":"5.1.1","clause2026":"5.1.1","confidence":"High","verifyStatus":"unverified","note":"Reported new expectation in 5.1.1."},{"id":"BS02","statement":"Awareness covers the organization's quality culture and ethical behavior.","answer":"changed","alsoAccept":[],"clause2015":"7.3","clause2026":"7.3","confidence":"High","verifyStatus":"unverified","note":"Awareness reported as expanded."},{"id":"BS03","statement":"Risks and opportunities are determined and addressed in separate subclauses.","answer":"changed","alsoAccept":[],"clause2015":"6.1","clause2026":"6.1.1 to 6.1.3","confidence":"High","verifyStatus":"unverified","note":"Reported restructuring of 6.1."},{"id":"BS04","statement":"QMS changes are planned with communication, monitoring, evaluation, and review.","answer":"changed","alsoAccept":[],"clause2015":"6.3","clause2026":"6.3","confidence":"High","verifyStatus":"unverified","note":"Reported strengthening of 6.3."},{"id":"BS05","statement":"Climate change is considered when the company determines its context.","answer":"unchanged","alsoAccept":[],"clause2015":"4.1","clause2026":"4.1","confidence":"High","verifyStatus":"unverified","note":"Already in force through Amendment 1:2024; now reported as part of the base text. No new action if the 2024 amendment was implemented."},{"id":"BS06","statement":"Interested parties may have climate-related requirements.","answer":"unchanged","alsoAccept":[],"clause2015":"4.2","clause2026":"4.2","confidence":"High","verifyStatus":"unverified","note":"Already in force through Amendment 1:2024; one source reports sharper emphasis on interested party requirements (Single)."},{"id":"BS07","statement":"The process approach and Plan, Do, Check, Act logic remain.","answer":"unchanged","alsoAccept":[],"clause2015":"4.4","clause2026":"4.4","confidence":"High","verifyStatus":"unverified","note":"Reported as carried forward."},{"id":"BS08","statement":"Risk-based thinking remains a principle.","answer":"unchanged","alsoAccept":[],"clause2015":"6.1","clause2026":"6.1.1 to 6.1.3","confidence":"High","verifyStatus":"unverified","note":"Reported as carried forward."},{"id":"BS09","statement":"Internal audit is required as a mechanism.","answer":"unchanged","alsoAccept":[],"clause2015":"9.2","clause2026":"9.2","confidence":"Medium","verifyStatus":"unverified","note":"No substantive change reported."},{"id":"BS10","statement":"Management review is held at planned intervals.","answer":"unchanged","alsoAccept":[],"clause2015":"9.3","clause2026":"9.3","confidence":"Medium","verifyStatus":"unverified","note":"No substantive change reported. Best estimate: inputs may reference culture, opportunities, or change effectiveness; check 9.3.2."},{"id":"BS11","statement":"Corrective action reacts to a nonconformity and checks effectiveness.","answer":"unchanged","alsoAccept":[],"clause2015":"10.2","clause2026":"10.2","confidence":"Medium","verifyStatus":"unverified","note":"No substantive change reported."},{"id":"BS12","statement":"Organizational knowledge is tied to the intended results of the QMS.","answer":"changed","alsoAccept":[],"clause2015":"7.1.6","clause2026":"7.1.6","confidence":"Medium","verifyStatus":"unverified","note":"Reported as broadened by two sources."},{"id":"BS13","statement":"The working environment note recognizes the influence of culture and ethical behavior.","answer":"changed","alsoAccept":[],"clause2015":"7.1.4","clause2026":"7.1.4","confidence":"Medium","verifyStatus":"unverified","note":"Reported by two sources."},{"id":"BS14","statement":"Continual improvement requirements are combined in one clause.","answer":"changed","alsoAccept":[],"clause2015":"10.1, 10.3","clause2026":"10.1","confidence":"Medium","verifyStatus":"unverified","note":"Consolidation reported by two sources; the clause detail is from one source (Single)."},{"id":"BS15","statement":"Annex A informative guidance is expanded.","answer":"changed","alsoAccept":[],"clause2015":"Annex A","clause2026":"Annex A","confidence":"High","verifyStatus":"unverified","note":"Reported by multiple sources. Annex A is informative, not a requirement."},{"id":"BS16","statement":"Annex B of the 2015 edition is removed.","answer":"changed","alsoAccept":["verify"],"clause2015":"Annex B","clause2026":"Removed","confidence":"Single","verifyStatus":"unverified","note":"One source only. Verify."},{"id":"BS17","statement":"Some definitions now appear in Clause 3 of ISO 9001 itself.","answer":"changed","alsoAccept":[],"clause2015":"3","clause2026":"3","confidence":"High","verifyStatus":"unverified","note":"Limited set of terms drawn from the ISO 9000 vocabulary standard."},{"id":"BS18","statement":"The quality policy is aligned with long-term strategic direction.","answer":"changed","alsoAccept":["verify"],"clause2015":"5.2.1","clause2026":"5.2.1","confidence":"Single","verifyStatus":"unverified","note":"One source only. Verify."},{"id":"BS19","statement":"Identification and traceability of work items are controlled.","answer":"unchanged","alsoAccept":["verify"],"clause2015":"8.5.2","clause2026":"8.5.2","confidence":"Unclear","verifyStatus":"unverified","note":"Clause 8 reported as carried forward in intent; sources differ on how much wording changed. Verify."},{"id":"BS20","statement":"Nonconforming outputs are identified and controlled to prevent unintended use.","answer":"unchanged","alsoAccept":["verify"],"clause2015":"8.7","clause2026":"8.7","confidence":"Unclear","verifyStatus":"unverified","note":"Clause 8 reported as carried forward in intent. Verify."},{"id":"BS21","statement":"Release of products and services happens only after planned arrangements are met.","answer":"unchanged","alsoAccept":["verify"],"clause2015":"8.6","clause2026":"8.6","confidence":"Unclear","verifyStatus":"unverified","note":"Clause 8 reported as carried forward in intent. Verify."},{"id":"BS22","statement":"External providers are controlled and their outputs verified.","answer":"unchanged","alsoAccept":["verify"],"clause2015":"8.4","clause2026":"8.4","confidence":"Best estimate","verifyStatus":"unverified","note":"Best estimate: intent unchanged, terminology aligned. Reasoning: harmonized terminology changes commonly touch this clause. Check 8.4.1 to 8.4.3."},{"id":"BS23","statement":"Leadership commitment is more strongly linked to improvement.","answer":"verify","alsoAccept":[],"clause2015":"5.1, 10.1","clause2026":"5.1.1, 10.1","confidence":"Unclear","verifyStatus":"unverified","note":"Some commentary reports this link; detail is thin. Verify."},{"id":"BS24","statement":"Measuring and monitoring resources are controlled and verified.","answer":"unchanged","alsoAccept":["verify"],"clause2015":"7.1.5","clause2026":"7.1.5","confidence":"Unclear","verifyStatus":"unverified","note":"No source reported a change; no source gave detail either. Verify."}],"culture":[{"id":"CU01","title":"The deadline and the open discrepancy","clause":"5.1.1, 8.6, 8.7","confidence":"High","situation":"A shipment is due to leave in two hours. Final check has found a discrepancy on one work item in the batch. The cause is not yet known. The customer has already called twice about the delivery.","roles":{"operator":{"prompt":"You found the discrepancy.","options":[{"text":"Flag and hold the work item, and tell the supervisor at once.","points":2,"consequence":"The item is contained. The supervisor has time to decide with facts.","supports":false},{"text":"Tell a colleague and carry on with the next item.","points":1,"consequence":"Word reaches the supervisor 40 minutes later. Less time to act.","supports":false},{"text":"Leave it in the batch; someone at final release will notice.","points":0,"consequence":"Nobody notices. The work item ships and the customer finds it.","supports":false}]},"technician":{"prompt":"You are asked to look at the discrepancy.","options":[{"text":"Check the measuring method and record the actual results, whatever they show.","points":2,"consequence":"The data is trustworthy. The team knows whether the item is truly nonconforming.","supports":false},{"text":"Give a quick opinion without recording anything.","points":1,"consequence":"The opinion helps, but there is no record to support the decision.","supports":false},{"text":"Suggest the instrument is probably wrong and the item is fine.","points":0,"consequence":"An unverified guess becomes the reason to ship.","supports":false}]},"supervisor":{"prompt":"The operator brings you the held item.","options":[{"text":"Thank the operator, keep the hold, and escalate to decide on the customer and the delivery.","points":2,"consequence":"The team sees that holding work is the right call. The customer gets an honest update.","supports":true},{"text":"Keep the hold but tell the operator they should have caught it earlier.","points":1,"consequence":"The item is safe, but next time the operator may hesitate to report.","supports":false},{"text":"Release the item to meet the date and deal with it later.","points":0,"consequence":"The release criteria are bypassed. If the item fails, the customer and the auditor will ask why.","supports":false}]},"manager":{"prompt":"The supervisor calls you about the late shipment.","options":[{"text":"Back the hold, call the customer yourself, and agree a partial or late delivery.","points":2,"consequence":"The customer hears the truth from a leader. Staff see leaders support the decision.","supports":true},{"text":"Ask for the decision to be made quickly and leave it to the supervisor.","points":1,"consequence":"The supervisor holds, but feels alone under pressure.","supports":false},{"text":"Ask whether the item really needs to be held.","points":0,"consequence":"The question signals that delivery matters more than conformity.","supports":false}]}},"debrief":"What made holding the work easy or hard? Who had the most influence on the outcome?"},{"id":"CU02","title":"The record that does not match","clause":"5.1.1, 7.5, 8.6","confidence":"High","situation":"A reading on a verification is slightly outside its limit. The record form has the target value pre-printed in the result box to save time. Writing the true value means a hold and a delay.","roles":{"operator":{"prompt":"You took the reading.","options":[{"text":"Cross out the pre-printed value, write the actual reading, and report it.","points":2,"consequence":"The record is true. The excursion is visible and can be acted on.","supports":false},{"text":"Leave the form blank and ask the technician.","points":1,"consequence":"The reading is not lost, but the record is incomplete for a time.","supports":false},{"text":"Leave the pre-printed target value; it is close enough.","points":0,"consequence":"The record is false. Nobody can trust the file if this comes to light.","supports":false}]},"technician":{"prompt":"The operator asks you what to do.","options":[{"text":"Confirm the reading, record the true value, and raise the form design as a problem.","points":2,"consequence":"The record is corrected and the form will be fixed so this does not recur.","supports":false},{"text":"Confirm the reading and record it, but say nothing about the form.","points":1,"consequence":"This case is right. The form will cause the same pressure next time.","supports":false},{"text":"Say the instrument often reads high and keep the target value.","points":0,"consequence":"A false record plus an unverified claim about the instrument.","supports":false}]},"supervisor":{"prompt":"You learn the form has the target value pre-printed.","options":[{"text":"Thank the team, remove the pre-printed values, and check other forms.","points":2,"consequence":"The cause of the pressure is removed. The team sees their report changed something.","supports":true},{"text":"Tell the team to be careful with the form.","points":1,"consequence":"Awareness rises, but the form still invites the wrong entry.","supports":false},{"text":"Ask why this is a problem if values are usually on target.","points":0,"consequence":"Signals that accurate records are optional.","supports":false}]},"manager":{"prompt":"The supervisor tells you about the form.","options":[{"text":"Say clearly that true values are expected even when they cause delay, and fund the form change.","points":2,"consequence":"Leaders show ethical behavior in records is a priority, with resources behind it.","supports":true},{"text":"Approve the change but say nothing to the team.","points":1,"consequence":"The form is fixed; the message about honesty is not heard.","supports":false},{"text":"Ask whether the delay could have been avoided.","points":0,"consequence":"The question puts schedule before honesty.","supports":false}]}},"debrief":"Which design choices in our own forms and systems make the wrong entry easier than the right one?"},{"id":"CU03","title":"The skipped verification","clause":"5.1.1, 7.3, 8.5.1","confidence":"High","situation":"A colleague skipped the first-item verification at the start of a run to catch up on time. The run has produced 30 work items since then.","roles":{"operator":{"prompt":"You saw the verification being skipped.","options":[{"text":"Ask your colleague to stop and verify now, and tell the supervisor so the 30 items can be checked.","points":2,"consequence":"The run is verified and the 30 items are assessed. Nothing unknown ships.","supports":false},{"text":"Mention it to your colleague but not to anyone else.","points":1,"consequence":"The verification may be done now, but the 30 items are not assessed.","supports":false},{"text":"Say nothing; it is not your station.","points":0,"consequence":"If the setting was wrong, all 30 items are affected and nobody knows.","supports":false}]},"technician":{"prompt":"You are asked to help assess the 30 items.","options":[{"text":"Perform the verification, then check a sample of the 30 items and record the results.","points":2,"consequence":"Facts replace guesses. The disposition can be decided on evidence.","supports":false},{"text":"Perform the verification only.","points":1,"consequence":"The current run is safe; the earlier items remain uncertain.","supports":false},{"text":"Assume the items are fine because the last run was fine.","points":0,"consequence":"An assumption is used in place of evidence.","supports":false}]},"supervisor":{"prompt":"The operator reports what happened.","options":[{"text":"Thank the operator, contain the 30 items, and ask the colleague what made skipping seem necessary.","points":2,"consequence":"Containment plus a cause question. The reporter is protected and the real pressure is found.","supports":true},{"text":"Contain the items and issue a warning to the colleague.","points":1,"consequence":"The items are safe, but people learn that reports lead to blame.","supports":false},{"text":"Tell the operator to mind their own station.","points":0,"consequence":"The next report will not come.","supports":false}]},"manager":{"prompt":"You hear the run was behind schedule.","options":[{"text":"Review the schedule pressure that led to the skip and make the verification time part of the plan.","points":2,"consequence":"The system cause is addressed. Verification is no longer in competition with output.","supports":true},{"text":"Remind everyone that verifications are mandatory.","points":1,"consequence":"Correct message, but the pressure that caused the skip remains.","supports":false},{"text":"Ask for overtime to catch up and move on.","points":0,"consequence":"The same pressure will produce the same skip.","supports":false}]}},"debrief":"What did the skip tell us about the plan, not only about the person?"},{"id":"CU04","title":"The near-miss nobody reported","clause":"5.1.1, 7.3","confidence":"High","situation":"Last month a team member who reported a problem was criticized in front of the team for slowing things down. Today a different person sees a near-miss: a work item almost went to the wrong customer.","roles":{"operator":{"prompt":"You saw the near-miss.","options":[{"text":"Report it through the reporting channel anyway.","points":2,"consequence":"The cause is found before it becomes a real escape.","supports":false},{"text":"Fix it quietly and tell nobody.","points":1,"consequence":"This item is safe; the cause remains and will recur.","supports":false},{"text":"Ignore it; reporting got the last person in trouble.","points":0,"consequence":"The near-miss repeats next week and the item ships.","supports":false}]},"technician":{"prompt":"The operator tells you about it privately.","options":[{"text":"Encourage the report, offer to go with them, and check the labeling method.","points":2,"consequence":"The report is made with support, and the technical cause is checked.","supports":false},{"text":"Check the labeling method yourself without a report.","points":1,"consequence":"The cause may be fixed, but there is no record or learning.","supports":false},{"text":"Advise them to keep quiet after what happened last time.","points":0,"consequence":"The silence spreads.","supports":false}]},"supervisor":{"prompt":"You receive the report.","options":[{"text":"Thank the reporter in public, act on the cause, and acknowledge the earlier criticism was wrong.","points":2,"consequence":"Trust begins to recover. People see reporting is valued.","supports":true},{"text":"Act on the cause but say nothing about last month.","points":1,"consequence":"The fix happens; the fear remains.","supports":false},{"text":"Ask why it was not prevented in the first place.","points":0,"consequence":"The reporter hears blame again.","supports":false}]},"manager":{"prompt":"You learn about both events.","options":[{"text":"Restate the non-punitive reporting expectation, make sure the reporting channel is known, and recognize good reports.","points":2,"consequence":"Leaders model the culture the standard is reported to expect.","supports":true},{"text":"Send an email about reporting.","points":1,"consequence":"The message is sent, but behavior on the floor has not changed.","supports":false},{"text":"Take no action; it was only a near-miss.","points":0,"consequence":"Leaders signal that near-misses do not matter.","supports":false}]}},"debrief":"What happens here when someone reports a problem that delays a shipment? What would make reporting easier?"},{"id":"CU05","title":"The phone call change","clause":"5.1.1, 8.2.4, 8.5.6","confidence":"High","situation":"A customer contact phones the team directly and asks for a change to a work item now in progress. They say the paperwork will follow. The change seems small.","roles":{"operator":{"prompt":"You took the call.","options":[{"text":"Note the request and pass it to the supervisor; do not change the work until it is reviewed.","points":2,"consequence":"The request is captured and reviewed before work changes.","supports":false},{"text":"Make the change and tell the supervisor afterward.","points":1,"consequence":"Honest, but the work has changed without review or record.","supports":false},{"text":"Make the change and say nothing.","points":0,"consequence":"Nobody else knows the work no longer matches the order.","supports":false}]},"technician":{"prompt":"You are asked whether the change is feasible.","options":[{"text":"Assess the effect on the process and records, and record your assessment.","points":2,"consequence":"The change can be approved or refused on evidence.","supports":false},{"text":"Say it is probably fine without checking.","points":1,"consequence":"Quick, but the effect on other steps is unknown.","supports":false},{"text":"Adjust the setting now to save time.","points":0,"consequence":"An unreviewed process change is made.","supports":false}]},"supervisor":{"prompt":"The request reaches you.","options":[{"text":"Confirm the change in writing with the customer, update the requirements, and brief the team.","points":2,"consequence":"Requirements, records, and people all match the new order.","supports":true},{"text":"Approve verbally and plan to fix the paperwork later.","points":1,"consequence":"Later often never comes; the records will not match.","supports":false},{"text":"Tell the team to do whatever the customer asks.","points":0,"consequence":"Requirements review is bypassed.","supports":false}]},"manager":{"prompt":"You hear the customer is calling the floor directly.","options":[{"text":"Agree a single route for customer changes with the customer and support the team for following it.","points":2,"consequence":"The pressure point is removed for everyone.","supports":true},{"text":"Ask the team to be flexible but careful.","points":1,"consequence":"Mixed message: no clear route.","supports":false},{"text":"Praise the team for being responsive.","points":0,"consequence":"Unreviewed changes are rewarded.","supports":false}]}},"debrief":"Where do requests reach our teams without going through review? Who can fix that?"},{"id":"CU06","title":"The file that looks complete","clause":"5.1.1, 7.5","confidence":"High","situation":"A customer audit is tomorrow. Some verification records from last week are blank. Someone suggests filling them in from memory so the file looks complete.","roles":{"operator":{"prompt":"You are asked to fill in the blanks.","options":[{"text":"Decline, and say the blanks should be reported as they are.","points":2,"consequence":"The record stays true. The gap can be investigated properly.","supports":false},{"text":"Fill in only the ones you clearly remember and mark them as late entries.","points":1,"consequence":"More honest, but memory is not evidence the verification was done.","supports":false},{"text":"Fill them in as asked.","points":0,"consequence":"The records are now false. An auditor who notices will doubt the whole file.","supports":false}]},"technician":{"prompt":"You notice the same handwriting across five days.","options":[{"text":"Raise it with the supervisor and check whether the verifications were actually done.","points":2,"consequence":"The real question is answered: was the work verified?","supports":false},{"text":"Mention it to a colleague.","points":1,"consequence":"The concern exists but goes nowhere.","supports":false},{"text":"Say nothing; the audit is tomorrow.","points":0,"consequence":"The false records stand.","supports":false}]},"supervisor":{"prompt":"You learn the records were blank.","options":[{"text":"Stop the backfilling, thank whoever raised it, and record the gap with an action to assess affected work.","points":2,"consequence":"An honest gap with an action is far stronger evidence than a perfect-looking file.","supports":true},{"text":"Stop the backfilling but say nothing else.","points":1,"consequence":"Correct, but the gap and its cause are not addressed.","supports":false},{"text":"Let it go this once because of the audit.","points":0,"consequence":"The team learns that records are for show.","supports":false}]},"manager":{"prompt":"The supervisor tells you about the gap the night before the audit.","options":[{"text":"Thank the supervisor and tell the auditor about the gap and the action if asked.","points":2,"consequence":"Leaders demonstrate ethical behavior when it is costly.","supports":true},{"text":"Accept the gap but hope it is not sampled.","points":1,"consequence":"Honest records, but no openness.","supports":false},{"text":"Ask why the file cannot be made complete.","points":0,"consequence":"Pressure to falsify comes from the top.","supports":false}]}},"debrief":"Why is an honest gap with an action better than a perfect-looking file? What would an auditor conclude from each?"}]}</script>
+<script>
+(function () {
+'use strict';
+var DATA = JSON.parse(document.getElementById('bridge-data').textContent);
+var DEFAULTS = JSON.parse(document.getElementById('bridge-config').textContent);
+var CARD = DATA.meta.sprintCards; // unchanged | changed | verify
+var ROLE_NAMES = { operator: 'Operator', technician: 'Technician', supervisor: 'Supervisor', manager: 'Manager' };
+var LETTERS = ['A', 'B', 'C'];
+
+var app = {
+  view: 'home', cfg: JSON.parse(JSON.stringify(DEFAULTS)), cfgError: '', jsonRaw: null,
+  sprint: null, culture: null
+};
+
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function live(m) { var el = document.getElementById('live'); if (el) el.textContent = m; }
+function conf(label) { return '<span class="conf">' + esc(label) + ' • unverified</span>'; }
+function cautionBox() {
+  return '<aside class="caution" role="note" aria-label="Preliminary 2026 information"><div class="caution-label">Preliminary 2026 information</div><p><b>CAUTION: PRELIMINARY 2026 INFORMATION.</b> ' + esc(DATA.meta.caution.replace(/^CAUTION: PRELIMINARY 2026 INFORMATION\.\s*/, '')) + '</p></aside>';
+}
+function mulberry32(a) { return function () { a |= 0; a = (a + 0x6D2B79F5) | 0; var t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+function shuffled(arr, seed) { var r = mulberry32(seed), a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(r() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function teamNames() { var n = []; for (var i = 0; i < app.cfg.teams; i++) n.push((app.cfg.teamNames && app.cfg.teamNames[i]) || ('Team ' + (i + 1))); return n; }
+
+function validateCfg(c) {
+  if (!c || typeof c !== 'object') return 'The configuration must be an object.';
+  if (!(c.teams >= 1 && c.teams <= 6)) return 'teams must be a number from 1 to 6.';
+  if (!(c.sprintStatements >= 1 && c.sprintStatements <= DATA.sprintStatements.length)) return 'sprintStatements must be from 1 to ' + DATA.sprintStatements.length + '.';
+  if (typeof c.seed !== 'number') return 'seed must be a number.';
+  if (!c.points || typeof c.points.match !== 'number' || typeof c.points.verify !== 'number' || typeof c.points.support !== 'number') return 'points must hold numbers for match, verify and support.';
+  return '';
+}
+
+/* ---------- Bridge Sprint ---------- */
+function startSprint() {
+  var order = shuffled(DATA.sprintStatements, app.cfg.seed).slice(0, app.cfg.sprintStatements);
+  app.sprint = { order: order, i: 0, picks: {}, revealed: false, scores: teamNames().map(function () { return 0; }), history: [] };
+  app.view = 'sprint';
+}
+function sprintPoints(st, pick) {
+  if (!pick) return 0;
+  if (pick === st.answer) return app.cfg.points.match;
+  if (st.alsoAccept.indexOf(pick) >= 0) return app.cfg.points.verify;
+  return 0;
+}
+function revealSprint() {
+  var sp = app.sprint, st = sp.order[sp.i];
+  sp.revealed = true;
+  var pts = teamNames().map(function (n, ti) { var p = sprintPoints(st, sp.picks[ti]); sp.scores[ti] += p; return p; });
+  sp.history.push({ id: st.id, picks: JSON.parse(JSON.stringify(sp.picks)), points: pts });
+  live('Answer: ' + CARD[st.answer] + '. Clause ' + st.clause2026 + '.');
+}
+function nextSprint() { var sp = app.sprint; sp.i++; sp.picks = {}; sp.revealed = false; }
+
+function renderSprint() {
+  var sp = app.sprint;
+  if (!sp) return '<h2>Bridge Sprint</h2><p>Start from the Setup tab.</p>';
+  var names = teamNames();
+  if (sp.i >= sp.order.length) {
+    return '<h2>Bridge Sprint: final scores</h2>' + sprintScoreboard() +
+      '<h3>Debrief</h3><ol><li>Which statements did teams disagree on? Why?</li><li>Which items carry a Single, Unclear or Best estimate label? What would you check in the standard?</li><li>What is the first action for your area from the items marked New or changed?</li></ol>' +
+      '<div class="row noprint"><button type="button" class="primary" data-act="sprint-start">Play again (same seed)</button> <button type="button" data-act="view" data-v="home">Back to setup</button></div>';
+  }
+  var st = sp.order[sp.i];
+  var html = '<h2>Bridge Sprint • Statement ' + (sp.i + 1) + ' of ' + sp.order.length + '</h2>' +
+    '<p class="muted">Read the statement aloud. Each team holds up one card: <b>' + esc(CARD.unchanged) + '</b>, <b>' + esc(CARD.changed) + '</b>, or <b>' + esc(CARD.verify) + '</b>. Record each team\'s card, then reveal.</p>' +
+    '<div class="statement" aria-label="Statement">' + esc(st.statement) + '</div>';
+  html += '<h3>Cards held up</h3>' + names.map(function (n, ti) {
+    return '<fieldset><legend>' + esc(n) + '</legend><div class="row" role="radiogroup" aria-label="Card for ' + esc(n) + '">' + ['unchanged', 'changed', 'verify'].map(function (k) {
+      var on = sp.picks[ti] === k;
+      return '<button type="button" data-act="pick" data-team="' + ti + '" data-card="' + k + '" aria-pressed="' + on + '"' + (sp.revealed ? ' disabled' : '') + '>' + esc(CARD[k]) + '</button>';
+    }).join('') + (sp.revealed ? ' <span><b>+' + sp.history[sp.history.length - 1].points[ti] + '</b></span>' : '') + '</div></fieldset>';
+  }).join('');
+  if (!sp.revealed) html += '<div class="row" style="margin-top:.8rem"><button type="button" class="primary big" data-act="sprint-reveal">Reveal answer and clause</button></div>';
+  else {
+    html += '<div class="answer" role="region" aria-label="Answer"><div style="font-size:1.3rem;font-weight:800">' + esc(CARD[st.answer]) + '</div>' +
+      '<div>Clause: 2015 <b>' + esc(st.clause2015) + '</b> / 2026 <b>' + esc(st.clause2026) + '</b> ' + conf(st.confidence) + '</div>' +
+      '<div style="margin-top:.3rem">' + esc(st.note) + '</div>' +
+      (st.alsoAccept.length ? '<div class="muted" style="margin-top:.3rem">Low-confidence item: the ' + esc(CARD.verify) + ' card also earns ' + app.cfg.points.verify + ' point.</div>' : '') + '</div>' +
+      '<div class="row" style="margin-top:.8rem"><button type="button" class="primary big" data-act="sprint-next">' + (sp.i + 1 < sp.order.length ? 'Next statement' : 'Show final scores') + '</button></div>';
+  }
+  html += '<h3>Scores</h3>' + sprintScoreboard();
+  return html;
+}
+function sprintScoreboard() {
+  var names = teamNames(), sp = app.sprint;
+  var rows = names.map(function (n, i) { return { n: n, s: sp.scores[i] }; }).sort(function (a, b) { return b.s - a.s; });
+  return '<table><thead><tr><th>Rank</th><th>Team</th><th class="num">Points</th></tr></thead><tbody>' + rows.map(function (r, i) { return '<tr><td>' + (i + 1) + '</td><td>' + esc(r.n) + '</td><td class="num">' + r.s + '</td></tr>'; }).join('') + '</tbody></table>';
+}
+
+/* ---------- Culture Under Pressure ---------- */
+function startCulture(cardId) {
+  var card = DATA.culture.filter(function (c) { return c.id === cardId; })[0] || DATA.culture[0];
+  app.culture = app.culture || { totals: teamNames().map(function () { return 0; }), played: [] };
+  app.culture.card = card; app.culture.choices = {}; app.culture.revealed = false;
+  app.view = 'culture';
+}
+function groupPoints(card, ch) {
+  var pts = 0, sup = 0;
+  DATA.meta.cultureRoles.forEach(function (r) {
+    var k = ch[r]; if (k == null) return;
+    var o = card.roles[r].options[k]; pts += o.points; if (o.supports) sup += app.cfg.points.support;
+  });
+  return { pts: pts, sup: sup, total: pts + sup };
+}
+function revealCulture() {
+  var cu = app.culture; cu.revealed = true;
+  teamNames().forEach(function (n, gi) { cu.totals[gi] += groupPoints(cu.card, cu.choices[gi] || {}).total; });
+  cu.played.push(cu.card.id);
+  live('Consequences revealed.');
+}
+function safetyBox() {
+  return '<div class="safety" role="note"><b>Safety rules.</b> ' + DATA.meta.cultureSafety.map(esc).join(' ') + '</div>';
+}
+function renderCulture() {
+  var cu = app.culture;
+  var html = '<h2>Culture Under Pressure</h2>' + safetyBox();
+  html += '<div class="row noprint"><label for="cu-card">Scenario card</label><select id="cu-card" data-field="cucard">' + DATA.culture.map(function (c) {
+    return '<option value="' + c.id + '"' + (cu && cu.card && cu.card.id === c.id ? ' selected' : '') + '>' + esc(c.id + ': ' + c.title) + (cu && cu.played.indexOf(c.id) >= 0 ? ' (played)' : '') + '</option>';
+  }).join('') + '</select> <button type="button" data-act="cu-load">Load card</button></div>';
+  if (!cu || !cu.card) return html + '<p>Choose a scenario card and select Load card.</p>';
+  var card = cu.card, names = teamNames();
+  html += '<div class="statement" style="font-size:1.3rem"><div class="muted" style="font-size:.9rem">' + esc(card.id) + ' • Clause link (2026, paraphrased) ' + esc(card.clause) + ' ' + conf(card.confidence) + '</div>' + esc(card.title) + '<div style="font-weight:400;margin-top:.4rem">' + esc(card.situation) + '</div></div>';
+  html += '<p class="muted">Each role chooses A, B or C in secret (paper role cards or a show of fingers). Record each group\'s revealed choices below, then reveal the consequences.</p>';
+  html += '<div class="grid">' + DATA.meta.cultureRoles.map(function (r) {
+    var role = card.roles[r];
+    return '<div class="panel"><h3>' + ROLE_NAMES[r] + '</h3><p>' + esc(role.prompt) + '</p><ol type="A">' + role.options.map(function (o) { return '<li>' + esc(o.text) + '</li>'; }).join('') + '</ol></div>';
+  }).join('') + '</div>';
+  html += '<h3>Revealed choices by group</h3>' + names.map(function (n, gi) {
+    var ch = cu.choices[gi] || {};
+    return '<fieldset><legend>' + esc(n) + '</legend>' + DATA.meta.cultureRoles.map(function (r) {
+      return '<div class="row"><span style="min-width:7rem;font-weight:600">' + ROLE_NAMES[r] + '</span>' + LETTERS.map(function (L, k) {
+        return '<button type="button" data-act="cu-pick" data-g="' + gi + '" data-r="' + r + '" data-k="' + k + '" aria-pressed="' + (ch[r] === k) + '" aria-label="' + esc(n + ', ' + ROLE_NAMES[r] + ', option ' + L) + '"' + (cu.revealed ? ' disabled' : '') + '>' + L + '</button>';
+      }).join('') + '</div>';
+    }).join('') + (cu.revealed ? culturePath(card, ch) : '') + '</fieldset>';
+  }).join('');
+  if (!cu.revealed) html += '<div class="row" style="margin-top:.8rem"><button type="button" class="primary big" data-act="cu-reveal">Reveal consequences</button></div>';
+  else html += '<h3>Debrief</h3><p class="statement" style="font-size:1.2rem">' + esc(card.debrief) + '</p><p>Then ask: which conditions made speaking up easy or hard? What can leaders change?</p>';
+  html += '<h3>Group totals</h3><table><thead><tr><th>Group</th><th class="num">Points</th></tr></thead><tbody>' + names.map(function (n, i) { return '<tr><td>' + esc(n) + '</td><td class="num">' + cu.totals[i] + '</td></tr>'; }).join('') + '</tbody></table>' +
+    '<p class="muted">' + esc(DATA.meta.cultureScoring) + '</p>';
+  return html;
+}
+function culturePath(card, ch) {
+  var g = groupPoints(card, ch);
+  return '<div style="margin-top:.4rem">' + DATA.meta.cultureRoles.map(function (r) {
+    var k = ch[r]; if (k == null) return '<div class="cons">' + ROLE_NAMES[r] + ': no choice recorded.</div>';
+    var o = card.roles[r].options[k];
+    return '<div class="cons p' + o.points + '"><b>' + ROLE_NAMES[r] + ' ' + LETTERS[k] + ' (' + o.points + ' point' + (o.points === 1 ? '' : 's') + (o.supports ? ', +' + app.cfg.points.support + ' support' : '') + '):</b> ' + esc(o.consequence) + '</div>';
+  }).join('') + '<div><b>Round points: ' + g.total + '</b> (' + g.pts + ' for choices, ' + g.sup + ' for supporting the person who raised the concern)</div></div>';
+}
+
+/* ---------- setup ---------- */
+function renderHome() {
+  var c = app.cfg, names = teamNames();
+  return '<h2>2026 Bridge Games</h2>' +
+    '<div class="grid"><div class="panel"><h3>Bridge Sprint (10 minutes)</h3><p>A variant of Clause Sprint. The facilitator reads a statement; teams hold up <b>' + esc(CARD.unchanged) + '</b>, <b>' + esc(CARD.changed) + '</b>, or <b>' + esc(CARD.verify) + '</b>. The facilitator then names the clause in both editions with its confidence label. Until the 2026 items are verified, the ' + esc(CARD.verify) + ' card earns partial credit on low-confidence items.</p><button type="button" class="primary" data-act="sprint-start">Start Bridge Sprint</button></div>' +
+    '<div class="panel"><h3>Culture Under Pressure (30 to 40 minutes)</h3><p>Groups of four (operator, technician, supervisor, manager). A scenario card presents a decision under pressure. Each role chooses a response in secret; choices are revealed with their consequences. Modules 2, 4 and 7.</p><button type="button" class="primary" data-act="cu-start">Start Culture Under Pressure</button></div></div>' +
+    '<h2>Setup</h2><div class="grid"><div class="panel"><label for="f-teams">Number of teams or groups (1 to 6)</label><br><input id="f-teams" type="number" min="1" max="6" value="' + c.teams + '" data-field="teams">' +
+    '<br><label for="f-n">Bridge Sprint statements (1 to ' + DATA.sprintStatements.length + ')</label><br><input id="f-n" type="number" min="1" max="' + DATA.sprintStatements.length + '" value="' + c.sprintStatements + '" data-field="sprintStatements">' +
+    '<br><label for="f-seed">Seed (statement order)</label><br><input id="f-seed" type="number" value="' + c.seed + '" data-field="seed"></div>' +
+    '<div class="panel"><h3>Team names</h3>' + names.map(function (n, i) { return '<label for="f-tn' + i + '">Team ' + (i + 1) + '</label><br><input id="f-tn' + i + '" type="text" value="' + esc(n) + '" data-teamname="' + i + '"><br>'; }).join('') + '</div></div>' +
+    '<h3>Configuration (JSON, editable)</h3><label for="f-json" class="sr">Configuration JSON</label><textarea id="f-json" data-field="json" spellcheck="false">' + esc(app.jsonRaw != null ? app.jsonRaw : JSON.stringify(c, null, 2)) + '</textarea>' +
+    (app.cfgError ? '<p class="err" role="alert">' + esc(app.cfgError) + '</p>' : '') +
+    '<p class="muted">Printable versions: games/printables/bridge-sprint-cards.html and games/printables/culture-under-pressure.html.</p>';
+}
+
+function render() {
+  var fid = document.activeElement && document.activeElement.getAttribute && document.activeElement.getAttribute('data-fid');
+  var tabs = [['home', 'Setup'], ['sprint', 'Bridge Sprint'], ['culture', 'Culture Under Pressure']];
+  document.getElementById('nav').innerHTML = tabs.map(function (t) { return '<button type="button" data-act="view" data-v="' + t[0] + '" data-fid="nav-' + t[0] + '"' + (app.view === t[0] ? ' aria-current="page"' : '') + '>' + t[1] + '</button>'; }).join('');
+  document.getElementById('hdrmeta').textContent = 'Meridian Group • Preliminary 2026 content • ' + (app.view === 'sprint' ? 'Bridge Sprint' : app.view === 'culture' ? 'Culture Under Pressure' : 'Setup');
+  var body = app.view === 'sprint' ? renderSprint() : app.view === 'culture' ? renderCulture() : renderHome();
+  document.getElementById('app').innerHTML = cautionBox() + body;
+  if (fid) { var el = document.querySelector('[data-fid="' + fid + '"]'); if (el) el.focus({ preventScroll: true }); }
+}
+
+document.addEventListener('click', function (e) {
+  var b = e.target.closest ? e.target.closest('[data-act]') : null;
+  if (!b || b.disabled) return;
+  var act = b.getAttribute('data-act');
+  switch (act) {
+    case 'view': app.view = b.getAttribute('data-v'); break;
+    case 'sprint-start': startSprint(); break;
+    case 'pick': app.sprint.picks[b.getAttribute('data-team')] = b.getAttribute('data-card'); break;
+    case 'sprint-reveal': revealSprint(); break;
+    case 'sprint-next': nextSprint(); break;
+    case 'cu-start': startCulture(DATA.culture[0].id); break;
+    case 'cu-load': { var sel = document.getElementById('cu-card'); startCulture(sel ? sel.value : DATA.culture[0].id); break; }
+    case 'cu-pick': { var cu = app.culture, gi = b.getAttribute('data-g'); (cu.choices[gi] = cu.choices[gi] || {})[b.getAttribute('data-r')] = parseInt(b.getAttribute('data-k'), 10); break; }
+    case 'cu-reveal': revealCulture(); break;
+    case 'textsize': { var on = document.documentElement.style.getPropertyValue('--font') === '24px'; document.documentElement.style.setProperty('--font', on ? '18px' : '24px'); b.setAttribute('aria-pressed', on ? 'false' : 'true'); return; }
+    case 'theme': { var cur = document.documentElement.getAttribute('data-theme'); var dark = cur ? cur === 'dark' : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark'); return; }
+  }
+  if (!b.hasAttribute('data-fid')) b.setAttribute('data-fid', act + '-' + (b.getAttribute('data-team') || b.getAttribute('data-g') || '') + '-' + (b.getAttribute('data-card') || b.getAttribute('data-r') || '') + (b.getAttribute('data-k') || ''));
+  var keep = b.getAttribute('data-fid');
+  render();
+  var el = keep && document.querySelector('[data-fid="' + keep + '"]'); if (el && !el.disabled) el.focus({ preventScroll: true });
+});
+document.addEventListener('change', function (e) {
+  var el = e.target;
+  if (el.hasAttribute('data-teamname')) {
+    app.cfg.teamNames = teamNames(); app.cfg.teamNames[parseInt(el.getAttribute('data-teamname'), 10)] = el.value; app.jsonRaw = null; render(); return;
+  }
+  var f = el.getAttribute('data-field'); if (!f || f === 'cucard') return;
+  if (f === 'json') {
+    try { var p = JSON.parse(el.value), bad = validateCfg(p); if (bad) { app.cfgError = bad; app.jsonRaw = el.value; } else { app.cfg = p; app.cfgError = ''; app.jsonRaw = null; } }
+    catch (err) { app.cfgError = 'The configuration is not valid JSON: ' + err.message; app.jsonRaw = el.value; }
+  } else {
+    var v = parseInt(el.value, 10); if (isNaN(v)) v = DEFAULTS[f];
+    if (f === 'teams') v = Math.max(1, Math.min(6, v));
+    if (f === 'sprintStatements') v = Math.max(1, Math.min(DATA.sprintStatements.length, v));
+    app.cfg[f] = v; app.jsonRaw = null; app.cfgError = '';
+    if (f === 'teams') { app.sprint = null; app.culture = null; }
+  }
+  render();
+});
+render();
+})();
+</script>
+</body>
+</html>

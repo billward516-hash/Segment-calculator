@@ -1,0 +1,256 @@
+{
+  "id": "HCS-C-01",
+  "pack": "healthcare",
+  "type": "C",
+  "title": "The Recurring Documentation Gap",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Monthly record audits at Meridian Care keep finding the same gap: the \"allergies checked\" field on the admission record is blank in about 8 percent of admissions. Action AC-9 says \"staff reminded at huddle\". This visit covers management system topics only. Clinical decisions, clinical standards, and law are outside its scope; the investigator does not judge clinical care. You have 12 visit points to reach a system cause.",
+  "visitPoints": 12,
+  "goal": "Cause depth",
+  "branches": [
+    "Cause"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Action AC-9",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Record audit results, 6 months",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Admissions",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Admissions nurse: how the form is completed",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Observe",
+          "label": "Electronic form on screen",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "IT systems",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Form design change history",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "Form designer: which fields are mandatory",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Training",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Training for the electronic form",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Night shift",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Night coordinator: admissions out of hours",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Ward",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Staffing board",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Huddle notes",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "AC-9 cause \"staff forgetting\", action \"reminded at huddle\", closed without a check; the gap rate is unchanged over 6 months.",
+      "clause": "10.2",
+      "whyItMatters": "Corrective action must address the cause and be checked.",
+      "missedExplanation": "Check whether the rate changed.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "observation",
+      "text": "Audit results: 90 percent of blanks are on admissions entered through the transfer screen, not the main admission screen (audits RA-1 to RA-6).",
+      "clause": "9.1.3",
+      "whyItMatters": "The pattern points to the system.",
+      "missedExplanation": "Break audit data down by route.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "conforming",
+      "text": "Admissions nurse: \"On the main screen it won't let you save without it.\"",
+      "clause": "7.3",
+      "whyItMatters": "Gives a lead.",
+      "missedExplanation": "Leads to the form design.",
+      "falseFindingNote": "Describes the system.",
+      "plantedPool": false
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "The transfer screen version of the form (TF-2) lets the record be saved with the field blank.",
+      "clause": "8.5.1",
+      "whyItMatters": "Service delivery tools must support complete records.",
+      "missedExplanation": "Compare different routes into the same record.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Form change FC-7, 7 months ago, added the transfer screen; the mandatory rule was not copied. No test record.",
+      "clause": "8.5.6",
+      "whyItMatters": "Changes must be reviewed and checked.",
+      "missedExplanation": "Check changes made around the time the gap began.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "conforming",
+      "text": "Form designer gives a current list of mandatory fields for the main screen.",
+      "clause": "7.1.6",
+      "whyItMatters": "Knowledge is held.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Accurate list.",
+      "plantedPool": false
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Training for the electronic form covers the main screen only (module EF-1).",
+      "clause": "7.2",
+      "whyItMatters": "Training could include the transfer route.",
+      "missedExplanation": "Check training covers every route.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Night coordinator: \"Transfers mostly arrive at night.\" Consistent with audit data.",
+      "clause": "7.3",
+      "whyItMatters": "Supports the pattern.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Consistent account.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "Staffing board shows the planned numbers.",
+      "clause": "7.1.2",
+      "whyItMatters": "Planned staffing is met.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "As planned.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Huddle notes record the reminders.",
+      "clause": "7.4",
+      "whyItMatters": "Reminders were given; they were not the cause.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Reminders given as stated.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which statement best describes the system cause?",
+      "options": [
+        "Night staff forget to complete the field",
+        "A form change added a transfer screen without the mandatory rule, without testing, and without training on that route",
+        "Patients do not know their allergies",
+        "The audit is too strict"
+      ],
+      "bestIndex": 1,
+      "rationale": "The cause lies in the form change and its review. The investigator does not judge clinical practice."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Run a daily report of blank fields on transfer admissions for staff to complete"
+    ],
+    "correction": [
+      "Complete the blank fields through the ward's defined process"
+    ],
+    "cause": [
+      "Form change FC-7 omitted the mandatory rule, was not tested, and training missed the transfer route"
+    ],
+    "corrective": [
+      "Make the field mandatory on the transfer screen, test form changes against a checklist, and add the route to training",
+      "Reopen AC-9"
+    ],
+    "effectiveness": [
+      "Track the blank rate monthly for six months, target near zero"
+    ]
+  },
+  "debriefText": {
+    "found": "You moved from \"forgetting\" to a form change.",
+    "missed": "Break audit data down by route.",
+    "falseFinding": "Planned staffing and given reminders were not causes."
+  }
+}

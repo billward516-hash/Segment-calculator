@@ -1,0 +1,273 @@
+{
+  "id": "HCS-E-01",
+  "pack": "healthcare",
+  "type": "E",
+  "title": "The Feedback Letter",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Meridian Care receives a letter from a patient's family: they were given 3 different discharge times on the same day, discharge information was missing pages, and their phone calls were not returned. This visit covers management system topics only. Clinical decisions, clinical standards, and law are outside its scope; the investigator does not judge clinical care. They ask for a written reply within 10 working days. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Containment and response",
+  "branches": [
+    "Control",
+    "Cause"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Feedback office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Feedback record",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Similar letters this year",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Ward office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Discharge information pack",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Discharge time records",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Switchboard",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Call log for the ward",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "Who returns family calls",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Print room",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Print order for discharge packs",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Feedback procedure",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Procedure and response times",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Management review agenda",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Ward",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Visiting hours sign",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Flowers at the desk",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Feedback record FB-311 was logged the day the letter arrived with an owner.",
+      "clause": "9.1.2",
+      "whyItMatters": "Feedback captured.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Prompt.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "5 similar letters this year about discharge times (FB-120 to FB-290) were answered individually; no corrective action was raised.",
+      "clause": "10.2",
+      "whyItMatters": "Recurring feedback should lead to corrective action.",
+      "missedExplanation": "Search for similar feedback.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Discharge pack DP-2 for the ward is missing pages 3 and 4 in 6 of 10 packs in stock.",
+      "clause": "8.5.1",
+      "whyItMatters": "Service outputs must be complete.",
+      "missedExplanation": "Check the stock, not just one pack.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "observation",
+      "text": "Discharge times were changed 3 times in the record on that day (entries 09:00, 13:00, 16:00) without a reason field.",
+      "clause": "8.5.1",
+      "whyItMatters": "A reason would show where delays arise.",
+      "missedExplanation": "Read record changes.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Call log shows 4 calls from the family; no return calls are recorded (log CL-17).",
+      "clause": "8.2.1",
+      "whyItMatters": "Communication with customers must be handled as defined.",
+      "missedExplanation": "Check call handling.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "observation",
+      "text": "Nobody is named to return family calls on ward 4; staff \"do it when they can\".",
+      "clause": "5.3",
+      "whyItMatters": "Assigning responsibility would make it reliable.",
+      "missedExplanation": "Ask who owns the task.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Print order PO-55 for discharge packs specified a 2-sided job; the printer delivered 1-sided, and no check on receipt.",
+      "clause": "8.4",
+      "unlockedBy": [
+        "E3"
+      ],
+      "whyItMatters": "Externally provided products must be verified.",
+      "missedExplanation": "Follow outputs back to suppliers.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Feedback procedure requires a written reply within 10 working days.",
+      "clause": "8.2.1",
+      "whyItMatters": "Defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Defined.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "Visiting hours sign is clear and current.",
+      "clause": "7.4",
+      "whyItMatters": "Conforming.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Current.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Flowers at the desk.",
+      "clause": "7.1.4",
+      "whyItMatters": "Not relevant.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not relevant.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "conforming",
+      "text": "Feedback trends are an agenda item at management review.",
+      "clause": "9.3",
+      "whyItMatters": "The organization has a forum for trends.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Present.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What should the reply to the family include?",
+      "options": [
+        "A standard apology only",
+        "An acknowledgment of each concern, what was found, what has been done (complete packs restocked, call responsibility assigned), what will change with dates, and a contact",
+        "An explanation that the ward was busy",
+        "A request to write to the ward directly"
+      ],
+      "bestIndex": 1,
+      "rationale": "A reply that addresses each point and explains changes shows the feedback was used."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Remove incomplete discharge packs from stock and check those given out recently"
+    ],
+    "correction": [
+      "Restock complete packs and reply to the family"
+    ],
+    "cause": [
+      "No receipt check of printed packs, no owner for family calls, and recurring feedback not escalated to corrective action"
+    ],
+    "corrective": [
+      "Add receipt checks for printed material, assign call responsibility, and escalate repeated feedback themes"
+    ],
+    "effectiveness": [
+      "Monitor discharge-related feedback for six months"
+    ]
+  },
+  "debriefText": {
+    "found": "You linked the letter to supplies, communication, and trends.",
+    "missed": "Check stock, not just the pack the family received.",
+    "falseFinding": "A clear sign and flowers are not findings."
+  }
+}

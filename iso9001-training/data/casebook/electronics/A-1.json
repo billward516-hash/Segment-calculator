@@ -1,0 +1,284 @@
+{
+  "id": "ELX-A-01",
+  "pack": "electronics",
+  "type": "A",
+  "title": "Floor Walk Before Audit",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Meridian Microworks has its certification audit in 10 days. You walk the wafer polishing floor, from incoming inspection to pack and ship, as an internal auditor. You have 12 visit points. Cover the whole floor.",
+  "visitPoints": 12,
+  "goal": "Coverage",
+  "branches": [
+    "Evidence"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Incoming inspection",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Chemical lot acceptance records",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Observe",
+          "label": "Quarantine shelf",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Polish bay",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Work instruction at polisher P-4",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Review",
+          "label": "Thickness gauge status",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Cleanroom monitoring",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Particle monitor alarm log",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Observe",
+          "label": "Gowning area",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Final clean",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Carrier labels at the clean station",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Observe",
+          "label": "Wafer carrier colors",
+          "evidenceId": "E12"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Pack and ship",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Customer wafers staged for shipping",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Review",
+          "label": "Outgoing inspection records",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Training office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Qualification matrix",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Ask",
+          "label": "Technician: what to do after a particle alarm",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Chemical acceptance records: each of 9 lots this month has a certificate of analysis compared with the specification and signed.",
+      "clause": "8.4",
+      "whyItMatters": "External inputs are verified.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Work instruction at polisher P-4 is revision F; the document system shows revision G released 3 weeks ago with a new pad-change interval.",
+      "clause": "7.5.3",
+      "whyItMatters": "Current approved instructions must be at the point of use.",
+      "missedExplanation": "Compare revision letters with the document system.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Thickness gauge TG-2 calibration label expired 9 days ago; the log shows it measured 6 lots since then.",
+      "clause": "7.1.5",
+      "whyItMatters": "Measurements from an instrument past calibration cannot be relied on; earlier results need review.",
+      "missedExplanation": "Read due dates on every gauge in use.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Particle monitor alarm log shows 3 alarms in bay 2 last week with no response entries.",
+      "clause": "7.1.4",
+      "whyItMatters": "The environment for operations must be maintained, and excursions responded to and recorded.",
+      "missedExplanation": "Read alarm logs for response entries.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "2 carriers at final clean carry hand-written lot numbers L-883 and L-883B with no record of a lot split in the system.",
+      "clause": "8.5.2",
+      "whyItMatters": "Lot identity must be maintained through every split.",
+      "missedExplanation": "Look for informal lot numbers.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Customer wafers for 2 customers are staged together on shelf S-4 without separation labels.",
+      "clause": "8.5.2, 8.5.3",
+      "whyItMatters": "Customer property must be identified and kept separate.",
+      "missedExplanation": "Check staging shelves for mixed ownership.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Qualification matrix is current; all 22 technicians are qualified for their stations.",
+      "clause": "7.2",
+      "whyItMatters": "Competence is recorded.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Current matrix. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "observation",
+      "text": "Technician: \"After an alarm we wait and see if it clears. I'm not sure if we should record it.\" Procedure CR-5 requires a record.",
+      "clause": "7.3",
+      "whyItMatters": "Awareness of the procedure is weak; strengthening it would close the gap seen in the alarm log.",
+      "missedExplanation": "Ask staff what they do after an alarm.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Quarantine shelf holds 1 rejected chemical lot with a tag and disposition pending.",
+      "clause": "8.7",
+      "whyItMatters": "Nonconforming input is controlled.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Tagged and controlled. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Gowning area mirror is cracked at the corner.",
+      "clause": "7.1.4",
+      "whyItMatters": "A cracked mirror is a facilities matter; gowning follows the posted steps.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The mirror does not affect the process.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "conforming",
+      "text": "Outgoing inspection records for the last 10 shipments are complete and signed.",
+      "clause": "8.6",
+      "whyItMatters": "Release is recorded.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete records. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "Carriers use different colors by product family, as allowed by the handling instruction.",
+      "clause": "8.5.2",
+      "whyItMatters": "Color coding supports identification and is defined.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Defined color coding is conforming.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which finding needs action today rather than in the report?",
+      "options": [
+        "The cracked mirror",
+        "The overdue gauge TG-2 and the mixed customer wafers on shelf S-4, because product may ship on unreliable measurements or to the wrong customer",
+        "The carrier colors",
+        "None; wait for the audit"
+      ],
+      "bestIndex": 1,
+      "rationale": "Issues that can affect product or customers now come first."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Withdraw gauge TG-2 and review the 6 lots measured; separate and label wafers on shelf S-4"
+    ],
+    "correction": [
+      "Replace revision F with G at P-4, record the lot split, and record responses to the 3 alarms"
+    ],
+    "cause": [
+      "Floor controls depend on memory: no due-date alert, no staging rule, and no alarm response prompt"
+    ],
+    "corrective": [
+      "Add calibration alerts, a staging rule for customer property, and an alarm response step in the monitoring system"
+    ],
+    "effectiveness": [
+      "Repeat the floor walk monthly for three months"
+    ]
+  },
+  "debriefText": {
+    "found": "You covered incoming to shipping.",
+    "missed": "In a cleanroom, alarm logs and carrier labels hold much of the evidence.",
+    "falseFinding": "A cracked mirror and defined color coding are not quality findings."
+  }
+}

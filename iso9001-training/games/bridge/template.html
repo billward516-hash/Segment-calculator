@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 Bridge Games</title>
+<style>
+:root{--bg:#ffffff;--fg:#1b1f24;--muted:#46515c;--line:#b9c2cb;--panel:#f1f4f7;--primary:#0b4f9c;--primary-fg:#ffffff;--warn:#8a2d00;--warn-bg:#fff1e8;--ok:#0a5c2e;--ok-bg:#e7f6ec;--focus:#b85c00;--font:18px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151b;--fg:#e9eef3;--muted:#b0bac4;--line:#3b4651;--panel:#19212a;--primary:#8dbdff;--primary-fg:#08203c;--warn:#ffb88a;--warn-bg:#3a2316;--ok:#8fe0ae;--ok-bg:#12301f;--focus:#ffcf70}}
+:root[data-theme="dark"]{--bg:#10151b;--fg:#e9eef3;--muted:#b0bac4;--line:#3b4651;--panel:#19212a;--primary:#8dbdff;--primary-fg:#08203c;--warn:#ffb88a;--warn-bg:#3a2316;--ok:#8fe0ae;--ok-bg:#12301f;--focus:#ffcf70}
+*{box-sizing:border-box}
+html{font-size:var(--font)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
+header.top{border-bottom:2px solid var(--line);padding:.6rem 1rem;display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;align-items:center;justify-content:space-between}
+header.top h1{font-size:1.3rem;margin:0}
+header.top .meta{color:var(--muted);font-size:.9rem}
+nav.views{display:flex;flex-wrap:wrap;gap:.4rem;padding:.6rem 1rem;border-bottom:1px solid var(--line);background:var(--panel)}
+main{padding:1rem;max-width:1300px;margin:0 auto}
+h2{font-size:1.35rem;margin:1.2rem 0 .5rem}
+h3{font-size:1.1rem;margin:1rem 0 .4rem}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:.4rem .8rem;cursor:pointer;color:var(--fg)}
+button:hover:not(:disabled){border-color:var(--primary)}
+button.primary{background:var(--primary);color:var(--primary-fg);border-color:var(--primary);font-weight:600}
+button.big{font-size:1.15rem;padding:.7rem 1.4rem}
+button:disabled{opacity:.6;cursor:not-allowed}
+button[aria-current="page"],button[aria-pressed="true"]{border-color:var(--primary);box-shadow:inset 0 -4px 0 var(--primary);font-weight:700}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+input,select,textarea{max-width:100%;background:var(--bg);border:2px solid var(--line);border-radius:6px;padding:.3rem .5rem}
+textarea{width:100%;font-family:ui-monospace,Consolas,monospace;font-size:.85rem;min-height:10rem}
+label{font-weight:600}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.8rem 1rem;margin:.6rem 0}
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.caution{border:3px solid var(--warn);background:var(--warn-bg);color:var(--fg);border-radius:8px;padding:.7rem 1rem;margin:0 0 1rem}
+.caution .caution-label{font-weight:800;color:var(--warn);text-transform:uppercase;letter-spacing:.04em;font-size:.85rem}
+.caution p{margin:.2rem 0 0}
+.conf{display:inline-block;border:2px solid var(--warn);color:var(--warn);border-radius:4px;padding:0 .35rem;font-size:.8rem;font-weight:700;vertical-align:middle}
+.statement{border:3px solid var(--primary);border-radius:10px;padding:1rem 1.2rem;font-size:1.6rem;font-weight:600;background:var(--bg)}
+.answer{border:3px solid var(--ok);background:var(--ok-bg);border-radius:10px;padding:.8rem 1rem;margin-top:.8rem}
+table{border-collapse:collapse;width:100%;margin:.4rem 0}
+th,td{border:1px solid var(--line);padding:.35rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--panel)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.muted{color:var(--muted)}
+fieldset{border:1px solid var(--line);border-radius:8px;margin:.4rem 0;padding:.4rem .8rem}
+legend{font-weight:700}
+.opt{display:block;margin:.25rem 0;font-weight:400}
+.cons{border-left:4px solid var(--line);padding-left:.6rem;margin:.3rem 0}
+.cons.p2{border-left-color:var(--ok)}
+.cons.p0{border-left-color:var(--warn)}
+.safety{border:2px solid var(--primary);border-radius:8px;padding:.5rem .9rem;margin:.6rem 0}
+.notice{border:2px solid var(--line);border-radius:8px;padding:.6rem .9rem;font-size:.85rem;color:var(--muted);margin-top:1.5rem}
+.err{color:var(--warn);font-weight:700}
+.sr{position:absolute;left:-9999px}
+@media print{nav.views,.tools,button,.noprint{display:none!important}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div><h1>2026 Bridge Games</h1><div class="meta" id="hdrmeta"></div></div>
+  <div class="tools row">
+    <button type="button" data-act="textsize" aria-pressed="false">Large text</button>
+    <button type="button" data-act="theme">Switch theme</button>
+  </div>
+</header>
+<nav class="views" aria-label="Games" id="nav"></nav>
+<main id="app" tabindex="-1"></main>
+<div id="live" class="sr" role="status" aria-live="polite"></div>
+<footer><main><p class="notice">This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body. Fictional organization: __COMPANY__. Examples are illustrative. Statements about the 2026 edition are paraphrased from secondary commentary, carry confidence labels, and are unverified.</p></main></footer>
+
+<script type="application/json" id="bridge-config">__CONFIG_JSON__</script>
+<script type="application/json" id="bridge-data">__DATA_JSON__</script>
+<script>
+(function () {
+'use strict';
+var DATA = JSON.parse(document.getElementById('bridge-data').textContent);
+var DEFAULTS = JSON.parse(document.getElementById('bridge-config').textContent);
+var CARD = DATA.meta.sprintCards; // unchanged | changed | verify
+var ROLE_NAMES = { operator: 'Operator', technician: 'Technician', supervisor: 'Supervisor', manager: 'Manager' };
+var LETTERS = ['A', 'B', 'C'];
+
+var app = {
+  view: 'home', cfg: JSON.parse(JSON.stringify(DEFAULTS)), cfgError: '', jsonRaw: null,
+  sprint: null, culture: null
+};
+
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function live(m) { var el = document.getElementById('live'); if (el) el.textContent = m; }
+function conf(label) { return '<span class="conf">' + esc(label) + ' • unverified</span>'; }
+function cautionBox() {
+  return '<aside class="caution" role="note" aria-label="Preliminary 2026 information"><div class="caution-label">Preliminary 2026 information</div><p><b>CAUTION: PRELIMINARY 2026 INFORMATION.</b> ' + esc(DATA.meta.caution.replace(/^CAUTION: PRELIMINARY 2026 INFORMATION\.\s*/, '')) + '</p></aside>';
+}
+function mulberry32(a) { return function () { a |= 0; a = (a + 0x6D2B79F5) | 0; var t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+function shuffled(arr, seed) { var r = mulberry32(seed), a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(r() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function teamNames() { var n = []; for (var i = 0; i < app.cfg.teams; i++) n.push((app.cfg.teamNames && app.cfg.teamNames[i]) || ('Team ' + (i + 1))); return n; }
+
+function validateCfg(c) {
+  if (!c || typeof c !== 'object') return 'The configuration must be an object.';
+  if (!(c.teams >= 1 && c.teams <= 6)) return 'teams must be a number from 1 to 6.';
+  if (!(c.sprintStatements >= 1 && c.sprintStatements <= DATA.sprintStatements.length)) return 'sprintStatements must be from 1 to ' + DATA.sprintStatements.length + '.';
+  if (typeof c.seed !== 'number') return 'seed must be a number.';
+  if (!c.points || typeof c.points.match !== 'number' || typeof c.points.verify !== 'number' || typeof c.points.support !== 'number') return 'points must hold numbers for match, verify and support.';
+  return '';
+}
+
+/* ---------- Bridge Sprint ---------- */
+function startSprint() {
+  var order = shuffled(DATA.sprintStatements, app.cfg.seed).slice(0, app.cfg.sprintStatements);
+  app.sprint = { order: order, i: 0, picks: {}, revealed: false, scores: teamNames().map(function () { return 0; }), history: [] };
+  app.view = 'sprint';
+}
+function sprintPoints(st, pick) {
+  if (!pick) return 0;
+  if (pick === st.answer) return app.cfg.points.match;
+  if (st.alsoAccept.indexOf(pick) >= 0) return app.cfg.points.verify;
+  return 0;
+}
+function revealSprint() {
+  var sp = app.sprint, st = sp.order[sp.i];
+  sp.revealed = true;
+  var pts = teamNames().map(function (n, ti) { var p = sprintPoints(st, sp.picks[ti]); sp.scores[ti] += p; return p; });
+  sp.history.push({ id: st.id, picks: JSON.parse(JSON.stringify(sp.picks)), points: pts });
+  live('Answer: ' + CARD[st.answer] + '. Clause ' + st.clause2026 + '.');
+}
+function nextSprint() { var sp = app.sprint; sp.i++; sp.picks = {}; sp.revealed = false; }
+
+function renderSprint() {
+  var sp = app.sprint;
+  if (!sp) return '<h2>Bridge Sprint</h2><p>Start from the Setup tab.</p>';
+  var names = teamNames();
+  if (sp.i >= sp.order.length) {
+    return '<h2>Bridge Sprint: final scores</h2>' + sprintScoreboard() +
+      '<h3>Debrief</h3><ol><li>Which statements did teams disagree on? Why?</li><li>Which items carry a Single, Unclear or Best estimate label? What would you check in the standard?</li><li>What is the first action for your area from the items marked New or changed?</li></ol>' +
+      '<div class="row noprint"><button type="button" class="primary" data-act="sprint-start">Play again (same seed)</button> <button type="button" data-act="view" data-v="home">Back to setup</button></div>';
+  }
+  var st = sp.order[sp.i];
+  var html = '<h2>Bridge Sprint • Statement ' + (sp.i + 1) + ' of ' + sp.order.length + '</h2>' +
+    '<p class="muted">Read the statement aloud. Each team holds up one card: <b>' + esc(CARD.unchanged) + '</b>, <b>' + esc(CARD.changed) + '</b>, or <b>' + esc(CARD.verify) + '</b>. Record each team\'s card, then reveal.</p>' +
+    '<div class="statement" aria-label="Statement">' + esc(st.statement) + '</div>';
+  html += '<h3>Cards held up</h3>' + names.map(function (n, ti) {
+    return '<fieldset><legend>' + esc(n) + '</legend><div class="row" role="radiogroup" aria-label="Card for ' + esc(n) + '">' + ['unchanged', 'changed', 'verify'].map(function (k) {
+      var on = sp.picks[ti] === k;
+      return '<button type="button" data-act="pick" data-team="' + ti + '" data-card="' + k + '" aria-pressed="' + on + '"' + (sp.revealed ? ' disabled' : '') + '>' + esc(CARD[k]) + '</button>';
+    }).join('') + (sp.revealed ? ' <span><b>+' + sp.history[sp.history.length - 1].points[ti] + '</b></span>' : '') + '</div></fieldset>';
+  }).join('');
+  if (!sp.revealed) html += '<div class="row" style="margin-top:.8rem"><button type="button" class="primary big" data-act="sprint-reveal">Reveal answer and clause</button></div>';
+  else {
+    html += '<div class="answer" role="region" aria-label="Answer"><div style="font-size:1.3rem;font-weight:800">' + esc(CARD[st.answer]) + '</div>' +
+      '<div>Clause: 2015 <b>' + esc(st.clause2015) + '</b> / 2026 <b>' + esc(st.clause2026) + '</b> ' + conf(st.confidence) + '</div>' +
+      '<div style="margin-top:.3rem">' + esc(st.note) + '</div>' +
+      (st.alsoAccept.length ? '<div class="muted" style="margin-top:.3rem">Low-confidence item: the ' + esc(CARD.verify) + ' card also earns ' + app.cfg.points.verify + ' point.</div>' : '') + '</div>' +
+      '<div class="row" style="margin-top:.8rem"><button type="button" class="primary big" data-act="sprint-next">' + (sp.i + 1 < sp.order.length ? 'Next statement' : 'Show final scores') + '</button></div>';
+  }
+  html += '<h3>Scores</h3>' + sprintScoreboard();
+  return html;
+}
+function sprintScoreboard() {
+  var names = teamNames(), sp = app.sprint;
+  var rows = names.map(function (n, i) { return { n: n, s: sp.scores[i] }; }).sort(function (a, b) { return b.s - a.s; });
+  return '<table><thead><tr><th>Rank</th><th>Team</th><th class="num">Points</th></tr></thead><tbody>' + rows.map(function (r, i) { return '<tr><td>' + (i + 1) + '</td><td>' + esc(r.n) + '</td><td class="num">' + r.s + '</td></tr>'; }).join('') + '</tbody></table>';
+}
+
+/* ---------- Culture Under Pressure ---------- */
+function startCulture(cardId) {
+  var card = DATA.culture.filter(function (c) { return c.id === cardId; })[0] || DATA.culture[0];
+  app.culture = app.culture || { totals: teamNames().map(function () { return 0; }), played: [] };
+  app.culture.card = card; app.culture.choices = {}; app.culture.revealed = false;
+  app.view = 'culture';
+}
+function groupPoints(card, ch) {
+  var pts = 0, sup = 0;
+  DATA.meta.cultureRoles.forEach(function (r) {
+    var k = ch[r]; if (k == null) return;
+    var o = card.roles[r].options[k]; pts += o.points; if (o.supports) sup += app.cfg.points.support;
+  });
+  return { pts: pts, sup: sup, total: pts + sup };
+}
+function revealCulture() {
+  var cu = app.culture; cu.revealed = true;
+  teamNames().forEach(function (n, gi) { cu.totals[gi] += groupPoints(cu.card, cu.choices[gi] || {}).total; });
+  cu.played.push(cu.card.id);
+  live('Consequences revealed.');
+}
+function safetyBox() {
+  return '<div class="safety" role="note"><b>Safety rules.</b> ' + DATA.meta.cultureSafety.map(esc).join(' ') + '</div>';
+}
+function renderCulture() {
+  var cu = app.culture;
+  var html = '<h2>Culture Under Pressure</h2>' + safetyBox();
+  html += '<div class="row noprint"><label for="cu-card">Scenario card</label><select id="cu-card" data-field="cucard">' + DATA.culture.map(function (c) {
+    return '<option value="' + c.id + '"' + (cu && cu.card && cu.card.id === c.id ? ' selected' : '') + '>' + esc(c.id + ': ' + c.title) + (cu && cu.played.indexOf(c.id) >= 0 ? ' (played)' : '') + '</option>';
+  }).join('') + '</select> <button type="button" data-act="cu-load">Load card</button></div>';
+  if (!cu || !cu.card) return html + '<p>Choose a scenario card and select Load card.</p>';
+  var card = cu.card, names = teamNames();
+  html += '<div class="statement" style="font-size:1.3rem"><div class="muted" style="font-size:.9rem">' + esc(card.id) + ' • Clause link (2026, paraphrased) ' + esc(card.clause) + ' ' + conf(card.confidence) + '</div>' + esc(card.title) + '<div style="font-weight:400;margin-top:.4rem">' + esc(card.situation) + '</div></div>';
+  html += '<p class="muted">Each role chooses A, B or C in secret (paper role cards or a show of fingers). Record each group\'s revealed choices below, then reveal the consequences.</p>';
+  html += '<div class="grid">' + DATA.meta.cultureRoles.map(function (r) {
+    var role = card.roles[r];
+    return '<div class="panel"><h3>' + ROLE_NAMES[r] + '</h3><p>' + esc(role.prompt) + '</p><ol type="A">' + role.options.map(function (o) { return '<li>' + esc(o.text) + '</li>'; }).join('') + '</ol></div>';
+  }).join('') + '</div>';
+  html += '<h3>Revealed choices by group</h3>' + names.map(function (n, gi) {
+    var ch = cu.choices[gi] || {};
+    return '<fieldset><legend>' + esc(n) + '</legend>' + DATA.meta.cultureRoles.map(function (r) {
+      return '<div class="row"><span style="min-width:7rem;font-weight:600">' + ROLE_NAMES[r] + '</span>' + LETTERS.map(function (L, k) {
+        return '<button type="button" data-act="cu-pick" data-g="' + gi + '" data-r="' + r + '" data-k="' + k + '" aria-pressed="' + (ch[r] === k) + '" aria-label="' + esc(n + ', ' + ROLE_NAMES[r] + ', option ' + L) + '"' + (cu.revealed ? ' disabled' : '') + '>' + L + '</button>';
+      }).join('') + '</div>';
+    }).join('') + (cu.revealed ? culturePath(card, ch) : '') + '</fieldset>';
+  }).join('');
+  if (!cu.revealed) html += '<div class="row" style="margin-top:.8rem"><button type="button" class="primary big" data-act="cu-reveal">Reveal consequences</button></div>';
+  else html += '<h3>Debrief</h3><p class="statement" style="font-size:1.2rem">' + esc(card.debrief) + '</p><p>Then ask: which conditions made speaking up easy or hard? What can leaders change?</p>';
+  html += '<h3>Group totals</h3><table><thead><tr><th>Group</th><th class="num">Points</th></tr></thead><tbody>' + names.map(function (n, i) { return '<tr><td>' + esc(n) + '</td><td class="num">' + cu.totals[i] + '</td></tr>'; }).join('') + '</tbody></table>' +
+    '<p class="muted">' + esc(DATA.meta.cultureScoring) + '</p>';
+  return html;
+}
+function culturePath(card, ch) {
+  var g = groupPoints(card, ch);
+  return '<div style="margin-top:.4rem">' + DATA.meta.cultureRoles.map(function (r) {
+    var k = ch[r]; if (k == null) return '<div class="cons">' + ROLE_NAMES[r] + ': no choice recorded.</div>';
+    var o = card.roles[r].options[k];
+    return '<div class="cons p' + o.points + '"><b>' + ROLE_NAMES[r] + ' ' + LETTERS[k] + ' (' + o.points + ' point' + (o.points === 1 ? '' : 's') + (o.supports ? ', +' + app.cfg.points.support + ' support' : '') + '):</b> ' + esc(o.consequence) + '</div>';
+  }).join('') + '<div><b>Round points: ' + g.total + '</b> (' + g.pts + ' for choices, ' + g.sup + ' for supporting the person who raised the concern)</div></div>';
+}
+
+/* ---------- setup ---------- */
+function renderHome() {
+  var c = app.cfg, names = teamNames();
+  return '<h2>2026 Bridge Games</h2>' +
+    '<div class="grid"><div class="panel"><h3>Bridge Sprint (10 minutes)</h3><p>A variant of Clause Sprint. The facilitator reads a statement; teams hold up <b>' + esc(CARD.unchanged) + '</b>, <b>' + esc(CARD.changed) + '</b>, or <b>' + esc(CARD.verify) + '</b>. The facilitator then names the clause in both editions with its confidence label. Until the 2026 items are verified, the ' + esc(CARD.verify) + ' card earns partial credit on low-confidence items.</p><button type="button" class="primary" data-act="sprint-start">Start Bridge Sprint</button></div>' +
+    '<div class="panel"><h3>Culture Under Pressure (30 to 40 minutes)</h3><p>Groups of four (operator, technician, supervisor, manager). A scenario card presents a decision under pressure. Each role chooses a response in secret; choices are revealed with their consequences. Modules 2, 4 and 7.</p><button type="button" class="primary" data-act="cu-start">Start Culture Under Pressure</button></div></div>' +
+    '<h2>Setup</h2><div class="grid"><div class="panel"><label for="f-teams">Number of teams or groups (1 to 6)</label><br><input id="f-teams" type="number" min="1" max="6" value="' + c.teams + '" data-field="teams">' +
+    '<br><label for="f-n">Bridge Sprint statements (1 to ' + DATA.sprintStatements.length + ')</label><br><input id="f-n" type="number" min="1" max="' + DATA.sprintStatements.length + '" value="' + c.sprintStatements + '" data-field="sprintStatements">' +
+    '<br><label for="f-seed">Seed (statement order)</label><br><input id="f-seed" type="number" value="' + c.seed + '" data-field="seed"></div>' +
+    '<div class="panel"><h3>Team names</h3>' + names.map(function (n, i) { return '<label for="f-tn' + i + '">Team ' + (i + 1) + '</label><br><input id="f-tn' + i + '" type="text" value="' + esc(n) + '" data-teamname="' + i + '"><br>'; }).join('') + '</div></div>' +
+    '<h3>Configuration (JSON, editable)</h3><label for="f-json" class="sr">Configuration JSON</label><textarea id="f-json" data-field="json" spellcheck="false">' + esc(app.jsonRaw != null ? app.jsonRaw : JSON.stringify(c, null, 2)) + '</textarea>' +
+    (app.cfgError ? '<p class="err" role="alert">' + esc(app.cfgError) + '</p>' : '') +
+    '<p class="muted">Printable versions: games/printables/bridge-sprint-cards.html and games/printables/culture-under-pressure.html.</p>';
+}
+
+function render() {
+  var fid = document.activeElement && document.activeElement.getAttribute && document.activeElement.getAttribute('data-fid');
+  var tabs = [['home', 'Setup'], ['sprint', 'Bridge Sprint'], ['culture', 'Culture Under Pressure']];
+  document.getElementById('nav').innerHTML = tabs.map(function (t) { return '<button type="button" data-act="view" data-v="' + t[0] + '" data-fid="nav-' + t[0] + '"' + (app.view === t[0] ? ' aria-current="page"' : '') + '>' + t[1] + '</button>'; }).join('');
+  document.getElementById('hdrmeta').textContent = '__COMPANY__ • Preliminary 2026 content • ' + (app.view === 'sprint' ? 'Bridge Sprint' : app.view === 'culture' ? 'Culture Under Pressure' : 'Setup');
+  var body = app.view === 'sprint' ? renderSprint() : app.view === 'culture' ? renderCulture() : renderHome();
+  document.getElementById('app').innerHTML = cautionBox() + body;
+  if (fid) { var el = document.querySelector('[data-fid="' + fid + '"]'); if (el) el.focus({ preventScroll: true }); }
+}
+
+document.addEventListener('click', function (e) {
+  var b = e.target.closest ? e.target.closest('[data-act]') : null;
+  if (!b || b.disabled) return;
+  var act = b.getAttribute('data-act');
+  switch (act) {
+    case 'view': app.view = b.getAttribute('data-v'); break;
+    case 'sprint-start': startSprint(); break;
+    case 'pick': app.sprint.picks[b.getAttribute('data-team')] = b.getAttribute('data-card'); break;
+    case 'sprint-reveal': revealSprint(); break;
+    case 'sprint-next': nextSprint(); break;
+    case 'cu-start': startCulture(DATA.culture[0].id); break;
+    case 'cu-load': { var sel = document.getElementById('cu-card'); startCulture(sel ? sel.value : DATA.culture[0].id); break; }
+    case 'cu-pick': { var cu = app.culture, gi = b.getAttribute('data-g'); (cu.choices[gi] = cu.choices[gi] || {})[b.getAttribute('data-r')] = parseInt(b.getAttribute('data-k'), 10); break; }
+    case 'cu-reveal': revealCulture(); break;
+    case 'textsize': { var on = document.documentElement.style.getPropertyValue('--font') === '24px'; document.documentElement.style.setProperty('--font', on ? '18px' : '24px'); b.setAttribute('aria-pressed', on ? 'false' : 'true'); return; }
+    case 'theme': { var cur = document.documentElement.getAttribute('data-theme'); var dark = cur ? cur === 'dark' : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark'); return; }
+  }
+  if (!b.hasAttribute('data-fid')) b.setAttribute('data-fid', act + '-' + (b.getAttribute('data-team') || b.getAttribute('data-g') || '') + '-' + (b.getAttribute('data-card') || b.getAttribute('data-r') || '') + (b.getAttribute('data-k') || ''));
+  var keep = b.getAttribute('data-fid');
+  render();
+  var el = keep && document.querySelector('[data-fid="' + keep + '"]'); if (el && !el.disabled) el.focus({ preventScroll: true });
+});
+document.addEventListener('change', function (e) {
+  var el = e.target;
+  if (el.hasAttribute('data-teamname')) {
+    app.cfg.teamNames = teamNames(); app.cfg.teamNames[parseInt(el.getAttribute('data-teamname'), 10)] = el.value; app.jsonRaw = null; render(); return;
+  }
+  var f = el.getAttribute('data-field'); if (!f || f === 'cucard') return;
+  if (f === 'json') {
+    try { var p = JSON.parse(el.value), bad = validateCfg(p); if (bad) { app.cfgError = bad; app.jsonRaw = el.value; } else { app.cfg = p; app.cfgError = ''; app.jsonRaw = null; } }
+    catch (err) { app.cfgError = 'The configuration is not valid JSON: ' + err.message; app.jsonRaw = el.value; }
+  } else {
+    var v = parseInt(el.value, 10); if (isNaN(v)) v = DEFAULTS[f];
+    if (f === 'teams') v = Math.max(1, Math.min(6, v));
+    if (f === 'sprintStatements') v = Math.max(1, Math.min(DATA.sprintStatements.length, v));
+    app.cfg[f] = v; app.jsonRaw = null; app.cfgError = '';
+    if (f === 'teams') { app.sprint = null; app.culture = null; }
+  }
+  render();
+});
+render();
+})();
+</script>
+</body>
+</html>

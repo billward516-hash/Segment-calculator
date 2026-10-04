@@ -1,0 +1,286 @@
+{
+  "id": "ELX-D-01",
+  "pack": "electronics",
+  "type": "D",
+  "title": "The Pressure Recipe",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Meridian Microworks engineering proposes raising polish pressure in recipe PR-12 by 10 percent to shorten cycle time. Change ECN-55 is due for approval. You have 12 visit points to assess the change for risks, controls, and records.",
+  "visitPoints": 12,
+  "goal": "Completeness",
+  "branches": [
+    "Control"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Engineering",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Engineering change notice ECN-55",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Design of experiments results",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Customer quality",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Customer process change terms",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Customer specification",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Risk register",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Process risk analysis for polish",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Recipe control",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Recipe management system access",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Review",
+          "label": "Recipe version history",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Metrology",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Flatness measurement capability",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Calibration of flatness gauge FG-2",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Operations",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Shift lead: how the change will be introduced",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Recipe naming",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Equipment paint",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "ECN-55 states the reason, recipe, products, and approvers.",
+      "clause": "8.5.6",
+      "whyItMatters": "Well-started change record.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete request.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Experiment results: 12 wafers; flatness measured on 12, but edge defects and particle counts not measured. No acceptance criteria.",
+      "clause": "8.5.6",
+      "whyItMatters": "The change must be shown not to affect all relevant characteristics.",
+      "missedExplanation": "Check every characteristic the change could affect.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Customer terms PCN-1 require 90 days' notice of process changes for qualified products; ECN-55 gives none.",
+      "clause": "8.2.3",
+      "whyItMatters": "Customer change notification requirements must be met.",
+      "missedExplanation": "Read customer change notice terms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "conforming",
+      "text": "Customer specification lists flatness, edge, and particle limits.",
+      "clause": "8.2.3",
+      "whyItMatters": "Requirements are defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Clear specification.",
+      "plantedPool": false
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Process risk analysis for polish (PRA-3) does not include pressure as a factor and was last updated 2 years ago.",
+      "clause": "6.1",
+      "whyItMatters": "Risks from the change must be identified and addressed.",
+      "missedExplanation": "Link the change to the risk analysis.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Recipe system access: 14 users can edit recipes, including 6 operators; recipe change approval is not enforced.",
+      "clause": "8.5.6, 7.5.3",
+      "whyItMatters": "Recipe changes need control so only approved versions are used.",
+      "missedExplanation": "Ask who can change a recipe.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Recipe history shows PR-12 version 9 was edited twice last month with the comment \"test\".",
+      "clause": "7.5.3",
+      "unlockedBy": [
+        "E6"
+      ],
+      "whyItMatters": "Unexplained edits suggest weak control; investigate.",
+      "missedExplanation": "Read recipe history comments.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "nonconformity",
+      "text": "Flatness measurement capability study was done at the old pressure; gauge repeatability uses 30 percent of tolerance.",
+      "clause": "7.1.5",
+      "whyItMatters": "Measurement must be capable for the changed process.",
+      "missedExplanation": "Ask whether the measurement can see the effect.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "observation",
+      "text": "Shift lead: \"We'd just load the new recipe.\" No training or communication plan is attached to ECN-55.",
+      "clause": "7.2",
+      "whyItMatters": "A communication plan supports consistent introduction.",
+      "missedExplanation": "Ask how people will learn of the change.",
+      "plantedPool": true
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Recipe names use an old abbreviation style.",
+      "clause": "7.5.2",
+      "whyItMatters": "Naming style is not a requirement.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Style only.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "conforming",
+      "text": "Flatness gauge FG-2 is calibrated, due in 5 months.",
+      "clause": "7.1.5",
+      "whyItMatters": "The gauge is calibrated; capability is the separate question.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Calibrated. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Equipment paint is worn on the cover.",
+      "clause": "7.1.3",
+      "whyItMatters": "Cosmetic.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Cosmetic.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Should ECN-55 be approved now?",
+      "options": [
+        "Yes",
+        "No. Return it with conditions: full characteristic testing with criteria, updated risk analysis, measurement capability, recipe access control, training, and customer notice",
+        "Approve for one tool only without notice",
+        "Reject permanently"
+      ],
+      "bestIndex": 1,
+      "rationale": "The benefit can be kept once the review is complete."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Keep PR-12 at the approved version and restrict recipe edit access"
+    ],
+    "correction": [
+      "Complete the testing, risk update, capability study, training, and customer notice"
+    ],
+    "cause": [
+      "Recipe changes are not enforced through approval, and the change form lacks risk and customer prompts"
+    ],
+    "corrective": [
+      "Enforce recipe approval in the system and add risk, measurement, and customer notice prompts to ECN forms"
+    ],
+    "effectiveness": [
+      "Audit recipe edits and ECN completeness monthly for three months"
+    ]
+  },
+  "debriefText": {
+    "found": "You assessed the change against characteristics, risk, measurement, access, and customer terms.",
+    "missed": "Ask who can change a recipe as well as whether this change is sound.",
+    "falseFinding": "Naming style and paint are not findings."
+  }
+}

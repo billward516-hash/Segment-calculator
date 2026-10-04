@@ -1,0 +1,283 @@
+{
+  "id": "CON-A-01",
+  "pack": "construction",
+  "type": "A",
+  "title": "Site Walk at Dawn",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "You walk the Meridian Build site for a 4-storey office block at 6:30 a.m., before crews start. The project manager wants an internal quality audit across the site office, materials, work fronts, and testing. Site safety and legal requirements are managed separately and are outside this visit. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Coverage",
+  "branches": [
+    "Evidence"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Site office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Drawing register and issued drawings",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Subcontractor approval list",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Materials laydown",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Reinforcing steel bundles",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Delivery notes and certificates",
+          "evidenceId": "E9"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Level 2 work front",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Drawings used by the formwork crew",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Review",
+          "label": "Inspection and test plan sign-offs",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Site laboratory",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Concrete test equipment verification",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Review",
+          "label": "Cube test register",
+          "evidenceId": "E10"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Client-supplied items store",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Client-supplied light fittings",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Foreman",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "How changes from the client reach the crew",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Observe",
+          "label": "Weather board",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Tidy tool storage",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Drawing register lists current revisions; issued copies in the office are stamped and match.",
+      "clause": "7.5.3",
+      "whyItMatters": "Document control works in the office.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Register and copies agree.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Subcontractor approval list: the waterproofing subcontractor started work 5 days ago but has no evaluation record (list entry 17 blank).",
+      "clause": "8.4",
+      "whyItMatters": "External providers must be evaluated and approved before they start.",
+      "missedExplanation": "Compare who is on site with the approval list.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "2 bundles of reinforcing steel have no tags; the delivery note lists 3 bar sizes for delivery D-4410.",
+      "clause": "8.5.2",
+      "whyItMatters": "Materials must stay identified to their delivery and certificate.",
+      "missedExplanation": "Look for untagged materials.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Formwork crew on level 2 uses drawing S-204 revision C; the register shows revision D issued 8 days ago with a changed beam depth.",
+      "clause": "7.5.3",
+      "whyItMatters": "Crews must work from the current revision.",
+      "missedExplanation": "Check revisions at the work front, not only in the office.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Inspection and test plan ITP-2: the pre-pour inspection for slab bay 6 is not signed, but the bay was poured yesterday (pour record P-118).",
+      "clause": "8.6",
+      "whyItMatters": "Planned inspections must be completed before work proceeds past them.",
+      "missedExplanation": "Compare ITP sign-offs with pour dates.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Slump cone and cube press: the cube press verification is 2 months overdue (due date on label LP-3).",
+      "clause": "7.1.5",
+      "whyItMatters": "Test equipment must be verified at the planned interval.",
+      "missedExplanation": "Read due dates on test equipment.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Client-supplied light fittings: 4 boxes are open and stored on the floor near a wet area; no damage check is recorded on the client property log entry 9.",
+      "clause": "8.5.3",
+      "whyItMatters": "Client property must be protected and its condition recorded.",
+      "missedExplanation": "Ask how client-supplied items are protected.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "observation",
+      "text": "Foreman: \"Changes come by phone from the project manager; we mark them up later.\" 2 phone changes this week are not yet in the change log.",
+      "clause": "7.4",
+      "whyItMatters": "Communication of changes could be more reliable.",
+      "missedExplanation": "Ask how changes reach the crew.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Delivery notes for concrete and steel this week have certificates filed.",
+      "clause": "8.4",
+      "whyItMatters": "Inputs verified.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "conforming",
+      "text": "Cube test register is up to date for all pours.",
+      "clause": "7.5.3",
+      "whyItMatters": "Records retained.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Up to date.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "The weather board shows rain forecast.",
+      "clause": "7.1.4",
+      "whyItMatters": "Weather is planning context.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Context.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "Tool storage is tidy and locked.",
+      "clause": "7.1.3",
+      "whyItMatters": "Conforming.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Good practice.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What needs action before crews start at 7 a.m.?",
+      "options": [
+        "The weather board",
+        "Stop level 2 formwork until drawing S-204 revision D is issued to the crew, and review slab bay 6 poured without the pre-pour inspection",
+        "Nothing until the monthly report",
+        "Close the whole site"
+      ],
+      "bestIndex": 1,
+      "rationale": "Work about to proceed on the wrong revision and an uninspected pour come first."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Stop level 2 formwork until revision D is at the work front; assess slab bay 6"
+    ],
+    "correction": [
+      "Issue revision D, tag the steel, evaluate the waterproofing subcontractor, verify the cube press, and protect the fittings"
+    ],
+    "cause": [
+      "Work-front controls rely on informal communication; ITP hold points and drawing issue are not checked before work starts"
+    ],
+    "corrective": [
+      "Add a daily pre-start check of drawing revisions and ITP sign-offs, and log every client change before it reaches the crew"
+    ],
+    "effectiveness": [
+      "Audit pre-start checks weekly for six weeks"
+    ]
+  },
+  "debriefText": {
+    "found": "You covered the office, materials, work fronts, and laboratory.",
+    "missed": "Drawings at the work front often differ from the office.",
+    "falseFinding": "Weather and tidy storage are not findings."
+  }
+}

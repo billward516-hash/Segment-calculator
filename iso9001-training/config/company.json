@@ -1,0 +1,12 @@
+{
+  "company": "Meridian Group",
+  "industryPack": "generic",
+  "edition": "2015",
+  "sites": [],
+  "logoPath": "",
+  "terms": {
+    "qualityPolicyStatement": "[OWNER INPUT] Insert the current quality policy statement.",
+    "stopWorkAuthority": "[OWNER INPUT] State who may stop a process that produces nonconforming output.",
+    "nonPunitiveReporting": "[OWNER INPUT] Confirm the non-punitive reporting statement."
+  }
+}

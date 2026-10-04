@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "name": "Sector Casebook",
+    "version": 1,
+    "note": "Sector index for the Industry Deep-Dive Track (Appendix D). Pack ids match data/packs.json. Case codes use the three-letter sector code: <CODE>-<TYPE>-<SEED>, for example MFG-B-7K3Q. Type X is the sector capstone.",
+    "visitPointsDefault": 12,
+    "capstoneVisitPoints": 16,
+    "caseTypes": {
+      "A": { "name": "Walkthrough", "goal": "Coverage: find the planted issues across the site", "branches": ["Evidence"], "minutes": 15 },
+      "B": { "name": "Records Trail", "goal": "Scope accuracy: trace the records and define what is affected", "branches": ["Mapping", "Control"], "minutes": 20 },
+      "C": { "name": "Root Cause Interview", "goal": "Cause depth: interview staff and reach a system cause", "branches": ["Cause"], "minutes": 20 },
+      "D": { "name": "Change Under Review", "goal": "Completeness: assess a proposed change for risks, controls, and records", "branches": ["Control"], "minutes": 20 },
+      "E": { "name": "Complaint Response", "goal": "Containment and response: limit exposure and answer the customer", "branches": ["Control", "Cause"], "minutes": 25 },
+      "F": { "name": "Pressure Decision", "goal": "Decision quality: choose and justify a response under schedule pressure", "branches": ["Judgment"], "minutes": 15 },
+      "X": { "name": "Sector Capstone", "goal": "Mixed: three or more case types in one visit", "branches": ["Evidence", "Mapping", "Cause", "Control", "Judgment"], "minutes": 30 }
+    },
+    "branches": [
+      { "name": "Evidence", "builds": "Noticing and collecting relevant evidence; ignoring noise" },
+      { "name": "Mapping", "builds": "Linking evidence to the right requirement" },
+      { "name": "Cause", "builds": "Moving from symptom to system cause" },
+      { "name": "Control", "builds": "Containment, change control, and effectiveness" },
+      { "name": "Judgment", "builds": "Decisions under pressure, including speaking up" }
+    ],
+    "clauseFamilies": {
+      "4": "Context of the organization", "5": "Leadership", "6": "Planning", "7": "Support", "8": "Operation", "9": "Performance evaluation", "10": "Improvement",
+      "5.1": "Leadership and commitment", "5.2": "Policy", "7.1": "Resources", "7.5": "Documented information", "8.2": "Requirements for products and services",
+      "8.5": "Production and service provision", "9.1": "Monitoring, measurement, analysis and evaluation"
+    },
+    "reflectionQuestions": [
+      "Which evidence from the casebook would you now look for first at your own workplace, and why?",
+      "Describe one system condition in your own area that could allow an issue like the ones you investigated. What control would prevent it?",
+      "What will you do differently in your role in the next month as a result of this sector track?"
+    ],
+    "badgeCriteria": [
+      "Sector primer read",
+      "Sector drills passed at 80 percent",
+      "All six cases attempted",
+      "Sector capstone attempted",
+      "Reflection submitted",
+      "Instructor review of the capstone findings (and, preferably, a short oral or on-the-job demonstration)"
+    ]
+  },
+  "sectors": [
+    { "pack": "discrete-manufacturing", "code": "MFG", "drillPrefix": "DM", "name": "Discrete manufacturing", "company": "Meridian Works", "accent": { "name": "steel blue", "light": "#2c5175", "dark": "#a6c2e2" } },
+    { "pack": "process-food", "code": "FOD", "drillPrefix": "PF", "name": "Process, food, and consumer goods", "company": "Meridian Foods", "accent": { "name": "olive", "light": "#525c22", "dark": "#c3cc86" } },
+    { "pack": "electronics", "code": "ELX", "drillPrefix": "EL", "name": "Electronics and semiconductor", "company": "Meridian Microworks", "accent": { "name": "slate", "light": "#465361", "dark": "#b4c0cc" } },
+    { "pack": "construction", "code": "CON", "drillPrefix": "CN", "name": "Construction and engineering projects", "company": "Meridian Build", "accent": { "name": "rust", "light": "#8a3a1b", "dark": "#eba383" } },
+    { "pack": "it-software", "code": "ITS", "drillPrefix": "IT", "name": "IT and software services", "company": "Meridian Digital", "accent": { "name": "teal", "light": "#1d5c5c", "dark": "#8fcfcb" } },
+    { "pack": "healthcare", "code": "HCS", "drillPrefix": "HC", "name": "Healthcare and clinical services (management system topics only)", "company": "Meridian Care", "accent": { "name": "plum", "light": "#673a60", "dark": "#dcaed2" } },
+    { "pack": "logistics", "code": "LOG", "drillPrefix": "LG", "name": "Logistics, warehousing, and distribution", "company": "Meridian Logistics", "accent": { "name": "ochre", "light": "#745510", "dark": "#e3c374" } },
+    { "pack": "professional-services", "code": "PRO", "drillPrefix": "PS", "name": "Professional, financial, and education services", "company": "Meridian Advisory", "accent": { "name": "graphite", "light": "#3e3e3e", "dark": "#cfcfcf" } }
+  ]
+}

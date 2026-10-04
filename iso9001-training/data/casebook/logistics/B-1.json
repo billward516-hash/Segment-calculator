@@ -1,0 +1,298 @@
+{
+  "id": "LOG-B-01",
+  "pack": "logistics",
+  "type": "B",
+  "title": "Pallet Trail",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "A customer of Meridian Logistics reports that pallet {{pal}} arrived 18 cases short. You need to trace the pallet from receiving through storage, picking, loading, and delivery, and define what else is affected. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Scope accuracy",
+  "branches": [
+    "Mapping",
+    "Control"
+  ],
+  "tokens": {
+    "pal": [
+      "PL-30417",
+      "PL-41126",
+      "PL-28870"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Receiving",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Inbound record for the stock",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Storage",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Location history",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Review",
+          "label": "Stock adjustments",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Picking",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Pick record for {{pal}}",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Review",
+          "label": "Scale calibration for pallet weighing",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Loading",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Load check for the trailer",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Review",
+          "label": "Other pallets on the same trailer",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Carrier",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Carrier approval",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Proof of delivery",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Supervisor",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "How shortages are checked",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Wrapping film color",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Trailer seal log",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Inbound record shows the stock received complete with batch codes.",
+      "clause": "8.5.2",
+      "whyItMatters": "Trail start.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Location history for the stock is complete.",
+      "clause": "8.5.2",
+      "whyItMatters": "Traceable storage.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Stock adjustment SA-771 removed 18 cases from the pick location 2 days before picking with the reason \"system\".",
+      "clause": "8.5.2",
+      "whyItMatters": "Changes to stock records must be explained and authorized.",
+      "missedExplanation": "Read adjustment reasons.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Pick record for {{pal}} shows 120 cases confirmed by keyed entry, not scan.",
+      "clause": "8.5.1",
+      "unlockedBy": [
+        "E1"
+      ],
+      "whyItMatters": "Pick confirmation should verify what was picked.",
+      "missedExplanation": "Check how picks were confirmed.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Pallet scale PS-2 used for weight check was 4 weeks past verification.",
+      "clause": "7.1.5",
+      "whyItMatters": "Weight checks need verified scales.",
+      "missedExplanation": "Check the scale used.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Load check LC-405 for the trailer records weight variance 9 percent; release limit 3 percent; signed as released.",
+      "clause": "8.6",
+      "whyItMatters": "Release must follow passed checks or authorization.",
+      "missedExplanation": "Read variances against limits.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "4 other pallets on the same trailer were picked by keyed entry in the same hour; no check has been made with those customers (trailer TR-88).",
+      "clause": "8.7",
+      "unlockedBy": [
+        "E6"
+      ],
+      "whyItMatters": "Containment covers output produced the same way.",
+      "missedExplanation": "Look at other output from the same conditions.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Carrier is approved and evaluated.",
+      "clause": "8.4",
+      "whyItMatters": "Approved.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Approved.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Proof of delivery is signed with a note of shortage.",
+      "clause": "8.5.5",
+      "whyItMatters": "Delivery recorded.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Correct.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "observation",
+      "text": "Supervisor: \"We look at weight variance only if someone raises it.\" (note 2)",
+      "clause": "9.1.1",
+      "whyItMatters": "Proactive review of variances would catch shortages.",
+      "missedExplanation": "Ask how checks are used.",
+      "plantedPool": true
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Wrapping film is blue instead of clear.",
+      "clause": "8.5.4",
+      "whyItMatters": "Allowed.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Allowed.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "Trailer seal log shows the seal intact on arrival.",
+      "clause": "8.5.4",
+      "whyItMatters": "Conforming; rules out theft in transit.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Intact seal.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What is the scope of review?",
+      "options": [
+        "Pallet {{pal}} only",
+        "{{pal}}, the 4 other pallets keyed in the same hour on trailer TR-88, and any load checked on scale PS-2 since its last verification",
+        "Every pallet this year",
+        "None; wait for more complaints"
+      ],
+      "bestIndex": 1,
+      "rationale": "Keyed picks, the unexplained adjustment, and the overdue scale widen the scope."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Contact the 4 other customers and review loads checked on PS-2"
+    ],
+    "correction": [
+      "Ship the 18 missing cases and correct stock records"
+    ],
+    "cause": [
+      "Unexplained adjustments allowed, keyed picks accepted, and load variances released without authorization"
+    ],
+    "corrective": [
+      "Require reasons and approval for adjustments, limit keyed picks, and block release above variance limits"
+    ],
+    "effectiveness": [
+      "Track shortage complaints and variance releases for three months"
+    ]
+  },
+  "debriefText": {
+    "found": "You traced the pallet through each stage.",
+    "missed": "Check other pallets from the same hour and trailer.",
+    "falseFinding": "Film color and an intact seal are not findings."
+  }
+}

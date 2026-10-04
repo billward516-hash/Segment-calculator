@@ -1,0 +1,322 @@
+{
+  "id": "MFG-A-01",
+  "pack": "discrete-manufacturing",
+  "type": "A",
+  "title": "The Morning Walk",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "You are walking the Meridian Works shop floor at the start of the morning shift, two weeks before the surveillance audit. The plant manager has asked for an independent look across receiving, machining, assembly, and dispatch. You have 12 visit points. Find what needs attention across the whole site; do not go deep on one area.",
+  "visitPoints": 12,
+  "goal": "Coverage",
+  "branches": [
+    "Evidence"
+  ],
+  "tokens": {
+    "job": [
+      "J-2210",
+      "J-3184",
+      "J-1957"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Receiving bay",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Goods-in area and quarantine rack",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Goods-in log for this week",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Machining cell",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Drawings at lathe 2",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Review",
+          "label": "Torque wrench used at the cell",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Observe",
+          "label": "Hand-written tally board",
+          "evidenceId": "E11"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Assembly line",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Parts staged at station 4",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Ask",
+          "label": "Assembler: what to do with a doubtful part",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Review",
+          "label": "Assembly work instruction at station 2",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Inspection bench",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Micrometer status labels",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "First-off inspection record for job {{job}}",
+          "evidenceId": "E5"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Dispatch",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Customer tooling shelf",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Review",
+          "label": "Pack-out checklist for job {{job}}",
+          "evidenceId": "E13"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Shift noticeboard",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Quality objectives display",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Observe",
+          "label": "Out-of-date safety poster",
+          "evidenceId": "E14"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Quarantine rack: 3 boxes of bar stock carry a red reject tag dated 2 weeks ago, but the rack is unlocked and one box has been opened. No disposition is recorded in the reject log.",
+      "clause": "8.7",
+      "whyItMatters": "Nonconforming material must be controlled so it cannot be used by mistake until someone authorized decides what to do with it.",
+      "missedExplanation": "A quarantine area is only a control if it is used. Check the tags, the dates, and the disposition record together.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Lathe 2 has two prints of drawing 4410 on the board: revision D and revision E. Revision E is current; revision D carries no obsolete stamp.",
+      "clause": "7.5.3",
+      "whyItMatters": "Only the current version of a document should be available at the point of use, or obsolete copies must be clearly marked.",
+      "missedExplanation": "Read revision letters on every drawing at a workstation; two copies of one drawing is a signal.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Torque wrench TW-06 at the machining cell has a calibration label that expired 23 days ago. The operator says it was used this morning.",
+      "clause": "7.1.5",
+      "whyItMatters": "Measurements and settings made with an instrument past its calibration date cannot be relied on, and the work done with it may need review.",
+      "missedExplanation": "Status labels are small. Read the due date on every tool that sets or checks a characteristic.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Station 4 holds two trays of brackets from jobs {{job}} and J-2213 side by side; one tray has no job label.",
+      "clause": "8.5.2",
+      "whyItMatters": "Work in progress must stay identified so that each part can be traced to its job and status.",
+      "missedExplanation": "Look for unlabeled containers wherever two jobs meet.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "observation",
+      "text": "First-off inspection record for job {{job}}: all 6 dimensions are recorded and passed, but the inspector has written measurement values for only 4 of them; 2 are ticked.",
+      "clause": "8.5.1",
+      "whyItMatters": "Recording values rather than ticks makes the result verifiable and shows trends. Here the check was done, so this is an opportunity to improve rather than a missed requirement.",
+      "missedExplanation": "Compare the form fields with what was actually written.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Customer tooling shelf: 2 fixtures owned by a customer sit among company fixtures with no owner label; the customer property register lists only 1 of them.",
+      "clause": "8.5.3",
+      "whyItMatters": "Property that belongs to a customer must be identified, protected, and recorded.",
+      "missedExplanation": "Ask who owns each fixture. Compare the shelf with the register.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "The quality objectives board shows 3 current objectives with this month's results, updated 2 days ago.",
+      "clause": "6.2, 7.3",
+      "whyItMatters": "Objectives are communicated and monitored where staff can see them.",
+      "missedExplanation": "Conforming evidence: no action needed.",
+      "falseFindingNote": "The objectives are current and visible. This is good practice.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "All 5 micrometers at the bench carry current calibration labels that match the register.",
+      "clause": "7.1.5",
+      "whyItMatters": "Instruments in use are within their calibration interval.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Labels and register agree. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Goods-in log: each of the 11 deliveries this week has a certificate check initialed and dated.",
+      "clause": "8.4",
+      "whyItMatters": "Incoming material is verified before use.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Each delivery shows a recorded check. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "conforming",
+      "text": "Assembler: \"If a part looks wrong I stop, put it in the red bin with a tag, and tell the lead.\" The red bin has 1 tagged part.",
+      "clause": "7.3",
+      "whyItMatters": "Staff know what to do with a doubtful output and how they contribute to quality.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The answer and the bin agree. This is awareness in practice.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "A hand-written tally board at the cell counts parts made per hour. It is not a controlled document.",
+      "clause": "7.5.3",
+      "whyItMatters": "Informal working aids that do not set requirements do not need document control.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "A tally board records output for the team. It sets no requirement, so it does not need to be a controlled document.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "conforming",
+      "text": "Assembly work instruction WI-22 at station 2 is revision 3, matching the document register.",
+      "clause": "7.5.3",
+      "whyItMatters": "The current instruction is available at the point of use.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The revision matches the register. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E13",
+      "kind": "nonconformity",
+      "text": "Pack-out checklist for job {{job}} is signed as complete, but the final inspection box is blank and the parts are already wrapped for collection.",
+      "clause": "8.6",
+      "whyItMatters": "Outputs should be released only after the planned checks are complete, or with authorized approval.",
+      "missedExplanation": "Check that every release step is signed before the goods are packed.",
+      "plantedPool": true
+    },
+    {
+      "id": "E14",
+      "kind": "redHerring",
+      "text": "A safety poster in the corridor shows last year's date. The safety team owns it.",
+      "clause": "7.4",
+      "whyItMatters": "Safety communication is outside this quality visit; the poster sets no quality requirement.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The poster belongs to another system and states no quality requirement. Note it for the owner if you wish, but it is not a quality finding.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "You have found several issues. What should you report to the plant manager first?",
+      "options": [
+        "Only the issue with the largest number of parts",
+        "The open release of job {{job}} and the overdue torque wrench, because product may leave or has already been affected; then the remaining issues",
+        "Nothing until the full written report is ready next week",
+        "The safety poster, because it is the most visible"
+      ],
+      "bestIndex": 1,
+      "rationale": "Issues that may let affected product reach a customer need attention first. The rest can follow in the written report."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold job {{job}} until final inspection is complete",
+      "Withdraw torque wrench TW-06 and identify work it was used on"
+    ],
+    "correction": [
+      "Remove the obsolete drawing from lathe 2 and label the unmarked tray",
+      "Record a disposition for the quarantined bar stock"
+    ],
+    "cause": [
+      "Release, calibration, and quarantine controls rely on memory rather than a built-in check"
+    ],
+    "corrective": [
+      "Add a release gate that blocks packing until inspection is signed, and a calibration due-date alert"
+    ],
+    "effectiveness": [
+      "Repeat the walkthrough monthly for three months and track repeat issues"
+    ]
+  },
+  "debriefText": {
+    "found": "A walkthrough rewards breadth. You looked across the site rather than stopping at the first issue.",
+    "missed": "Walkthrough issues often sit in plain sight: a label, a date, or an empty box on a form.",
+    "falseFinding": "Informal aids and other management systems' notices are not quality nonconformities."
+  }
+}

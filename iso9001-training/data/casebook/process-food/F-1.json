@@ -1,0 +1,290 @@
+{
+  "id": "FOD-F-01",
+  "pack": "process-food",
+  "type": "F",
+  "title": "The Waiting Truck",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "At Meridian Foods it is 4:30 p.m. A truck is waiting to take 18 pallets of ready meals from batch RM-504 to a retail customer. The laboratory result for the batch is not yet available; it is expected at 7 p.m. The shift supervisor proposes releasing now \"because results are always fine\". Food safety requirements belong to the separate food safety system and are outside this visit. You have 12 visit points to decide and justify a response.",
+  "visitPoints": 12,
+  "goal": "Decision quality",
+  "branches": [
+    "Judgment"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Release office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Release checklist for RM-504",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Release procedure",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Laboratory",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "When will the result be ready",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Past results for this product",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Shift supervisor",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Why release now",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "Who can authorize release",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Customer file",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Customer delivery window",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Customer release terms",
+          "evidenceId": "E8"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Dispatch",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Driver: how long can you wait",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Dispatch noticeboard",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Warehouse",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Pallet labels for RM-504",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Release checklist for RM-504: laboratory result line is blank, but the \"released\" box is ticked by the supervisor at 4:20 p.m.",
+      "clause": "8.6",
+      "whyItMatters": "Release must follow completion of the planned checks or an authorized decision.",
+      "missedExplanation": "Read every line of the release checklist.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Release procedure RP-3 requires the laboratory result before release; exceptions need the technical manager and customer consent.",
+      "clause": "8.6",
+      "whyItMatters": "The procedure defines the route.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Sound procedure.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "conforming",
+      "text": "Laboratory: \"Result at 7 p.m. We can't speed the test.\"",
+      "clause": "7.1.6",
+      "whyItMatters": "Clear facts for the decision.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The lab gives clear information.",
+      "plantedPool": false
+    },
+    {
+      "id": "E4",
+      "kind": "observation",
+      "text": "Past results: 2 of the last 50 batches failed the same test.",
+      "clause": "9.1.3",
+      "whyItMatters": "\"Always fine\" is not supported by the data.",
+      "missedExplanation": "Check the data behind \"always\".",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Supervisor: \"Results are always fine. If we miss this truck we lose the slot. Just release it.\" (note 3)",
+      "clause": "5.1.1",
+      "whyItMatters": "Leadership at every level must support release controls. Pressure must not replace verification.",
+      "missedExplanation": "Listen for pressure replacing control.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "conforming",
+      "text": "Supervisor: \"The technical manager can authorize exceptions and is on call.\"",
+      "clause": "5.3",
+      "whyItMatters": "Authority is defined and reachable.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Roles are clear.",
+      "plantedPool": false
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Customer delivery window runs to 6 a.m. tomorrow.",
+      "clause": "8.2.1",
+      "whyItMatters": "There is time to deliver after the result.",
+      "missedExplanation": "Check how firm the deadline is.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "nonconformity",
+      "text": "Customer terms CT-2 forbid delivery before laboratory release without written consent.",
+      "clause": "8.2.3",
+      "unlockedBy": [
+        "E2"
+      ],
+      "whyItMatters": "Customer requirements on release must be met.",
+      "missedExplanation": "Read customer terms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "observation",
+      "text": "Driver: \"I can come back at 8 p.m. or another truck can run at 9 p.m.\"",
+      "clause": "8.1",
+      "whyItMatters": "Alternatives exist.",
+      "missedExplanation": "Ask the people affected.",
+      "plantedPool": true
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Noticeboard lists today's trucks in red.",
+      "clause": "7.4",
+      "whyItMatters": "A dispatch plan is not a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Planning board only.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Pallet labels for RM-504 show batch, date, and count.",
+      "clause": "8.5.2",
+      "whyItMatters": "Identification is in order.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Labels are correct.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What do you do at 4:35 p.m.?",
+      "options": [
+        "Let the truck leave",
+        "Ask for the release tick to be withdrawn and the batch held, inform the technical manager, and arrange collection after the 7 p.m. result within the customer's window",
+        "Say nothing",
+        "Destroy the batch"
+      ],
+      "bestIndex": 1,
+      "rationale": "The result is due well within the delivery window. Holding and rescheduling meets the requirement and the customer's need.",
+      "optionFeedback": [
+        "This ships before verification and breaches customer terms.",
+        "Proportionate and meets both the control and the delivery window.",
+        "Silence leaves a known breach in place.",
+        "There is no evidence the batch is bad."
+      ]
+    },
+    {
+      "id": "D2",
+      "prompt": "How do you answer \"results are always fine\"?",
+      "options": [
+        "Agree",
+        "Point out calmly that 2 of the last 50 failed, and that the check exists for the batch that does not pass",
+        "Tell the supervisor they are wrong in front of the team",
+        "Ignore it"
+      ],
+      "bestIndex": 1,
+      "rationale": "Facts, stated calmly, address the pressure without blame."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold RM-504 and remove the release tick until the result is reviewed"
+    ],
+    "correction": [
+      "Release after a passing result, or follow the nonconforming product process if it fails"
+    ],
+    "cause": [
+      "The release checklist allows the release box to be ticked with a blank result line"
+    ],
+    "corrective": [
+      "Make the result a required field before release can be recorded, and plan dispatch slots after expected result times"
+    ],
+    "effectiveness": [
+      "Audit release checklists weekly for two months"
+    ]
+  },
+  "debriefText": {
+    "found": "You held release and found a route within the delivery window.",
+    "missed": "Under pressure, check how firm the deadline really is.",
+    "falseFinding": "The dispatch board and correct labels are conforming."
+  }
+}

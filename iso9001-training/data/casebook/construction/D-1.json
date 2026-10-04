@@ -1,0 +1,269 @@
+{
+  "id": "CON-D-01",
+  "pack": "construction",
+  "type": "D",
+  "title": "The Supplier Swap",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Meridian Build procurement proposes switching the cladding panel supplier on a hospital car park project to save 8 percent. Change request PC-19 goes to the project board on Thursday. You have 12 visit points to assess the change for risks, controls, and records.",
+  "visitPoints": 12,
+  "goal": "Completeness",
+  "branches": [
+    "Control"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Procurement",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Change request PC-19",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "New supplier evaluation",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Design",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Specification for cladding panels",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Ask",
+          "label": "Designer: has the new product been reviewed",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Client contract",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Client approval terms for substitutions",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Testing",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Test certificates for the new panels",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Site team",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Installer: fixing method differences",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Method statement",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Programme",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Delivery lead times",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Supplier brochure",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Board meeting agenda",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "PC-19 states the reason, the scope, and the approvers.",
+      "clause": "8.4",
+      "whyItMatters": "The request is well started.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "New supplier evaluation form SE-88 has only price completed; quality, capacity, and past performance are blank.",
+      "clause": "8.4",
+      "whyItMatters": "External providers must be evaluated against defined criteria.",
+      "missedExplanation": "Read every section of the evaluation.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "conforming",
+      "text": "Specification lists panel performance and finish requirements.",
+      "clause": "8.2.3",
+      "whyItMatters": "Requirements defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Clear.",
+      "plantedPool": false
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Designer: \"We haven't seen the new panel data.\" No design review of product NP-40 is recorded.",
+      "clause": "8.3",
+      "whyItMatters": "Design changes must be reviewed.",
+      "missedExplanation": "Ask the designer.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Contract clause 22 requires client approval for any product substitution; PC-19 has no client step.",
+      "clause": "8.2.3",
+      "whyItMatters": "Client requirements must be met.",
+      "missedExplanation": "Read substitution terms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Test certificates for NP-40 cover fire classification only for a thinner panel (certificate TC-2 for 18 mm, specified 25 mm).",
+      "clause": "8.4",
+      "whyItMatters": "Verification evidence must match the product supplied.",
+      "missedExplanation": "Check certificates match the actual product.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Installer: \"The new panels use a different bracket. We haven't been trained on it.\" No training is listed in PC-19.",
+      "clause": "7.2",
+      "whyItMatters": "Training needed for the new method.",
+      "missedExplanation": "Ask installers.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "observation",
+      "text": "Method statement MS-6 refers to the old supplier's brackets only.",
+      "clause": "7.5.2",
+      "whyItMatters": "Documents need updating with the change.",
+      "missedExplanation": "List documents affected.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Lead times for both suppliers are within programme.",
+      "clause": "8.1",
+      "whyItMatters": "Planning acceptable.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Within programme.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Supplier brochure uses bold claims.",
+      "clause": "8.4",
+      "whyItMatters": "Marketing is not evidence either way.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Marketing claims are not a finding.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Board agenda lists PC-19 last.",
+      "clause": "7.4",
+      "whyItMatters": "Not relevant.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not relevant.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What should the board decide on Thursday?",
+      "options": [
+        "Approve to save cost",
+        "Defer with conditions: full supplier evaluation, design review, certificates for the specified product, client approval, method statement and training",
+        "Approve and tell the client later",
+        "Reject all supplier changes in future"
+      ],
+      "bestIndex": 1,
+      "rationale": "The saving is possible only once the review is complete."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Keep the current supplier until PC-19 is approved"
+    ],
+    "correction": [
+      "Complete evaluation, design review, certificates, client approval, MS-6 update, and training"
+    ],
+    "cause": [
+      "The procurement change process can reach the board on price alone"
+    ],
+    "corrective": [
+      "Require design, quality, and client approval steps before a substitution reaches the board"
+    ],
+    "effectiveness": [
+      "Audit the next five substitution requests"
+    ]
+  },
+  "debriefText": {
+    "found": "You assessed supplier, design, certificates, client, and method.",
+    "missed": "Check certificates match the exact product specified.",
+    "falseFinding": "Brochure claims and agenda order are not findings."
+  }
+}

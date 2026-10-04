@@ -1,0 +1,296 @@
+{
+  "id": "FOD-E-01",
+  "pack": "process-food",
+  "type": "E",
+  "title": "The Packaging Complaint",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "A retail customer of Meridian Foods reports that cartons from production batch {{b}} are splitting at the base during transport: 46 of 600 cartons in one delivery. They ask for a response within 2 working days. You have 12 visit points to contain, find the cause, and prepare the response.",
+  "visitPoints": 12,
+  "goal": "Containment and response",
+  "branches": [
+    "Control",
+    "Cause"
+  ],
+  "tokens": {
+    "b": [
+      "B-3310",
+      "B-4127",
+      "B-2985"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Customer service",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Complaint record",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Other deliveries from the same carton lot",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Packaging store",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Carton lot receiving record",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Observe",
+          "label": "Carton storage conditions",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Packing line",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Case erector glue settings",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "Line lead: any changes recently",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Purchasing",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Carton supplier change notice",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Supplier evaluation",
+          "evidenceId": "E8"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Complaint procedure",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Shift reports from week 17",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Warehouse",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Pallet wrapping",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Forklift traffic",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Complaint CP-412 for batch {{b}} was logged the same day with photos and an owner.",
+      "clause": "9.1.2",
+      "whyItMatters": "Feedback is captured and owned.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Prompt logging. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Carton lot CT-77 was used for 4 batches including {{b}}; 3 of them have shipped to 2 other customers with no notice or hold.",
+      "clause": "8.7",
+      "whyItMatters": "Containment must cover all output made with the suspect input.",
+      "missedExplanation": "Trace the input lot to every batch.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Receiving record for carton lot CT-77 shows no board strength check; the specification requires 1 test per lot.",
+      "clause": "8.4",
+      "whyItMatters": "Externally provided packaging must be verified against its specification.",
+      "missedExplanation": "Check that receiving tests match the specification.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "observation",
+      "text": "Cartons are stored next to the wash area; the humidity log shows 78 percent on 3 days in week 18.",
+      "clause": "8.5.4",
+      "whyItMatters": "Preservation of materials includes suitable storage conditions; humidity may weaken board.",
+      "missedExplanation": "Ask about storage conditions for packaging.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "conforming",
+      "text": "Case erector glue settings match the set sheet and are checked each shift.",
+      "clause": "8.5.1",
+      "whyItMatters": "Packing settings are controlled.",
+      "missedExplanation": "Conforming evidence that narrows the cause.",
+      "falseFindingNote": "Settings are controlled. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E6",
+      "kind": "conforming",
+      "text": "Line lead: \"The cartons felt thinner from the new supplier batch. I mentioned it on the shift report.\"",
+      "clause": "7.3",
+      "whyItMatters": "The lead raised a concern.",
+      "missedExplanation": "Leads to the supplier change.",
+      "falseFindingNote": "The lead raised it properly.",
+      "plantedPool": false
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Supplier change notice SCN-9 (board grade from 32 ECT to 29 ECT) was received 6 weeks ago and filed; no review or approval recorded.",
+      "clause": "8.4, 8.5.6",
+      "unlockedBy": [
+        "E6"
+      ],
+      "whyItMatters": "Changes in supplied products must be evaluated before acceptance.",
+      "missedExplanation": "Follow supplier notices to an approval record.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "The carton supplier is approved with a current evaluation.",
+      "clause": "8.4",
+      "whyItMatters": "Approval is current; the gap is in reviewing the change.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Approved supplier. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Complaint procedure requires a response within 2 working days with containment and next steps.",
+      "clause": "8.2.1",
+      "whyItMatters": "Response process defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Procedure exists. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Pallet wrapping uses 5 turns of film, as the instruction states.",
+      "clause": "8.5.4",
+      "whyItMatters": "Wrapping follows instruction.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Wrapping is as specified.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Forklift traffic is busy near dispatch.",
+      "clause": "7.1.4",
+      "whyItMatters": "Busy traffic is not linked to base splitting here.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Traffic is not linked to the defect.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "nonconformity",
+      "text": "Shift report from week 17 notes \"thin cartons\"; no one followed it up.",
+      "clause": "9.1.2",
+      "whyItMatters": "Information from staff about potential problems should be considered and acted on.",
+      "missedExplanation": "Read shift reports from before the complaint.",
+      "plantedPool": true
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What should the response to the customer include?",
+      "options": [
+        "An apology only",
+        "Containment (all batches packed in carton lot CT-77 held or under review, other customers informed), the cause found so far, the corrective action plan with dates, and a contact",
+        "A statement that the product inside is fine",
+        "A request that the customer handles cartons more carefully"
+      ],
+      "bestIndex": 1,
+      "rationale": "The customer needs to know exposure is limited and the cause is being removed."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold remaining stock packed in carton lot CT-77 and notify the other 2 customers"
+    ],
+    "correction": [
+      "Repack affected stock in conforming cartons as authorized"
+    ],
+    "cause": [
+      "Supplier change notices are filed without review, receiving tests are skipped, and staff reports are not followed up"
+    ],
+    "corrective": [
+      "Route supplier notices to technical review, enforce the board test at receiving, and review shift report issues daily"
+    ],
+    "effectiveness": [
+      "Track carton complaints and receiving test completion for six months"
+    ]
+  },
+  "debriefText": {
+    "found": "You traced the input lot across batches and customers.",
+    "missed": "A staff report or supplier notice often warns of a problem before the customer does.",
+    "falseFinding": "Pallet wrapping and forklift traffic were not linked."
+  }
+}

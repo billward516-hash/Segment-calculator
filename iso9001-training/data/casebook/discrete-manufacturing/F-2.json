@@ -1,0 +1,330 @@
+{
+  "id": "MFG-F-02",
+  "pack": "discrete-manufacturing",
+  "type": "F",
+  "title": "The Friday Shipment: Speak-Up Variant",
+  "edition": "2026",
+  "verifyStatus2015": "unverified",
+  "variantOf": "MFG-F-01",
+  "brief": "It is Friday at 3 p.m. at Meridian Works. Batch {{lot}} of 400 shafts must leave at 5 p.m. Final inspection found 2 diameter readings above the upper limit. An inspector has told the quality office that the supervisor asked for the parts to be measured again until they pass. This is a 2026 variant on quality culture and speaking up. It is preliminary and excluded from badge scoring and the capstone until verified. You have 12 visit points to gather what you need and make a decision you can justify.",
+  "visitPoints": 12,
+  "goal": "Decision quality, including speaking up",
+  "branches": [
+    "Judgment"
+  ],
+  "tokens": {
+    "lot": [
+      "S-914",
+      "S-927",
+      "S-938"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Final inspection",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Inspection record for batch {{lot}}",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Micrometer M-14 calibration label and log",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Cell supervisor",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Supervisor: what was asked of the inspector",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Machining cell",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Operators: what they would do if a part failed near shipping",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Review",
+          "label": "Near-miss log and a word with the operators",
+          "evidenceId": "E5"
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Hold and concession procedure",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Nonconformance log",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Plant manager's office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Latest management review minutes",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Recognition records",
+          "evidenceId": "E8"
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Shipping",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Shipping board",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Packing slips",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Inspection record for batch {{lot}}: readings of 25.023 mm and 25.026 mm against an upper limit of 25.020 mm, then a third entry of 25.019 mm for the same 2 shafts with no reason recorded. The batch is marked ready to ship.",
+      "clause": "8.7",
+      "confidence": "Unclear",
+      "whyItMatters": "Out-of-limit output is held until an authorized disposition. Measuring again until a part passes, with no reason recorded, hides the original result. This 2015 requirement is reported to continue in intent; any change in the 2026 wording is unclear.",
+      "missedExplanation": "Read every entry for the same part, not only the last one.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Micrometer M-14, used for all 3 readings, is calibrated and due in 3 months; the inspector repeated the first 2 readings and got the same values.",
+      "clause": "7.1.5",
+      "confidence": "Unclear",
+      "whyItMatters": "The instrument is valid and the first readings are repeatable, so they can be relied on.",
+      "missedExplanation": "Conforming evidence: the data behind the result is sound.",
+      "falseFindingNote": "The instrument and the first readings are sound. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Supervisor: \"Measure them again until they're in. Two shafts out of 400 won't stop this load.\" The supervisor says the same instruction was given on 3 earlier Fridays this quarter.",
+      "clause": "5.1.1",
+      "confidence": "High",
+      "whyItMatters": "The 2026 edition is reported to add a requirement for top management to promote and demonstrate a quality culture and ethical behavior (5.1.1). Pressure from a leader to change a result or skip a check works against it. Acting on a failed check is already a 2015 requirement.",
+      "missedExplanation": "Ask the person who applies the pressure what they asked for, and compare it with the release rule.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "observation",
+      "text": "Operator interviews: 2 of 3 operators asked did not know they may stop and hold work, or whom to tell. Awareness training record AT-14 covers procedures but not raising concerns.",
+      "clause": "7.3",
+      "confidence": "High",
+      "whyItMatters": "Awareness is reported to extend to the organization's quality culture and ethical behavior (7.3). People need to know the route for raising a concern and that they may use it.",
+      "missedExplanation": "Ask frontline staff what they would do, and whom they would tell, if a check failed near a deadline.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "observation",
+      "text": "The near-miss log shows 0 entries in 14 weeks. Two operators say a colleague who reported a fit problem in the spring was moved off the cell the following week.",
+      "clause": "7.1.4",
+      "confidence": "Medium",
+      "whyItMatters": "A note on the environment for operation of processes (7.1.4) is reported to recognize that culture can influence operating conditions. Silence after an earlier report was met badly is a sign that the environment discourages reporting. Recorded as an observation because the 2026 wording is unverified.",
+      "missedExplanation": "Compare the concern or near-miss log with what staff say in interview. The gap is the evidence.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Nonconformance log: no record for batch {{lot}}. The last entry, NCR-118, is 19 days old.",
+      "clause": "8.7",
+      "confidence": "Unclear",
+      "unlockedBy": [
+        "E7"
+      ],
+      "whyItMatters": "An out-of-limit result needs a nonconformance record so it can be dispositioned, traced, and analysed. A missing record removes the result from the system.",
+      "missedExplanation": "The procedure names the log. Follow the trail from the procedure to the record.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Procedure QP-12 requires any out-of-limit result to be held and recorded, and names the quality manager and deputy as the only people who may approve a concession. Both are on site until 6 p.m.",
+      "clause": "8.7, 5.3",
+      "confidence": "Unclear",
+      "whyItMatters": "The organization has a defined route, with named authority, for this exact situation.",
+      "missedExplanation": "Conforming evidence: a sound route exists. The risk is in bypassing it.",
+      "falseFindingNote": "The procedure is sound and the named person is available. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Recognition record RN-6: 6 weeks ago the plant manager thanked a setter in writing for stopping a run when a gauge failed. The stop and its outcome are logged.",
+      "clause": "5.1.1",
+      "confidence": "High",
+      "whyItMatters": "Thanking a person who stopped work, and recording the outcome, shows leaders supporting the behavior that 5.1.1 is reported to expect.",
+      "missedExplanation": "Conforming evidence: a sign of the culture the organization wants.",
+      "falseFindingNote": "A recognized stop-work event is good practice, not an issue.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "The shipping board lists batch {{lot}} for the 5 p.m. collection in large letters.",
+      "clause": "7.4",
+      "confidence": "Unclear",
+      "whyItMatters": "A plan shown on a board is communication, not a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The board shows the plan. A deadline on display is not evidence of a breach.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "A packing slip has one quantity struck through with a single line, initialled and dated, with the correct quantity written beside it.",
+      "clause": "7.5.3",
+      "confidence": "Unclear",
+      "whyItMatters": "A correction that leaves the original legible, with initials and date, protects the integrity of the record.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "A single-line correction with initials and date is good record practice. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "observation",
+      "text": "Management review minutes of 12 September list 6 output measures and no item on concerns raised, stop-work events, or how they were handled.",
+      "clause": "9.3",
+      "confidence": "Medium",
+      "whyItMatters": "Leaders are reported to need to demonstrate a quality culture with evidence (5.1.1). A review meeting is one place to show it. This is an observation, not a nonconformity: commentary says no separate culture program is required, so avoid audit criteria the standard may not state.",
+      "missedExplanation": "Read what leaders review. What is never discussed is rarely managed.",
+      "plantedPool": true
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "confidence": "High",
+      "prompt": "The supervisor asks you to leave the third reading as the result so the load can go at 5 p.m. What do you do?",
+      "options": [
+        "Agree; two shafts out of 400 is a small risk",
+        "Ask for the batch to be held, keep the original readings on the record, raise the matter with the quality manager now, and propose a 100 percent diameter sort so conforming shafts can still ship",
+        "Note it and raise it at Monday's meeting",
+        "Scrap the whole batch to be safe"
+      ],
+      "bestIndex": 1,
+      "rationale": "Holding the batch and keeping the true readings uses the defined route, and a sort may keep the delivery. Speaking up at once, through the named authority, is the behavior that 5.1.1 is reported to ask leaders to make easy.",
+      "optionFeedback": [
+        "This ships parts with a known nonconformity and accepts an altered record.",
+        "This is proportionate, uses the named authority, and keeps the delivery possible.",
+        "Waiting lets the batch leave with an altered record.",
+        "Scrapping is disproportionate when a sort can separate conforming shafts."
+      ]
+    },
+    {
+      "id": "D2",
+      "confidence": "High",
+      "prompt": "The inspector who reported the request is worried about the reaction. What should the plant manager do?",
+      "options": [
+        "Thank the inspector, make clear that reporting was right, review the re-measure practice as a system issue, and tell the team what has changed",
+        "Ask the inspector to keep it quiet until the batch has gone",
+        "Criticize the supervisor in front of the team at the next briefing",
+        "Take no further action because the batch was held"
+      ],
+      "bestIndex": 0,
+      "rationale": "Protecting the person who spoke up and fixing the condition, without public blame, is the evidence of leadership that an auditor would look for under the reported 5.1.1 requirement."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold batch {{lot}} and keep the original readings as the result of record"
+    ],
+    "correction": [
+      "Sort all 400 shafts with the verified micrometer; ship conforming shafts and route the rest to an authorized disposition"
+    ],
+    "cause": [
+      "Delivery pressure was allowed to override the release rule, and staff were not made aware of, or protected in using, the route for raising concerns"
+    ],
+    "corrective": [
+      "Leaders state and show that holding work is expected; add raising concerns to awareness training; require a reason on the record for any repeat measurement"
+    ],
+    "effectiveness": [
+      "For the next quarter, check monthly that out-of-limit results are recorded at the first reading and that concerns raised are logged and answered"
+    ]
+  },
+  "debriefText": {
+    "found": "You kept the true result, used the defined route, and treated the pressure as a system condition rather than a personal failing.",
+    "missed": "In a culture case, compare what the records say with what people say in interview. Leaders' responses to earlier reports are part of the evidence.",
+    "falseFinding": "A deadline on a board and a properly corrected record are normal. They show planning and good record practice, not a weak culture."
+  },
+  "bridge2026": [
+    {
+      "text": "Top management is reported to be required to promote and demonstrate a quality culture and ethical behavior. In this case, look at how leaders respond when a result fails near a shipping deadline.",
+      "confidence": "High",
+      "clause": "5.1.1"
+    },
+    {
+      "text": "Awareness is reported to extend to the organization's quality culture and ethical behavior, so staff should know how to raise a concern and that they may do so.",
+      "confidence": "High",
+      "clause": "7.3"
+    },
+    {
+      "text": "A note on the environment for operation of processes is reported to recognize that culture and ethical behavior can influence operating conditions.",
+      "confidence": "Medium",
+      "clause": "7.1.4"
+    },
+    {
+      "text": "An auditor checking culture is likely to examine decisions, records of concerns raised, and how leaders responded, rather than attitudes or a separate culture program.",
+      "confidence": "Best estimate",
+      "reasoning": "Sources describe culture as shown through behavior and evidence, and commentary says no separate culture program is required.",
+      "check": "Read 5.1.1, its note, and the Annex A guidance on culture in the purchased 2026 text, and ask the certification body how it will audit culture.",
+      "clause": "5.1.1"
+    },
+    {
+      "text": "Control of nonconforming output is reported as carried forward in intent from 2015; any change in wording is unclear.",
+      "confidence": "Unclear",
+      "clause": "8.7"
+    }
+  ]
+}

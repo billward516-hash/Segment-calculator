@@ -1,0 +1,291 @@
+{
+  "id": "MFG-F-01",
+  "pack": "discrete-manufacturing",
+  "type": "F",
+  "title": "The Friday Shipment",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "It is Friday at 3 p.m. at Meridian Works. A batch of 400 shafts for a key customer must leave at 5 p.m. to meet the contract date. Final inspection found 1 diameter reading at the upper limit and 1 just above it. The supervisor proposes shipping now and \"sorting it out on Monday\". You have 12 visit points to gather what you need and make a decision you can justify.",
+  "visitPoints": 12,
+  "goal": "Decision quality",
+  "branches": [
+    "Judgment"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Final inspection",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Inspection record for the shaft batch",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Ask",
+          "label": "Inspector: how the readings were taken",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Supervisor",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Supervisor: why ship now",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Ask",
+          "label": "Supervisor: who can approve a concession",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Concession procedure",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Customer agreement on deviations",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Metrology",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Calibration of micrometer M-14",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Production",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Machine log for the batch",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Observe",
+          "label": "Shift handover board",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Logistics",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Carrier booking and contract date",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Shipping paperwork",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Inspection record for batch S-902: sample of 32 shafts; 1 reading at 25.020 mm (limit 25.020) and 1 at 25.023 mm. The batch status is \"released\" in the system.",
+      "clause": "8.7",
+      "whyItMatters": "When a nonconforming output is found, the batch must be held until a disposition is authorized. A release status contradicts the result.",
+      "missedExplanation": "Compare the measured values with the limit and the batch status.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Inspector: \"I measured both twice with M-14 and got the same result.\" The repeat readings are recorded.",
+      "clause": "7.1.5",
+      "whyItMatters": "The result is repeatable and recorded; it can be relied on.",
+      "missedExplanation": "Conforming evidence: the data is sound.",
+      "falseFindingNote": "Careful repeat measurement is good practice.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Supervisor: \"Two parts out of 400 is nothing. The customer will never notice and we'll lose the contract if we're late.\" No release authority is cited. (note 2)",
+      "clause": "5.1.1, 8.6",
+      "whyItMatters": "Release with open nonconformities needs an authorized decision, and, where applicable, the customer's agreement. Schedule pressure does not change that.",
+      "missedExplanation": "Listen for pressure that replaces authorization.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "conforming",
+      "text": "Supervisor: \"The quality manager or deputy can approve concessions. Both are on site until 6 p.m.\"",
+      "clause": "5.3",
+      "whyItMatters": "Authority for concessions is defined and available in time.",
+      "missedExplanation": "Conforming evidence that shows a lawful route exists.",
+      "falseFindingNote": "The roles are defined and reachable. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E5",
+      "kind": "conforming",
+      "text": "Concession procedure QP-12 requires an authorized approver and, where the contract says so, customer agreement before shipment.",
+      "clause": "8.7",
+      "whyItMatters": "The organization has a process for this exact situation.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The procedure is sound. The risk is in bypassing it.",
+      "plantedPool": false
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Customer agreement CA-7 requires written customer approval before shipping any part outside drawing limits. No request has been sent.",
+      "clause": "8.2.3",
+      "unlockedBy": [
+        "E5"
+      ],
+      "whyItMatters": "Customer requirements that apply to deviations must be met.",
+      "missedExplanation": "Read the customer agreement for deviation terms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Micrometer M-14 is calibrated, due in 3 months.",
+      "clause": "7.1.5",
+      "whyItMatters": "The measurement is valid.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The instrument is valid. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "observation",
+      "text": "Machine log shows the tool offset was adjusted by 0.01 mm at part 260 with no note of why.",
+      "clause": "8.5.1",
+      "whyItMatters": "Recording why an adjustment was made helps scope a problem. The adjustment may explain the high readings.",
+      "missedExplanation": "Machine logs can show when a shift started.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "observation",
+      "text": "Carrier booking can be moved to Saturday 10 a.m. at extra cost; the contract date is Monday.",
+      "clause": "8.2.1",
+      "whyItMatters": "There is time to decide properly. The schedule is less fixed than stated.",
+      "missedExplanation": "Check how firm a deadline really is.",
+      "plantedPool": true
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "The shift handover board lists \"S-902 ship 5 p.m.\" in large letters.",
+      "clause": "7.4",
+      "whyItMatters": "A plan on a board is communication, not a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The board shows the plan. It is not evidence of a breach.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "The shipping paperwork template is revision 6, which is current.",
+      "clause": "7.5.3",
+      "whyItMatters": "Correct template in use.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The paperwork is current. Conforming.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What do you do at 3:15 p.m.?",
+      "options": [
+        "Agree to ship and note it for Monday",
+        "Ask for the batch to be held, raise the matter with the quality manager now, and propose a quick 100 percent diameter sort with a customer deviation request if any parts remain outside limits",
+        "Say nothing; it is the supervisor's call",
+        "Scrap the whole batch"
+      ],
+      "bestIndex": 1,
+      "rationale": "Holding and escalating uses the defined route. A sort may let most parts ship on time, and the customer decides on any deviation. Speaking up is part of the investigator's role.",
+      "optionFeedback": [
+        "This ships a known nonconformity without authority or customer approval.",
+        "This is proportionate, uses the defined authority, and keeps the delivery possible.",
+        "Staying silent leaves a known issue unaddressed.",
+        "Scrapping is disproportionate when sorting can separate good parts."
+      ]
+    },
+    {
+      "id": "D2",
+      "prompt": "How should the supervisor's concern about the contract be handled?",
+      "options": [
+        "Ignore it",
+        "Acknowledge it and show the options: a Saturday carrier slot and a sort, so the customer receives conforming parts by the contract date",
+        "Report the supervisor for misconduct",
+        "Promise the customer the parts are fine"
+      ],
+      "bestIndex": 1,
+      "rationale": "Pressure is real. A good response addresses the business need through the system, without blame."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold batch S-902 and change its system status from released to on hold"
+    ],
+    "correction": [
+      "Sort all 400 shafts; separate any outside limits and request customer deviation or rework as authorized"
+    ],
+    "cause": [
+      "The system allowed release with an open nonconformity, and the tool offset change was not recorded with a reason"
+    ],
+    "corrective": [
+      "Block release in the system while a nonconformity is open; require a reason for every offset adjustment"
+    ],
+    "effectiveness": [
+      "Check for a quarter that no batch is released with an open nonconformity record"
+    ]
+  },
+  "debriefText": {
+    "found": "You held the line on release while offering a route that meets the date.",
+    "missed": "Under pressure, check two things first: who has authority, and what the customer agreement says.",
+    "falseFinding": "A plan on a board and current paperwork are not problems."
+  }
+}

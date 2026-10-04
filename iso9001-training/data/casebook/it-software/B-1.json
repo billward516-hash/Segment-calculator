@@ -1,0 +1,297 @@
+{
+  "id": "ITS-B-01",
+  "pack": "it-software",
+  "type": "B",
+  "title": "Release Trail",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "After release {{rel}} of the Meridian Digital scheduling platform, three customers report that recurring appointments are duplicated. You are asked to trace release {{rel}} through its records and define which releases, environments, and customers are affected. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Scope accuracy",
+  "branches": [
+    "Mapping",
+    "Control"
+  ],
+  "tokens": {
+    "rel": [
+      "7.4.0",
+      "8.1.0",
+      "6.9.0"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Release register",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Release record for {{rel}}",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Deployment log for all regions",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Change tracker",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Change tickets included in {{rel}}",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Change ticket for the recurrence engine",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Test records",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Regression test run for {{rel}}",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Test case library for recurrence",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Third-party library list",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Date-handling library version record",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Support desk",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Tickets mentioning duplicates",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Observe",
+          "label": "Support dashboard colors",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Release manager",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "How hotfixes are recorded",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Rollback plan for {{rel}}",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Review",
+          "label": "Release note wording",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Release record for {{rel}} lists the build number 2291, the included change tickets, and the approver.",
+      "clause": "8.5.2",
+      "whyItMatters": "Release identification links the deployed software to its contents.",
+      "missedExplanation": "This record is the map for the trail.",
+      "falseFindingNote": "A complete release record is conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Deployment log: {{rel}} went to the EU region as build 2291 but to the US region as build 2293. The release record mentions only 2291.",
+      "clause": "8.5.2",
+      "unlockedBy": [
+        "E1"
+      ],
+      "whyItMatters": "The organization must be able to identify exactly what is deployed where. Two builds under one release name break traceability and widen the scope.",
+      "missedExplanation": "Compare build numbers across every region in the deployment log.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "conforming",
+      "text": "Change tickets: 12 tickets are included, each with an approver and linked tests.",
+      "clause": "8.5.6",
+      "whyItMatters": "Changes are recorded and approved.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Ticket records are complete. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Change ticket CHG-881 for the recurrence engine was edited after approval to add a second fix; there is no re-approval.",
+      "clause": "8.5.6",
+      "whyItMatters": "Changes must be reviewed and approved as they will be released. An unreviewed addition can introduce defects.",
+      "missedExplanation": "Check edit dates against approval dates.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Regression run for {{rel}}: 6 recurrence tests were skipped with the note \"flaky\"; sign-off was given with no reference to the skipped tests.",
+      "clause": "8.6",
+      "whyItMatters": "Release should follow completion of planned verification, or an authorized decision that considers what was not done.",
+      "missedExplanation": "Read skipped and failed counts, not only the pass rate.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Test case library has no test for recurring appointments that cross a daylight-saving date, although requirement REQ-77 names it.",
+      "clause": "8.3",
+      "whyItMatters": "Design verification should cover the requirements stated for the design.",
+      "missedExplanation": "Trace each requirement to at least one test.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Date-handling library was upgraded from 3.2 to 4.0 in {{rel}}; the upgrade has a ticket but no review of the library's change notes.",
+      "clause": "8.4",
+      "whyItMatters": "Externally provided components should be checked for their effect. Here a ticket exists, so it is an opportunity to strengthen the review.",
+      "missedExplanation": "Ask how third-party component updates are evaluated.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Support tickets: 3 customer reports are linked to problem record PRB-56 with customer and region noted.",
+      "clause": "9.1.2",
+      "whyItMatters": "Customer feedback is captured and linked.",
+      "missedExplanation": "Conforming evidence that helps define scope.",
+      "falseFindingNote": "Linking tickets to a problem record is good practice.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "nonconformity",
+      "text": "Release manager: \"Build 2293 was a quick hotfix for the US time zone. We did not raise a ticket; it was urgent.\" (note 4)",
+      "clause": "8.5.6, 7.5.1",
+      "supports": "E2",
+      "whyItMatters": "Every change to released software needs a record and an approval, including urgent ones.",
+      "missedExplanation": "Ask about anything not in the register.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "conforming",
+      "text": "Rollback plan for {{rel}} is documented and was tested in staging.",
+      "clause": "8.5.1",
+      "whyItMatters": "A tested rollback supports containment.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The rollback plan is sound. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "The release note uses informal wording, \"squashed a few bugs\", for 2 items.",
+      "clause": "8.2.1",
+      "whyItMatters": "Tone of a release note is not a requirement unless the customer contract sets one.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Informal wording is a style matter, not a nonconformity.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "The support dashboard uses red and green colors only.",
+      "clause": "7.1.6",
+      "whyItMatters": "Dashboard design is not a quality requirement in this case.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Dashboard colors do not affect conformity of the release.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which deployments and customers are in scope for containment?",
+      "options": [
+        "Only the 3 customers who reported the fault",
+        "All customers on build 2291 and build 2293 in both regions, with priority for recurring appointments that cross daylight-saving dates",
+        "Only the US region",
+        "Every release since the platform started"
+      ],
+      "bestIndex": 1,
+      "rationale": "The edited change ticket, the skipped tests, and the untracked hotfix mean both builds are in scope. The missing daylight-saving test points to which data to check first."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Pause further deployment of {{rel}} and assess rollback for affected regions",
+      "Notify affected customers and identify duplicated appointments"
+    ],
+    "correction": [
+      "Remove duplicate appointments with customer agreement and record build 2293 in the release register"
+    ],
+    "cause": [
+      "Urgent fixes bypass change records, and sign-off allows skipped tests without an authorized decision"
+    ],
+    "corrective": [
+      "Require a ticket and approval for every build, including hotfixes; block sign-off while planned tests are skipped without approval"
+    ],
+    "effectiveness": [
+      "Compare deployment logs with the release register for the next five releases"
+    ]
+  },
+  "debriefText": {
+    "found": "You traced the release by build number, not by its name.",
+    "missed": "The most-missed card is the second build number in the deployment log. Read build numbers region by region.",
+    "falseFinding": "Informal release note wording and dashboard colors do not break a requirement."
+  }
+}

@@ -1,0 +1,17 @@
+[
+{"id":"C01","name":"Measuring and monitoring resource control","clause":"7.1.5","cost":3,"effect":"Prevents measurement drift and expired verification events; final check detection +10 points"},
+{"id":"C02","name":"Competence and training matrix","clause":"7.2, 7.3","cost":3,"effect":"Cuts defect probability at manual stages by 30 percent; prevents the unqualified person event"},
+{"id":"C03","name":"Controlled instructions and documented information","clause":"7.5","cost":2,"effect":"Prevents outdated instruction and undocumented verbal change events"},
+{"id":"C04","name":"External provider evaluation and input verification","clause":"8.4","cost":3,"effect":"Halves the out-of-specification input event; Intake defect probability -50 percent"},
+{"id":"C05","name":"Work item identification and traceability","clause":"8.5.2","cost":2,"effect":"Limits review scope in complaint events to one work item"},
+{"id":"C06","name":"Change control","clause":"6.3, 8.5.6","cost":2,"effect":"Prevents the unreviewed process change event; mitigates provider change"},
+{"id":"C07","name":"In-process check at the constraint","clause":"8.1, 8.6","cost":3,"effect":"Detects 80 percent of defects at the core process before more value is added"},
+{"id":"C08","name":"Final release criteria and authorization","clause":"8.6","cost":2,"effect":"Final check detection rises to 85 percent (stacks with C01, cap 95 percent)"},
+{"id":"C09","name":"Nonconformance hold and disposition","clause":"8.7","cost":2,"effect":"Eliminates erroneous release of held work items"},
+{"id":"C10","name":"Corrective action process","clause":"10.2","cost":3,"effect":"Unlocks the corrective action opportunity (halves one past event's impact)"},
+{"id":"C11","name":"Internal audit program","clause":"9.2","cost":2,"effect":"Reveals one hidden gap at rounds 4, 8, 12; softens audit and training-gap events"},
+{"id":"C12","name":"Management review and objectives","clause":"5.1, 6.2, 9.3","cost":2,"effect":"Resists rush-order pressure; +2 QP at rounds 4, 8, 12"},
+{"id":"C13","name":"Customer feedback and complaint handling","clause":"8.2, 9.1.2","cost":2,"effect":"Halves reputation loss from escapes"},
+{"id":"C14","name":"Infrastructure and work environment control","clause":"7.1.3, 7.1.4","cost":3,"effect":"Halves equipment, system and environment disruption events"},
+{"id":"C15","name":"Requirements review","clause":"8.2.3, 8.2.4","cost":2,"effect":"Prevents impact of the customer requirement change event"}
+]

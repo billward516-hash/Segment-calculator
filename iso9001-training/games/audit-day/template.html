@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audit Day</title>
+<style>
+:root{--bg:#ffffff;--fg:#1b1f24;--muted:#46515c;--line:#b9c2cb;--panel:#f1f4f7;--primary:#0b4f9c;--primary-fg:#ffffff;--warn:#8a2d00;--warn-bg:#fff1e8;--ok:#0a5c2e;--ok-bg:#e7f6ec;--focus:#b85c00;--font:18px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151b;--fg:#e9eef3;--muted:#b0bac4;--line:#3b4651;--panel:#19212a;--primary:#8dbdff;--primary-fg:#08203c;--warn:#ffb88a;--warn-bg:#3a2316;--ok:#8fe0ae;--ok-bg:#12301f;--focus:#ffcf70}}
+:root[data-theme="dark"]{--bg:#10151b;--fg:#e9eef3;--muted:#b0bac4;--line:#3b4651;--panel:#19212a;--primary:#8dbdff;--primary-fg:#08203c;--warn:#ffb88a;--warn-bg:#3a2316;--ok:#8fe0ae;--ok-bg:#12301f;--focus:#ffcf70}
+*{box-sizing:border-box}
+html{font-size:var(--font)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
+header.top{border-bottom:2px solid var(--line);padding:.6rem 1rem;display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;align-items:center;justify-content:space-between}
+header.top h1{font-size:1.3rem;margin:0}
+header.top .meta{color:var(--muted);font-size:.9rem}
+.tools button{font-size:.85rem}
+nav.views:empty{display:none}
+nav.views{display:flex;flex-wrap:wrap;gap:.4rem;padding:.6rem 1rem;border-bottom:1px solid var(--line);background:var(--panel)}
+main{padding:1rem;max-width:1400px;margin:0 auto}
+h2{font-size:1.35rem;margin:1.2rem 0 .5rem}
+h3{font-size:1.1rem;margin:1rem 0 .4rem}
+h4{font-size:1rem;margin:.8rem 0 .3rem}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:.4rem .8rem;cursor:pointer;color:var(--fg)}
+button:hover:not(:disabled){border-color:var(--primary)}
+button.primary{background:var(--primary);color:var(--primary-fg);border-color:var(--primary);font-weight:600}
+button.big{font-size:1.15rem;padding:.7rem 1.4rem}
+button:disabled{opacity:.6;cursor:not-allowed}
+button[aria-current="page"]{border-color:var(--primary);box-shadow:inset 0 -4px 0 var(--primary);font-weight:700}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+input,select,textarea{max-width:100%;background:var(--bg);border:2px solid var(--line);border-radius:6px;padding:.3rem .5rem}
+textarea{width:100%;min-height:4.5rem}
+textarea.json{font-family:ui-monospace,Consolas,monospace;font-size:.85rem;min-height:14rem}
+label{display:block;margin:.5rem 0 .15rem;font-weight:600}
+fieldset{border:2px solid var(--line);border-radius:8px;margin:.6rem 0;padding:.4rem .9rem .8rem}
+legend{font-weight:700;padding:0 .3rem}
+.grid{display:grid;gap:1rem}
+.cols2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.cols3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.8rem 1rem}
+.notice{border:2px solid var(--line);border-radius:8px;padding:.6rem .9rem;font-size:.85rem;color:var(--muted);margin-top:1.5rem}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:.4rem 0}
+th,td{border:1px solid var(--line);padding:.35rem .5rem;text-align:left;vertical-align:top}
+thead th{background:var(--panel)}
+tbody th{font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.badge{display:inline-block;border:2px solid currentColor;border-radius:4px;padding:0 .35rem;font-size:.75rem;font-weight:700;letter-spacing:.03em;margin-right:.25rem;vertical-align:middle}
+.badge.ok{color:var(--ok);background:var(--ok-bg)}
+.badge.warn{color:var(--warn);background:var(--warn-bg)}
+.badge.info{color:var(--primary)}
+.doc{border:1px solid var(--line);border-radius:8px;padding:.3rem 1rem .6rem;margin:.8rem 0;background:var(--bg)}
+.docref{font-weight:400;color:var(--muted)}
+.card{border:2px solid var(--line);border-radius:10px;padding:.6rem 1rem;background:var(--bg)}
+.card h3{margin:.2rem 0}
+.card .variant{border-left:4px solid var(--primary);padding-left:.7rem;margin:.6rem 0}
+.sr{position:absolute;left:-9999px}
+.muted{color:var(--muted)}
+.timer{font-size:3rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.err{color:var(--warn);font-weight:700}
+ol.rounds{padding-left:0;list-style:none;margin:.4rem 0}
+ol.rounds li{border:2px solid var(--line);border-radius:8px;padding:.4rem .7rem;margin:.35rem 0}
+ol.rounds li.cur{border-color:var(--primary);border-width:3px}
+.kpis{display:flex;flex-wrap:wrap;gap:.6rem}
+.kpi{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:.3rem .8rem;min-width:7rem}
+.kpi b{display:block;font-size:1.4rem}
+.blank2{height:3rem}.blank3{height:6rem}
+.printpack .page{border-top:3px double var(--line);padding-top:.5rem;margin-top:1rem}
+.printpack .note{font-size:.8rem;color:var(--muted)}
+@media print{
+  nav.views,.tools,button,.noprint{display:none!important}
+  body{background:#fff;color:#000}
+  :root{--bg:#fff;--fg:#000;--muted:#222;--line:#000;--panel:#e6e6e6}
+  .printpack .page{page-break-after:always;border:0}
+  .doc,.card,table{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div><h1>Audit Day</h1><div class="meta" id="hdrmeta"></div></div>
+  <div class="tools row">
+    <button type="button" data-act="textsize" id="btn-textsize" aria-pressed="false">Large text</button>
+    <button type="button" data-act="theme" id="btn-theme">Switch theme</button>
+  </div>
+</header>
+<nav class="views" aria-label="Views" id="nav"></nav>
+<main id="app" tabindex="-1"></main>
+<div id="live" class="sr" role="status" aria-live="polite"></div>
+<footer><main>
+  <p class="notice">This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body. Fictional organization. Examples are illustrative. Sector-specific legal, clinical, safety, and food safety requirements are outside this program. Clause references use the 2015 edition numbering. Finding categories are illustrative; a certification body decides actual classification.</p>
+</main></footer>
+
+<script type="application/json" id="ad-config">__CONFIG_JSON__</script>
+<script type="application/json" id="ad-data">__DATA_JSON__</script>
+<script>
+/*__ENGINE__*/
+</script>
+<script>
+(function () {
+'use strict';
+var DATA = JSON.parse(document.getElementById('ad-data').textContent);
+var DEFAULTS = JSON.parse(document.getElementById('ad-config').textContent);
+var SAVE_KEY = 'iso9001-audit-day-save-v1';
+var esc = AD.esc;
+var CATS = ['major', 'minor', 'observation'];
+
+var app = {
+  screen: 'setup', view: 'setup', setupCfg: JSON.parse(JSON.stringify(DEFAULTS)), names: [], cfgError: '', jsonRaw: null,
+  game: null, dossier: null, keyShown: false, saved: null,
+  timer: { secs: 0, running: false, id: null },
+  cards: { pack: 'all', type: 'all', q: '' }
+};
+
+function packById(id) { return DATA.packs.filter(function (p) { return p.id === id; })[0] || null; }
+function scenario(id) { return DATA.scenarios.filter(function (s) { return s.id === id; })[0] || null; }
+function live(msg) { var el = document.getElementById('live'); if (el) el.textContent = msg; }
+function companyFor(cfg) { var p = packById(cfg.industryPack); return cfg.company || p.company; }
+
+function validateCfg(c) {
+  if (!c || typeof c !== 'object') return 'The configuration must be an object.';
+  if (!packById(c.industryPack)) return 'industryPack must be one of: ' + DATA.packs.map(function (p) { return p.id; }).join(', ') + '.';
+  if (!(c.teams >= 1 && c.teams <= 6)) return 'teams must be a number from 1 to 6.';
+  if (!(typeof c.seed === 'number' && isFinite(c.seed))) return 'seed must be a number.';
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(c.auditDate || '') || +c.auditDate.slice(5, 7) < 4) return 'auditDate must be a date (YYYY-MM-DD) from April to December, so that some audits are already due.';
+  if (!Array.isArray(c.roundMinutes) || c.roundMinutes.length !== 5 || c.roundMinutes.some(function (m) { return !(m > 0 && m <= 120); })) return 'roundMinutes must list five durations from 1 to 120.';
+  var p = c.points || {};
+  if (['found', 'wordingBonus', 'unsupportedPenalty', 'observerWeight'].some(function (k) { return typeof p[k] !== 'number'; })) return 'points must hold numbers for found, wordingBonus, unsupportedPenalty and observerWeight.';
+  return '';
+}
+
+/* ---------- persistence (best effort) ---------- */
+function save() {
+  try { if (app.game) localStorage.setItem(SAVE_KEY, JSON.stringify(app.game)); } catch (e) { /* storage may be blocked */ }
+}
+function loadSaved() {
+  try { var s = localStorage.getItem(SAVE_KEY); var g = s ? JSON.parse(s) : null; return g && g.cfg && !validateCfg(g.cfg) ? g : null; } catch (e) { return null; }
+}
+function clearSaved() { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ } }
+
+/* ---------- game ---------- */
+function buildDossier(cfg) {
+  var pack = packById(cfg.industryPack);
+  return AD.makeDossier({ pack: pack, profile: DATA.profiles[pack.id] || DATA.profiles.generic, scenarios: DATA.scenarios, seed: cfg.seed, auditDate: cfg.auditDate, company: companyFor(cfg) });
+}
+function startGame(g) {
+  app.game = g;
+  app.dossier = buildDossier(g.cfg);
+  app.screen = 'game'; app.view = 'rounds'; app.keyShown = false;
+  resetTimer();
+  save();
+}
+function newGame() {
+  var cfg = JSON.parse(JSON.stringify(app.setupCfg)), teams = [];
+  for (var i = 0; i < cfg.teams; i++) teams.push({ name: app.names[i] || ('Team ' + (i + 1)), findings: [], observer: [0, 0, 0, 0], response: { correction: '', cause: '', action: '', effect: '' } });
+  startGame({ cfg: cfg, teams: teams, round: 0 });
+  live('Audit Day started. Round 1, planning.');
+}
+function scores() {
+  return app.game.teams.map(function (t, i) { var s = AD.scoreTeam(t, app.dossier, app.game.cfg.points); s.team = i; s.name = t.name; return s; });
+}
+
+/* ---------- timer ---------- */
+function fmtTime(s) { var m = Math.floor(s / 60), r = s % 60; return m + ':' + (r < 10 ? '0' : '') + r; }
+function stopTimer() { if (app.timer.id) { clearInterval(app.timer.id); app.timer.id = null; } app.timer.running = false; }
+function resetTimer() { stopTimer(); app.timer.secs = app.game ? Math.round(app.game.cfg.roundMinutes[app.game.round] * 60) : 0; }
+function toggleTimer() {
+  if (app.timer.running) { stopTimer(); render(); return; }
+  if (app.timer.secs <= 0) resetTimer();
+  app.timer.running = true;
+  app.timer.id = setInterval(function () {
+    app.timer.secs = Math.max(0, app.timer.secs - 1);
+    var el = document.getElementById('timer'); if (el) el.textContent = fmtTime(app.timer.secs);
+    if (app.timer.secs === 0) { stopTimer(); live('Time is up for round ' + (app.game.round + 1) + '.'); render(); }
+  }, 1000);
+  render();
+}
+
+/* ---------- rendering ---------- */
+function render() {
+  var fid = document.activeElement && document.activeElement.getAttribute && document.activeElement.getAttribute('data-fid');
+  var scrollY = window.scrollY;
+  var meta = document.getElementById('hdrmeta'), nav = document.getElementById('nav');
+  var tabs;
+  if (app.screen === 'setup') {
+    meta.textContent = 'Setup';
+    tabs = [['setup', 'Setup'], ['cards', 'Scenario cards']];
+  } else {
+    var g = app.game, pack = packById(g.cfg.industryPack);
+    meta.textContent = app.dossier.company + ' • ' + pack.name + ' • Seed ' + g.cfg.seed + ' • Round ' + (g.round + 1) + ' of 5: ' + AD.ROUNDS[g.round][0];
+    tabs = [['rounds', 'Rounds and timer'], ['dossier', 'Dossier']];
+    g.teams.forEach(function (t, i) { tabs.push(['team' + i, t.name]); });
+    tabs = tabs.concat([['score', 'Scoreboard'], ['marking', 'Marking (facilitator)'], ['key', 'Answer key (facilitator)'], ['cards', 'Scenario cards'], ['debrief', 'Debrief'], ['print', 'Printable pack']]);
+  }
+  nav.innerHTML = tabs.map(function (tb) {
+    return '<button type="button" data-act="view" data-v="' + tb[0] + '"' + (app.view === tb[0] ? ' aria-current="page"' : '') + ' data-fid="nav-' + tb[0] + '">' + esc(tb[1]) + '</button>';
+  }).join('');
+  var v = app.view, html;
+  if (v === 'setup') html = renderSetup();
+  else if (v === 'cards') html = renderCards();
+  else if (v === 'rounds') html = renderRounds();
+  else if (v === 'dossier') html = renderDossier();
+  else if (v.indexOf('team') === 0) html = renderTeam(parseInt(v.slice(4), 10));
+  else if (v === 'score') html = renderScore();
+  else if (v === 'marking') html = renderMarking();
+  else if (v === 'key') html = renderKey();
+  else if (v === 'debrief') html = renderDebrief();
+  else if (v === 'print') html = renderPrint();
+  else html = '';
+  document.getElementById('app').innerHTML = html;
+  if (fid) { var el = document.querySelector('[data-fid="' + fid + '"]'); if (el) el.focus({ preventScroll: true }); }
+  window.scrollTo(0, scrollY);
+}
+
+function opt(value, label, sel) { return '<option value="' + esc(value) + '"' + (sel ? ' selected' : '') + '>' + esc(label) + '</option>'; }
+
+function renderSetup() {
+  var c = app.setupCfg, saved = app.saved, names = [];
+  for (var i = 0; i < c.teams; i++) names.push(app.names[i] || 'Team ' + (i + 1));
+  return '' +
+    (saved ? '<div class="panel"><b>A saved Audit Day was found</b> (' + esc(packById(saved.cfg.industryPack).name) + ', ' + saved.teams.length + ' teams, round ' + (saved.round + 1) + '). ' +
+      '<button type="button" class="primary" data-act="resume" data-fid="resume">Resume saved game</button> <button type="button" data-act="discard" data-fid="discard">Discard it</button></div>' : '') +
+    '<h2>Audit Day setup</h2>' +
+    '<p>Teams of 4 to 6 audit a fictional mini-organization. The dossier holds nine documents. Seven planted nonconformities are hidden in it, along with items that look wrong but are under control. Allow 75 to 90 minutes.</p>' +
+    '<div class="grid cols2"><div class="panel"><h3>Basics</h3>' +
+    '<label for="f-pack">Industry pack</label><select id="f-pack" data-field="industryPack" data-fid="f-pack">' +
+      DATA.packs.map(function (p) { return opt(p.id, p.name + ' (' + p.company + ')', p.id === c.industryPack); }).join('') + '</select>' +
+    '<p class="muted">The pack supplies the company, the work item term, stage names, measuring resources, providers and related scenarios. The planted issues and their clauses do not change.</p>' +
+    '<label for="f-teams">Number of teams (1 to 6)</label><input id="f-teams" type="number" min="1" max="6" value="' + c.teams + '" data-field="teams" data-fid="f-teams">' +
+    '<label for="f-seed">Dossier seed (the same seed gives the same dossier and answer key)</label><div class="row"><input id="f-seed" type="number" value="' + c.seed + '" data-field="seed" data-fid="f-seed"> <button type="button" data-act="randseed" data-fid="randseed">New random seed</button></div>' +
+    '<label for="f-date">Audit date shown in the dossier</label><input id="f-date" type="date" value="' + esc(c.auditDate) + '" data-field="auditDate" data-fid="f-date">' +
+    '<label for="f-company">Company name (leave blank to use the pack company)</label><input id="f-company" type="text" value="' + esc(c.company) + '" data-field="company" data-fid="f-company">' +
+    '</div><div class="panel"><h3>Team names</h3>' + names.map(function (n, i) {
+      return '<label for="f-tn' + i + '">Team ' + (i + 1) + '</label><input id="f-tn' + i + '" type="text" value="' + esc(n) + '" data-teamname="' + i + '">';
+    }).join('') + '</div></div>' +
+    '<h2>Parameters (editable)</h2><p class="muted">Round lengths in minutes and the scoring points can be changed here. Edit the values and leave the box to apply them.</p>' +
+    '<label for="f-json">Configuration (JSON)</label><textarea class="json" id="f-json" data-field="json" spellcheck="false">' + esc(app.jsonRaw != null ? app.jsonRaw : JSON.stringify(c, null, 2)) + '</textarea>' +
+    (app.cfgError ? '<p class="err" role="alert">' + esc(app.cfgError) + '</p>' : '') +
+    '<div class="row" style="margin-top:1rem"><button type="button" class="primary big" data-act="start" data-fid="start">Start Audit Day</button> <button type="button" data-act="resetcfg" data-fid="resetcfg">Reset to defaults</button></div>' +
+    '<h2>How Audit Day works</h2><div class="panel"><ol>' + AD.ROUNDS.map(function (r, i) { return '<li><b>' + esc(r[0]) + ' (' + c.roundMinutes[i] + ' minutes).</b> ' + esc(r[1]) + '</li>'; }).join('') + '</ol>' +
+    '<p><b>Scoring.</b> ' + c.points.found + ' point per planted nonconformity found with the correct clause; ' + c.points.wordingBonus + ' bonus point when that finding is properly worded; minus ' + c.points.unsupportedPenalty + ' point for each unsupported finding; plus the observer checklist score (0 to 8).</p></div>';
+}
+
+function renderRounds() {
+  var g = app.game, r = g.round, done = app.timer.secs === 0;
+  return '<h2>Rounds and timer</h2><div class="grid cols2"><div class="panel">' +
+    '<div class="muted">Round ' + (r + 1) + ' of 5</div><div style="font-size:1.5rem;font-weight:700">' + esc(AD.ROUNDS[r][0]) + '</div>' +
+    '<div class="timer" id="timer" aria-label="Time remaining">' + fmtTime(app.timer.secs) + '</div>' +
+    (done ? '<p class="err" role="alert">Time is up for this round.</p>' : '<p class="muted">' + (app.timer.running ? 'Timer running.' : 'Timer paused.') + '</p>') +
+    '<div class="row"><button type="button" class="primary" data-act="timer" data-fid="timer-btn">' + (app.timer.running ? 'Pause' : 'Start') + '</button> <button type="button" data-act="timerreset" data-fid="timer-reset">Reset</button> ' +
+    '<button type="button" data-act="prevround" data-fid="prevround"' + (r === 0 ? ' disabled' : '') + '>Previous round</button> <button type="button" class="primary" data-act="nextround" data-fid="nextround"' + (r === 4 ? ' disabled' : '') + '>Next round</button></div>' +
+    '<p>' + esc(AD.ROUNDS[r][1]) + '</p></div>' +
+    '<div class="panel"><h3>All rounds</h3><ol class="rounds">' + AD.ROUNDS.map(function (rd, i) {
+      return '<li class="' + (i === r ? 'cur' : '') + '"' + (i === r ? ' aria-current="step"' : '') + '><b>' + (i + 1) + '. ' + esc(rd[0]) + '</b> (' + g.cfg.roundMinutes[i] + ' min)' + (i === r ? ' <span class="badge info">CURRENT</span>' : i < r ? ' <span class="badge ok">DONE</span>' : '') + '</li>';
+    }).join('') + '</ol></div></div>' +
+    '<h3>Roles</h3><div class="grid cols2"><div class="panel"><b>Lead auditor</b> plans the sample, leads questions and writes findings. <b>Auditors</b> gather evidence by interview and record review.</div>' +
+    '<div class="panel"><b>Auditees</b> answer using the dossier only and may not invent evidence. <b>Observer</b> scores audit technique with the checklist in the team view.</div></div>' +
+    '<div class="row noprint" style="margin-top:1rem"><button type="button" data-act="print" data-fid="print">Print this view</button> <button type="button" data-act="newgame" data-fid="newgame">Back to setup</button></div>';
+}
+
+function renderDossier() {
+  var d = app.dossier;
+  return '<h2>Mini-organization dossier: ' + esc(d.company) + '</h2><p class="muted">Pack: ' + esc(d.packName) + '. Audit date: ' + esc(AD.fmt(d.auditDate)) + '. Auditees answer from these documents only.</p>' +
+    d.docs.map(AD.docHtml).join('') +
+    '<div class="row noprint"><button type="button" data-act="print" data-fid="print">Print the dossier</button></div>';
+}
+
+function docOptions(sel) {
+  return opt('', 'Choose a document', !sel) + app.dossier.docs.map(function (d) { return opt(d.id, d.id + ' ' + d.title, sel === d.id); }).join('') + opt('other', 'Interview or other evidence', sel === 'other');
+}
+function clauseOptions(sel) {
+  return opt('', 'Choose a clause', !sel) + DATA.clauses.map(function (c) { return opt(c[0], c[0] + ' ' + c[1], sel === c[0]); }).join('');
+}
+
+function renderTeam(ti) {
+  var t = app.game.teams[ti];
+  var h = '<h2>' + esc(t.name) + ': findings</h2><p class="muted">Round 3: write each finding with the document or area, the clause, the evidence and the category. A well-worded finding states the requirement, the evidence, and what was not met.</p>';
+  if (!t.findings.length) h += '<p>No findings recorded yet.</p>';
+  t.findings.forEach(function (f, i) {
+    var k = ti + '-' + i;
+    h += '<fieldset><legend>Finding ' + (i + 1) + '</legend><div class="grid cols3">' +
+      '<div><label for="fd-' + k + '">Document or area</label><select id="fd-' + k + '" data-ff="' + ti + ':' + i + ':doc" data-fid="fd-' + k + '">' + docOptions(f.doc) + '</select></div>' +
+      '<div><label for="fc-' + k + '">Clause (2015)</label><select id="fc-' + k + '" data-ff="' + ti + ':' + i + ':clause" data-fid="fc-' + k + '">' + clauseOptions(f.clause) + '</select></div>' +
+      '<div><label for="fk-' + k + '">Category</label><select id="fk-' + k + '" data-ff="' + ti + ':' + i + ':category" data-fid="fk-' + k + '">' + opt('', 'Choose a category', !f.category) + CATS.map(function (c) { return opt(c, c.charAt(0).toUpperCase() + c.slice(1), f.category === c); }).join('') + '</select></div></div>' +
+      '<label for="fe-' + k + '">Evidence (record, observation, or interview answer)</label><textarea id="fe-' + k + '" data-ft="' + ti + ':' + i + ':evidence">' + esc(f.evidence) + '</textarea>' +
+      '<label for="fs-' + k + '">Finding statement</label><textarea id="fs-' + k + '" data-ft="' + ti + ':' + i + ':statement">' + esc(f.statement) + '</textarea>' +
+      '<div class="row noprint" style="margin-top:.4rem"><button type="button" data-act="delfinding" data-team="' + ti + '" data-i="' + i + '" data-fid="del-' + k + '">Remove finding ' + (i + 1) + '</button></div></fieldset>';
+  });
+  h += '<div class="row noprint"><button type="button" class="primary" data-act="addfinding" data-team="' + ti + '" data-fid="add-' + ti + '">Add a finding</button></div>';
+  h += '<h3>Observer checklist</h3><p class="muted">The observer scores the auditors: 0 not shown, 1 partly shown, 2 shown consistently.</p><div class="grid cols2">' + AD.OBSERVER.map(function (c, ci) {
+    return '<div class="panel"><label for="ob-' + ti + '-' + ci + '">' + esc(c[0]) + '</label><p class="muted" style="margin:.1rem 0 .3rem">' + esc(c[1]) + '</p><select id="ob-' + ti + '-' + ci + '" data-obs="' + ti + ':' + ci + '" data-fid="ob-' + ti + '-' + ci + '">' +
+      [0, 1, 2].map(function (n) { return opt(n, n + (n === 0 ? ' (not shown)' : n === 1 ? ' (partly shown)' : ' (shown consistently)'), +t.observer[ci] === n); }).join('') + '</select></div>';
+  }).join('') + '</div><p><b>Observer score: ' + t.observer.reduce(function (a, b) { return a + (+b || 0); }, 0) + ' of 8</b></p>';
+  h += '<h3>Corrective action response (round 5)</h3><p class="muted">The auditees draft a response to one finding raised against them.</p>' +
+    [['correction', 'Correction: what will be done now'], ['cause', 'Cause: why it happened (look at the process, not only the person)'], ['action', 'Corrective action: what will stop it happening again'], ['effect', 'Effectiveness check: how and when the action will be confirmed']].map(function (x) {
+      return '<label for="re-' + ti + '-' + x[0] + '">' + esc(x[1]) + '</label><textarea id="re-' + ti + '-' + x[0] + '" data-resp="' + ti + ':' + x[0] + '">' + esc(t.response[x[0]] || '') + '</textarea>';
+    }).join('');
+  return h + '<div class="row noprint" style="margin-top:1rem"><button type="button" data-act="print" data-fid="print">Print this view</button></div>';
+}
+
+function scoreTable(list) {
+  var pts = app.game.cfg.points;
+  return '<div class="tw"><table><thead><tr><th scope="col">Rank</th><th scope="col">Team</th><th class="num" scope="col">Planted issues found (×' + pts.found + ')</th><th class="num" scope="col">Wording bonus (×' + pts.wordingBonus + ')</th><th class="num" scope="col">Unsupported (−' + pts.unsupportedPenalty + ' each)</th><th class="num" scope="col">Observer (0 to 8)</th><th class="num" scope="col">Total</th></tr></thead><tbody>' +
+    list.map(function (s, i) { return '<tr><td class="num">' + (i + 1) + '</td><th scope="row">' + esc(s.name) + '</th><td class="num">' + s.found + ' of ' + app.dossier.planted.length + '</td><td class="num">' + s.worded + '</td><td class="num">' + s.unsupported + '</td><td class="num">' + s.observer + '</td><td class="num"><b>' + s.total + '</b></td></tr>'; }).join('') + '</tbody></table></div>';
+}
+function renderScore() {
+  var list = scores().sort(function (a, b) { return b.total - a.total; });
+  return '<h2>Scoreboard</h2><p class="muted">Scores update as the facilitator marks findings. Planted items are not shown here, so this view is safe to project.</p>' + scoreTable(list) +
+    '<div class="row noprint"><button type="button" data-act="print" data-fid="print">Print this view</button></div>';
+}
+
+function renderMarking() {
+  var d = app.dossier, sc = scores();
+  var h = '<h2>Marking (facilitator only)</h2><p class="muted">Each finding links to a planted item by its dossier document unless you choose otherwise. A finding scores when the linked item is matched with an accepted clause. A finding with no linked planted item counts as unsupported unless you set it to "No". Tick "Well worded" when the statement gives the requirement, the evidence, and what was not met.</p>';
+  app.game.teams.forEach(function (t, ti) {
+    var s = sc[ti];
+    h += '<h3>' + esc(t.name) + '</h3>';
+    if (!t.findings.length) { h += '<p>No findings recorded.</p>'; return; }
+    h += '<div class="tw"><table><thead><tr><th scope="col">No.</th><th scope="col">Document</th><th scope="col">Clause</th><th scope="col">Category</th><th scope="col">Evidence and statement</th><th scope="col">Linked planted item</th><th scope="col">Result</th><th scope="col">Well worded</th><th scope="col">Unsupported</th></tr></thead><tbody>';
+    t.findings.forEach(function (f, i) {
+      var row = s.rows[i], auto = AD.linkOf({ doc: f.doc }, d), k = ti + ':' + i;
+      h += '<tr><td class="num">' + (i + 1) + '</td><td>' + esc(f.doc || '(none)') + '</td><td>' + esc(f.clause || '(none)') + '</td><td>' + esc(f.category || '(none)') + '</td>' +
+        '<td><div>' + esc(f.evidence || '(no evidence)') + '</div><div class="muted">' + esc(f.statement || '(no statement)') + '</div></td>' +
+        '<td><label class="sr" for="ml-' + ti + '-' + i + '">Linked planted item for finding ' + (i + 1) + '</label><select id="ml-' + ti + '-' + i + '" data-mark="' + k + ':link" data-fid="ml-' + ti + '-' + i + '">' + opt('', 'Automatic (' + (auto || 'none') + ')', !f.link) + d.planted.map(function (p) { return opt(p.id, p.id + ' ' + p.title, f.link === p.id); }).join('') + opt('none', 'None', f.link === 'none') + '</select></td>' +
+        '<td>' + (row.correct ? '<span class="badge ok">FOUND</span> Clause accepted' : row.link ? '<span class="badge warn">WRONG CLAUSE</span> No point' : '<span class="badge info">NO MATCH</span>') + '</td>' +
+        '<td><label><input type="checkbox" data-mark="' + k + ':wellWorded" data-fid="mw-' + ti + '-' + i + '"' + (f.wellWorded ? ' checked' : '') + '> Well worded</label></td>' +
+        '<td><label class="sr" for="mu-' + ti + '-' + i + '">Unsupported for finding ' + (i + 1) + '</label><select id="mu-' + ti + '-' + i + '" data-mark="' + k + ':unsupported" data-fid="mu-' + ti + '-' + i + '">' + opt('', 'Automatic (' + (row.link ? 'No' : 'Yes') + ')', f.unsupported == null) + opt('yes', 'Yes (penalty)', f.unsupported === true) + opt('no', 'No', f.unsupported === false) + '</select></td></tr>';
+    });
+    h += '</tbody></table></div><p><b>Total: ' + s.total + '</b> (found ' + s.found + ', wording bonus ' + s.worded + ', unsupported ' + s.unsupported + ', observer ' + s.observer + ')</p>';
+  });
+  return h + '<h3>Scoreboard</h3>' + scoreTable(sc.slice().sort(function (a, b) { return b.total - a.total; }));
+}
+
+function renderKey() {
+  var d = app.dossier;
+  if (!app.keyShown) return '<h2>Answer key (facilitator only)</h2><div class="panel"><p>The answer key lists the planted nonconformities. Do not project it while teams are auditing.</p><button type="button" class="primary" data-act="showkey" data-fid="showkey">Show the answer key</button></div>';
+  return '<h2>Answer key (facilitator only)</h2><p class="muted">Seed ' + esc(d.seed) + '. Accept the clauses listed. Categories are illustrative.</p>' +
+    '<div class="tw"><table><thead><tr><th scope="col">Item</th><th scope="col">Where to find it</th><th scope="col">Accepted clauses</th><th scope="col">Category</th><th scope="col">Model finding</th><th scope="col">Related scenario</th></tr></thead><tbody>' +
+    d.planted.map(function (p) {
+      var s = scenario(p.scenarioId);
+      return '<tr><th scope="row">' + esc(p.id) + ' ' + esc(p.title) + '</th><td>' + esc(p.docId + ': ' + p.where) + '</td><td>' + esc(p.clauses.join(' or ')) + '</td><td>' + esc(p.category) + '</td><td>' + esc(p.model) + '</td><td>' +
+        (s ? '<button type="button" data-act="opencard" data-id="' + esc(s.id) + '" data-fid="oc-' + p.id + '">' + esc(s.id + ' ' + s.title) + '</button>' : esc(p.scenarioId)) + '</td></tr>';
+    }).join('') + '</tbody></table></div>' +
+    '<h3>Items under control (do not report)</h3><ul>' + d.traps.map(function (x) { return '<li><b>' + esc(x.docId) + ':</b> ' + esc(x.text) + ' ' + esc(x.why) + '</li>'; }).join('') + '</ul>' +
+    '<div class="row noprint"><button type="button" data-act="hidekey" data-fid="hidekey">Hide the answer key</button> <button type="button" data-act="print" data-fid="print">Print this view</button></div>';
+}
+
+function cardHtml(s, nested) {
+  var pack = packById(s.pack);
+  var h = '<article class="' + (nested ? 'variant' : 'card') + '" aria-labelledby="card-' + s.id + (nested ? '-v' : '') + '">' +
+    '<' + (nested ? 'h4' : 'h3') + ' id="card-' + s.id + (nested ? '-v' : '') + '">' + esc(s.id + ' ' + s.title) + '</' + (nested ? 'h4' : 'h3') + '>' +
+    '<div class="muted">' + esc(s.setting) + ' • ' + esc(pack ? pack.name : s.pack) + '</div>' +
+    '<p>' + esc(s.narrative) + '</p><b>Evidence</b><ul>' + s.evidence.map(function (e) { return '<li>' + esc(e) + '</li>'; }).join('') + '</ul>' +
+    '<details><summary>Show the answer for ' + esc(s.id) + '</summary><p><b>Clause:</b> ' + esc(s.clause) + '. <b>Type:</b> ' + esc(s.finding_type) + '. <b>Roles:</b> ' + esc(s.roles.join(', ')) + '.</p><p><b>Expected action:</b> ' + esc(s.expected_action) + '</p></details>';
+  if (!nested) {
+    if (s.pack === 'generic') {
+      var vars = DATA.scenarios.filter(function (x) { return x.variant_of === s.id; });
+      if (vars.length) h += '<details><summary>Sector variants of ' + esc(s.id) + ' (' + vars.length + ')</summary>' + vars.map(function (x) { return cardHtml(x, true); }).join('') + '</details>';
+    } else if (s.variant_of && scenario(s.variant_of)) {
+      h += '<details><summary>Generic version: ' + esc(s.variant_of) + '</summary>' + cardHtml(scenario(s.variant_of), true) + '</details>';
+    }
+  }
+  return h + '</article>';
+}
+function renderCards() {
+  var f = app.cards, q = f.q.trim().toLowerCase();
+  var list = DATA.scenarios.filter(function (s) {
+    if (f.pack !== 'all' && s.pack !== f.pack) return false;
+    if (f.type !== 'all' && s.finding_type !== f.type) return false;
+    if (q && (s.id + ' ' + s.title + ' ' + s.setting + ' ' + s.narrative + ' ' + s.clause).toLowerCase().indexOf(q) < 0) return false;
+    return true;
+  });
+  return '<h2>Scenario cards</h2><p class="muted">Use the cards for Audit Day sampling, Clause Sprint and the capstone. Answers are hidden until opened. Generic cards list their sector variants. About one card in five is conforming: not every visit produces a finding.</p>' +
+    '<div class="panel row noprint"><div><label for="cf-pack">Pack</label><select id="cf-pack" data-card="pack" data-fid="cf-pack">' + opt('all', 'All packs', f.pack === 'all') + DATA.packs.map(function (p) { return opt(p.id, p.name, f.pack === p.id); }).join('') + '</select></div>' +
+    '<div><label for="cf-type">Type</label><select id="cf-type" data-card="type" data-fid="cf-type">' + ['all', 'major', 'minor', 'observation', 'conforming'].map(function (t) { return opt(t, t === 'all' ? 'All types' : t, f.type === t); }).join('') + '</select></div>' +
+    '<div><label for="cf-q">Search (press Enter)</label><input id="cf-q" type="search" value="' + esc(f.q) + '" data-card="q" data-fid="cf-q"></div>' +
+    '<div><label>&nbsp;</label><button type="button" data-act="clearcards" data-fid="clearcards">Clear filters</button> <button type="button" data-act="print" data-fid="print">Print cards</button></div></div>' +
+    '<p role="status">' + list.length + ' card' + (list.length === 1 ? '' : 's') + ' shown.</p><div class="grid cols2">' + list.map(function (s) { return cardHtml(s, false); }).join('') + '</div>';
+}
+
+function renderDebrief() {
+  var d = app.dossier, sc = scores();
+  return '<h2>Debrief</h2><div class="panel"><ol>' + AD.DEBRIEF.map(function (q) { return '<li>' + esc(q) + '</li>'; }).join('') + '</ol></div>' +
+    '<h3>Clause-mapping debrief</h3><p class="muted">Which requirement does each planted issue relate to? Reveal after the closing meeting.</p>' +
+    '<details><summary>Show the clause map of planted issues</summary><div class="tw"><table><thead><tr><th scope="col">Item</th><th scope="col">Issue</th><th scope="col">Clause</th><th scope="col">Teams that found it</th></tr></thead><tbody>' +
+    d.planted.map(function (p) {
+      var who = sc.filter(function (s) { return s.foundIds.indexOf(p.id) >= 0; }).map(function (s) { return s.name; });
+      return '<tr><th scope="row">' + esc(p.id) + '</th><td>' + esc(p.title) + '</td><td>' + esc(p.clauses.join(' or ')) + '</td><td>' + (who.length ? esc(who.join(', ')) : 'None') + '</td></tr>';
+    }).join('') + '</tbody></table></div><h4>Items that looked wrong but were under control</h4><ul>' + d.traps.map(function (x) { return '<li>' + esc(x.text) + ' ' + esc(x.why) + '</li>'; }).join('') + '</ul></details>' +
+    '<h3>Finding or observation?</h3><div class="panel"><p>A <b>finding</b> (nonconformity) needs a requirement, objective evidence, and a clear gap between them. An <b>observation</b> notes a weakness or risk where no requirement is yet broken. When evidence shows the requirement is met, record it as conforming and move on.</p></div>';
+}
+
+function renderPrint() {
+  var g = app.game;
+  var body = AD.printSections(app.dossier, { teams: g.teams.length, minutes: g.cfg.roundMinutes, points: g.cfg.points, notice: '<p class="note">This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body. Fictional organization.</p>' });
+  return '<h2 class="noprint">Printable pack</h2><div class="panel noprint"><p>This view holds the briefing, the dossier, finding forms for each team, the corrective action form, the observer checklist, the scoring sheet and the answer key for this game. Each section starts on a new page. Remove the answer key pages before handing out.</p>' +
+    '<div class="row"><button type="button" class="primary" data-act="print" data-fid="print">Print the pack</button></div>' +
+    '<p class="muted">A ready-made pack for the default pack and seed is in games/printables/audit-day-dossier.html.</p></div><div class="printpack">' + body + '</div>';
+}
+
+/* ---------- events ---------- */
+function findingAt(spec) { var p = spec.split(':'); return { team: app.game.teams[+p[0]], f: app.game.teams[+p[0]].findings[+p[1]], key: p[2] }; }
+
+document.addEventListener('click', function (e) {
+  var b = e.target.closest ? e.target.closest('[data-act]') : null;
+  if (!b || b.disabled) return;
+  var act = b.getAttribute('data-act');
+  switch (act) {
+    case 'view': app.view = b.getAttribute('data-v'); break;
+    case 'start': {
+      if (app.jsonRaw != null) break;
+      var bad = validateCfg(app.setupCfg); if (bad) { app.cfgError = bad; break; }
+      newGame(); break;
+    }
+    case 'randseed': app.jsonRaw = null; app.setupCfg.seed = Math.floor(Math.random() * 900000) + 100000; break;
+    case 'resetcfg': app.setupCfg = JSON.parse(JSON.stringify(DEFAULTS)); app.names = []; app.cfgError = ''; app.jsonRaw = null; break;
+    case 'resume': startGame(app.saved); break;
+    case 'discard': clearSaved(); app.saved = null; break;
+    case 'newgame': stopTimer(); app.screen = 'setup'; app.view = 'setup'; app.saved = loadSaved(); break;
+    case 'timer': toggleTimer(); return;
+    case 'timerreset': resetTimer(); break;
+    case 'nextround': if (app.game.round < 4) { app.game.round++; resetTimer(); save(); live('Round ' + (app.game.round + 1) + ': ' + AD.ROUNDS[app.game.round][0] + '.'); } break;
+    case 'prevround': if (app.game.round > 0) { app.game.round--; resetTimer(); save(); live('Round ' + (app.game.round + 1) + ': ' + AD.ROUNDS[app.game.round][0] + '.'); } break;
+    case 'addfinding': {
+      var ti = +b.getAttribute('data-team'), t = app.game.teams[ti];
+      t.findings.push({ doc: '', clause: '', category: '', evidence: '', statement: '', link: '', wellWorded: false, unsupported: null });
+      save(); live('Finding ' + t.findings.length + ' added for ' + t.name + '.');
+      render();
+      var el = document.getElementById('fd-' + ti + '-' + (t.findings.length - 1)); if (el) el.focus();
+      return;
+    }
+    case 'delfinding': {
+      var t2 = app.game.teams[+b.getAttribute('data-team')];
+      t2.findings.splice(+b.getAttribute('data-i'), 1); save(); live('Finding removed.');
+      render(); var add = document.querySelector('[data-fid="add-' + b.getAttribute('data-team') + '"]'); if (add) add.focus();
+      return;
+    }
+    case 'showkey': app.keyShown = true; break;
+    case 'hidekey': app.keyShown = false; break;
+    case 'opencard': app.cards = { pack: 'all', type: 'all', q: b.getAttribute('data-id') }; app.view = 'cards'; break;
+    case 'clearcards': app.cards = { pack: 'all', type: 'all', q: '' }; break;
+    case 'print': try { window.print(); } catch (err) { /* blocked */ } return;
+    case 'textsize': { var on = document.documentElement.style.getPropertyValue('--font') === '24px'; document.documentElement.style.setProperty('--font', on ? '18px' : '24px'); b.setAttribute('aria-pressed', on ? 'false' : 'true'); return; }
+    case 'theme': { var cur = document.documentElement.getAttribute('data-theme'); var dark = cur ? cur === 'dark' : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark'); return; }
+  }
+  render();
+});
+
+document.addEventListener('change', function (e) {
+  var el = e.target, a;
+  if (el.hasAttribute('data-field')) {
+    var f = el.getAttribute('data-field');
+    if (f === 'json') {
+      try {
+        var parsed = JSON.parse(el.value), bad = validateCfg(parsed);
+        if (bad) { app.cfgError = bad; app.jsonRaw = el.value; } else { app.setupCfg = parsed; app.cfgError = ''; app.jsonRaw = null; }
+      } catch (err) { app.cfgError = 'The configuration is not valid JSON: ' + err.message; app.jsonRaw = el.value; }
+    } else {
+      app.jsonRaw = null; app.cfgError = '';
+      if (f === 'teams' || f === 'seed') { var v = parseInt(el.value, 10); if (isNaN(v)) v = DEFAULTS[f]; if (f === 'teams') v = Math.max(1, Math.min(6, v)); app.setupCfg[f] = v; }
+      else app.setupCfg[f] = el.value;
+      app.cfgError = validateCfg(app.setupCfg);
+    }
+    render();
+  } else if (el.hasAttribute('data-teamname')) {
+    app.names[+el.getAttribute('data-teamname')] = el.value;
+  } else if (el.hasAttribute('data-ff')) {
+    a = findingAt(el.getAttribute('data-ff')); a.f[a.key] = el.value; save();
+  } else if (el.hasAttribute('data-obs')) {
+    var p = el.getAttribute('data-obs').split(':'); app.game.teams[+p[0]].observer[+p[1]] = +el.value; save(); render();
+  } else if (el.hasAttribute('data-mark')) {
+    a = findingAt(el.getAttribute('data-mark'));
+    if (a.key === 'wellWorded') a.f.wellWorded = el.checked;
+    else if (a.key === 'unsupported') a.f.unsupported = el.value === '' ? null : el.value === 'yes';
+    else a.f.link = el.value;
+    save(); render();
+  } else if (el.hasAttribute('data-card')) {
+    app.cards[el.getAttribute('data-card')] = el.value; render();
+  }
+});
+document.addEventListener('input', function (e) {
+  var el = e.target, a;
+  if (el.hasAttribute('data-ft')) { a = findingAt(el.getAttribute('data-ft')); a.f[a.key] = el.value; save(); }
+  else if (el.hasAttribute('data-resp')) { var p = el.getAttribute('data-resp').split(':'); app.game.teams[+p[0]].response[p[1]] = el.value; save(); }
+});
+
+/* ---------- start ---------- */
+app.saved = loadSaved();
+render();
+})();
+</script>
+</body>
+</html>

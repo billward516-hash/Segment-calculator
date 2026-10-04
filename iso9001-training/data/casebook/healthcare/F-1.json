@@ -1,0 +1,273 @@
+{
+  "id": "HCS-F-01",
+  "pack": "healthcare",
+  "type": "F",
+  "title": "The Pending Result",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "At Meridian Care it is 5 p.m. A bed is urgently needed. A colleague proposes discharging a patient now although a test result listed on the discharge checklist as \"to be reviewed before discharge\" is still pending. This visit covers management system topics only. Clinical decisions, clinical standards, and law are outside its scope; the investigator does not judge clinical care. Your role is to make sure the organization's own discharge process is followed and the right people decide. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Decision quality",
+  "branches": [
+    "Judgment"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Discharge checklist",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Checklist for this patient",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Discharge procedure",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Colleague",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Why discharge now",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Ask",
+          "label": "Who decides when a listed result is pending",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Laboratory",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "When will the result be ready",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Bed management",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Are there other bed options",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Records",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Electronic discharge status",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Observe",
+          "label": "Ward clock",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Ward",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Busy corridor",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Escalation contact list",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Checklist DC-1 for this patient has \"result reviewed\" blank, but \"discharge approved\" is initialed at 4:50 p.m.",
+      "clause": "8.6, 8.5.1",
+      "whyItMatters": "The organization's own release step must be completed, or the defined authority must decide.",
+      "missedExplanation": "Read every line of the checklist.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Discharge procedure DP-4 states that when a listed result is pending, the responsible clinician decides and records the decision.",
+      "clause": "8.5.1",
+      "whyItMatters": "The organization defines who decides.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Sound procedure.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Colleague: \"The bed is needed and results like this are usually fine. Just sign it.\" (note 4)",
+      "clause": "5.1.1",
+      "whyItMatters": "Pressure must not replace the defined decision step.",
+      "missedExplanation": "Listen for pressure replacing process.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "conforming",
+      "text": "Colleague confirms the responsible clinician is on the ward until 6 p.m.",
+      "clause": "5.3",
+      "whyItMatters": "Authority available.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Available.",
+      "plantedPool": false
+    },
+    {
+      "id": "E5",
+      "kind": "observation",
+      "text": "Laboratory: \"Result expected about 5:40 p.m.\" (request L-882)",
+      "clause": "8.4",
+      "whyItMatters": "The wait is short.",
+      "missedExplanation": "Ask how long the wait is.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "observation",
+      "text": "Bed management: \"A bed on ward 7 frees at 5:30 p.m.\" (bed log BM-3)",
+      "clause": "8.1",
+      "whyItMatters": "Alternatives exist.",
+      "missedExplanation": "Ask about options.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Electronic status shows \"discharged\" though the patient is still on the ward (record EDS-12).",
+      "clause": "7.5.1",
+      "whyItMatters": "Records must reflect the actual status.",
+      "missedExplanation": "Compare system status with reality.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "redHerring",
+      "text": "Ward clock is 2 minutes fast.",
+      "clause": "7.1.4",
+      "whyItMatters": "Not significant.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not significant.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "The corridor is busy.",
+      "clause": "7.1.4",
+      "whyItMatters": "Context.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Context.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "conforming",
+      "text": "Escalation contacts are current.",
+      "clause": "5.3",
+      "whyItMatters": "Conforming.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Current.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What do you do at 5:05 p.m.?",
+      "options": [
+        "Agree to discharge",
+        "Ask that the discharge approval and electronic status be put back to pending, and ask the responsible clinician to make and record the decision as the procedure requires, noting the ward 7 bed option",
+        "Make the clinical decision yourself",
+        "Say nothing"
+      ],
+      "bestIndex": 1,
+      "rationale": "The investigator does not make clinical decisions. The right action is to ensure the organization's own process is followed and the named person decides.",
+      "optionFeedback": [
+        "Bypasses the organization's own decision step.",
+        "Uses the defined process and authority; the clinician decides.",
+        "Outside your role and outside this program.",
+        "Leaves a process breach in place."
+      ]
+    },
+    {
+      "id": "D2",
+      "prompt": "How do you respond to \"just sign it\"?",
+      "options": [
+        "Sign it",
+        "Acknowledge the pressure, point to the procedure and the available clinician, and share the bed and laboratory timings",
+        "Report the colleague",
+        "Walk away"
+      ],
+      "bestIndex": 1,
+      "rationale": "Facts and the defined route address the pressure without blame."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Return the checklist and electronic status to pending until the responsible clinician decides"
+    ],
+    "correction": [
+      "Record the clinician's decision on the checklist"
+    ],
+    "cause": [
+      "The checklist and system allow approval with a listed review blank"
+    ],
+    "corrective": [
+      "Make the result review a required step before approval can be recorded"
+    ],
+    "effectiveness": [
+      "Audit discharge checklists weekly for two months"
+    ]
+  },
+  "debriefText": {
+    "found": "You kept the decision with the right person and found practical options.",
+    "missed": "Ask how long the wait really is and what alternatives exist.",
+    "falseFinding": "A clock and a busy corridor are not findings."
+  }
+}

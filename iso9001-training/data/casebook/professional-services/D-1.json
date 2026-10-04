@@ -1,0 +1,269 @@
+{
+  "id": "PRO-D-01",
+  "pack": "professional-services",
+  "type": "D",
+  "title": "The Model Update",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Meridian Advisory plans to roll out version 4 of its pricing model to all analysts next week. Change request MC-8 is due for approval. You have 12 visit points to assess the change for risks, controls, and records.",
+  "visitPoints": 12,
+  "goal": "Completeness",
+  "branches": [
+    "Control"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Model owner",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Change request MC-8",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Verification of version 4",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Client contracts",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Client terms on methodology changes",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Model owner appointment",
+          "evidenceId": "E11"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Model library",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Access and version control",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Review",
+          "label": "Retirement of version 3",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Risk register",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Model risk assessment",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Training",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Analyst briefing plan",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Team",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Model colours",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Observe",
+          "label": "Launch email draft",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Model documentation",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "MC-8 states purpose, scope, and approvers.",
+      "clause": "6.3",
+      "whyItMatters": "Change started properly.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Verification of version 4: 3 test cases run; no comparison with version 3 results on live engagements; no criteria (record VR-4).",
+      "clause": "7.1.5, 8.5.6",
+      "whyItMatters": "Model changes need verification against criteria.",
+      "missedExplanation": "Ask what was compared and against what.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "2 client contracts (C-17, C-22) require notice before methodology changes on ongoing work.",
+      "clause": "8.2.3",
+      "whyItMatters": "Client requirements must be met.",
+      "missedExplanation": "Read client terms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Model library allows any analyst to save over the master file (permission set PS-1).",
+      "clause": "7.5.3",
+      "whyItMatters": "Controlled documents must be protected from unintended change.",
+      "missedExplanation": "Check who can edit masters.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "observation",
+      "text": "No plan to retire version 3 (MC-8 section 6 blank).",
+      "clause": "7.5.3",
+      "whyItMatters": "Retirement prevents use of obsolete versions.",
+      "missedExplanation": "Ask what happens to the old version.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Model risk assessment MR-1 is for version 2.",
+      "clause": "6.1",
+      "whyItMatters": "Risks of the change must be assessed.",
+      "missedExplanation": "Check the risk record matches the version.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Briefing plan is an email (draft BE-1).",
+      "clause": "7.2",
+      "whyItMatters": "Fuller training would support use.",
+      "missedExplanation": "Ask how users learn.",
+      "plantedPool": true
+    },
+    {
+      "id": "E11",
+      "kind": "conforming",
+      "text": "The model owner is named in the role list and approved MC-8 for submission.",
+      "clause": "5.3",
+      "whyItMatters": "Responsibility is assigned.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Named owner.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "redHerring",
+      "text": "Version 4 uses a new colour scheme.",
+      "clause": "7.5.2",
+      "whyItMatters": "Style only.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Style.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "Launch email draft is enthusiastic.",
+      "clause": "7.4",
+      "whyItMatters": "Tone of internal email is not a requirement.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not a requirement.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "conforming",
+      "text": "Model documentation for version 4 is complete with owner and version.",
+      "clause": "7.5.2",
+      "whyItMatters": "Documented.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Should MC-8 be approved next week?",
+      "options": [
+        "Yes",
+        "Defer with conditions: verification with criteria and parallel runs, client notice, master file protection, retirement of version 3, risk update, and training",
+        "Approve for new clients only without verification",
+        "Reject"
+      ],
+      "bestIndex": 1,
+      "rationale": "The update can go ahead once the review is complete."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Keep version 3 as master until MC-8 is approved"
+    ],
+    "correction": [
+      "Complete verification, client notice, protection, retirement, risk, and training"
+    ],
+    "cause": [
+      "The model change process lacks verification criteria and client and retirement steps"
+    ],
+    "corrective": [
+      "Add these to the model change procedure"
+    ],
+    "effectiveness": [
+      "Audit the next three model changes"
+    ]
+  },
+  "debriefText": {
+    "found": "You checked verification, clients, control, and risk.",
+    "missed": "Ask who can overwrite a master file.",
+    "falseFinding": "Colours and email tone are not findings."
+  }
+}

@@ -1,0 +1,1349 @@
+{
+  "meta": {
+    "caution": "CAUTION: PRELIMINARY 2026 INFORMATION. This section describes the 2026 edition of ISO 9001 using the best available secondary commentary and informed estimates. It has not been verified against the published standard and may contain errors, omissions, or incorrect clause references. Do not use it as a substitute for the standard in audit preparation, certification decisions, procedure revisions, or training records. Always consult the published ISO 9001:2026 text and your certification body.",
+    "edition": "2026",
+    "verifyStatus": "unverified",
+    "source": "Authored from Appendix A of the program specification (secondary commentary retrieved 4 October 2026). Original wording; no text from the standard.",
+    "confidenceKey": [
+      "High",
+      "Medium",
+      "Single",
+      "Unclear",
+      "Best estimate"
+    ],
+    "sprintCards": {
+      "unchanged": "Unchanged",
+      "changed": "New or changed in 2026",
+      "verify": "Not sure; verify"
+    },
+    "sprintScoring": "Matching card 2 points. For Single, Unclear and Best estimate items, the verify card also earns 1 point."
+  },
+  "questions": [
+    {
+      "id": "BQ001",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "Which 2026 clause is reported to add a top management responsibility for promoting quality culture and ethical behavior?",
+      "options": [
+        "7.5",
+        "5.1.1",
+        "8.7",
+        "9.2"
+      ],
+      "answer": 1,
+      "rationale": "Multiple sources report that 5.1.1 (leadership and commitment) now expects top management to promote and demonstrate a quality culture and ethical behavior. Confirm in the purchased text.",
+      "clause": "5.1.1",
+      "clause2015": "5.1.1",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ002",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "Which clause is reported to extend awareness to quality culture and ethical behavior?",
+      "options": [
+        "7.3",
+        "7.1.5",
+        "8.4",
+        "10.2"
+      ],
+      "answer": 0,
+      "rationale": "Awareness (7.3) is reported to include the organization's quality culture and ethical behavior.",
+      "clause": "7.3",
+      "clause2015": "7.3",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ003",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "In the 2026 edition, risks and opportunities are reported to be addressed in which subclauses?",
+      "options": [
+        "6.2.1 to 6.2.2",
+        "8.1 only",
+        "10.1 to 10.3",
+        "6.1.1 to 6.1.3"
+      ],
+      "answer": 3,
+      "rationale": "Sources report that 6.1 is restructured into 6.1.1 to 6.1.3 so that risks and opportunities are handled more distinctly. Numbering is reported, not verified.",
+      "clause": "6.1.1 to 6.1.3",
+      "clause2015": "6.1",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ004",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "scenario",
+      "stem": "A supervisor suggests adjusting a recorded reading so that a work item avoids a hold. Which culture principle is at issue?",
+      "options": [
+        "Customer focus in delivery planning",
+        "Control of infrastructure",
+        "Ethical behavior in records and reporting",
+        "Calibration interval setting"
+      ],
+      "answer": 2,
+      "rationale": "Recording a value other than the true one is a failure of ethical behavior in records. The reported 5.1.1 change expects leaders to promote ethical behavior; the 2015 controls on records and nonconforming output already apply.",
+      "clause": "5.1.1, 8.7",
+      "clause2015": "5.1.1, 8.7",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ005",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "scenario",
+      "stem": "Which of these is an opportunity rather than a risk?",
+      "options": [
+        "Only one person is qualified for a key method",
+        "A trial of an improved measuring tool that could reduce rework",
+        "Input variation from an external provider",
+        "A measuring tool that is past its verification date"
+      ],
+      "answer": 1,
+      "rationale": "Opportunities could improve results; risks could prevent intended results. The reported 2026 restructuring of 6.1 asks for both to be identified and acted on.",
+      "clause": "6.1.1 to 6.1.3",
+      "clause2015": "6.1",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ006",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "What does planning of a change include, beyond approval?",
+      "options": [
+        "Communication to affected people, monitoring, and a review of whether the change achieved its intended result",
+        "Only a signature from the department manager",
+        "A new written procedure for every change",
+        "Notifying the certification body before every change"
+      ],
+      "answer": 0,
+      "rationale": "The reported strengthening of 6.3 adds explicit attention to communication, monitoring, evaluation, and review of QMS changes.",
+      "clause": "6.3",
+      "clause2015": "6.3",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ007",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Best estimate",
+      "type": "knowledge",
+      "stem": "Does ISO 9001:2026 require a separate quality culture program?",
+      "options": [
+        "Yes; a separate documented culture program is required",
+        "Yes; but only for organizations with more than 50 people",
+        "No; culture is not mentioned in the 2026 edition",
+        "No, as reported; the expectation concerns leadership promotion and demonstrated behavior (verify)"
+      ],
+      "answer": 3,
+      "rationale": "Best estimate. Reasoning: commentary indicates no separate program or new mandatory procedure is required, and the reported change sits in leadership expectations. Check: read 5.1.1, its note, and 7.5 in the purchased text.",
+      "clause": "5.1.1",
+      "clause2015": "5.1.1",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ008",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "Which edition is the company currently certified against?",
+      "options": [
+        "ISO 9001:2026, from its publication date",
+        "ISO 9001:2008",
+        "ISO 9001:2015, until the company completes its transition",
+        "ISO 9000:2026"
+      ],
+      "answer": 2,
+      "rationale": "The company certificate is issued against ISO 9001:2015 [OWNER INPUT: confirm the certificate]. Audits are expected to continue against 2015 until the transition is complete.",
+      "clause": "4.3",
+      "clause2015": "4.3",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ009",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "Before the 2026 edition, climate change was introduced into ISO 9001 through which instrument?",
+      "options": [
+        "A guidance note from the certification body",
+        "Amendment 1:2024",
+        "ISO 9000:2015",
+        "Annex B of ISO 9001:2015"
+      ],
+      "answer": 1,
+      "rationale": "Amendment 1:2024 added climate change considerations to 4.1 and 4.2. The 2026 edition is reported to integrate them into the base text.",
+      "clause": "4.1, 4.2",
+      "clause2015": "4.1, 4.2",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ010",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Single",
+      "type": "knowledge",
+      "stem": "Which two 2015 clauses are reported to be consolidated into 2026 Clause 10.1?",
+      "options": [
+        "10.1 and 10.3",
+        "10.1 and 10.2",
+        "9.1 and 10.1",
+        "6.1 and 10.3"
+      ],
+      "answer": 0,
+      "rationale": "One source gives this detail (Single). Consolidation of improvement requirements is reported by two sources (Medium). Verify the numbering.",
+      "clause": "10.1",
+      "clause2015": "10.1, 10.3",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 3,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ011",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Medium",
+      "type": "scenario",
+      "stem": "Why does organizational knowledge matter when an experienced operator changes roles?",
+      "options": [
+        "It does not matter if the replacement has a degree",
+        "Only the training matrix needs to be updated",
+        "Knowledge is a human resources issue, not a quality issue",
+        "Undocumented know-how may be lost, which can affect process results"
+      ],
+      "answer": 3,
+      "rationale": "The reported broadening of 7.1.6 links organizational knowledge to the intended results of the QMS.",
+      "clause": "7.1.6",
+      "clause2015": "7.1.6",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ012",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "Does Annex A of ISO 9001:2026 contain requirements?",
+      "options": [
+        "Yes; every Annex A statement is a requirement",
+        "Yes; but only for Clause 8",
+        "No; Annex A is informative guidance",
+        "Only for organizations that use design and development"
+      ],
+      "answer": 2,
+      "rationale": "Annex A is informative. It is reported to be substantially expanded across Clauses 4 to 10.",
+      "clause": "Annex A",
+      "clause2015": "Annex A",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ013",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "On what date was ISO 9001:2026 reported to be published?",
+      "options": [
+        "27 August 2025",
+        "16 September 2026",
+        "30 September 2029",
+        "1 January 2027"
+      ],
+      "answer": 1,
+      "rationale": "Multiple sources report 16 September 2026. 27 August 2025 is the reported draft date; 30 September 2029 is the reported end of transition.",
+      "clause": "1",
+      "clause2015": "1",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ014",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Medium",
+      "type": "knowledge",
+      "stem": "About how long is the reported transition period to ISO 9001:2026?",
+      "options": [
+        "About three years",
+        "Six months",
+        "One year",
+        "There is no transition period"
+      ],
+      "answer": 0,
+      "rationale": "Sources report about three years; one states an end date of 30 September 2029. Confirm with the certification body and IAF communication.",
+      "clause": "1",
+      "clause2015": "1",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ015",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Medium",
+      "type": "knowledge",
+      "stem": "Until the certification body is accredited for the new edition, audits are expected to continue against which edition?",
+      "options": [
+        "ISO 9001:2026 only",
+        "No audits take place",
+        "ISO 9000:2026",
+        "ISO 9001:2015"
+      ],
+      "answer": 3,
+      "rationale": "Reported as expected (Medium). The certification body confirms its own schedule [OWNER INPUT].",
+      "clause": "1",
+      "clause2015": "1",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ016",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "Which of these is reported to stay the same in 2026?",
+      "options": [
+        "The requirement for a quality manual",
+        "Annex B of the 2015 edition",
+        "The structure of Clauses 4 to 10 and the process approach",
+        "The numbering of every subclause in Clause 6"
+      ],
+      "answer": 2,
+      "rationale": "Commentary consistently describes the revision as an evolution: Clauses 4 to 10 and the process approach with Plan, Do, Check, Act remain.",
+      "clause": "4 to 10",
+      "clause2015": "4 to 10",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ017",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Best estimate",
+      "type": "scenario",
+      "stem": "How is an auditor most likely to look for evidence of quality culture?",
+      "options": [
+        "By asking every employee to complete an attitude survey",
+        "By examining leader behavior, decisions, interviews, and records",
+        "By checking for a standalone culture procedure",
+        "By counting posters on the wall"
+      ],
+      "answer": 1,
+      "rationale": "Best estimate. Reasoning: commentary describes a light evidence trail, and ISO 9001 has not mandated attitude assessment. Check: the note under 5.1.1 and the Annex A guidance.",
+      "clause": "5.1.1",
+      "clause2015": "5.1.1",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ018",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "In plain language, what is quality culture?",
+      "options": [
+        "The shared values, attitudes, and habits that shape how people act on quality, including when no one is checking",
+        "The number of quality inspectors on each shift",
+        "A poster with the quality policy",
+        "The customer satisfaction score"
+      ],
+      "answer": 0,
+      "rationale": "A note under 5.1.1 is reported to describe how culture can be shown through shared values, attitudes, and observed behavior. The wording here is an original paraphrase.",
+      "clause": "5.1.1",
+      "clause2015": "5.1.1",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ019",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "scenario",
+      "stem": "Which example shows ethical behavior in quality work?",
+      "options": [
+        "Recording the target value to keep the record clean",
+        "Re-measuring until the value passes",
+        "Waiting until after shipment to report the reading",
+        "Recording the actual value of a reading that is slightly outside the limit and escalating it"
+      ],
+      "answer": 3,
+      "rationale": "Ethical behavior means honesty in records, reporting, and decisions, including under schedule pressure (reported 5.1.1 and 7.3 changes).",
+      "clause": "5.1.1, 7.3",
+      "clause2015": "5.1.1, 7.3",
+      "roles": [
+        "operator",
+        "technician"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ020",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "What does the culture expectation mean for an operator?",
+      "options": [
+        "Write a personal ethics statement",
+        "Attend management review",
+        "Record accurately, report promptly, and use the stop-work authority",
+        "Approve changes to the quality policy"
+      ],
+      "answer": 2,
+      "rationale": "The requirement places visible responsibility on leaders; operators show it through accurate records, prompt reporting, and use of stop-work authority.",
+      "clause": "7.3",
+      "clause2015": "7.3",
+      "roles": [
+        "operator"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ021",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "scenario",
+      "stem": "A team member reports a problem that will delay a shipment. What is the supervisor response that supports a quality culture?",
+      "options": [
+        "Ask the person to re-check until the result passes",
+        "Thank the person, hold the work, and escalate to decide on the customer",
+        "Release the shipment and report afterward",
+        "Note the person as a cause of delay"
+      ],
+      "answer": 1,
+      "rationale": "Supervisors support the culture expectation by responding constructively to reports and holding release criteria under pressure.",
+      "clause": "5.1.1, 8.7",
+      "clause2015": "5.1.1, 8.7",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ022",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Medium",
+      "type": "knowledge",
+      "stem": "What is 7.1.4 (environment for the operation of processes) reported to recognize in 2026?",
+      "options": [
+        "That culture and ethical behavior can influence the conditions in which processes operate",
+        "That every site needs air conditioning",
+        "That noise limits are now a quality requirement",
+        "Nothing; 7.1.4 is reported as deleted"
+      ],
+      "answer": 0,
+      "rationale": "Two sources report this note-level change (Medium).",
+      "clause": "7.1.4",
+      "clause2015": "7.1.4",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ023",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "What does the climate change expectation in 4.1 ask the company to do?",
+      "options": [
+        "Obtain an environmental certificate",
+        "Measure the carbon footprint of every product",
+        "Nothing; climate change applies only to ISO 14001",
+        "Decide whether climate change is a relevant issue for its QMS and act on that decision"
+      ],
+      "answer": 3,
+      "rationale": "Reported as integrated from Amendment 1:2024 into the base text (High). A formal footprint study is not reported as a requirement.",
+      "clause": "4.1, 4.2",
+      "clause2015": "4.1, 4.2",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ024",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "scenario",
+      "stem": "Which record best shows the climate change determination?",
+      "options": [
+        "A purchase order for solar panels",
+        "The calibration log",
+        "The context and interested party registers, with a short rationale whether or not climate change is judged relevant",
+        "A complaint record"
+      ],
+      "answer": 2,
+      "rationale": "Evidence suggestion from the bridge guidance. The climate change expectation is reported with High confidence.",
+      "clause": "4.1, 4.2",
+      "clause2015": "4.1, 4.2",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ025",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Single",
+      "type": "knowledge",
+      "stem": "The 2026 quality policy (5.2.1) is reported by one source to be aligned with what?",
+      "options": [
+        "The certification body audit plan",
+        "The context and long-term strategic direction of the organization",
+        "The calibration schedule",
+        "The monthly production target only"
+      ],
+      "answer": 1,
+      "rationale": "Single-source report. Verify in the purchased text before teaching it as a requirement.",
+      "clause": "5.2.1",
+      "clause2015": "5.2.1",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 3,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ026",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "scenario",
+      "stem": "A risk register lists only risks. What is the most direct improvement for the reported 2026 change?",
+      "options": [
+        "Add an opportunity register or column, with owners, actions, and checks",
+        "Delete the risk register",
+        "Add a column for the auditor's name",
+        "Move the register into the quality manual"
+      ],
+      "answer": 0,
+      "rationale": "The reported restructuring of 6.1 asks for risks and opportunities to be determined and addressed more distinctly (High).",
+      "clause": "6.1.1 to 6.1.3",
+      "clause2015": "6.1",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ027",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "On a Change Planning Record, what is the purpose of the review date and effectiveness decision?",
+      "options": [
+        "To set the date the change was approved",
+        "To record when the auditor will visit",
+        "To schedule the next calibration",
+        "To check later whether the change worked and adjust if it did not"
+      ],
+      "answer": 3,
+      "rationale": "The reported strengthening of 6.3 includes evaluation and review of whether a change delivered its intended results.",
+      "clause": "6.3",
+      "clause2015": "6.3",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ028",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "scenario",
+      "stem": "A supplier change was implemented. No monitoring or effectiveness review was recorded. Which 2026 clause is most likely at issue?",
+      "options": [
+        "7.1.5",
+        "9.1.2",
+        "6.3",
+        "10.2"
+      ],
+      "answer": 2,
+      "rationale": "Reported 6.3 strengthening (High). In operations, 8.5.6 control of changes is the linked clause.",
+      "clause": "6.3",
+      "clause2015": "6.3, 8.5.6",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ029",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Unclear",
+      "type": "knowledge",
+      "stem": "How are the Clause 8 operational controls (traceability, release, nonconforming output) reported to change in 2026?",
+      "options": [
+        "Replaced by a new risk-based operating model",
+        "Carried forward in intent, with targeted amendments, notes, and terminology",
+        "Moved into Clause 10",
+        "Deleted and left to sector standards"
+      ],
+      "answer": 1,
+      "rationale": "Sources differ on how much changed (Unclear). Verify Clause 8 after purchase.",
+      "clause": "8.1 to 8.7",
+      "clause2015": "8.1 to 8.7",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ030",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Medium",
+      "type": "knowledge",
+      "stem": "How is corrective action (10.2) reported to change in 2026?",
+      "options": [
+        "No substantive change reported",
+        "It is merged into 6.3",
+        "It now requires a separate ethics review",
+        "It is reported as removed"
+      ],
+      "answer": 0,
+      "rationale": "No source reported a substantive change to 10.2 (Medium).",
+      "clause": "10.2",
+      "clause2015": "10.2",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ031",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Single",
+      "type": "knowledge",
+      "stem": "What happened to Annex B of the 2015 edition, according to one source?",
+      "options": [
+        "It became a new requirement clause",
+        "It was expanded into a separate standard",
+        "It was renamed Annex C",
+        "It is reported as removed, with relevant references moved into Annex A and ISO committee sources"
+      ],
+      "answer": 3,
+      "rationale": "Single source. Verify after purchase.",
+      "clause": "Annex A",
+      "clause2015": "Annex B",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 3,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ032",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "Clause 3 of the 2026 edition is reported to include a limited set of definitions drawn from which source?",
+      "options": [
+        "The certification body's audit manual",
+        "The company quality manual",
+        "The ISO 9000 vocabulary standard",
+        "ISO 14001"
+      ],
+      "answer": 2,
+      "rationale": "Reported by multiple sources (High).",
+      "clause": "3",
+      "clause2015": "3",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ033",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "Why does every 2026 statement in this program carry a confidence label?",
+      "options": [
+        "The certification body requires the labels",
+        "The content was compiled from secondary commentary and has not been verified against the standard",
+        "The labels show how important each clause is",
+        "The labels replace the need to buy the standard"
+      ],
+      "answer": 1,
+      "rationale": "Program rule. All 2026 items stay unverified until confirmed against the purchased text.",
+      "clause": "1",
+      "clause2015": "1",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ034",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "knowledge",
+      "stem": "What does the confidence label Best estimate mean?",
+      "options": [
+        "An inference by the author where sources are silent or disagree, with the reasoning and what to check stated",
+        "A statement copied from the standard",
+        "A statement confirmed by three or more sources",
+        "A requirement verified by the certification body"
+      ],
+      "answer": 0,
+      "rationale": "Program definition from the bridge guidance.",
+      "clause": "1",
+      "clause2015": "1",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ035",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Unclear",
+      "type": "knowledge",
+      "stem": "Why does this program not cite lettered sub-items within Clause 5 for 2026?",
+      "options": [
+        "Clause 5 has no sub-items",
+        "The lettering is confidential",
+        "Lettered sub-items only apply to 2015",
+        "Sources disagree on the lettering, so it is left out until verified"
+      ],
+      "answer": 3,
+      "rationale": "Sources disagree (Unclear). Verify against the purchased text.",
+      "clause": "5",
+      "clause2015": "5",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 3,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ036",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Best estimate",
+      "type": "knowledge",
+      "stem": "What is the best estimate for Clause 8.5.6 (control of changes) in 2026?",
+      "options": [
+        "It is deleted",
+        "It now applies only to software",
+        "Intent unchanged, with possibly a new or amended note consistent with stronger change planning",
+        "It requires customer approval for every change"
+      ],
+      "answer": 2,
+      "rationale": "Best estimate. Reasoning: Clause 8 is described as minor, and 6.3 was strengthened; 8.5.6 is its operational counterpart. Check: read 8.5.6 and the notes under 8.1.",
+      "clause": "8.5.6",
+      "clause2015": "8.5.6",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 3,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ037",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Best estimate",
+      "type": "knowledge",
+      "stem": "What is the best estimate for management review inputs (9.3.2) in 2026?",
+      "options": [
+        "Management review is removed",
+        "No new requirement, but inputs may reference culture, opportunities, or change effectiveness",
+        "Management review must be held weekly",
+        "Only the certification body may attend"
+      ],
+      "answer": 1,
+      "rationale": "Best estimate. Reasoning: new concepts elsewhere usually flow into review inputs. Check: read 9.3.2.",
+      "clause": "9.3.2",
+      "clause2015": "9.3.2",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 3,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ038",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Best estimate",
+      "type": "knowledge",
+      "stem": "For a well-run system, what transition effort is estimated?",
+      "options": [
+        "Moderate, focused on leadership evidence, an opportunity register, change planning records, awareness training, and audit checklists",
+        "A complete rebuild of the management system",
+        "None at all",
+        "Only a new certificate"
+      ],
+      "answer": 0,
+      "rationale": "Best estimate. Reasoning: most reported changes concentrate in Clauses 5, 6, and 7. Check: complete the gap assessment worksheet.",
+      "clause": "5, 6, 7",
+      "clause2015": "5, 6, 7",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ039",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Medium",
+      "type": "scenario",
+      "stem": "Which practice best keeps organizational knowledge available?",
+      "options": [
+        "Keeping key settings in one person's notebook",
+        "Relying on the most experienced person to remember",
+        "Removing process notes to reduce paperwork",
+        "A lessons-learned entry after each corrective action and a structured shift handoff"
+      ],
+      "answer": 3,
+      "rationale": "Practical evidence for the reported broadening of 7.1.6 (Medium).",
+      "clause": "7.1.6",
+      "clause2015": "7.1.6",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ040",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Single",
+      "type": "knowledge",
+      "stem": "According to reported 2026 guidance on 10.1, what can trigger improvement?",
+      "options": [
+        "Only customer complaints",
+        "Only certification audit findings",
+        "Changes in context, risks, opportunities, and technology, not only failures",
+        "Only the annual budget"
+      ],
+      "answer": 2,
+      "rationale": "Single-source detail on the consolidated 10.1. Verify in the purchased text.",
+      "clause": "10.1",
+      "clause2015": "10.1, 10.3",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 2,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ041",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "High",
+      "type": "scenario",
+      "stem": "A near-miss went unreported because an earlier reporter was criticized. What should leaders change first?",
+      "options": [
+        "Add a fine for late reports",
+        "Make it safe to report: acknowledge reports, act on them, and recognize the people who raise them",
+        "Stop recording near-misses",
+        "Ask the earlier reporter to apologize"
+      ],
+      "answer": 1,
+      "rationale": "Supports the reported 5.1.1 culture expectation (High). Disciplinary or legal guidance is outside this training; coordinate with Human Resources.",
+      "clause": "5.1.1, 7.3",
+      "clause2015": "5.1.1, 7.3",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "difficulty": 1,
+      "module": 11,
+      "sector": "all"
+    },
+    {
+      "id": "BQ042",
+      "edition": "2026",
+      "verifyStatus": "unverified",
+      "confidence": "Best estimate",
+      "type": "knowledge",
+      "stem": "Which is the best estimate for documented information on culture and ethics in 2026?",
+      "options": [
+        "No new mandatory documented procedure is expected; evidence comes from normal records and leader actions",
+        "A new mandatory culture procedure is expected",
+        "Every employee must sign an annual ethics record",
+        "All records must be reissued under the 2026 edition"
+      ],
+      "answer": 0,
+      "rationale": "Best estimate. Reasoning: commentary indicates no separate program is required. Check: read 7.5 and the Clause 5 wording.",
+      "clause": "7.5",
+      "clause2015": "7.5",
+      "roles": [
+        "supervisor"
+      ],
+      "difficulty": 3,
+      "module": 11,
+      "sector": "all"
+    }
+  ],
+  "sprintStatements": [
+    {
+      "id": "BS01",
+      "statement": "Top management promotes and demonstrates a quality culture and ethical behavior.",
+      "answer": "changed",
+      "alsoAccept": [],
+      "clause2015": "5.1.1",
+      "clause2026": "5.1.1",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "note": "Reported new expectation in 5.1.1."
+    },
+    {
+      "id": "BS02",
+      "statement": "Awareness covers the organization's quality culture and ethical behavior.",
+      "answer": "changed",
+      "alsoAccept": [],
+      "clause2015": "7.3",
+      "clause2026": "7.3",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "note": "Awareness reported as expanded."
+    },
+    {
+      "id": "BS03",
+      "statement": "Risks and opportunities are determined and addressed in separate subclauses.",
+      "answer": "changed",
+      "alsoAccept": [],
+      "clause2015": "6.1",
+      "clause2026": "6.1.1 to 6.1.3",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "note": "Reported restructuring of 6.1."
+    },
+    {
+      "id": "BS04",
+      "statement": "QMS changes are planned with communication, monitoring, evaluation, and review.",
+      "answer": "changed",
+      "alsoAccept": [],
+      "clause2015": "6.3",
+      "clause2026": "6.3",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "note": "Reported strengthening of 6.3."
+    },
+    {
+      "id": "BS05",
+      "statement": "Climate change is considered when the company determines its context.",
+      "answer": "unchanged",
+      "alsoAccept": [],
+      "clause2015": "4.1",
+      "clause2026": "4.1",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "note": "Already in force through Amendment 1:2024; now reported as part of the base text. No new action if the 2024 amendment was implemented."
+    },
+    {
+      "id": "BS06",
+      "statement": "Interested parties may have climate-related requirements.",
+      "answer": "unchanged",
+      "alsoAccept": [],
+      "clause2015": "4.2",
+      "clause2026": "4.2",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "note": "Already in force through Amendment 1:2024; one source reports sharper emphasis on interested party requirements (Single)."
+    },
+    {
+      "id": "BS07",
+      "statement": "The process approach and Plan, Do, Check, Act logic remain.",
+      "answer": "unchanged",
+      "alsoAccept": [],
+      "clause2015": "4.4",
+      "clause2026": "4.4",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "note": "Reported as carried forward."
+    },
+    {
+      "id": "BS08",
+      "statement": "Risk-based thinking remains a principle.",
+      "answer": "unchanged",
+      "alsoAccept": [],
+      "clause2015": "6.1",
+      "clause2026": "6.1.1 to 6.1.3",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "note": "Reported as carried forward."
+    },
+    {
+      "id": "BS09",
+      "statement": "Internal audit is required as a mechanism.",
+      "answer": "unchanged",
+      "alsoAccept": [],
+      "clause2015": "9.2",
+      "clause2026": "9.2",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "note": "No substantive change reported."
+    },
+    {
+      "id": "BS10",
+      "statement": "Management review is held at planned intervals.",
+      "answer": "unchanged",
+      "alsoAccept": [],
+      "clause2015": "9.3",
+      "clause2026": "9.3",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "note": "No substantive change reported. Best estimate: inputs may reference culture, opportunities, or change effectiveness; check 9.3.2."
+    },
+    {
+      "id": "BS11",
+      "statement": "Corrective action reacts to a nonconformity and checks effectiveness.",
+      "answer": "unchanged",
+      "alsoAccept": [],
+      "clause2015": "10.2",
+      "clause2026": "10.2",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "note": "No substantive change reported."
+    },
+    {
+      "id": "BS12",
+      "statement": "Organizational knowledge is tied to the intended results of the QMS.",
+      "answer": "changed",
+      "alsoAccept": [],
+      "clause2015": "7.1.6",
+      "clause2026": "7.1.6",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "note": "Reported as broadened by two sources."
+    },
+    {
+      "id": "BS13",
+      "statement": "The working environment note recognizes the influence of culture and ethical behavior.",
+      "answer": "changed",
+      "alsoAccept": [],
+      "clause2015": "7.1.4",
+      "clause2026": "7.1.4",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "note": "Reported by two sources."
+    },
+    {
+      "id": "BS14",
+      "statement": "Continual improvement requirements are combined in one clause.",
+      "answer": "changed",
+      "alsoAccept": [],
+      "clause2015": "10.1, 10.3",
+      "clause2026": "10.1",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "note": "Consolidation reported by two sources; the clause detail is from one source (Single)."
+    },
+    {
+      "id": "BS15",
+      "statement": "Annex A informative guidance is expanded.",
+      "answer": "changed",
+      "alsoAccept": [],
+      "clause2015": "Annex A",
+      "clause2026": "Annex A",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "note": "Reported by multiple sources. Annex A is informative, not a requirement."
+    },
+    {
+      "id": "BS16",
+      "statement": "Annex B of the 2015 edition is removed.",
+      "answer": "changed",
+      "alsoAccept": [
+        "verify"
+      ],
+      "clause2015": "Annex B",
+      "clause2026": "Removed",
+      "confidence": "Single",
+      "verifyStatus": "unverified",
+      "note": "One source only. Verify."
+    },
+    {
+      "id": "BS17",
+      "statement": "Some definitions now appear in Clause 3 of ISO 9001 itself.",
+      "answer": "changed",
+      "alsoAccept": [],
+      "clause2015": "3",
+      "clause2026": "3",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "note": "Limited set of terms drawn from the ISO 9000 vocabulary standard."
+    },
+    {
+      "id": "BS18",
+      "statement": "The quality policy is aligned with long-term strategic direction.",
+      "answer": "changed",
+      "alsoAccept": [
+        "verify"
+      ],
+      "clause2015": "5.2.1",
+      "clause2026": "5.2.1",
+      "confidence": "Single",
+      "verifyStatus": "unverified",
+      "note": "One source only. Verify."
+    },
+    {
+      "id": "BS19",
+      "statement": "Identification and traceability of work items are controlled.",
+      "answer": "unchanged",
+      "alsoAccept": [
+        "verify"
+      ],
+      "clause2015": "8.5.2",
+      "clause2026": "8.5.2",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "note": "Clause 8 reported as carried forward in intent; sources differ on how much wording changed. Verify."
+    },
+    {
+      "id": "BS20",
+      "statement": "Nonconforming outputs are identified and controlled to prevent unintended use.",
+      "answer": "unchanged",
+      "alsoAccept": [
+        "verify"
+      ],
+      "clause2015": "8.7",
+      "clause2026": "8.7",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "note": "Clause 8 reported as carried forward in intent. Verify."
+    },
+    {
+      "id": "BS21",
+      "statement": "Release of products and services happens only after planned arrangements are met.",
+      "answer": "unchanged",
+      "alsoAccept": [
+        "verify"
+      ],
+      "clause2015": "8.6",
+      "clause2026": "8.6",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "note": "Clause 8 reported as carried forward in intent. Verify."
+    },
+    {
+      "id": "BS22",
+      "statement": "External providers are controlled and their outputs verified.",
+      "answer": "unchanged",
+      "alsoAccept": [
+        "verify"
+      ],
+      "clause2015": "8.4",
+      "clause2026": "8.4",
+      "confidence": "Best estimate",
+      "verifyStatus": "unverified",
+      "note": "Best estimate: intent unchanged, terminology aligned. Reasoning: harmonized terminology changes commonly touch this clause. Check 8.4.1 to 8.4.3."
+    },
+    {
+      "id": "BS23",
+      "statement": "Leadership commitment is more strongly linked to improvement.",
+      "answer": "verify",
+      "alsoAccept": [],
+      "clause2015": "5.1, 10.1",
+      "clause2026": "5.1.1, 10.1",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "note": "Some commentary reports this link; detail is thin. Verify."
+    },
+    {
+      "id": "BS24",
+      "statement": "Measuring and monitoring resources are controlled and verified.",
+      "answer": "unchanged",
+      "alsoAccept": [
+        "verify"
+      ],
+      "clause2015": "7.1.5",
+      "clause2026": "7.1.5",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "note": "No source reported a change; no source gave detail either. Verify."
+    }
+  ]
+}

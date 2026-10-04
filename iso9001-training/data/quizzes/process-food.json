@@ -1,0 +1,626 @@
+{
+  "pack": "process-food",
+  "specPrefix": "PF",
+  "specSection": "Appendix C C.2.2",
+  "specPackName": "Process, Food, and Consumer Goods",
+  "company": "Meridian Foods",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "notes": "Items PF01 to PF12 are the Appendix C seed items (rationales added where the spec gave none). Items PF13 to PF24 were written for this build in the same style (C.5 task 5). Clause tags are references only and are unverified against the purchased standard. clause2015 holds the primary clause; clauseRefs lists every clause the spec or author cited. Spec pack prefix PF maps to pack id \"process-food\".",
+  "items": [
+    {
+      "id": "PF01",
+      "sector": "process-food",
+      "stem": "The label artwork on the packaging line is the previous revision. What should happen?",
+      "options": [
+        "Finish the run, then correct.",
+        "Stop the run, hold the product already labeled, and obtain the current approved artwork.",
+        "Cover the difference with a sticker.",
+        "Ask the line operator to decide."
+      ],
+      "answerIndex": 1,
+      "rationale": "Obsolete documents are not used, and affected output is controlled.",
+      "clause2015": "7.5.3",
+      "clauseRefs": [
+        "7.5.3",
+        "8.7"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "PF02",
+      "sector": "process-food",
+      "stem": "A temperature probe used to verify processing has no verification record for the required interval. What is the proper response?",
+      "options": [
+        "Continue; the probe looked fine.",
+        "Ask another operator.",
+        "Adjust the limit.",
+        "Stop using it, flag it, and assess the validity of earlier readings."
+      ],
+      "answerIndex": 3,
+      "rationale": "Measurement validity depends on verification at defined intervals.",
+      "clause2015": "7.1.5",
+      "clauseRefs": [
+        "7.1.5"
+      ],
+      "roles": [
+        "F",
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "PF03",
+      "sector": "process-food",
+      "stem": "A laboratory result needed for batch release is still pending at the end of shift. What should happen?",
+      "options": [
+        "The batch remains on hold until the result is reviewed and release is authorized.",
+        "Release it and update later.",
+        "Release it if sales requests.",
+        "Release it on the supervisor's estimate."
+      ],
+      "answerIndex": 0,
+      "rationale": "Release follows completion of planned verification.",
+      "clause2015": "8.6",
+      "clauseRefs": [
+        "8.6"
+      ],
+      "roles": [
+        "F",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "PF04",
+      "sector": "process-food",
+      "stem": "A customer supplies its own printed packaging. A pallet arrives with water damage. Which action is correct?",
+      "options": [
+        "Use the dry boxes and discard the rest quietly.",
+        "Use all of it; it is only packaging.",
+        "Identify and protect the packaging, record the damage, and inform the customer.",
+        "Return it without a record."
+      ],
+      "answerIndex": 2,
+      "rationale": "Damaged customer property is reported to the customer and records are retained.",
+      "clause2015": "8.5.3",
+      "clauseRefs": [
+        "8.5.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "PF05",
+      "sector": "process-food",
+      "stem": "A customer complaint concerns one batch. Which capability limits the scope of a review or recall?",
+      "options": [
+        "Marketing planning.",
+        "Batch identification and traceability to ingredient and packaging lots.",
+        "Staff awareness.",
+        "Management review minutes."
+      ],
+      "answerIndex": 1,
+      "rationale": "Traceability records link outputs to inputs and process steps.",
+      "clause2015": "8.5.2",
+      "clauseRefs": [
+        "8.5.2"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "PF06",
+      "sector": "process-food",
+      "stem": "An ingredient arrives past the date by which the supplier states it should be used. What is the best action?",
+      "options": [
+        "Use it first because it is aging.",
+        "Mix it with newer stock.",
+        "Accept it if the driver agrees.",
+        "Do not use it; hold it, identify it, and follow the nonconformance procedure."
+      ],
+      "answerIndex": 3,
+      "rationale": "Nonconforming inputs are identified and controlled.",
+      "clause2015": "8.4",
+      "clauseRefs": [
+        "8.4",
+        "8.7"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "PF07",
+      "sector": "process-food",
+      "stem": "A process parameter is changed to improve yield. What is required?",
+      "options": [
+        "Review of consequences, authorization, communication, and records.",
+        "An informal note on the shift sheet.",
+        "Only the supervisor needs to know.",
+        "Verbal approval from any operator."
+      ],
+      "answerIndex": 0,
+      "rationale": "Changes are reviewed and controlled.",
+      "clause2015": "8.5.6",
+      "clauseRefs": [
+        "8.5.6",
+        "6.3"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "PF08",
+      "sector": "process-food",
+      "stem": "A new operator has not been qualified on the filling step. What does the organization need before independent work?",
+      "options": [
+        "Allow it if a colleague is nearby.",
+        "Allow it if the shift is busy.",
+        "Competence determined, training provided, and evidence retained.",
+        "Allow it with no record."
+      ],
+      "answerIndex": 2,
+      "rationale": "People are competent for their work, and evidence of competence is retained.",
+      "clause2015": "7.2",
+      "clauseRefs": [
+        "7.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "PF09",
+      "sector": "process-food",
+      "stem": "The same labeling error recurs monthly. Retraining operators each time has not solved it. What should be done?",
+      "options": [
+        "Retrain more often.",
+        "Find the underlying cause in the system (instruction, tooling, workload, checks) and act on it.",
+        "Add a warning sign only.",
+        "Remove the line."
+      ],
+      "answerIndex": 1,
+      "rationale": "Corrective action addresses the cause, not only the symptom.",
+      "clause2015": "10.2",
+      "clauseRefs": [
+        "10.2"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "PF10",
+      "sector": "process-food",
+      "stem": "Which input does management review normally consider?",
+      "options": [
+        "Staff lunch preferences.",
+        "Competitor pricing only.",
+        "Weather forecasts only.",
+        "Customer feedback, process performance, nonconformities, audit results, and provider performance."
+      ],
+      "answerIndex": 3,
+      "rationale": "These are among the inputs that management review is expected to consider.",
+      "clause2015": "9.3",
+      "clauseRefs": [
+        "9.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "PF11",
+      "sector": "process-food",
+      "stem": "A supervisor proposes shipping a batch with an unresolved labeling discrepancy because the truck is waiting. What is the right response?",
+      "options": [
+        "Hold the batch until the discrepancy is resolved or release is authorized as required.",
+        "Ship it; the truck is waiting.",
+        "Ship half.",
+        "Relabel on the truck without a record."
+      ],
+      "answerIndex": 0,
+      "rationale": "Release proceeds only when requirements are verified or release is authorized.",
+      "clause2015": "8.6",
+      "clauseRefs": [
+        "8.6"
+      ],
+      "roles": [
+        "F",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "PF12",
+      "sector": "process-food",
+      "stem": "Quality objectives should be:",
+      "options": [
+        "Kept secret.",
+        "Fixed forever.",
+        "Measurable, consistent with the policy, monitored, and communicated.",
+        "Set by the auditor."
+      ],
+      "answerIndex": 2,
+      "rationale": "Objectives give direction only when they can be measured, are aligned with the policy, and are tracked and shared.",
+      "clause2015": "6.2",
+      "clauseRefs": [
+        "6.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "PF13",
+      "sector": "process-food",
+      "stem": "A retail customer announces that it will require recyclable packaging from next year. Where should Meridian Foods first take account of this?",
+      "options": [
+        "Only at the next audit.",
+        "In its review of external issues and interested-party requirements that affect its system and planning.",
+        "Only on the label.",
+        "Nowhere; retailer plans are not relevant."
+      ],
+      "answerIndex": 1,
+      "rationale": "External issues and the relevant requirements of interested parties are monitored and reviewed, and they feed planning.",
+      "clause2015": "4.1",
+      "clauseRefs": [
+        "4.1",
+        "4.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "PF14",
+      "sector": "process-food",
+      "stem": "On-time delivery has fallen for several months, but no customer has complained formally. What does customer focus expect of leadership?",
+      "options": [
+        "Wait for a formal complaint.",
+        "Blame the carrier.",
+        "Make sure customer requirements are determined and met, and act on risks to customer satisfaction.",
+        "Reduce monitoring."
+      ],
+      "answerIndex": 2,
+      "rationale": "Top management demonstrates customer focus by keeping customer requirements and satisfaction at the center of decisions.",
+      "clause2015": "5.1.2",
+      "clauseRefs": [
+        "5.1.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "PF15",
+      "sector": "process-food",
+      "stem": "An operator is asked what the quality policy means for the packaging line. Which answer shows awareness?",
+      "options": [
+        "\"I do not need to know it.\"",
+        "\"It is on the wall in the office.\"",
+        "\"Only managers use it.\"",
+        "\"It commits us to meeting customer requirements, so I check labels and codes against the approved specification.\""
+      ],
+      "answerIndex": 3,
+      "rationale": "People are aware of the quality policy and can relate it to their own work.",
+      "clause2015": "5.2",
+      "clauseRefs": [
+        "5.2",
+        "7.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "PF16",
+      "sector": "process-food",
+      "stem": "A long-serving technician knows a changeover sequence that is not written down anywhere. What should the organization do?",
+      "options": [
+        "Capture the knowledge so it is maintained and available, for example in an instruction or in training.",
+        "Nothing; the changeover works.",
+        "Ask the technician never to leave.",
+        "Keep it confidential to the technician."
+      ],
+      "answerIndex": 0,
+      "rationale": "The organization determines the knowledge needed for its processes and keeps it available.",
+      "clause2015": "7.1.6",
+      "clauseRefs": [
+        "7.1.6"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "PF17",
+      "sector": "process-food",
+      "stem": "The only filling machine has no backup and has failed twice this quarter. What is a proportionate planning response?",
+      "options": [
+        "Assess the risk to deliveries and conformity, plan actions such as spare parts or a revised maintenance plan, and review whether they worked.",
+        "Wait for the next failure.",
+        "Buy three new machines immediately.",
+        "Ask customers to order less."
+      ],
+      "answerIndex": 0,
+      "rationale": "Actions to address risks are proportionate to the potential effect, and their effectiveness is evaluated.",
+      "clause2015": "6.1",
+      "clauseRefs": [
+        "6.1"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "PF18",
+      "sector": "process-food",
+      "stem": "The lighting in the packing area is too dim to read batch codes reliably. Which requirement area is most relevant?",
+      "options": [
+        "Customer property.",
+        "Quality policy.",
+        "Environment for the operation of processes.",
+        "Management review."
+      ],
+      "answerIndex": 2,
+      "rationale": "The organization provides and maintains the conditions needed for its processes, including physical factors such as lighting.",
+      "clause2015": "7.1.4",
+      "clauseRefs": [
+        "7.1.4"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "PF19",
+      "sector": "process-food",
+      "stem": "An entry on a batch record has been covered with correction fluid, with no initials or date. What is the concern?",
+      "options": [
+        "Appearance only.",
+        "Changes to the record are not controlled, so it may not be trustworthy evidence.",
+        "The cost of paper.",
+        "There is no concern."
+      ],
+      "answerIndex": 1,
+      "rationale": "Retained records are protected from unintended alteration, and changes are controlled and traceable.",
+      "clause2015": "7.5.3",
+      "clauseRefs": [
+        "7.5.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "PF20",
+      "sector": "process-food",
+      "stem": "A new customer asks for a different pack size and case configuration. Before the order is accepted, what should be confirmed?",
+      "options": [
+        "That marketing likes the design.",
+        "Only the price.",
+        "Nothing; the line can adapt.",
+        "That the requirements, including any the customer did not state but that are needed, are determined and can be met."
+      ],
+      "answerIndex": 3,
+      "rationale": "Requirements for products are determined, including those needed for intended use, before the organization commits to supply.",
+      "clause2015": "8.2.2",
+      "clauseRefs": [
+        "8.2.2",
+        "8.2.3"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "PF21",
+      "sector": "process-food",
+      "stem": "The reject bin on the checkweigher is unlocked, and rejected packs can be returned to the line. What is the concern?",
+      "options": [
+        "Controls meant to keep rejected output out of the product flow can be bypassed.",
+        "The line runs faster.",
+        "Costs are lower.",
+        "There is no concern."
+      ],
+      "answerIndex": 0,
+      "rationale": "Controlled conditions include measures that prevent nonconforming output from rejoining conforming product.",
+      "clause2015": "8.5.1",
+      "clauseRefs": [
+        "8.5.1",
+        "8.7"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "PF22",
+      "sector": "process-food",
+      "stem": "After delivery, a customer asks for support with a question about the packaging of a batch. Which requirement area covers this?",
+      "options": [
+        "Organizational context.",
+        "Calibration.",
+        "Internal audit.",
+        "Post-delivery activities."
+      ],
+      "answerIndex": 3,
+      "rationale": "The organization meets agreed requirements for activities after delivery, such as customer support.",
+      "clause2015": "8.5.5",
+      "clauseRefs": [
+        "8.5.5"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "PF23",
+      "sector": "process-food",
+      "stem": "The plant tracks many indicators but has not decided which ones show whether processes achieve their planned results. What is missing?",
+      "options": [
+        "More dashboards.",
+        "A decision on what to monitor and measure, how, when, and when the results are analyzed.",
+        "A new software tool.",
+        "Fewer customers."
+      ],
+      "answerIndex": 1,
+      "rationale": "The organization decides what needs monitoring and measurement and how the results will be evaluated.",
+      "clause2015": "9.1.1",
+      "clauseRefs": [
+        "9.1.1"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "PF24",
+      "sector": "process-food",
+      "stem": "An internal auditor asks an operator to show how she checks label codes. What is the best response?",
+      "options": [
+        "Refuse to answer.",
+        "Say what she thinks the auditor wants to hear.",
+        "Show the actual practice and the record, and say so honestly if unsure.",
+        "Send the auditor to the supervisor without answering."
+      ],
+      "answerIndex": 2,
+      "rationale": "Audits rely on accurate evidence of actual practice; honest answers help the organization improve.",
+      "clause2015": "9.2",
+      "clauseRefs": [
+        "9.2"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    }
+  ]
+}

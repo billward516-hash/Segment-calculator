@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quality Flow Simulation</title>
+<style>
+:root{--bg:#ffffff;--fg:#1b1f24;--muted:#46515c;--line:#b9c2cb;--panel:#f1f4f7;--primary:#0b4f9c;--primary-fg:#ffffff;--warn:#8a2d00;--warn-bg:#fff1e8;--ok:#0a5c2e;--ok-bg:#e7f6ec;--focus:#b85c00;--font:18px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151b;--fg:#e9eef3;--muted:#b0bac4;--line:#3b4651;--panel:#19212a;--primary:#8dbdff;--primary-fg:#08203c;--warn:#ffb88a;--warn-bg:#3a2316;--ok:#8fe0ae;--ok-bg:#12301f;--focus:#ffcf70}}
+:root[data-theme="dark"]{--bg:#10151b;--fg:#e9eef3;--muted:#b0bac4;--line:#3b4651;--panel:#19212a;--primary:#8dbdff;--primary-fg:#08203c;--warn:#ffb88a;--warn-bg:#3a2316;--ok:#8fe0ae;--ok-bg:#12301f;--focus:#ffcf70}
+*{box-sizing:border-box}
+html{font-size:var(--font)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
+header.top{border-bottom:2px solid var(--line);padding:.6rem 1rem;display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;align-items:center;justify-content:space-between}
+header.top h1{font-size:1.3rem;margin:0}
+header.top .meta{color:var(--muted);font-size:.9rem}
+.tools button{font-size:.85rem}
+nav.views:empty{display:none}
+nav.views{display:flex;flex-wrap:wrap;gap:.4rem;padding:.6rem 1rem;border-bottom:1px solid var(--line);background:var(--panel)}
+main{padding:1rem;max-width:1400px;margin:0 auto}
+h2{font-size:1.35rem;margin:1.2rem 0 .5rem}
+h3{font-size:1.1rem;margin:1rem 0 .4rem}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:.4rem .8rem;cursor:pointer;color:var(--fg)}
+button:hover:not(:disabled){border-color:var(--primary)}
+button.primary{background:var(--primary);color:var(--primary-fg);border-color:var(--primary);font-weight:600}
+button.big{font-size:1.15rem;padding:.7rem 1.4rem}
+button:disabled{opacity:.6;cursor:not-allowed}
+button[aria-current="page"]{border-color:var(--primary);box-shadow:inset 0 -4px 0 var(--primary);font-weight:700}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+input,select,textarea{max-width:100%;background:var(--bg);border:2px solid var(--line);border-radius:6px;padding:.3rem .5rem}
+textarea{width:100%;font-family:ui-monospace,Consolas,monospace;font-size:.85rem;min-height:14rem}
+label{display:block;margin:.5rem 0 .15rem;font-weight:600}
+.grid{display:grid;gap:1rem}
+.cols2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.8rem 1rem}
+.notice{border:2px solid var(--line);border-radius:8px;padding:.6rem .9rem;font-size:.85rem;color:var(--muted);margin-top:1.5rem}
+table{border-collapse:collapse;width:100%;margin:.4rem 0}
+th,td{border:1px solid var(--line);padding:.35rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--panel)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.badge{display:inline-block;border:2px solid currentColor;border-radius:4px;padding:0 .35rem;font-size:.75rem;font-weight:700;letter-spacing:.03em;margin-right:.25rem;vertical-align:middle}
+.badge.ok{color:var(--ok);background:var(--ok-bg)}
+.badge.warn{color:var(--warn);background:var(--warn-bg)}
+.badge.info{color:var(--primary)}
+.event{border:3px solid var(--primary);border-radius:10px;padding:1rem 1.2rem;background:var(--bg)}
+.event .id{font-weight:800;font-size:1.1rem}
+.event .txt{font-size:1.4rem;margin:.3rem 0}
+.board{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:.5rem;margin:.5rem 0}
+.stage{border:2px solid var(--line);border-radius:8px;padding:.4rem .5rem;background:var(--bg);font-size:.85rem}
+.stage.constraint{border-color:var(--warn);border-style:dashed;border-width:3px}
+.stage .sname{font-weight:700}
+.stage .q{font-size:1.2rem;font-weight:700}
+.ctl{border:1px solid var(--line);border-radius:8px;padding:.5rem .7rem;background:var(--bg)}
+.ctl .head{display:flex;justify-content:space-between;gap:.5rem;font-weight:700}
+.ctl small{color:var(--muted);display:block}
+.ctl.owned{border:2px solid var(--ok)}
+.shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:.6rem}
+.sr{position:absolute;left:-9999px}
+.kpis{display:flex;flex-wrap:wrap;gap:.6rem}
+.kpi{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:.3rem .8rem;min-width:7rem}
+.kpi b{display:block;font-size:1.4rem}
+.muted{color:var(--muted)}
+.timer{font-size:2rem;font-weight:800;font-variant-numeric:tabular-nums}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.err{color:var(--warn);font-weight:700}
+.caution{border:3px solid var(--warn);background:var(--warn-bg);color:var(--fg);border-radius:8px;padding:.7rem 1rem;margin:0 0 1rem}
+.caution .caution-label{font-weight:800;color:var(--warn);text-transform:uppercase;letter-spacing:.04em;font-size:.85rem}
+.caution p{margin:.2rem 0 0}
+.conf{display:inline-block;border:2px solid var(--warn);color:var(--warn);border-radius:4px;padding:0 .35rem;font-size:.75rem;font-weight:700;margin-left:.3rem;vertical-align:middle}
+ul.log{margin:.3rem 0;padding-left:1.2rem;font-size:.9rem}
+@media (max-width:700px){.board{grid-template-columns:repeat(2,1fr)}}
+@media print{nav.views,.tools,button,.noprint{display:none!important}body{background:#fff;color:#000}.panel,.event{border-color:#000}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div><h1>Quality Flow Simulation</h1><div class="meta" id="hdrmeta"></div></div>
+  <div class="tools row">
+    <button type="button" data-act="textsize" id="btn-textsize" aria-pressed="false">Large text</button>
+    <button type="button" data-act="theme" id="btn-theme">Switch theme</button>
+  </div>
+</header>
+<nav class="views" aria-label="Views" id="nav"></nav>
+<main id="app" tabindex="-1"></main>
+<div id="live" class="sr" role="status" aria-live="polite"></div>
+<footer><main>
+  <p class="notice">This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body. Fictional organization. Examples are illustrative. Sector-specific legal, clinical, safety, and food safety requirements are outside this program. <span id="edition-note">Clause references use the 2015 edition numbering.</span></p>
+</main></footer>
+
+<script type="application/json" id="qf-config">__CONFIG_JSON__</script>
+<script type="application/json" id="qf-data">__DATA_JSON__</script>
+<script>
+/*__ENGINE__*/
+</script>
+<script>
+(function () {
+'use strict';
+var DATA = JSON.parse(document.getElementById('qf-data').textContent);
+var DEFAULTS = JSON.parse(document.getElementById('qf-config').textContent);
+var SAVE_KEY = 'iso9001-quality-flow-save-v1';
+
+var app = {
+  screen: 'setup', view: 'fac', teamView: 0, game: null, actions: [], phase: 'invest',
+  decisions: {}, corr: {}, setupCfg: JSON.parse(JSON.stringify(DEFAULTS)), names: [],
+  cfgError: '', jsonRaw: null, timer: { secs: 120, running: false, id: null }, csvText: '', saved: null
+};
+
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function n1(n) { var r = Math.round(n * 10) / 10; return (r < 0 ? '−' : '') + Math.abs(r); }
+function packById(id) { return DATA.packs.filter(function (p) { return p.id === id; })[0] || DATA.packs[0]; }
+var CONTROLS_2026 = DATA.controls2026 || [], EVENTS_2026 = DATA.events2026 || [];
+var CAUTION_TEXT = 'This section describes the 2026 edition of ISO 9001 using the best available secondary commentary and informed estimates. It has not been verified against the published standard and may contain errors, omissions, or incorrect clause references. Do not use it as a substitute for the standard in audit preparation, certification decisions, procedure revisions, or training records. Always consult the published ISO 9001:2026 text and your certification body.';
+function curEdition() { return String((app.game && app.screen !== 'setup' ? app.game.cfg.edition : app.setupCfg.edition) || '2015'); }
+function isNew() { return QF.isNewEdition(curEdition()); }
+function decks() { return QF.decksFor(curEdition(), DATA.controls, DATA.events, CONTROLS_2026, EVENTS_2026); }
+function ctlList() { return decks().controls; }
+function evList() { return decks().events; }
+function evById(id) { return DATA.events.concat(EVENTS_2026).filter(function (e) { return e.id === id; })[0]; }
+function ctl(id) { return DATA.controls.concat(CONTROLS_2026).filter(function (c) { return c.id === id; })[0]; }
+function cautionBox() {
+  return '<aside class="caution" role="note" aria-label="Preliminary 2026 information"><div class="caution-label">Preliminary 2026 information</div><p><b>CAUTION: PRELIMINARY 2026 INFORMATION.</b> ' + CAUTION_TEXT + '</p></aside>';
+}
+function confBadge(item) { return item && item.edition === '2026' ? '<span class="conf" title="Confidence label for this 2026 item">2026 • ' + esc(item.confidence) + ' • unverified</span>' : ''; }
+// Clause reference by edition. Bridge mode shows "2015 / 2026". The other controls are reported to keep their numbers.
+function clauseRef(c) {
+  var ed = curEdition(), c15 = c.clause2015 || c.clause, c26 = c.clause;
+  if (ed === 'bridge') return c15 + ' / ' + c26;
+  if (ed === '2026') return c26;
+  return c15;
+}
+function editionLabel() { var ed = curEdition(); return ed === 'bridge' ? 'Bridge mode (2015 / 2026)' : ed === '2026' ? '2026 mode (preliminary)' : '2015 edition'; }
+function live(msg) { var el = document.getElementById('live'); if (el) el.textContent = msg; }
+function stageName(i) { return app.game.cfg.stages[i] ? app.game.cfg.stages[i].name : ''; }
+function term(plural) { var p = packById(app.game ? app.game.cfg.industryPack : app.setupCfg.industryPack); return plural ? p.term[1] : p.term[0]; }
+function runningScore(t) { return t.revenue + t.rep * 3 - t.penalties; }
+function isLast() { return app.game.round >= app.game.cfg.rounds; }
+
+function validateCfg(c) {
+  if (!c || typeof c !== 'object') return 'The configuration must be an object.';
+  if (!(c.teams >= 1 && c.teams <= 6)) return 'teams must be a number from 1 to 6.';
+  if (!(c.rounds >= 1 && c.rounds <= 16)) return 'rounds must be a number from 1 to 16.';
+  if (!Array.isArray(c.stages) || c.stages.length !== 6) return 'stages must list exactly six stages.';
+  if (!c.stages.some(function (s) { return s.constraint; })) return 'One stage must have "constraint": true.';
+  if (!c.stages[4] || c.stages[4].id !== 'check') return 'The fifth stage must be the final check (id "check").';
+  if (!packById(c.industryPack) || packById(c.industryPack).id !== c.industryPack) return 'industryPack must be one of the pack ids in this file.';
+  if (!c.economics || typeof c.economics.goodItem !== 'number') return 'economics is missing or incomplete.';
+  if (c.edition != null && QF.EDITIONS.indexOf(String(c.edition)) < 0) return 'edition must be "2015", "2026" or "bridge".';
+  return '';
+}
+
+/* ---------- persistence (best effort) ---------- */
+function save() {
+  try {
+    if (!app.game) return;
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ cfg: app.cfgUsed, names: app.names, actions: app.actions }));
+  } catch (e) { /* storage may be blocked */ }
+}
+function loadSaved() {
+  try { var s = localStorage.getItem(SAVE_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; }
+}
+function clearSaved() { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignore */ } }
+
+/* ---------- game control ---------- */
+function newGame(cfg, names) {
+  var pack = packById(cfg.industryPack);
+  app.cfgUsed = JSON.parse(JSON.stringify(cfg));
+  var dk = QF.decksFor(cfg.edition, DATA.controls, DATA.events, CONTROLS_2026, EVENTS_2026);
+  app.game = QF.createGame(cfg, dk.controls, dk.events, pack);
+  app.names = names.slice();
+  app.game.teams.forEach(function (t, i) { t.name = names[i] || ('Team ' + (i + 1)); });
+  app.actions = []; app.decisions = {}; app.corr = {};
+  QF.startRound(app.game);
+  app.phase = 'invest'; app.screen = 'game'; app.view = 'fac'; app.teamView = 0;
+  resetTimer();
+  save();
+}
+function doBuy(ti, id) {
+  var g = app.game;
+  if (app.phase !== 'invest') return;
+  if (QF.buy(g, g.teams[ti], id)) { app.actions.push({ t: 'buy', team: ti, id: id }); save(); live(g.teams[ti].name + ' purchased ' + id); }
+}
+function doRun() {
+  var g = app.game;
+  g.teams.forEach(function (t) {
+    QF.runFlow(g, t);
+    app.decisions[t.index] = t.pendingHolds.map(function () { return 'redo'; });
+  });
+  app.actions.push({ t: 'run' });
+  app.phase = 'disposition'; app.view = 'fac'; stopTimer(); save();
+  live('Event revealed and round processed.');
+}
+function doResolve() {
+  var g = app.game;
+  g.teams.forEach(function (t) { QF.resolveHolds(g, t, app.decisions[t.index] || []); });
+  app.actions.push({ t: 'resolve', d: JSON.parse(JSON.stringify(app.decisions)) });
+  app.phase = 'done'; save();
+  live('Dispositions recorded.');
+}
+function doNext() {
+  var g = app.game;
+  g.teams.forEach(function (t) { if (app.corr[t.index]) QF.applyCorrective(g, t, app.corr[t.index]); });
+  app.actions.push({ t: 'next', c: JSON.parse(JSON.stringify(app.corr)) });
+  app.corr = {}; app.decisions = {};
+  if (isLast()) { app.phase = 'final'; app.screen = 'final'; app.view = 'final'; }
+  else { QF.startRound(g); app.phase = 'invest'; resetTimer(); app.view = 'fac'; }
+  save();
+  live(app.phase === 'final' ? 'Game complete. Final audit shown.' : 'Round ' + g.round + ' started. Invest step.');
+}
+function doOpportunity(ti) {
+  var g = app.game;
+  if (QF.captureOpportunity(g, g.teams[ti])) { app.actions.push({ t: 'opp', team: ti }); save(); live(g.teams[ti].name + ' captured the opportunity'); }
+}
+function replaySaved(sv) {
+  newGame(sv.cfg, sv.names || []);
+  sv.actions.forEach(function (a) {
+    if (a.t === 'buy') doBuy(a.team, a.id);
+    else if (a.t === 'run') doRun();
+    else if (a.t === 'resolve') { app.decisions = a.d; doResolve(); }
+    else if (a.t === 'next') { app.corr = a.c || {}; doNext(); }
+    else if (a.t === 'opp') doOpportunity(a.team);
+  });
+}
+
+/* ---------- timer ---------- */
+function fmtTime(s) { var m = Math.floor(s / 60), r = s % 60; return m + ':' + (r < 10 ? '0' : '') + r; }
+function resetTimer() { stopTimer(); app.timer.secs = 120; var el = document.getElementById('timer'); if (el) el.textContent = fmtTime(120); }
+function stopTimer() { if (app.timer.id) { clearInterval(app.timer.id); app.timer.id = null; } app.timer.running = false; }
+function toggleTimer() {
+  if (app.timer.running) { stopTimer(); render(); return; }
+  app.timer.running = true;
+  app.timer.id = setInterval(function () {
+    app.timer.secs = Math.max(0, app.timer.secs - 1);
+    var el = document.getElementById('timer'); if (el) el.textContent = fmtTime(app.timer.secs);
+    if (app.timer.secs === 0) { stopTimer(); live('Invest time is over.'); render(); }
+  }, 1000);
+  render();
+}
+
+/* ---------- rendering ---------- */
+function render() {
+  var fid = document.activeElement && document.activeElement.getAttribute && document.activeElement.getAttribute('data-fid');
+  var scrollY = window.scrollY;
+  var meta = document.getElementById('hdrmeta');
+  var nav = document.getElementById('nav');
+  var html = '';
+  if (app.screen === 'setup') {
+    meta.textContent = 'Setup';
+    nav.innerHTML = '';
+    html = renderSetup();
+  } else {
+    var g = app.game, pack = packById(g.cfg.industryPack);
+    meta.textContent = g.cfg.company + ' • ' + pack.name + ' • ' + editionLabel() + ' • Seed ' + g.cfg.seed + ' • ' + (app.screen === 'final' ? 'Final audit' : 'Round ' + g.round + ' of ' + g.cfg.rounds);
+    var tabs = [['fac', 'Facilitator view']];
+    g.teams.forEach(function (t, i) { tabs.push(['team' + i, t.name]); });
+    tabs.push(['ref', 'Controls and events']);
+    if (app.screen === 'final') tabs.push(['final', 'Final audit']);
+    nav.innerHTML = tabs.map(function (tb) {
+      var cur = (app.view === tb[0] || (app.view === 'team' && tb[0] === 'team' + app.teamView));
+      return '<button type="button" data-act="view" data-v="' + tb[0] + '"' + (cur ? ' aria-current="page"' : '') + ' data-fid="nav-' + tb[0] + '">' + esc(tb[1]) + '</button>';
+    }).join('');
+    if (app.view === 'fac') html = renderFac();
+    else if (app.view === 'ref') html = renderRef();
+    else if (app.view === 'final') html = renderFinal();
+    else html = renderTeam(app.teamView);
+  }
+  if (isNew()) html = cautionBox() + html;
+  var en = document.getElementById('edition-note');
+  if (en) en.textContent = curEdition() === 'bridge' ? 'Clause references are shown as 2015 / 2026; 2026 references are preliminary and unverified.' : curEdition() === '2026' ? 'Clause references use the reported 2026 numbering, which is preliminary and unverified.' : 'Clause references use the 2015 edition numbering.';
+  document.getElementById('app').innerHTML = html;
+  if (fid) { var el = document.querySelector('[data-fid="' + fid + '"]'); if (el) el.focus({ preventScroll: true }); }
+  window.scrollTo(0, scrollY);
+}
+
+function renderSetup() {
+  var c = app.setupCfg, packs = DATA.packs;
+  var saved = app.saved;
+  var names = [];
+  for (var i = 0; i < c.teams; i++) names.push(app.names[i] || 'Team ' + (i + 1));
+  return '' +
+    (saved ? '<div class="panel"><b>A saved game was found</b> (' + esc(packById(saved.cfg.industryPack).name) + ', ' + saved.actions.length + ' recorded steps). ' +
+      '<button type="button" class="primary" data-act="resume" data-fid="resume">Resume saved game</button> <button type="button" data-act="discard" data-fid="discard">Discard it</button></div>' : '') +
+    '<h2>Game setup</h2>' +
+    '<div class="grid cols2">' +
+    '<div class="panel"><h3>Basics</h3>' +
+    '<label for="f-pack">Industry pack</label><select id="f-pack" data-field="industryPack">' +
+      packs.map(function (p) { return '<option value="' + esc(p.id) + '"' + (p.id === c.industryPack ? ' selected' : '') + '>' + esc(p.name) + ' (' + esc(p.company) + ')</option>'; }).join('') + '</select>' +
+    '<p class="muted">The pack supplies stage names, the work item term and event wording. Mechanics and clause tags never change.</p>' +
+    '<label for="f-edition">Edition</label><select id="f-edition" data-field="edition">' +
+      [['2015', '2015 (current certified baseline)'], ['2026', '2026 mode (preliminary, adds C16, C17, E17 to E20)'], ['bridge', 'Bridge mode (2026 mechanics, clauses shown as 2015 / 2026)']].map(function (o) { return '<option value="' + o[0] + '"' + (String(c.edition || '2015') === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>' +
+    (QF.isNewEdition(String(c.edition)) ? '<p class="muted">2026 and bridge modes add controls C16 (quality culture and speak-up) and C17 (knowledge capture), events E17 to E20, and audit checks 13 and 14. Every 2026 item shows its confidence label. All 2026 content is preliminary and unverified.</p>' : '<p class="muted">2015 mode plays the core game. 2026 and bridge modes are preliminary.</p>') +
+    '<label for="f-teams">Number of teams (1 to 6)</label><input id="f-teams" type="number" min="1" max="6" value="' + c.teams + '" data-field="teams">' +
+    '<label for="f-rounds">Rounds</label><select id="f-rounds" data-field="rounds"><option value="6"' + (c.rounds === 6 ? ' selected' : '') + '>6 (short form, about 40 minutes)</option><option value="12"' + (c.rounds === 12 ? ' selected' : '') + '>12 (full game, 60 to 90 minutes)</option>' +
+      (c.rounds !== 6 && c.rounds !== 12 ? '<option value="' + c.rounds + '" selected>' + c.rounds + ' (custom)</option>' : '') + '</select>' +
+    '<label for="f-seed">Random seed (same seed gives the same event deck and dice)</label><div class="row"><input id="f-seed" type="number" value="' + c.seed + '" data-field="seed"> <button type="button" data-act="randseed" data-fid="randseed">New random seed</button></div>' +
+    '<label for="f-items">Work items released per round</label><input id="f-items" type="number" min="1" max="8" value="' + c.workItemsReleasedPerRound + '" data-field="workItemsReleasedPerRound">' +
+    '<label for="f-company">Company name</label><input id="f-company" type="text" value="' + esc(c.company) + '" data-field="company">' +
+    '</div>' +
+    '<div class="panel"><h3>Team names</h3>' + names.map(function (n, i) {
+      return '<label for="f-tn' + i + '">Team ' + (i + 1) + '</label><input id="f-tn' + i + '" type="text" value="' + esc(n) + '" data-teamname="' + i + '">';
+    }).join('') + '</div></div>' +
+    '<h2>Parameters (editable)</h2><p class="muted">This is the full configuration. Edit the values and leave the box to apply them. Starting QP, QP per round, stages, economics and the budget shock round can all be changed. Stage names always come from the selected pack.</p>' +
+    '<label for="f-json">Configuration (JSON)</label><textarea id="f-json" data-field="json" spellcheck="false">' + esc(app.jsonRaw != null ? app.jsonRaw : JSON.stringify(c, null, 2)) + '</textarea>' +
+    (app.cfgError ? '<p class="err" role="alert">' + esc(app.cfgError) + '</p>' : '') +
+    '<div class="row" style="margin-top:1rem"><button type="button" class="primary big" data-act="start" data-fid="start">Start game</button> <button type="button" data-act="resetcfg" data-fid="resetcfg">Reset to defaults</button></div>' +
+    '<h2>How the game works</h2><div class="panel"><ol>' +
+    '<li><b>Invest.</b> Each team spends Quality Points (QP) on controls. Each control matches a clause of ISO 9001. You cannot afford everything at once.</li>' +
+    '<li><b>Event.</b> The facilitator reveals an event. A team that owns the matching control is protected.</li>' +
+    '<li><b>Process.</b> Work items pass six stages. Defects occur by chance. The final check detects some defects. Defects that pass are escapes and trigger complaints.</li>' +
+    '<li><b>Disposition.</b> Choose redo or scrap for each held work item. Redo costs less on average but is not guaranteed.</li>' +
+    '<li><b>Score.</b> Revenue, reputation and QP update. Every third round, teams with the corrective action control choose a past event to correct.</li>' +
+    '<li><b>Audit.</b> At the end, a mock audit awards points for owning controls and for using them.</li>' +
+    (QF.isNewEdition(String(c.edition)) ? '<li><b>2026 additions.</b> Culture, speak-up and knowledge events can strike. An opportunity card (E20) can be taken up only by teams that own C12.</li>' : '') + '</ol>' +
+    '<p>Final score = revenue + audit points (maximum ' + QF.auditMax(String(c.edition)) + ') + reputation × 3 − penalties.</p></div>';
+}
+
+function stageBoard(t) {
+  var g = app.game, st = g.cfg.stages;
+  return '<div class="board" role="group" aria-label="Workflow board for ' + esc(t.name) + '">' + st.map(function (s, i) {
+    var tags = (s.constraint ? '<span class="badge warn">CONSTRAINT</span>' : '') + (s.manual ? '<span class="badge info">MANUAL</span>' : '') + (s.id === 'check' ? '<span class="badge info">CHECK</span>' : '');
+    var detail = s.id === 'check' ? 'Detects ' + Math.round(s.detectBase * 100) + '% base' : (s.defectProb != null ? 'Defect ' + Math.round(s.defectProb * 100) + '%' : '');
+    return '<div class="stage' + (s.constraint ? ' constraint' : '') + '"><div class="sname">' + (i + 1) + '. ' + esc(s.name) + '</div>' + tags +
+      '<div class="muted">Capacity ' + s.capacity + '<br>' + detail + '</div><div class="q" aria-label="Waiting">' + t.queues[i].length + ' waiting</div></div>';
+  }).join('') + '</div>';
+}
+
+function eventCard(showFull) {
+  var g = app.game, ev = g.event;
+  var mit = ev.mitigatedBy.map(function (id) { var c = ctl(id); return esc(id + ' ' + c.name + ' (Cl. ' + clauseRef(c) + ')'); }).join('; ');
+  return '<div class="event" aria-label="Event card"><div class="id">Event ' + esc(ev.id) + ' • Round ' + g.round + (ev.opportunity ? ' <span class="badge ok">OPPORTUNITY</span>' : '') + confBadge(ev) + '</div>' +
+    '<div class="txt">' + esc(QF.eventText(g, ev)) + '</div>' +
+    (showFull ? '<div><b>Mitigated by:</b> ' + mit + '</div><div><b>Impact if unmitigated:</b> ' + esc(ev.impact) + '</div>' : '') + '</div>';
+}
+
+function phaseBar() {
+  var g = app.game, ph = app.phase;
+  var labels = { invest: '1. Invest', disposition: '2. Event, process and disposition', done: '3. Score' };
+  var action = '';
+  if (ph === 'invest') action = '<button type="button" class="primary big" data-act="run" data-fid="run">Reveal event and run round</button>';
+  else if (ph === 'disposition') action = '<button type="button" class="primary big" data-act="resolve" data-fid="resolve">Confirm dispositions and score round</button>';
+  else if (ph === 'done') action = '<button type="button" class="primary big" data-act="next" data-fid="next">' + (isLast() ? 'Finish and run final audit' : 'Start round ' + (g.round + 1)) + '</button>';
+  var timer = ph === 'invest' ? '<div><div class="muted">Invest timer</div><div class="timer" id="timer">' + fmtTime(app.timer.secs) + '</div><button type="button" data-act="timer" data-fid="timer-btn">' + (app.timer.running ? 'Pause' : 'Start') + '</button> <button type="button" data-act="timerreset" data-fid="timer-reset">Reset</button></div>' : '';
+  return '<div class="panel row" style="justify-content:space-between"><div><div class="muted">Round ' + g.round + ' of ' + g.cfg.rounds + '</div><div style="font-size:1.3rem;font-weight:700">' + labels[ph] + '</div></div>' + timer + '<div>' + action + '</div></div>';
+}
+
+function renderFac() {
+  var g = app.game, ph = app.phase;
+  var rows = g.teams.slice().sort(function (a, b) { return runningScore(b) - runningScore(a); });
+  var html = '<h2>Facilitator view</h2>' + phaseBar();
+  if (ph === 'invest') {
+    html += '<div class="panel" style="margin-top:1rem"><b>Event hidden.</b> Teams invest in controls now (Team views). The event is revealed when you run the round.</div>';
+  } else {
+    html += '<h2>Event</h2>' + eventCard(true);
+    html += '<h3>Outcome by team</h3><table><thead><tr><th>Team</th><th>Owns matching control</th><th>Delivered</th><th>Held</th><th>Escapes this round</th><th>Impact</th></tr></thead><tbody>' +
+      g.teams.map(function (t) {
+        var r = t.lastRound || { delivered: 0, held: 0, escapes: 0, mitigated: false, impact: '' };
+        var own = g.event.mitigatedBy.filter(function (id) { return t.owned[id]; });
+        return '<tr><td>' + esc(t.name) + '</td><td>' + (own.length ? 'Yes (' + own.join(', ') + ')' : 'No') + '</td><td class="num">' + r.delivered + '</td><td class="num">' + r.held + '</td><td class="num">' + (t.roundEscapes || 0) + '</td><td>' + (r.mitigated ? 'Mitigated' : esc(r.impact && r.impact !== 'none' ? r.impact : 'See team log')) + '</td></tr>';
+      }).join('') + '</tbody></table>';
+  }
+  html += '<h2>Scoreboard</h2>' + scoreboard(rows);
+  html += '<h3>Quality cost so far</h3>' + costTable(g);
+  html += '<div class="row noprint" style="margin-top:1rem"><button type="button" data-act="csv" data-fid="csv">Download log (CSV)</button> <button type="button" data-act="record" data-fid="record">Download game record (JSON)</button> <button type="button" data-act="print" data-fid="print">Print this view</button> <button type="button" data-act="newgame" data-fid="newgame">Back to setup</button></div>';
+  if (app.csvText) html += '<details open><summary>Log text (copy it if the download is blocked)</summary><textarea readonly aria-label="Log text">' + esc(app.csvText) + '</textarea></details>';
+  return html;
+}
+
+function scoreboard(rows) {
+  var g = app.game;
+  return '<table><caption class="sr">Team scoreboard</caption><thead><tr><th>Rank</th><th>Team</th><th class="num">QP</th><th class="num">Controls</th><th class="num">Delivered</th><th class="num">Escapes</th><th class="num">Scrapped</th><th class="num">Revenue</th><th class="num">Reputation</th><th class="num">Score so far</th><th>Status</th></tr></thead><tbody>' +
+    rows.map(function (t, i) {
+      return '<tr><td>' + (i + 1) + '</td><td>' + esc(t.name) + '</td><td class="num">' + t.qp + '</td><td class="num">' + QF.ownedCount(t) + ' of ' + ctlList().length + '</td><td class="num">' + t.delivered + '</td><td class="num">' + t.escapes + '</td><td class="num">' + t.scrapped + '</td><td class="num">' + n1(t.revenue) + '</td><td class="num">' + n1(t.rep) + '</td><td class="num"><b>' + n1(runningScore(t)) + '</b></td><td>' + (t.rep <= 0 ? '<span class="badge warn">SUPPLY ON HOLD</span>' : '<span class="badge ok">ACTIVE</span>') + '</td></tr>';
+    }).join('') + '</tbody></table><p class="muted">Score so far excludes audit points, which are added at the end.</p>';
+}
+
+function costTable(g) {
+  return '<table><thead><tr><th>Team</th><th class="num">Prevention (QP)</th><th class="num">Appraisal (QP)</th><th class="num">Internal failure</th><th class="num">External failure</th></tr></thead><tbody>' +
+    g.teams.map(function (t) {
+      var s = QF.score(t);
+      return '<tr><td>' + esc(t.name) + '</td><td class="num">' + s.cost.prevention + '</td><td class="num">' + s.cost.appraisal + '</td><td class="num">' + n1(s.cost.internalFailure) + '</td><td class="num">' + n1(s.cost.externalFailure) + '</td></tr>';
+    }).join('') + '</tbody></table>';
+}
+
+function renderTeam(ti) {
+  var g = app.game, t = g.teams[ti], ph = app.phase;
+  var html = '<h2>' + esc(t.name) + ' • Team view</h2>';
+  html += '<div class="kpis"><div class="kpi">Quality Points<b>' + t.qp + '</b></div><div class="kpi">Controls owned<b>' + QF.ownedCount(t) + ' of ' + ctlList().length + '</b></div><div class="kpi">Reputation<b>' + n1(t.rep) + '</b></div><div class="kpi">Revenue<b>' + n1(t.revenue) + '</b></div><div class="kpi">Escapes<b>' + t.escapes + '</b></div><div class="kpi">Delivered<b>' + t.delivered + '</b></div></div>';
+  if (t.rep <= 0) html += '<p><span class="badge warn">SUPPLY ON HOLD</span> The customer has placed supply on hold. Remaining output earns half value.</p>';
+  html += '<h3>Workflow (' + esc(term(true)) + ')</h3>' + stageBoard(t);
+  if (ph !== 'invest') html += '<h3>This round</h3>' + eventCard(false) + roundResult(t);
+  if (ph === 'disposition') html += dispositionPanel(t);
+  if (ph === 'disposition' || ph === 'done') html += opportunityPanel(t, ti);
+  if (ph === 'done') html += correctivePanel(t);
+  html += '<h3>Controls' + (ph === 'invest' ? ' (Invest step: buy now)' : '') + '</h3>';
+  if (ph !== 'invest') html += '<p class="muted">Purchases open again at the next Invest step.</p>';
+  html += '<div class="shop">' + ctlList().map(function (c) {
+    var owned = !!t.owned[c.id];
+    var btn;
+    if (owned) btn = '<span class="badge ok">OWNED</span>';
+    else if (ph !== 'invest') btn = '<span class="muted">Not owned</span>';
+    else if (t.qp < c.cost) btn = '<button type="button" disabled data-fid="buy-' + ti + '-' + c.id + '">Buy (' + c.cost + ' QP)</button> <span class="muted">Needs ' + (c.cost - t.qp) + ' more QP</span>';
+    else btn = '<button type="button" class="primary" data-act="buy" data-team="' + ti + '" data-id="' + c.id + '" data-fid="buy-' + ti + '-' + c.id + '">Buy (' + c.cost + ' QP)</button>';
+    return '<div class="ctl' + (owned ? ' owned' : '') + '"><div class="head"><span>' + esc(c.id) + ' ' + esc(c.name) + '</span><span>' + c.cost + ' QP</span></div><small>Clause ' + esc(clauseRef(c)) + confBadge(c) + '</small><div>' + esc(c.effect) + '</div><div style="margin-top:.3rem">' + btn + '</div></div>';
+  }).join('') + '</div>';
+  if (t.gaps.length) html += '<h3>Internal audit gaps found</h3><ul>' + t.gaps.map(function (id) { return '<li>' + esc(id + ' ' + ctl(id).name) + ' (no evidence at the time of the audit)</li>'; }).join('') + '</ul>';
+  html += '<details><summary>Team log</summary><ul class="log">' + t.log.slice(-40).reverse().map(function (l) { return '<li>R' + l.round + ' [' + esc(l.kind) + '] ' + esc(l.text) + '</li>'; }).join('') + '</ul></details>';
+  return html;
+}
+
+function roundResult(t) {
+  var r = t.lastRound; if (!r) return '';
+  return '<p><b>Result:</b> ' + r.delivered + ' delivered, ' + r.held + ' held for disposition, ' + (t.roundEscapes || 0) + ' escape(s) this round. ' + (r.mitigated ? '<span class="badge ok">EVENT MITIGATED</span>' : '<span class="badge warn">NOT MITIGATED OR NOT APPLICABLE</span>') + '</p>';
+}
+
+function dispositionPanel(t) {
+  var holds = t.pendingHolds;
+  if (!holds.length) return '<div class="panel"><b>Disposition.</b> No held work items this round.</div>';
+  var d = app.decisions[t.index] || [];
+  return '<div class="panel"><h3>Disposition of held ' + esc(term(true)) + '</h3><p class="muted">Redo costs ' + Math.abs(app.game.cfg.economics.redoItem) + ' and succeeds ' + Math.round(app.game.cfg.economics.redoSuccess * 100) + '% of the time. A redone item is not re-checked. Scrap costs ' + Math.abs(app.game.cfg.economics.scrapItem) + ' (more if the defect arose at or after the constraint).' + (t.owned.C09 ? '' : ' <b>Warning:</b> without control C09, some held items may be released in error.') + '</p>' +
+    holds.map(function (it, i) {
+      var cur = d[i] || 'redo';
+      return '<fieldset><legend>Held ' + esc(term(false)) + ' ' + (i + 1) + ' (defect arose at ' + esc(stageName(it.origin)) + ')</legend>' +
+        '<label><input type="radio" name="d-' + t.index + '-' + i + '" value="redo" data-disp="' + t.index + ':' + i + '"' + (cur === 'redo' ? ' checked' : '') + '> Redo</label> ' +
+        '<label><input type="radio" name="d-' + t.index + '-' + i + '" value="scrap" data-disp="' + t.index + ':' + i + '"' + (cur === 'scrap' ? ' checked' : '') + '> Scrap</label></fieldset>';
+    }).join('') + '</div>';
+}
+
+function opportunityPanel(t, ti) {
+  if (!t.opportunityOffered) return '';
+  return '<div class="panel"><h3>Opportunity (E20)</h3><p>Your management review and objectives control (C12) lets you take up the trial. Invest 2 QP for a permanent final check detection increase of 5 points. Risks and opportunities are reported to be addressed more distinctly in 2026 (6.1, High, unverified).</p>' +
+    (t.qp >= 2 ? '<button type="button" class="primary" data-act="opp" data-team="' + ti + '" data-fid="opp-' + ti + '">Invest 2 QP in the trial</button>' : '<p class="muted">Needs 2 QP.</p>') + '</div>';
+}
+function correctivePanel(t) {
+  var gm = app.game;
+  if (!QF.correctiveAvailable(gm, t) || isLast()) return '';
+  var opts = t.eventsSeen.filter(function (id) { return !t.corrective[id]; });
+  if (!opts.length) return '';
+  return '<div class="panel"><h3>Corrective action opportunity</h3><p>Choose a past event. Name its cause with 5 Whys, then record the corrective action. Its future impact is halved.</p>' +
+    '<label for="corr-' + t.index + '">Event to correct</label><select id="corr-' + t.index + '" data-corr="' + t.index + '"><option value="">No action this time</option>' +
+    opts.map(function (id) { var ev = evById(id); return '<option value="' + id + '"' + (app.corr[t.index] === id ? ' selected' : '') + '>' + esc(id + ': ' + QF.eventText(gm, ev)) + '</option>'; }).join('') + '</select></div>';
+}
+
+function renderRef() {
+  var gm = app.game;
+  var ed = curEdition(), hdr = ed === 'bridge' ? 'Clause (2015 / 2026)' : ed === '2026' ? 'Clause (2026, preliminary)' : 'Clause (2015)';
+  return '<h2>Controls</h2><table><thead><tr><th>ID</th><th>Control</th><th>' + hdr + '</th><th class="num">QP</th><th>Effect</th></tr></thead><tbody>' +
+    ctlList().map(function (c) { return '<tr><td>' + c.id + '</td><td>' + esc(c.name) + '</td><td>' + esc(clauseRef(c)) + confBadge(c) + '</td><td class="num">' + c.cost + '</td><td>' + esc(c.effect) + (isNew() && c.id === 'C12' ? ' 2026 mode: also lets the team take up opportunity cards (E20).' : '') + '</td></tr>'; }).join('') + '</tbody></table>' +
+    (isNew() ? '<p class="muted">Controls other than C16 and C17 are reported to keep their clause numbers in 2026 (Medium; verify). C16 and C17 cost 4 QP in total.</p>' : '') +
+    '<h2>Event deck (sector wording for this game)</h2><table><thead><tr><th>ID</th><th>Event</th><th>Mitigated by</th><th>Impact if unmitigated</th></tr></thead><tbody>' +
+    evList().map(function (e) { return '<tr><td>' + e.id + confBadge(e) + '</td><td>' + esc(QF.eventText(gm, e)) + '</td><td>' + esc(e.mitigatedBy.join(', ')) + '</td><td>' + esc(e.impact) + '</td></tr>'; }).join('') + '</tbody></table>';
+}
+
+function renderFinal() {
+  var gm = app.game;
+  var res = gm.teams.map(function (t) { return { t: t, s: QF.score(t), a: QF.finalAudit(t) }; }).sort(function (x, y) { return y.s.total - x.s.total; });
+  var html = '<h2>Final results</h2><table><thead><tr><th>Rank</th><th>Team</th><th class="num">Revenue</th><th class="num">Audit points (max ' + QF.auditMax(curEdition()) + ')</th><th class="num">Reputation × 3</th><th class="num">Penalties</th><th class="num">Final score</th></tr></thead><tbody>' +
+    res.map(function (r, i) { return '<tr><td>' + (i + 1) + '</td><td>' + esc(r.t.name) + '</td><td class="num">' + n1(r.s.revenue) + '</td><td class="num">' + r.s.audit + '</td><td class="num">' + n1(r.s.reputation * 3) + '</td><td class="num">−' + n1(r.s.penalties) + '</td><td class="num"><b>' + n1(r.s.total) + '</b></td></tr>'; }).join('') + '</tbody></table>';
+  html += '<h3>Quality cost breakdown</h3>' + costTable(gm);
+  html += '<h2>Mock audit by team</h2>';
+  res.forEach(function (r) {
+    html += '<details><summary><b>' + esc(r.t.name) + '</b>: ' + r.a.points + ' of ' + QF.auditMax(curEdition()) + ' audit points</summary><table><thead><tr><th>#</th><th>Check</th><th>Controls</th><th>Owned</th><th>Evidence of use</th><th class="num">Points</th></tr></thead><tbody>' +
+      r.a.rows.map(function (row) { return '<tr><td>' + row.n + '</td><td>' + esc(row.name) + (row.n > 12 ? confBadge(ctl(row.controls[0])) : '') + '</td><td>' + esc(row.controls.join(', ')) + '</td><td>' + (row.owned ? 'Yes' : 'No') + '</td><td>' + (row.used ? 'Yes' : 'No') + '</td><td class="num">' + row.points + '</td></tr>'; }).join('') + '</tbody></table>' +
+      (r.t.auditPenalty ? '<p>Audit points reduced by ' + r.t.auditPenalty + ' (measuring resource found overdue).</p>' : '') + '</details>';
+  });
+  html += '<h2>Clause mapping debrief</h2><p>For each event your team met, name the clause. Then check the table.</p>';
+  res.forEach(function (r) {
+    var seen = r.t.eventsSeen;
+    html += '<details><summary><b>' + esc(r.t.name) + '</b>: ' + seen.length + ' events</summary><table><thead><tr><th>Round</th><th>Event</th><th>Mitigating control and clause</th><th>Owned</th></tr></thead><tbody>' +
+      seen.map(function (id, i) {
+        var ev = evById(id);
+        var ms = ev.mitigatedBy.map(function (m) { return m + ' (Cl. ' + clauseRef(ctl(m)) + ')'; }).join('; ');
+        var own = ev.mitigatedBy.filter(function (m) { return r.t.owned[m]; });
+        return '<tr><td>' + (i + 1) + '</td><td>' + esc(id + ': ' + QF.eventText(gm, ev)) + '</td><td>' + esc(ms) + '</td><td>' + (own.length ? 'Yes (' + esc(own.join(', ')) + ')' : 'No') + '</td></tr>';
+      }).join('') + '</tbody></table></details>';
+  });
+  html += '<h2>Debrief questions</h2><ol>' + [
+    'Which control had the largest effect on your score? Which clause does it relate to?',
+    'Which event caught you without a mitigating control? What did it cost?',
+    'Was checking at the constraint a good investment? Why?',
+    'What did you do when under pressure to deliver (the rush order and release pressure events)?',
+    'Which records would you show an auditor? Which were missing?',
+    'How does this compare with the factory game on Theory of Constraints?',
+    '(Mixed-sector groups) Which controls looked different in your sector, and which looked identical?'
+  ].concat(isNew() ? [
+    '(2026 mode) When the adjusted-reading or unreported near-miss event came up, what made the right action easy or hard? What would a leader need to do differently?',
+    '(2026 mode) Did your team take up the opportunity card? How is managing an opportunity different from managing a risk?',
+    '(2026 mode) Where does know-how in your process live today? What would be lost if one person moved roles?'
+  ] : []).map(function (q) { return '<li>' + q + '</li>'; }).join('') + '</ol>';
+  html += '<div class="row noprint"><button type="button" class="primary" data-act="replay" data-fid="replay">Replay with the same seed</button> <button type="button" data-act="csv" data-fid="csv">Download log (CSV)</button> <button type="button" data-act="record" data-fid="record">Download game record (JSON)</button> <button type="button" data-act="print" data-fid="print">Print results</button> <button type="button" data-act="newgame" data-fid="newgame">New game</button></div>';
+  if (app.csvText) html += '<details open><summary>Log text</summary><textarea readonly aria-label="Log text">' + esc(app.csvText) + '</textarea></details>';
+  return html;
+}
+
+/* ---------- downloads ---------- */
+function download(name, text, type) {
+  try {
+    var blob = new Blob([text], { type: type || 'text/plain' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  } catch (e) { /* blocked: the text area below is the fallback */ }
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click', function (e) {
+  var b = e.target.closest ? e.target.closest('[data-act]') : null;
+  if (!b || b.disabled) return;
+  var act = b.getAttribute('data-act');
+  var gm = app.game;
+  switch (act) {
+    case 'view': { var v = b.getAttribute('data-v'); if (v.indexOf('team') === 0) { app.view = 'team'; app.teamView = parseInt(v.slice(4), 10); } else app.view = v; break; }
+    case 'buy': doBuy(parseInt(b.getAttribute('data-team'), 10), b.getAttribute('data-id')); break;
+    case 'opp': doOpportunity(parseInt(b.getAttribute('data-team'), 10)); break;
+    case 'run': doRun(); break;
+    case 'resolve': doResolve(); break;
+    case 'next': doNext(); break;
+    case 'timer': toggleTimer(); return;
+    case 'timerreset': resetTimer(); break;
+    case 'csv': app.csvText = QF.csv(gm); download('quality-flow-log.csv', app.csvText, 'text/csv'); break;
+    case 'record': download('quality-flow-record.json', JSON.stringify({ cfg: app.cfgUsed, names: app.names, actions: app.actions }, null, 2), 'application/json'); break;
+    case 'print': try { window.print(); } catch (err) { /* blocked */ } break;
+    case 'newgame': stopTimer(); app.screen = 'setup'; app.saved = loadSaved(); app.csvText = ''; break;
+    case 'replay': { var c2 = JSON.parse(JSON.stringify(app.cfgUsed)); app.csvText = ''; newGame(c2, app.names); break; }
+    case 'start': { if (app.jsonRaw != null) { break; } var cfg = JSON.parse(JSON.stringify(app.setupCfg)); var nm = []; for (var i = 0; i < cfg.teams; i++) nm.push(app.names[i] || ('Team ' + (i + 1))); app.csvText = ''; newGame(cfg, nm); break; }
+    case 'randseed': app.jsonRaw = null; app.setupCfg.seed = Math.floor(Math.random() * 900000) + 100000; break;
+    case 'resetcfg': app.setupCfg = JSON.parse(JSON.stringify(DEFAULTS)); app.names = []; app.cfgError = ''; app.jsonRaw = null; break;
+    case 'resume': replaySaved(app.saved); app.csvText = ''; if (app.phase === 'final') { app.screen = 'final'; app.view = 'final'; } break;
+    case 'discard': clearSaved(); app.saved = null; break;
+    case 'textsize': { var on = document.documentElement.style.getPropertyValue('--font') === '24px'; document.documentElement.style.setProperty('--font', on ? '18px' : '24px'); b.setAttribute('aria-pressed', on ? 'false' : 'true'); return; }
+    case 'theme': { var cur = document.documentElement.getAttribute('data-theme'); var dark = cur ? cur === 'dark' : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark'); return; }
+  }
+  render();
+});
+
+document.addEventListener('change', function (e) {
+  var el = e.target;
+  if (el.hasAttribute('data-field')) {
+    var f = el.getAttribute('data-field');
+    if (f === 'json') {
+      try {
+        var parsed = JSON.parse(el.value), bad = validateCfg(parsed);
+        if (bad) { app.cfgError = bad; app.jsonRaw = el.value; }
+        else { app.setupCfg = parsed; app.cfgError = ''; app.jsonRaw = null; }
+      } catch (err) { app.cfgError = 'The configuration is not valid JSON: ' + err.message; app.jsonRaw = el.value; }
+    } else if (['teams', 'rounds', 'seed', 'workItemsReleasedPerRound'].indexOf(f) >= 0) {
+      app.jsonRaw = null;
+      var v = parseInt(el.value, 10); if (isNaN(v)) v = DEFAULTS[f];
+      if (f === 'teams') v = Math.max(1, Math.min(6, v));
+      app.setupCfg[f] = v; app.cfgError = '';
+    } else { app.jsonRaw = null; app.setupCfg[f] = el.value; app.cfgError = ''; }
+    render();
+  } else if (el.hasAttribute('data-teamname')) {
+    app.names[parseInt(el.getAttribute('data-teamname'), 10)] = el.value;
+  } else if (el.hasAttribute('data-disp')) {
+    var p = el.getAttribute('data-disp').split(':');
+    var arr = app.decisions[p[0]] || (app.decisions[p[0]] = []);
+    arr[parseInt(p[1], 10)] = el.value;
+  } else if (el.hasAttribute('data-corr')) {
+    app.corr[el.getAttribute('data-corr')] = el.value || null;
+  }
+});
+
+/* ---------- start ---------- */
+app.saved = loadSaved();
+render();
+})();
+</script>
+</body>
+</html>

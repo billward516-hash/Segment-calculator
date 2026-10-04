@@ -1,0 +1,287 @@
+{
+  "id": "CON-F-01",
+  "pack": "construction",
+  "type": "F",
+  "title": "The Hold Point",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "On a Meridian Build site, the foreman wants to place the ground floor slab at 7 a.m. tomorrow; the concrete is booked. The reinforcement inspection hold point (H-6) has not been signed because the client's engineer cannot attend until noon. The foreman proposes pouring and \"getting it signed after\". Site safety and legal requirements are managed separately and are outside this visit. You have 12 visit points to decide.",
+  "visitPoints": 12,
+  "goal": "Decision quality",
+  "branches": [
+    "Judgment"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "ITP",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Hold point H-6 requirements",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Hold point sign-off sheet",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Foreman",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Why pour at 7 a.m.",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Ask",
+          "label": "Who can release a hold point",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Contract",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Client terms for hold points",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Supplier",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Concrete supplier: can the booking move",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Review",
+          "label": "Concrete order and mix confirmation",
+          "evidenceId": "E11"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Reinforcement",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Internal reinforcement check",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Observe",
+          "label": "Bar spacers",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Project manager",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Cost of moving the pour",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Observe",
+          "label": "Site programme poster",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "ITP hold point H-6 requires the client's engineer to sign before concrete is placed.",
+      "clause": "8.6",
+      "whyItMatters": "The plan is clear.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Clear plan.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Hold point sheet H-6 shows \"pour approved\" pencilled by the foreman with no engineer signature.",
+      "clause": "8.6",
+      "whyItMatters": "A hold point may only be released by the named authority.",
+      "missedExplanation": "Check who signed the hold point.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Foreman: \"We always get it signed after. The engineer never finds anything.\" (note 1)",
+      "clause": "5.1.1",
+      "whyItMatters": "Supervisors must support planned controls; past results do not justify bypassing a hold point.",
+      "missedExplanation": "Listen for routine bypassing.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "conforming",
+      "text": "Foreman confirms only the client's engineer can release H-6.",
+      "clause": "5.3",
+      "whyItMatters": "Authority defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Clear.",
+      "plantedPool": false
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Contract clause 31 allows the client to require removal of work covered before a hold point is released.",
+      "clause": "8.2.3",
+      "whyItMatters": "Client requirements must be met.",
+      "missedExplanation": "Read contract terms on hold points.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "observation",
+      "text": "Supplier: \"We can move the booking to 1 p.m. at no cost if told by 4 p.m. today.\"",
+      "clause": "8.4",
+      "whyItMatters": "A practical option exists.",
+      "missedExplanation": "Ask suppliers about flexibility.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Internal reinforcement check IR-6 found 2 laps short; corrected and re-checked this afternoon.",
+      "clause": "8.6",
+      "whyItMatters": "Internal checks find issues; the engineer's inspection remains required.",
+      "missedExplanation": "Read internal check records.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "observation",
+      "text": "Project manager: \"A half-day delay costs less than breaking out a slab.\" Estimate E-12 confirms this.",
+      "clause": "8.1",
+      "whyItMatters": "Costs support waiting.",
+      "missedExplanation": "Ask about consequences.",
+      "plantedPool": true
+    },
+    {
+      "id": "E11",
+      "kind": "conforming",
+      "text": "Concrete order confirms the specified mix and quantity.",
+      "clause": "8.4",
+      "whyItMatters": "The order is correct.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Correct order.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "Programme poster shows the pour date in red.",
+      "clause": "7.4",
+      "whyItMatters": "Context.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Context.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Bar spacers are of an approved type.",
+      "clause": "8.5.1",
+      "whyItMatters": "Conforming.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Approved.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What do you recommend?",
+      "options": [
+        "Pour at 7 a.m.",
+        "Move the pour to 1 p.m., ask the engineer to inspect at noon, and erase the pencilled approval",
+        "Cancel the pour indefinitely",
+        "Say nothing"
+      ],
+      "bestIndex": 1,
+      "rationale": "A short delay meets the hold point at no cost.",
+      "optionFeedback": [
+        "Covers work before a required inspection.",
+        "Meets the requirement with minimal impact.",
+        "Unnecessary delay.",
+        "Leaves a known breach."
+      ]
+    },
+    {
+      "id": "D2",
+      "prompt": "How do you respond to \"we always get it signed after\"?",
+      "options": [
+        "Accept it as site custom",
+        "Explain calmly that the hold point protects the work and the client's right to inspect, and show that the 1 p.m. option keeps the programme",
+        "Report the foreman for discipline",
+        "Ignore it"
+      ],
+      "bestIndex": 1,
+      "rationale": "Address the habit with facts and a practical route."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Do not pour until H-6 is signed; remove the pencilled approval"
+    ],
+    "correction": [
+      "Rebook the pour for after the engineer's inspection"
+    ],
+    "cause": [
+      "Hold points can be marked approved by anyone, and pours are booked before inspection times are confirmed"
+    ],
+    "corrective": [
+      "Allow only the named authority to sign hold points and book pours only after inspection is scheduled"
+    ],
+    "effectiveness": [
+      "Audit hold point sheets against pour dates monthly"
+    ]
+  },
+  "debriefText": {
+    "found": "You protected the hold point without losing the day.",
+    "missed": "Ask suppliers about flexibility before accepting a deadline.",
+    "falseFinding": "Posters and approved spacers are not findings."
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "data/casebook/case.schema.json",
+  "title": "Sector Casebook case file (data/casebook/<pack>/<type>-<n>.json)",
+  "description": "Schema from Appendix D.6.8 with the extensions the generator uses. The authoritative checks, including cross-references, run in CB.validateCase (games/casebook/engine.js) during the build and in tests/casebook-tests.js.",
+  "type": "object",
+  "required": ["id", "pack", "type", "title", "edition", "verifyStatus2015", "brief", "visitPoints", "goal", "branches", "hotspots", "evidence", "decisions", "expectedActions", "debriefText"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[A-Z]{3}-[A-F]-[0-9]{2}$", "description": "Sector code, case type, and number, for example MFG-B-01." },
+    "pack": { "type": "string", "description": "Industry pack id from data/packs.json." },
+    "type": { "enum": ["A", "B", "C", "D", "E", "F"] },
+    "title": { "type": "string" },
+    "edition": { "enum": ["2015", "2026"], "description": "2026 variants (Type F, file F-2.json) are excluded from badge scoring, the capstone, the skill map, and Compare until verified. They need variantOf, bridge2026, and a confidence label on every evidence card and decision, and they display the exact Section 0.1 caution." },
+    "variantOf": { "type": "string", "pattern": "^[A-Z]{3}-[A-F]-[0-9]{2}$", "description": "2026 variants only: id of the 2015 case of the same type that this case varies, for example MFG-F-01." },
+    "bridge2026": {
+      "type": "array",
+      "minItems": 2,
+      "description": "2026 variants only: paraphrased notes on the reported 2026 change, each with a confidence label and a clause tag from data/clause-map.json. No quoted requirement wording; no lettered Clause 5 sub-items.",
+      "items": { "type": "object", "required": ["text", "confidence", "clause"], "properties": { "text": { "type": "string" }, "confidence": { "enum": ["High", "Medium", "Single", "Unclear", "Best estimate"], "description": "2026 variants only (Section 0.1): confidence label for this 2026 statement. A best estimate also needs reasoning and check." }, "clause": { "type": "string" }, "reasoning": { "type": "string" }, "check": { "type": "string", "description": "What to confirm in the purchased standard." } } }
+    },
+    "verifyStatus2015": { "enum": ["unverified", "verified"] },
+    "brief": { "type": "string" },
+    "visitPoints": { "type": "integer", "minimum": 6, "maximum": 30 },
+    "goal": { "type": "string" },
+    "branches": { "type": "array", "items": { "enum": ["Evidence", "Mapping", "Cause", "Control", "Judgment"] }, "minItems": 1 },
+    "tokens": {
+      "type": "object",
+      "description": "Optional fictional names and numbers. The seed picks one option set: each token uses option (set mod its length), so give related tokens the same number of options. Seed 0000 uses the first. Use {{token}} in any text.",
+      "additionalProperties": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+    },
+    "referenceSelection": {
+      "type": "object",
+      "description": "Optional. The evidence shown for seed 0000, used for worked examples.",
+      "properties": { "evidence": { "type": "array", "items": { "type": "string" } } }
+    },
+    "hotspots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "actions"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "actions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["verb", "label"],
+              "properties": {
+                "verb": { "enum": ["Observe", "Ask", "Review"] },
+                "label": { "type": "string" },
+                "evidenceId": { "type": "string" },
+                "note": { "type": "string", "description": "Shown instead of an evidence card when the action finds nothing of note." }
+              }
+            }
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 9,
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "text", "clause", "whyItMatters", "missedExplanation"],
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "enum": ["nonconformity", "conforming", "observation", "redHerring"] },
+          "text": { "type": "string" },
+          "variants": { "type": "array", "items": { "type": "string" }, "description": "Alternative wordings with the same facts." },
+          "clause": { "type": "string", "description": "One or more 2015 clause numbers from data/clause-map.json, separated by commas." },
+          "unlockedBy": { "type": "array", "items": { "type": "string" }, "description": "The card appears after any one of these cards is collected." },
+          "supports": { "type": "string", "description": "Id of the planted issue this card supports. Shown whenever that issue is planted." },
+          "whyItMatters": { "type": "string" },
+          "missedExplanation": { "type": "string" },
+          "falseFindingNote": { "type": "string", "description": "Optional. Why this conforming card or red herring is conforming." },
+          "plantedPool": { "type": "boolean", "description": "True for every planted issue (nonconformity or observation) the seed may select." },
+          "confidence": { "enum": ["High", "Medium", "Single", "Unclear", "Best estimate"], "description": "2026 variants only (Section 0.1): confidence label for this 2026 statement. A best estimate also needs reasoning and check." },
+          "reasoning": { "type": "string", "description": "Required when confidence is Best estimate." },
+          "check": { "type": "string", "description": "Required when confidence is Best estimate: what to confirm in the standard." }
+        }
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "prompt", "options", "bestIndex", "rationale"],
+        "properties": {
+          "id": { "type": "string" },
+          "prompt": { "type": "string" },
+          "options": { "type": "array", "items": { "type": "string" }, "minItems": 2 },
+          "bestIndex": { "type": "integer", "minimum": 0 },
+          "rationale": { "type": "string" },
+          "optionFeedback": { "type": "array", "items": { "type": "string" } },
+          "confidence": { "enum": ["High", "Medium", "Single", "Unclear", "Best estimate"], "description": "2026 variants only (Section 0.1): confidence label for this 2026 statement. A best estimate also needs reasoning and check." },
+          "reasoning": { "type": "string", "description": "Required when confidence is Best estimate." },
+          "check": { "type": "string", "description": "Required when confidence is Best estimate: what to confirm in the standard." }
+        }
+      }
+    },
+    "expectedActions": {
+      "type": "object",
+      "required": ["containment", "correction", "cause", "corrective", "effectiveness"],
+      "properties": {
+        "containment": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "correction": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "cause": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "corrective": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "effectiveness": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "actionDistractors": {
+      "type": "object",
+      "description": "Optional weak options per action element. When absent, the generic distractors in the engine are used."
+    },
+    "debriefText": {
+      "type": "object",
+      "required": ["found", "missed", "falseFinding"],
+      "properties": { "found": { "type": "string" }, "missed": { "type": "string" }, "falseFinding": { "type": "string" } }
+    }
+  }
+}

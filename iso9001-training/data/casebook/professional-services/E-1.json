@@ -1,0 +1,278 @@
+{
+  "id": "PRO-E-01",
+  "pack": "professional-services",
+  "type": "E",
+  "title": "The Client Report Error",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "A client of Meridian Advisory writes that report {{rep}} contains a wrong interest rate assumption, which changed their board decision paper. They want a written response in 3 working days. You have 12 visit points to contain, find the cause, and respond.",
+  "visitPoints": 12,
+  "goal": "Containment and response",
+  "branches": [
+    "Control",
+    "Cause"
+  ],
+  "tokens": {
+    "rep": [
+      "R-1840",
+      "R-2215",
+      "R-1996"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Client service",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Complaint record",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Other reports using the same assumption",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Engagement file",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Assumption source for {{rep}}",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Peer review record",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Data",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Assumptions register",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Partner and induction",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Partner: was review skipped",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Review",
+          "label": "Induction record for the analyst",
+          "evidenceId": "E11"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Complaint procedure",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Professional indemnity notification steps",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Team",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Report formatting",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Desk layout",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Complaint CC-44 logged the same day with an owner.",
+      "clause": "9.1.2",
+      "whyItMatters": "Captured.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Prompt.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "3 other reports this month (R-1838, R-1839, R-1841) used the same assumption; none reviewed or clients informed.",
+      "clause": "8.7",
+      "whyItMatters": "Containment includes other affected output.",
+      "missedExplanation": "Check other reports with the same input.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Assumption came from an analyst's personal spreadsheet, not the assumptions register (file AS-tmp-04).",
+      "clause": "7.5.3",
+      "whyItMatters": "Controlled data sources must be used.",
+      "missedExplanation": "Trace where the assumption came from.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Peer review record for {{rep}} is dated after the report was sent.",
+      "clause": "8.6",
+      "whyItMatters": "Review must happen before release or with authorization.",
+      "missedExplanation": "Compare review and send dates.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "conforming",
+      "text": "Assumptions register AR-1 holds the correct rate.",
+      "clause": "7.5.3",
+      "whyItMatters": "Controlled source exists.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Correct.",
+      "plantedPool": false
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Partner: \"We were late, so I sent it and asked for review after.\" (note 2)",
+      "clause": "5.1.1",
+      "supports": "E4",
+      "whyItMatters": "Leaders must support the review step.",
+      "missedExplanation": "Ask about the release decision.",
+      "plantedPool": false
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Complaint procedure requires a response in 3 working days.",
+      "clause": "8.2.1",
+      "whyItMatters": "Defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Defined.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "observation",
+      "text": "Notification steps for insurers exist but have not been considered for this case (procedure PI-1).",
+      "clause": "8.2.1",
+      "whyItMatters": "Consider all defined steps.",
+      "missedExplanation": "Check related procedures.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "Report formatting is consistent with the template.",
+      "clause": "7.5.2",
+      "whyItMatters": "Conforming.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Consistent.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Desks are cluttered.",
+      "clause": "7.1.4",
+      "whyItMatters": "Not relevant.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not relevant.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "observation",
+      "text": "The analyst who built AS-tmp joined 2 months ago; induction record IN-7 does not cover the assumptions register.",
+      "clause": "7.2",
+      "whyItMatters": "Induction could cover controlled sources.",
+      "missedExplanation": "Check induction content.",
+      "plantedPool": true
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What should the response include?",
+      "options": [
+        "An apology only",
+        "A corrected report with the reviewed figures, what went wrong, the check of other reports, actions with dates, and a contact",
+        "A statement that assumptions are the client's risk",
+        "A request to ignore the figure"
+      ],
+      "bestIndex": 1,
+      "rationale": "The client needs a corrected report and confidence that the cause is addressed."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Review the 3 other reports and inform those clients"
+    ],
+    "correction": [
+      "Issue corrected report {{rep}} after peer review"
+    ],
+    "cause": [
+      "Uncontrolled personal spreadsheets were used and reports could be sent before review"
+    ],
+    "corrective": [
+      "Require register sources and block sending before review is recorded"
+    ],
+    "effectiveness": [
+      "Audit send and review dates monthly for three months"
+    ]
+  },
+  "debriefText": {
+    "found": "You contained other reports and traced the source.",
+    "missed": "Compare review dates with send dates.",
+    "falseFinding": "Formatting and desks are not findings."
+  }
+}

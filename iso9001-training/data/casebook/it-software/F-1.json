@@ -1,0 +1,292 @@
+{
+  "id": "ITS-F-01",
+  "pack": "it-software",
+  "type": "F",
+  "title": "The Launch Date",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "The Meridian Digital mobile app version 3.0 is due to launch tomorrow at 9 a.m., announced publicly by the customer. Test sign-off is not complete: 3 high-severity defects are open. The delivery manager proposes deploying tonight and \"testing in production\". You have 12 visit points to gather what you need and make a decision you can justify.",
+  "visitPoints": 12,
+  "goal": "Decision quality",
+  "branches": [
+    "Judgment"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Test lead",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Open defect list",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Ask",
+          "label": "Test lead: impact of the open defects",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Delivery manager",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Why deploy tonight",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Ask",
+          "label": "Who can approve release with open defects",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Release procedure",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Release procedure RP-1",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Customer contract on release acceptance",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Engineering",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Feature flag configuration",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Rollback rehearsal record",
+          "evidenceId": "E8"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Customer liaison",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "What the customer has been told",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Team area",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Countdown clock on the wall",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Late-night food order",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Open defects: 3 high severity, including DEF-311 where a payment confirmation can be shown twice. Release status in the tool is \"approved\".",
+      "clause": "8.6",
+      "whyItMatters": "Release before planned verification is complete needs an authorized decision; the status contradicts the open defects.",
+      "missedExplanation": "Compare the release status with open defects.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Test lead: \"DEF-311 affects about 1 percent of payments. The other two are in the new loyalty screen, which can be switched off.\"",
+      "clause": "7.1.6",
+      "whyItMatters": "The test lead gives clear, factual impact information.",
+      "missedExplanation": "Conforming evidence: the facts needed for a decision.",
+      "falseFindingNote": "Clear impact facts support a sound decision.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Delivery manager: \"The launch is public. We fix forward. Test sign-off is a formality at this point.\" (note 1)",
+      "clause": "5.1.1",
+      "whyItMatters": "Leadership must support the quality system, including release controls. Calling verification a formality undermines it.",
+      "missedExplanation": "Listen for pressure that dismisses controls.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "conforming",
+      "text": "Delivery manager: \"Release with open high defects needs the product director, who is reachable tonight.\"",
+      "clause": "5.3",
+      "whyItMatters": "Authority is defined and reachable.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The defined authority is available. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E5",
+      "kind": "conforming",
+      "text": "Release procedure RP-1 requires test sign-off or a documented risk acceptance by the product director, and customer agreement where the contract requires it.",
+      "clause": "8.6",
+      "whyItMatters": "A defined route exists.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The procedure is sound.",
+      "plantedPool": false
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Customer contract schedule 3 requires the customer's written acceptance of any release with open high-severity defects. None requested.",
+      "clause": "8.2.3",
+      "unlockedBy": [
+        "E5"
+      ],
+      "whyItMatters": "Customer requirements on release acceptance must be met.",
+      "missedExplanation": "Read the contract for acceptance terms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "The loyalty screen sits behind feature flag FF-22, which can be turned off at launch. Turning it off removes 2 of the 3 defects from use.",
+      "clause": "8.5.1",
+      "whyItMatters": "A control is available that reduces risk. Using it is an option for the decision.",
+      "missedExplanation": "Look for technical controls that change the options.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Rollback to version 2.9 was rehearsed last week and took 12 minutes.",
+      "clause": "8.5.1",
+      "whyItMatters": "Rollback is planned and tested.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "A rehearsed rollback is good practice.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "observation",
+      "text": "Customer liaison: \"They know testing is tight but do not know about defect DEF-311.\"",
+      "clause": "8.2.1",
+      "whyItMatters": "Open communication with the customer about known risks supports their decision.",
+      "missedExplanation": "Ask what the customer knows.",
+      "plantedPool": true
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "A countdown clock to launch hangs on the wall.",
+      "clause": "7.4",
+      "whyItMatters": "A countdown is motivation, not a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The clock is context, not a breach.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "The team has ordered food for a late session.",
+      "clause": "7.1.4",
+      "whyItMatters": "Late working is a workload matter to watch, not a quality finding here.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Food orders do not affect conformity.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What do you recommend tonight?",
+      "options": [
+        "Deploy everything and fix in production",
+        "Escalate to the product director now; propose launching with FF-22 off, holding the release until DEF-311 is fixed or the customer accepts it in writing, and keep the rollback ready",
+        "Cancel the launch with no explanation",
+        "Stay silent; it is not your release"
+      ],
+      "bestIndex": 1,
+      "rationale": "This uses the defined authority and the contract, reduces risk with the feature flag, and gives the customer a real choice. Speaking up is part of the role.",
+      "optionFeedback": [
+        "This bypasses release control and the customer's acceptance right.",
+        "Proportionate, uses the system, and keeps a launch possible.",
+        "Cancelling without explanation ignores options that reduce risk.",
+        "Silence leaves a known risk unaddressed."
+      ]
+    },
+    {
+      "id": "D2",
+      "prompt": "How do you respond to \"test sign-off is a formality\"?",
+      "options": [
+        "Agree, to avoid conflict",
+        "Acknowledge the pressure, restate that sign-off or documented risk acceptance protects the customer and the team, and offer the quickest compliant route",
+        "Report the delivery manager to human resources",
+        "Ignore the remark"
+      ],
+      "bestIndex": 1,
+      "rationale": "A calm, factual response that offers a route forward addresses both the pressure and the requirement."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Set the release status back to pending until risk acceptance or sign-off",
+      "Plan launch with FF-22 off"
+    ],
+    "correction": [
+      "Fix or obtain written customer acceptance for DEF-311 before release"
+    ],
+    "cause": [
+      "The release tool allows \"approved\" status with open high-severity defects, and launch dates are announced before test completion"
+    ],
+    "corrective": [
+      "Block approval in the tool while high defects are open without risk acceptance; set launch dates after a test readiness review"
+    ],
+    "effectiveness": [
+      "Review the next five releases for status, open defects, and acceptance records"
+    ]
+  },
+  "debriefText": {
+    "found": "You found a route that protects the customer and keeps the launch possible.",
+    "missed": "Under pressure, check authority, the contract, and the technical options before deciding.",
+    "falseFinding": "A countdown clock and a food order are not findings."
+  }
+}

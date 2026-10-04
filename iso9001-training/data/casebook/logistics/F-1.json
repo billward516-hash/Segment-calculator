@@ -1,0 +1,290 @@
+{
+  "id": "LOG-F-01",
+  "pack": "logistics",
+  "type": "F",
+  "title": "The Waiting Driver",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "At Meridian Logistics a subcontracted driver is waiting at dock 4 to take a load to a supermarket regional centre with a 6 a.m. booking slot. The final dispatch check shows the load is 3 cases short against the order. The dispatcher proposes sending it \"and sorting the paperwork tomorrow\". You have 12 visit points to decide.",
+  "visitPoints": 12,
+  "goal": "Decision quality",
+  "branches": [
+    "Judgment"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Dispatch office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Final dispatch check",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Dispatch procedure",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Dispatcher",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Why send now",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Ask",
+          "label": "Who can authorize a short shipment",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Customer file",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Customer terms on shortages",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Stock",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Are the 3 cases available",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Driver",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "How long can you wait",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Observe",
+          "label": "Truck type",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "System",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Order status",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Dock clock",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Pallet labels on the load",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Final dispatch check FD-221 shows 3 cases short; the \"released\" box is ticked by the dispatcher.",
+      "clause": "8.6",
+      "whyItMatters": "Release with a known discrepancy needs authorization.",
+      "missedExplanation": "Read the check against the release tick.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Dispatch procedure DP-1 requires the shift manager to authorize short shipments and inform the customer.",
+      "clause": "8.6",
+      "whyItMatters": "Route defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Sound.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Dispatcher: \"If we miss the slot we get fined. Nobody counts 3 cases.\" (note 1)",
+      "clause": "5.1.1",
+      "whyItMatters": "Pressure must not replace authorization and customer communication.",
+      "missedExplanation": "Listen for pressure replacing control.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "conforming",
+      "text": "Shift manager can authorize and is on site.",
+      "clause": "5.3",
+      "whyItMatters": "Authority available.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Available.",
+      "plantedPool": false
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Customer terms CT-4 require advance shipping notice of any shortage before departure.",
+      "clause": "8.2.3",
+      "unlockedBy": [
+        "E2"
+      ],
+      "whyItMatters": "Customer requirements must be met.",
+      "missedExplanation": "Read customer terms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "observation",
+      "text": "Stock: \"3 cases are in reserve location R-12; 15 minutes to fetch.\"",
+      "clause": "8.5.4",
+      "whyItMatters": "Option to complete the order.",
+      "missedExplanation": "Ask about options.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Driver: \"I can wait 30 minutes and still make 6 a.m.\" (log DR-5)",
+      "clause": "8.4",
+      "whyItMatters": "Time exists.",
+      "missedExplanation": "Ask the people affected.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "redHerring",
+      "text": "Truck is an approved type for the load.",
+      "clause": "8.4",
+      "whyItMatters": "Conforming.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Approved.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "nonconformity",
+      "text": "Order status shows \"complete\" in the system (order OS-221).",
+      "clause": "7.5.1",
+      "whyItMatters": "Records must reflect actual status.",
+      "missedExplanation": "Compare system status with the check.",
+      "plantedPool": true
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Dock clock is correct.",
+      "clause": "7.1.4",
+      "whyItMatters": "Conforming.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Correct.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "conforming",
+      "text": "Pallet labels on the load match the order.",
+      "clause": "8.5.2",
+      "whyItMatters": "Identification correct.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Correct.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What do you recommend?",
+      "options": [
+        "Send it now",
+        "Untick the release, fetch the 3 cases from R-12 within the driver's 30 minutes, re-check, and release; if not possible, have the shift manager authorize a short shipment and send the advance notice",
+        "Cancel the load",
+        "Say nothing"
+      ],
+      "bestIndex": 1,
+      "rationale": "The order can be completed in time; if not, the defined route and customer notice apply.",
+      "optionFeedback": [
+        "Ships a known discrepancy without authority or notice.",
+        "Completes the order or follows the defined route.",
+        "Disproportionate.",
+        "Leaves a breach."
+      ]
+    },
+    {
+      "id": "D2",
+      "prompt": "How do you respond to \"nobody counts 3 cases\"?",
+      "options": [
+        "Agree",
+        "Explain calmly that the customer's terms require notice, and show that fetching the cases fits within the time",
+        "Report the dispatcher",
+        "Ignore it"
+      ],
+      "bestIndex": 1,
+      "rationale": "Facts and a practical route address the pressure."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Untick release and set order status back to pending"
+    ],
+    "correction": [
+      "Complete the order from R-12 and re-check"
+    ],
+    "cause": [
+      "The system allows release and \"complete\" status with an open discrepancy"
+    ],
+    "corrective": [
+      "Block release with open discrepancies unless authorized and notified"
+    ],
+    "effectiveness": [
+      "Audit dispatch checks weekly for two months"
+    ]
+  },
+  "debriefText": {
+    "found": "You completed the order within the time available.",
+    "missed": "Ask whether the missing goods are available nearby.",
+    "falseFinding": "The truck type and the clock are conforming."
+  }
+}

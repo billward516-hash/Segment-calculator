@@ -1,0 +1,325 @@
+{
+  "id": "FOD-F-02",
+  "pack": "process-food",
+  "type": "F",
+  "title": "The Waiting Truck: Speak-Up Variant",
+  "edition": "2026",
+  "verifyStatus2015": "unverified",
+  "variantOf": "FOD-F-01",
+  "brief": "At Meridian Foods a truck has waited 40 minutes at the dock for lot {{lot}} of sauce jars. The fill-weight check found 4 of 20 jars under the minimum weight. A line operator has told the quality office that the shift lead asked for a second set of weights to be entered so the lot could be released. This is a 2026 variant on quality culture and speaking up. It is preliminary and excluded from badge scoring and the capstone until verified. You have 12 visit points to gather what you need and make a decision you can justify.",
+  "visitPoints": 12,
+  "goal": "Decision quality, including speaking up",
+  "branches": [
+    "Judgment"
+  ],
+  "tokens": {
+    "lot": [
+      "L-6204",
+      "L-6219",
+      "L-6233"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Filling line",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Fill-weight check sheet for lot {{lot}}",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Checkweigher verification log",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the line",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Shift lead",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Shift lead: what was asked of the operator",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Line operators",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Operators: what they would do if a check failed with a truck waiting",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Review",
+          "label": "Concern box log and a word with the operators",
+          "evidenceId": "E5"
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Hold and release procedure",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Hold log",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Site manager's office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Latest management review minutes",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Recognition notes",
+          "evidenceId": "E8"
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Dispatch",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Dispatch board",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Pallet count sheet",
+          "evidenceId": "E10"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Fill-weight check sheet for lot {{lot}}: at 10:40, 4 of 20 jars below the 500 g minimum; at 10:42, a second entry shows 20 of 20 within limits with the comment \"rechecked\" and no jar numbers. The lot is released for dispatch.",
+      "clause": "8.6",
+      "confidence": "Unclear",
+      "whyItMatters": "Output is released only when the planned checks show it conforms, or when an authorized person approves. A second set of results entered two minutes later, with no reason, does not show conformity. This 2015 requirement is reported to continue in intent; any change in the 2026 wording is unclear.",
+      "missedExplanation": "Read the times and the comments, not only the last result.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Checkweigher CW-2 was verified with test weights at 06:00; the result is recorded and within tolerance.",
+      "clause": "7.1.5",
+      "confidence": "Unclear",
+      "whyItMatters": "The scale is verified, so the first underfill results can be relied on.",
+      "missedExplanation": "Conforming evidence: the data behind the result is sound.",
+      "falseFindingNote": "The scale and its verification are sound. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Shift lead: \"Put the second set down and let the truck go. The driver has been here 40 minutes.\" The shift lead says a recheck entry was used the same way on 2 earlier lots this month.",
+      "clause": "5.1.1",
+      "confidence": "High",
+      "whyItMatters": "The 2026 edition is reported to add a requirement for top management to promote and demonstrate a quality culture and ethical behavior (5.1.1). Pressure from a leader to change a result or skip a check works against it. Acting on a failed check is already a 2015 requirement.",
+      "missedExplanation": "Ask the person who applies the pressure what they asked for, and compare it with the release rule.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "observation",
+      "text": "Operator interviews: 2 of 3 operators asked did not know they may stop the filler or hold a lot, or whom to tell. Awareness record AT-22 lists hygiene rules and procedures only.",
+      "clause": "7.3",
+      "confidence": "High",
+      "whyItMatters": "Awareness is reported to extend to the organization's quality culture and ethical behavior (7.3). People need to know the route for raising a concern and that they may use it.",
+      "missedExplanation": "Ask frontline staff what they would do, and whom they would tell, if a check failed near a deadline.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "observation",
+      "text": "The concern box log shows 0 entries in 16 weeks. Two operators say a colleague who reported an underfill last year was moved to the night shift soon after.",
+      "clause": "7.1.4",
+      "confidence": "Medium",
+      "whyItMatters": "A note on the environment for operation of processes (7.1.4) is reported to recognize that culture can influence operating conditions. Silence after an earlier report was met badly is a sign that the environment discourages reporting. Recorded as an observation because the 2026 wording is unverified.",
+      "missedExplanation": "Compare the concern or near-miss log with what staff say in interview. The gap is the evidence.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Hold log: no entry for lot {{lot}}. The last hold, H-207, is 23 days old.",
+      "clause": "8.7",
+      "confidence": "Unclear",
+      "unlockedBy": [
+        "E7"
+      ],
+      "whyItMatters": "A lot with a failed check needs a hold record so the result can be dispositioned and traced. A missing record removes it from the system.",
+      "missedExplanation": "The procedure names the log. Follow the trail from the procedure to the record.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Procedure QP-31 requires a lot with any underfill result to be held and reweighed in full, and names the quality lead or the production manager as the only people who may release it. The quality lead is on site.",
+      "clause": "8.6, 8.7",
+      "confidence": "Unclear",
+      "whyItMatters": "The organization has a defined route, with named authority, for this exact situation.",
+      "missedExplanation": "Conforming evidence: a sound route exists. The risk is in bypassing it.",
+      "falseFindingNote": "The procedure is sound and the named person is available. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Recognition note RN-11: 5 weeks ago the site manager thanked a packer at the team briefing, and in writing, for stopping the line when a label was wrong.",
+      "clause": "5.1.1",
+      "confidence": "High",
+      "whyItMatters": "Thanking a person who stopped work, and recording the outcome, shows leaders supporting the behavior that 5.1.1 is reported to expect.",
+      "missedExplanation": "Conforming evidence: a sign of the culture the organization wants.",
+      "falseFindingNote": "A recognized stop-work event is good practice, not an issue.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "The dispatch board shows the truck for lot {{lot}} booked for 2 p.m.",
+      "clause": "7.4",
+      "confidence": "Unclear",
+      "whyItMatters": "A plan shown on a board is communication, not a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The board shows the plan. A deadline on display is not evidence of a breach.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "The pallet count sheet has one figure struck through with a single line, initialled and dated, with the correct figure beside it.",
+      "clause": "7.5.3",
+      "confidence": "Unclear",
+      "whyItMatters": "A correction that leaves the original legible, with initials and date, protects the integrity of the record.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "A single-line correction with initials and date is good record practice. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "observation",
+      "text": "Management review minutes of 3 September list 7 output and waste measures and no item on concerns raised or how they were handled.",
+      "clause": "9.3",
+      "confidence": "Medium",
+      "whyItMatters": "Leaders are reported to need to demonstrate a quality culture with evidence (5.1.1). A review meeting is one place to show it. This is an observation, not a nonconformity: commentary says no separate culture program is required, so avoid audit criteria the standard may not state.",
+      "missedExplanation": "Read what leaders review. What is never discussed is rarely managed.",
+      "plantedPool": true
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "confidence": "High",
+      "prompt": "The shift lead wants lot {{lot}} released now. What do you do?",
+      "options": [
+        "Ask for the lot to be held, keep both sets of weights on the record, contact the quality lead now, and propose a full reweigh so conforming cases can still be loaded",
+        "Release the lot; the second check passed",
+        "Send the truck away and dispatch tomorrow without telling the customer",
+        "Scrap the whole lot"
+      ],
+      "bestIndex": 0,
+      "rationale": "Holding the lot and keeping the true results uses the defined route, and a reweigh may let most cases leave today. Raising it at once with the named authority is the behavior that 5.1.1 is reported to ask leaders to support.",
+      "optionFeedback": [
+        "This is proportionate, uses the named authority, and keeps the delivery possible.",
+        "The second entry has no reason or jar numbers; it does not show conformity.",
+        "This hides the delay and leaves the customer uninformed.",
+        "Scrapping is disproportionate when a reweigh can separate conforming jars."
+      ]
+    },
+    {
+      "id": "D2",
+      "confidence": "High",
+      "prompt": "The operator who recorded the first underfill asks whether they are in trouble. What should the site manager do?",
+      "options": [
+        "Tell the operator to check less often at busy times",
+        "Say nothing and wait to see whether anyone complains",
+        "Thank the operator, confirm that recording the true result was right, and review the recheck practice as a system issue with the shift",
+        "Move the operator to another line"
+      ],
+      "bestIndex": 2,
+      "rationale": "Leaders are reported to need to promote and demonstrate a quality culture (5.1.1). Supporting the person who recorded the true result, and fixing the practice, is the evidence an auditor would look for."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold lot {{lot}} and keep the first underfill results on the record"
+    ],
+    "correction": [
+      "Reweigh the whole lot on the verified checkweigher; load conforming cases and route underweight jars to an authorized disposition"
+    ],
+    "cause": [
+      "Waiting-time pressure was allowed to override the release rule, and staff were unsure of, or reluctant to use, the route for raising concerns"
+    ],
+    "corrective": [
+      "Leaders state and show that holding a lot is expected; add raising concerns to awareness training; require a reason and jar numbers for any recheck"
+    ],
+    "effectiveness": [
+      "For the next quarter, sample check sheets weekly for unexplained rechecks and review concern reports and responses at management review"
+    ]
+  },
+  "debriefText": {
+    "found": "You kept the true result, used the defined route, and treated the pressure as a system condition rather than a personal failing.",
+    "missed": "In a culture case, compare what the records say with what people say in interview. Leaders' responses to earlier reports are part of the evidence.",
+    "falseFinding": "A deadline on a board and a properly corrected record are normal. They show planning and good record practice, not a weak culture."
+  },
+  "bridge2026": [
+    {
+      "text": "Top management is reported to be required to promote and demonstrate a quality culture and ethical behavior. In this case, look at how leaders respond when a check fails while a truck is waiting.",
+      "confidence": "High",
+      "clause": "5.1.1"
+    },
+    {
+      "text": "Awareness is reported to extend to the organization's quality culture and ethical behavior, so staff should know how to raise a concern and that they may do so.",
+      "confidence": "High",
+      "clause": "7.3"
+    },
+    {
+      "text": "A note on the environment for operation of processes is reported to recognize that culture and ethical behavior can influence operating conditions.",
+      "confidence": "Medium",
+      "clause": "7.1.4"
+    },
+    {
+      "text": "An auditor checking culture is likely to examine decisions, records of concerns raised, and how leaders responded, rather than attitudes or a separate culture program.",
+      "confidence": "Best estimate",
+      "reasoning": "Sources describe culture as shown through behavior and evidence, and commentary says no separate culture program is required.",
+      "check": "Read 5.1.1, its note, and the Annex A guidance on culture in the purchased 2026 text, and ask the certification body how it will audit culture.",
+      "clause": "5.1.1"
+    },
+    {
+      "text": "Release of products and services is reported as carried forward in intent from 2015; any change in wording is unclear.",
+      "confidence": "Unclear",
+      "clause": "8.6"
+    }
+  ]
+}

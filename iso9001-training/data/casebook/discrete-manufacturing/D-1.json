@@ -1,0 +1,286 @@
+{
+  "id": "MFG-D-01",
+  "pack": "discrete-manufacturing",
+  "type": "D",
+  "title": "The Faster Spindle",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Engineering at Meridian Works proposes raising the spindle speed on machine 7 by 20 percent for part 5512, which has a critical bore diameter. Change request CR-064 is ready for sign-off. You have 12 visit points to assess whether the change has been reviewed for risks, controls, and records.",
+  "visitPoints": 12,
+  "goal": "Completeness",
+  "branches": [
+    "Control"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Engineering office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Change request CR-064",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Trial run results for CR-064",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Ask",
+          "label": "Process engineer: who reviewed the change",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Risk assessment for part 5512",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Review",
+          "label": "Customer requirements file for part 5512",
+          "evidenceId": "E5"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Machine 7",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Current process sheet at the machine",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Observe",
+          "label": "Machine guard and controls",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Metrology lab",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Bore gauge capability study",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Calibration status of bore gauge BG-3",
+          "evidenceId": "E8"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Training room",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Operator training plan for CR-064",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Production planning",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Planned start date for the new speed",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Capacity chart on the wall",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "CR-064 states the reason (cycle time), the parts affected, and the approver roles. It is not yet signed.",
+      "clause": "8.5.6, 6.3",
+      "whyItMatters": "A change request that states purpose, scope, and approvers is a sound start.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The request form is complete for its stage. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Trial results for CR-064 cover 8 parts on one shift; bore diameters were measured on only 3 of them. No acceptance criteria are stated for the trial.",
+      "clause": "8.5.6",
+      "whyItMatters": "A change must be reviewed to show that outputs will still conform. A trial with no criteria and a small, partly measured sample does not show that.",
+      "missedExplanation": "Ask what the trial was meant to prove and whether the data proves it.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "observation",
+      "text": "Process engineer: \"Quality will see it at sign-off.\" No quality or production reviewer is named in the review section yet (form section 4).",
+      "clause": "6.3",
+      "whyItMatters": "Bringing the right reviewers in early improves a change. At this stage it is an observation, since sign-off has not happened.",
+      "missedExplanation": "Ask who has reviewed the change so far.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Risk assessment RA-5512 was last updated 2 years ago and does not consider spindle speed. CR-064 makes no reference to it.",
+      "clause": "6.1",
+      "whyItMatters": "Risks to conformity from a planned change should be identified and addressed.",
+      "missedExplanation": "Link every change to the risk record of the product it affects.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Customer requirements file for part 5512 states that process changes must be notified to the customer before shipment (clause 9 of agreement 22). CR-064 has no customer notification step.",
+      "clause": "8.2.3, 8.5.6",
+      "whyItMatters": "Customer requirements on changes must be reviewed and met.",
+      "missedExplanation": "Read the customer file for change notification terms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "conforming",
+      "text": "Process sheet PS-5512 revision 4 at machine 7 matches the register.",
+      "clause": "7.5.3",
+      "whyItMatters": "The current approved settings are at the machine until the change is approved.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The sheet is current. The change has not been implemented, which is correct.",
+      "plantedPool": false
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Bore gauge capability study was done at the old cycle time; it shows the gauge uses 35 percent of the tolerance. CR-064 does not consider measurement capability.",
+      "clause": "7.1.5",
+      "unlockedBy": [
+        "E8"
+      ],
+      "whyItMatters": "Measuring resources must be suitable for the checks made. A gauge using a large share of the tolerance may not detect a small shift caused by the change.",
+      "missedExplanation": "Ask whether the measurement system can detect the effect of the change.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Bore gauge BG-3 is within its calibration date (due in 4 months).",
+      "clause": "7.1.5",
+      "whyItMatters": "The gauge is calibrated. Calibration alone does not show it is capable for the check.",
+      "missedExplanation": "This record leads to the capability study.",
+      "falseFindingNote": "Calibration is current. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "nonconformity",
+      "text": "Training plan for CR-064 is blank; the change alters the warm-up routine that 6 operators follow.",
+      "clause": "7.2",
+      "whyItMatters": "People affected by a change need the competence to apply it.",
+      "missedExplanation": "Look for the people side of a change: instructions and training.",
+      "plantedPool": true
+    },
+    {
+      "id": "E10",
+      "kind": "observation",
+      "text": "Planning shows the new speed starting next Monday, 4 days before the planned sign-off date.",
+      "clause": "8.5.6",
+      "whyItMatters": "Implementation must not start before the change is approved. The dates conflict; it is an observation while the change is unsigned.",
+      "missedExplanation": "Compare planned start with the approval date.",
+      "plantedPool": true
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "The capacity chart shows machine 7 at 96 percent load.",
+      "clause": "7.1.3",
+      "whyItMatters": "High load explains the reason for the change but is not itself a quality issue.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Load is the business reason for the change, not a nonconformity.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "The machine guard is closed and the interlock works when tested by the operator.",
+      "clause": "7.1.4",
+      "whyItMatters": "Guarding is a safety matter outside this quality review and is working.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The guard works. Safety controls are outside this case and showed no issue.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Should CR-064 be signed this week?",
+      "options": [
+        "Yes, the cycle time gain is needed",
+        "No. Return it with conditions: defined trial criteria and a full measured sample, updated risk assessment, gauge capability check, training, and customer notification",
+        "Yes, but only for night shift",
+        "Cancel the change permanently"
+      ],
+      "bestIndex": 1,
+      "rationale": "The change may well be sound, but the review is incomplete. Returning it with clear conditions keeps the benefit while protecting conformity."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Keep machine 7 at the current approved speed until CR-064 is approved"
+    ],
+    "correction": [
+      "Complete CR-064: trial criteria, measured sample, risk update, capability check, training plan, and customer notification"
+    ],
+    "cause": [
+      "The change form does not prompt for risk, measurement capability, training, or customer notification"
+    ],
+    "corrective": [
+      "Add these prompts and a cross-functional review step to the change request form"
+    ],
+    "effectiveness": [
+      "Audit the next five change requests for complete reviews before implementation"
+    ]
+  },
+  "debriefText": {
+    "found": "You assessed the change against its risks, measurements, people, and customer terms.",
+    "missed": "A change review asks: will output still conform, can we measure it, do people know, and does the customer need to be told?",
+    "falseFinding": "The business reason and safety guarding were not quality gaps in this change."
+  }
+}

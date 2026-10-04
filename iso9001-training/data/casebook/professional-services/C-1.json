@@ -1,0 +1,271 @@
+{
+  "id": "PRO-C-01",
+  "pack": "professional-services",
+  "type": "C",
+  "title": "The Repeated Drafting Error",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "In 4 of the last 10 Meridian Advisory client reports, the executive summary figures did not match the body tables. Each was corrected after the client noticed. Action CA-12 says \"authors to proofread more carefully\". You have 12 visit points to reach a system cause.",
+  "visitPoints": 12,
+  "goal": "Cause depth",
+  "branches": [
+    "Cause"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Action CA-12",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Error records",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Authors",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Author: how the summary is written",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Report template",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Review desk",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Peer review checklist",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "Reviewer: what is checked",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Workflow",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Late changes log",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Training",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Author training records",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Office",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Workload board",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Coffee area",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Review",
+          "label": "Style guide",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "CA-12 cause \"careless proofreading\", action \"proofread more carefully\", closed without check; 2 errors since.",
+      "clause": "10.2",
+      "whyItMatters": "Corrective action must remove the cause and be checked.",
+      "missedExplanation": "Check recurrence.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "observation",
+      "text": "Error records ER-1 to ER-4: all 4 errors followed late changes to body tables after the summary was written.",
+      "clause": "9.1.3",
+      "whyItMatters": "Pattern points to the workflow.",
+      "missedExplanation": "Look for what the errors share.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "conforming",
+      "text": "Author: \"I write the summary first, then the tables get updated.\"",
+      "clause": "7.3",
+      "whyItMatters": "Describes the process.",
+      "missedExplanation": "Leads to the workflow.",
+      "falseFindingNote": "Describes the system.",
+      "plantedPool": false
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Template T-6 has summary figures typed by hand, not linked to tables.",
+      "clause": "8.5.1",
+      "whyItMatters": "Methods should prevent predictable errors.",
+      "missedExplanation": "Ask how figures reach the summary.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Peer review checklist PR-2 has no item for summary-to-table consistency.",
+      "clause": "8.6",
+      "whyItMatters": "Review must check what matters.",
+      "missedExplanation": "Read what the checklist covers.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "conforming",
+      "text": "Reviewer: \"I check method and conclusions as the checklist asks.\"",
+      "clause": "7.2",
+      "whyItMatters": "Follows the checklist.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Follows checklist.",
+      "plantedPool": false
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Late changes log shows table edits after peer review in 3 of 4 cases, with no re-review (log LC-1).",
+      "clause": "8.5.6",
+      "whyItMatters": "Changes after review need review.",
+      "missedExplanation": "Check changes after review.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Author training is current.",
+      "clause": "7.2",
+      "whyItMatters": "Not the gap.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Current.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "Workload board shows normal load.",
+      "clause": "7.1.2",
+      "whyItMatters": "Not linked.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Normal.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "The coffee area is busy.",
+      "clause": "7.1.4",
+      "whyItMatters": "Not relevant.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not relevant.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "conforming",
+      "text": "The style guide is current.",
+      "clause": "7.5.3",
+      "whyItMatters": "Current.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Current.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which statement best describes the system cause?",
+      "options": [
+        "Authors are careless",
+        "Summary figures are typed by hand, tables change after review without re-review, and the checklist does not check consistency",
+        "Clients read too closely",
+        "Reports are too long"
+      ],
+      "bestIndex": 1,
+      "rationale": "The cause is in the template, workflow, and review."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Check summary-to-table consistency on all reports in progress"
+    ],
+    "correction": [
+      "Reissue corrected reports where needed"
+    ],
+    "cause": [
+      "Hand-typed summaries, unreviewed late changes, and no consistency check"
+    ],
+    "corrective": [
+      "Link summary figures to tables, require re-review after late changes, and add a consistency item to PR-2",
+      "Reopen CA-12"
+    ],
+    "effectiveness": [
+      "Track consistency errors over the next twenty reports"
+    ]
+  },
+  "debriefText": {
+    "found": "You moved from proofreading to template and workflow.",
+    "missed": "Ask what happens after review.",
+    "falseFinding": "Workload and coffee were not causes."
+  }
+}

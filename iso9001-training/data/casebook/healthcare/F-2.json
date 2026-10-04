@@ -1,0 +1,325 @@
+{
+  "id": "HCS-F-02",
+  "pack": "healthcare",
+  "type": "F",
+  "title": "The Pending Result: Speak-Up Variant",
+  "edition": "2026",
+  "verifyStatus2015": "unverified",
+  "variantOf": "HCS-F-01",
+  "brief": "At Meridian Care the monthly documentation audit report is due to the governance committee at 4 p.m. The records officer found 3 of 30 sampled referral files with the pending results section incomplete. The records officer reports that the clinic manager asked for the 3 files to be marked complete so the monthly figure stays above target. This visit covers management system topics only; it contains no clinical decisions. This is a 2026 variant on quality culture and speaking up. It is preliminary and excluded from badge scoring and the capstone until verified. You have 12 visit points to gather what you need and make a decision you can justify.",
+  "visitPoints": 12,
+  "goal": "Decision quality, including speaking up",
+  "branches": [
+    "Judgment"
+  ],
+  "tokens": {
+    "lot": [
+      "DA-0925",
+      "DA-1025",
+      "DA-1125"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Records office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Documentation audit sheet {{lot}}",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Audit sampling list",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the office",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Clinic manager",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Clinic manager: what was asked of the records officer",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Administrative team",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Staff: how they would raise a concern about a record",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Review",
+          "label": "Concern register and a word with the team",
+          "evidenceId": "E5"
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Quality lead",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Documentation audit procedure",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Corrective action log",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Service director's office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Latest governance committee minutes",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Recognition notes",
+          "evidenceId": "E8"
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Reception",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Committee calendar",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Filing index",
+          "evidenceId": "E10"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Documentation audit sheet {{lot}}: the first version shows 3 of 30 files with the pending results section incomplete; a later version shows 30 of 30 complete, with no record of any file being corrected.",
+      "clause": "9.1.1, 7.5.3",
+      "confidence": "Medium",
+      "whyItMatters": "Monitoring results are kept as evidence and are not changed to meet a target. A later version with no record of correction misreports what was found. The monitoring requirements are reported as unchanged in substance; the 2026 detail is unverified.",
+      "missedExplanation": "Compare the versions of the audit sheet and look for a record of each correction.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "The audit sampling list shows 30 files selected at random from the month's 412 referrals, as procedure QP-5 describes; the list is retained.",
+      "clause": "9.1.1",
+      "confidence": "Medium",
+      "whyItMatters": "The sample was drawn as planned, so the first result can be relied on.",
+      "missedExplanation": "Conforming evidence: the data behind the result is sound.",
+      "falseFindingNote": "The sampling is sound. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Clinic manager: \"Mark them complete; the teams will finish them this week. The committee only looks at the percentage.\" The manager says the figure has been above target for 11 months.",
+      "clause": "5.1.1",
+      "confidence": "High",
+      "whyItMatters": "The 2026 edition is reported to add a requirement for top management to promote and demonstrate a quality culture and ethical behavior (5.1.1). Pressure from a leader to change a result or skip a check works against it. Acting on a failed check is already a 2015 requirement.",
+      "missedExplanation": "Ask the person who applies the pressure what they asked for, and compare it with the release rule.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "observation",
+      "text": "Staff interviews: 2 of 3 administrative staff asked did not know how to raise a concern about a record outside their own team. Awareness record AW-12 covers filing and confidentiality but not raising concerns.",
+      "clause": "7.3",
+      "confidence": "High",
+      "whyItMatters": "Awareness is reported to extend to the organization's quality culture and ethical behavior (7.3). People need to know the route for raising a concern and that they may use it.",
+      "missedExplanation": "Ask frontline staff what they would do, and whom they would tell, if a check failed near a deadline.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "observation",
+      "text": "The concern register shows 0 entries from this clinic in 18 weeks. A staff member says a colleague who queried an audit figure last year was moved to another site.",
+      "clause": "7.1.4",
+      "confidence": "Medium",
+      "whyItMatters": "A note on the environment for operation of processes (7.1.4) is reported to recognize that culture can influence operating conditions. Silence after an earlier report was met badly is a sign that the environment discourages reporting. Recorded as an observation because the 2026 wording is unverified.",
+      "missedExplanation": "Compare the concern or near-miss log with what staff say in interview. The gap is the evidence.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Corrective action log: no entry for the 3 incomplete files. The last entry, CA-61, is 5 weeks old.",
+      "clause": "10.2",
+      "confidence": "Medium",
+      "unlockedBy": [
+        "E7"
+      ],
+      "whyItMatters": "Incomplete records found by an audit need action to correct them and to find why they occurred. A missing log entry means no one owns the correction.",
+      "missedExplanation": "The procedure names the log. Follow the trail from the procedure to the record.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Procedure QP-5 requires incomplete files found by the audit to be reported as found, logged for correction, and rechecked the next month. Only the quality lead may amend an audit result.",
+      "clause": "9.1.1",
+      "confidence": "Medium",
+      "whyItMatters": "The organization has a defined route, with named authority, for this exact situation.",
+      "missedExplanation": "Conforming evidence: a sound route exists. The risk is in bypassing it.",
+      "falseFindingNote": "The procedure is sound and the named person is available. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Recognition note RN-2: 2 months ago the service director thanked a receptionist in writing for reporting a missing referral letter. The report and its outcome are logged.",
+      "clause": "5.1.1",
+      "confidence": "High",
+      "whyItMatters": "Thanking a person who stopped work, and recording the outcome, shows leaders supporting the behavior that 5.1.1 is reported to expect.",
+      "missedExplanation": "Conforming evidence: a sign of the culture the organization wants.",
+      "falseFindingNote": "A recognized stop-work event is good practice, not an issue.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "The committee calendar shows the governance meeting at 4 p.m. today.",
+      "clause": "7.4",
+      "confidence": "Unclear",
+      "whyItMatters": "A plan shown on a board is communication, not a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The board shows the plan. A deadline on display is not evidence of a breach.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "The filing index has one entry struck through with a single line, initialled and dated, with the correct entry beside it.",
+      "clause": "7.5.3",
+      "confidence": "Unclear",
+      "whyItMatters": "A correction that leaves the original legible, with initials and date, protects the integrity of the record.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "A single-line correction with initials and date is good record practice. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "observation",
+      "text": "Governance committee minutes of 4 September list 8 performance percentages and no item on concerns raised or how they were handled.",
+      "clause": "9.3",
+      "confidence": "Medium",
+      "whyItMatters": "Leaders are reported to need to demonstrate a quality culture with evidence (5.1.1). A review meeting is one place to show it. This is an observation, not a nonconformity: commentary says no separate culture program is required, so avoid audit criteria the standard may not state.",
+      "missedExplanation": "Read what leaders review. What is never discussed is rarely managed.",
+      "plantedPool": true
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "confidence": "High",
+      "prompt": "The report is due at 4 p.m. and the manager wants the 3 files shown as complete. What do you do?",
+      "options": [
+        "Mark the files complete; the teams will finish them",
+        "Remove the 3 files from the sample",
+        "Report the audit as found, 27 of 30, log the 3 files for completion by the responsible teams, and tell the quality lead now",
+        "Delay the whole report by a month"
+      ],
+      "bestIndex": 2,
+      "rationale": "Reporting the true result keeps the monitoring honest and starts the correction today. Speaking up through the named route is the behavior that 5.1.1 is reported to ask leaders to support. The investigator makes no clinical judgment.",
+      "optionFeedback": [
+        "This misreports the audit result.",
+        "Changing the sample after the result is known misreports the audit.",
+        "This is accurate, uses the named authority, and starts the correction.",
+        "A month-long delay is disproportionate; the report can go today with the true figure."
+      ]
+    },
+    {
+      "id": "D2",
+      "confidence": "High",
+      "prompt": "The records officer is worried about working with the clinic manager. What should the service director do?",
+      "options": [
+        "Thank the records officer, confirm that reporting the true result was right, review the target-driven practice as a system issue, and agree how the officer is supported",
+        "Tell the officer to settle it with the manager directly",
+        "Ask the committee to stop looking at the figure",
+        "Take no action because the report was corrected"
+      ],
+      "bestIndex": 0,
+      "rationale": "Leaders are reported to need to promote and demonstrate a quality culture (5.1.1). Supporting the person who reported, and looking at how targets drive behavior, is the evidence an auditor would look for."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Report audit {{lot}} as found and withdraw the later version"
+    ],
+    "correction": [
+      "Log the 3 files for completion by the responsible teams and recheck them at the next audit"
+    ],
+    "cause": [
+      "Target pressure was allowed to override honest reporting, and staff were not made aware of, or supported in using, the route for raising concerns"
+    ],
+    "corrective": [
+      "Leaders state and show that true results are expected; add raising concerns to awareness training; restrict amendment of audit results to the quality lead with a recorded reason"
+    ],
+    "effectiveness": [
+      "For the next 3 monthly audits, compare sheet versions for unexplained changes and review concerns raised and responses at the governance committee"
+    ]
+  },
+  "debriefText": {
+    "found": "You kept the true result, used the defined route, and treated the pressure as a system condition rather than a personal failing.",
+    "missed": "In a culture case, compare what the records say with what people say in interview. Leaders' responses to earlier reports are part of the evidence.",
+    "falseFinding": "A deadline on a board and a properly corrected record are normal. They show planning and good record practice, not a weak culture."
+  },
+  "bridge2026": [
+    {
+      "text": "Top management is reported to be required to promote and demonstrate a quality culture and ethical behavior. In this case, look at how leaders respond when a monitoring result falls below target.",
+      "confidence": "High",
+      "clause": "5.1.1"
+    },
+    {
+      "text": "Awareness is reported to extend to the organization's quality culture and ethical behavior, so staff should know how to raise a concern and that they may do so.",
+      "confidence": "High",
+      "clause": "7.3"
+    },
+    {
+      "text": "A note on the environment for operation of processes is reported to recognize that culture and ethical behavior can influence operating conditions.",
+      "confidence": "Medium",
+      "clause": "7.1.4"
+    },
+    {
+      "text": "An auditor checking culture is likely to examine decisions, records of concerns raised, and how leaders responded, rather than attitudes or a separate culture program.",
+      "confidence": "Best estimate",
+      "reasoning": "Sources describe culture as shown through behavior and evidence, and commentary says no separate culture program is required.",
+      "check": "Read 5.1.1, its note, and the Annex A guidance on culture in the purchased 2026 text, and ask the certification body how it will audit culture.",
+      "clause": "5.1.1"
+    },
+    {
+      "text": "Monitoring, measurement, analysis, and evaluation are reported as unchanged in substance; the 2026 detail is unverified.",
+      "confidence": "Medium",
+      "clause": "9.1.1"
+    }
+  ]
+}

@@ -1,0 +1,294 @@
+{
+  "id": "MFG-E-01",
+  "pack": "discrete-manufacturing",
+  "type": "E",
+  "title": "The Fit Complaint",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "A customer of Meridian Works writes that hinge pins from delivery lot {{lot}} do not fit their assemblies: 18 of 200 checked are oversize. They ask for a response within 48 hours. You have 12 visit points to limit the exposure, find the cause, and prepare the response.",
+  "visitPoints": 12,
+  "goal": "Containment and response",
+  "branches": [
+    "Control",
+    "Cause"
+  ],
+  "tokens": {
+    "lot": [
+      "6620",
+      "7104",
+      "5833"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Customer service",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Complaint record and customer letter",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Other deliveries from the same production run",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Finished goods store",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Remaining stock from lot {{lot}}",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Stock rotation records",
+          "evidenceId": "E11"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Grinding cell",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "In-process diameter checks for lot {{lot}}",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Ask",
+          "label": "Grinder operator: anything unusual during the run",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Metrology",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Calibration record for air gauge AG-2",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Review",
+          "label": "Final inspection sampling plan",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Previous complaints on hinge pins",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Complaint handling procedure",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Shipping",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Delivery notes for lot {{lot}}",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Packaging condition",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Complaint record CR-311 for lot {{lot}} was logged on the day it arrived, with the customer's data attached and an owner assigned.",
+      "clause": "8.2.1, 9.1.2",
+      "whyItMatters": "Customer feedback is captured and owned promptly.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The complaint was logged and owned on time. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Lot {{lot}} was one of 3 deliveries from grinding run 88; the other 2 deliveries went to another customer last week. No hold or notice covers them.",
+      "clause": "8.7",
+      "whyItMatters": "When output is found nonconforming, other output from the same conditions must be identified and controlled, including product already delivered.",
+      "missedExplanation": "Ask which other lots came from the same run. Containment follows the run, not just the complaint.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "observation",
+      "text": "28 boxes from lot {{lot}} remain in the store, marked \"on hold\" by hand on 3 of them only.",
+      "clause": "8.7",
+      "whyItMatters": "Containment has started but is incomplete. Every box needs a clear hold status.",
+      "missedExplanation": "Count the boxes and the hold labels.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "In-process checks for run 88: the check sheet calls for one diameter reading every 30 minutes; there is a 3-hour gap on night shift with no readings.",
+      "clause": "8.5.1",
+      "whyItMatters": "Monitoring at the planned stages is part of controlled production. A gap leaves output unchecked.",
+      "missedExplanation": "Look for gaps in time on check sheets.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Operator: \"The wheel dresser was down that night, so I ran on and planned to check later. There was no instruction on what to do.\" (note 7)",
+      "clause": "7.1.3, 8.5.1",
+      "supports": "E4",
+      "whyItMatters": "Process conditions and what to do when equipment fails must be defined. Running on without instructions creates the risk seen here.",
+      "missedExplanation": "Ask what happened during gaps in the records.",
+      "plantedPool": false
+    },
+    {
+      "id": "E6",
+      "kind": "conforming",
+      "text": "Air gauge AG-2 is in calibration, verified 6 weeks ago.",
+      "clause": "7.1.5",
+      "whyItMatters": "The final gauge is valid, so oversize parts should have been detectable.",
+      "missedExplanation": "Conforming evidence that points to sampling.",
+      "falseFindingNote": "The gauge is calibrated. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Final inspection sampling plan checks 5 pins per lot of 2,000 regardless of process events, and the record for lot {{lot}} shows 5 passed.",
+      "clause": "8.6",
+      "whyItMatters": "Release verification must be suitable to detect nonconforming output. A fixed small sample with no trigger after a process upset is not.",
+      "missedExplanation": "Ask whether the sample would detect the problem that occurred.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "observation",
+      "text": "Two earlier complaints on hinge pins (CR-240 and CR-277) were closed without linking them to grinding.",
+      "clause": "10.2",
+      "whyItMatters": "Linking complaints helps find patterns. This is an opportunity to improve trend review.",
+      "missedExplanation": "Search past complaints for the same part.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "The complaint procedure sets a 48-hour first response with containment details. It is current and available.",
+      "clause": "8.2.1",
+      "whyItMatters": "The organization has defined how to answer customers.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The procedure exists and is current. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "conforming",
+      "text": "Delivery notes for lot {{lot}} list the grinding run number 88, which allows tracing.",
+      "clause": "8.5.2",
+      "whyItMatters": "Traceability from delivery to run is maintained.",
+      "missedExplanation": "Conforming evidence that enables containment.",
+      "falseFindingNote": "Traceability works here. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Stock rotation records show first-in, first-out was followed except for one urgent order that was picked from newer stock with a signed approval.",
+      "clause": "8.5.4",
+      "whyItMatters": "An approved exception to rotation is controlled.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The exception was approved and recorded. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "Packaging is intact; boxes are labeled with part, lot, and quantity.",
+      "clause": "8.5.4",
+      "whyItMatters": "Preservation and identification of the delivered product are in order.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The packaging is fine. The defect is dimensional, not handling.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What should the 48-hour response to the customer contain?",
+      "options": [
+        "An apology and a credit note only",
+        "The containment in place (all of run 88, including the other customer's deliveries, held or under review), the immediate cause found so far, the corrective action plan with dates, and a contact",
+        "A statement that the parts passed final inspection",
+        "A request that the customer sorts all parts"
+      ],
+      "bestIndex": 1,
+      "rationale": "A sound first response shows the customer that exposure is limited, states the facts known, and commits to corrective action with dates."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold all stock from grinding run 88 and notify the other customer who received it",
+      "Offer replacement or sorting at the customer's site for lot {{lot}}"
+    ],
+    "correction": [
+      "Sort held pins at 100 percent with gauge AG-2 and rework or scrap oversize pins as authorized"
+    ],
+    "cause": [
+      "No defined reaction when the wheel dresser fails, and a fixed release sample with no trigger after a process upset"
+    ],
+    "corrective": [
+      "Define a reaction plan for equipment failure, including stopping and checking; add a tightened sample after any process interruption"
+    ],
+    "effectiveness": [
+      "Review the next ten grinding runs for complete check sheets and monitor hinge pin complaints for six months"
+    ]
+  },
+  "debriefText": {
+    "found": "You limited exposure beyond the complaint and traced the cause to process control and release sampling.",
+    "missed": "Containment follows the production run, not just the reported lot. Ask what else was made under the same conditions.",
+    "falseFinding": "An approved stock rotation exception and good packaging are conforming."
+  }
+}

@@ -1,0 +1,296 @@
+{
+  "id": "ELX-E-01",
+  "pack": "electronics",
+  "type": "E",
+  "title": "The Particle Report",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "A customer of Meridian Microworks reports particle defects above limit on 30 percent of wafers from shipped lot {{lot}}. They require a containment response within 24 hours. You have 12 visit points to contain, find the cause, and respond.",
+  "visitPoints": 12,
+  "goal": "Containment and response",
+  "branches": [
+    "Control",
+    "Cause"
+  ],
+  "tokens": {
+    "lot": [
+      "L-5520",
+      "L-6031",
+      "L-4478"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Customer quality",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Complaint record",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Lots shipped in the same week",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Cleanroom monitoring",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Particle counts during {{lot}}",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Filter change records",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Final clean",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Final clean chemistry log",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "Technician: anything unusual",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Outgoing inspection",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Particle inspection results for {{lot}}",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Inspection sampling plan",
+          "evidenceId": "E8"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Packaging",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Shipping box qualification",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Packing bench",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Complaint procedure",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Office plants",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Complaint CQ-88 for {{lot}} was logged within 1 hour with the customer's maps.",
+      "clause": "9.1.2",
+      "whyItMatters": "Feedback captured.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Prompt. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "4 other lots passed final clean in the same 2 days and shipped to 3 customers; none are on hold or notified.",
+      "clause": "8.7",
+      "whyItMatters": "Containment must include output made under the same conditions.",
+      "missedExplanation": "Check what else ran in the same window.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Particle counts in bay 3 exceeded the action limit for 6 hours during {{lot}}; no response was recorded.",
+      "clause": "7.1.4",
+      "whyItMatters": "Environmental excursions must be responded to.",
+      "missedExplanation": "Read environment logs for the lot's time window.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Filter change for bay 3 was due 3 weeks before the excursion; record shows \"postponed, no parts\".",
+      "clause": "7.1.3",
+      "whyItMatters": "Infrastructure must be maintained.",
+      "missedExplanation": "Check maintenance status of environment controls.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "conforming",
+      "text": "Final clean chemistry log shows bath changes on schedule.",
+      "clause": "8.5.1",
+      "whyItMatters": "Process chemistry controlled.",
+      "missedExplanation": "Conforming evidence that narrows the cause.",
+      "falseFindingNote": "Controlled. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E6",
+      "kind": "observation",
+      "text": "Technician: \"The bay alarm kept going so we muted it.\" Mute log shows 2 mutes.",
+      "clause": "7.3",
+      "unlockedBy": [
+        "E3"
+      ],
+      "whyItMatters": "Muting alarms without response weakens the control.",
+      "missedExplanation": "Ask about alarms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Outgoing inspection checked 2 wafers of 25 from {{lot}}; both passed.",
+      "clause": "8.6",
+      "whyItMatters": "Release checks must be able to detect the problem, especially after an excursion.",
+      "missedExplanation": "Ask whether the sample could catch the problem.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "nonconformity",
+      "text": "Sampling plan SP-4 has no tightened sampling after an environment excursion.",
+      "clause": "8.6",
+      "supports": "E7",
+      "whyItMatters": "Verification arrangements should respond to known risks.",
+      "missedExplanation": "Read the sampling plan for triggers.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Shipping boxes are qualified for particle cleanliness; record current.",
+      "clause": "8.5.4",
+      "whyItMatters": "Preservation is controlled.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Qualified. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "conforming",
+      "text": "Complaint procedure requires 24-hour containment response.",
+      "clause": "8.2.1",
+      "whyItMatters": "Defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Defined.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "The packing bench has a fan.",
+      "clause": "7.1.4",
+      "whyItMatters": "The bench is in a controlled packing area with an approved fan.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Approved equipment.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "Plants in the office outside the cleanroom.",
+      "clause": "7.1.4",
+      "whyItMatters": "Outside the controlled area.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Outside the cleanroom.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What does the 24-hour response include?",
+      "options": [
+        "An apology",
+        "Containment of all 5 lots from the excursion window with customers notified, the immediate cause (bay 3 excursion with overdue filter), actions with dates, and a contact",
+        "A statement that outgoing inspection passed",
+        "A request to clean the wafers at the customer"
+      ],
+      "bestIndex": 1,
+      "rationale": "The customer needs to see exposure limited and the cause addressed."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold and notify for all 5 lots processed during the excursion"
+    ],
+    "correction": [
+      "Re-inspect held wafers at 100 percent and disposition as authorized"
+    ],
+    "cause": [
+      "Filter maintenance was postponed, alarms were muted without response, and sampling has no excursion trigger"
+    ],
+    "corrective": [
+      "Escalate postponed filter changes, require a response before an alarm can be muted, and tighten sampling after excursions"
+    ],
+    "effectiveness": [
+      "Monitor excursion responses and particle complaints for six months"
+    ]
+  },
+  "debriefText": {
+    "found": "You contained by time window, not just by lot.",
+    "missed": "Environment logs for the lot's time window often explain particle problems.",
+    "falseFinding": "Approved equipment and areas outside the cleanroom are not findings."
+  }
+}

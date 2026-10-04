@@ -1,0 +1,287 @@
+{
+  "id": "ITS-D-01",
+  "pack": "it-software",
+  "type": "D",
+  "title": "The Hotfix",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "A hotfix HF-208 is proposed for the Meridian Digital payroll export, which a customer needs for its month-end run in 2 days. The fix changes the rounding logic. You have 12 visit points to assess whether the change has been reviewed for risks, controls, and records before it is deployed.",
+  "visitPoints": 12,
+  "goal": "Completeness",
+  "branches": [
+    "Control"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Change tracker",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Change record HF-208",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Emergency change procedure",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Code review",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Peer review of HF-208",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Test evidence",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Test results attached to HF-208",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Review",
+          "label": "Regression scope for rounding",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Customer account",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Customer contract on change notice",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "Account manager: has the customer been told",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Operations",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Deployment and rollback plan",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Monitoring after deployment",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Release manager",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Who approves emergency changes",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Release calendar",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Hotfix naming convention",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "HF-208 states the reason, the customer impact, and the affected component. Approval section is pending.",
+      "clause": "8.5.6",
+      "whyItMatters": "The record describes the change and its purpose.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The record is in order for its stage.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Emergency change procedure EC-2 allows a shortened review but requires peer review, targeted testing, an approver, and a rollback plan.",
+      "clause": "8.5.6, 6.3",
+      "whyItMatters": "A defined route for urgent change exists.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The procedure is sound. The question is whether HF-208 follows it.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Peer review of HF-208 was approved by the author's own second account (reviewer ID dev-17b for author dev-17).",
+      "clause": "8.5.6",
+      "whyItMatters": "Review must be independent of the author to be effective.",
+      "missedExplanation": "Check reviewer and author identities, not only the approval tick.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Test results for HF-208 show 4 unit tests passed; no test uses the customer's month-end data volume of about 40,000 records.",
+      "clause": "8.3, 8.6",
+      "whyItMatters": "Verification should show the change meets the requirement in the conditions that matter.",
+      "missedExplanation": "Ask whether the tests reflect the real use.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Rounding logic is shared by invoices and tax reports; the regression scope for HF-208 lists payroll export only (scope note 2).",
+      "clause": "6.1",
+      "whyItMatters": "Risks to other outputs affected by a change must be considered.",
+      "missedExplanation": "Ask what else uses the changed code.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Customer contract clause 14 requires 5 working days' notice of changes to calculation logic, or written agreement to a shorter period. No agreement is on file.",
+      "clause": "8.2.3",
+      "whyItMatters": "Customer requirements on change notification must be met.",
+      "missedExplanation": "Read the contract for change notice terms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Account manager: \"I mentioned a fix was coming in a call on day 1, but nothing in writing yet.\"",
+      "clause": "8.2.1",
+      "unlockedBy": [
+        "E6"
+      ],
+      "whyItMatters": "Informal contact has started; a written record of agreement would complete it.",
+      "missedExplanation": "Ask what has been communicated and how.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Deployment plan includes a tested rollback to the previous build within 15 minutes.",
+      "clause": "8.5.1",
+      "whyItMatters": "Rollback is planned.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "A tested rollback is good practice.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "observation",
+      "text": "Post-deployment monitoring plan MP-208 lists error rate only; no check of rounding totals against a reference file is planned for the first run.",
+      "clause": "9.1.1",
+      "whyItMatters": "Monitoring the result that the change affects would confirm it works. This is an improvement opportunity.",
+      "missedExplanation": "Ask how the team will know the change worked.",
+      "plantedPool": true
+    },
+    {
+      "id": "E10",
+      "kind": "conforming",
+      "text": "Release manager: the head of operations or deputy approves emergency changes; both are available today.",
+      "clause": "5.3",
+      "whyItMatters": "Authority is defined and available.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Roles are clear. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "The release calendar shows a freeze starting in 3 days.",
+      "clause": "7.4",
+      "whyItMatters": "A planned freeze is a scheduling fact, not a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The freeze is planning context.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "Hotfix names follow the convention HF-number, but one older hotfix used lower case.",
+      "clause": "7.5.2",
+      "whyItMatters": "A naming slip on an old record does not affect this change.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Naming style is not a requirement breach here.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Should HF-208 be deployed tomorrow?",
+      "options": [
+        "Yes, as it stands",
+        "Only after independent peer review, testing at month-end volume across payroll, invoices, and tax reports, approval under EC-2, and written customer agreement to the shorter notice",
+        "No, wait for the next quarterly release",
+        "Yes, but do not tell the customer to avoid alarm"
+      ],
+      "bestIndex": 1,
+      "rationale": "The emergency procedure allows speed but not skipped controls. The listed steps can be done within 2 days."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Do not deploy HF-208 until EC-2 conditions are met"
+    ],
+    "correction": [
+      "Obtain independent review, extend tests to all users of the rounding logic, and record customer agreement"
+    ],
+    "cause": [
+      "The tooling allows self-review through a second account, and the emergency procedure has no impact checklist for shared code"
+    ],
+    "corrective": [
+      "Block approvals by linked accounts; add a shared-component impact check to EC-2"
+    ],
+    "effectiveness": [
+      "Audit the next ten emergency changes for independent review and impact checks"
+    ]
+  },
+  "debriefText": {
+    "found": "You checked independence, test depth, shared risk, and the customer's terms.",
+    "missed": "In an urgent change, look for the controls that the hurry removed.",
+    "falseFinding": "A calendar freeze and an old naming slip are not issues with this change."
+  }
+}

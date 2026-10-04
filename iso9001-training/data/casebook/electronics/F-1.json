@@ -1,0 +1,290 @@
+{
+  "id": "ELX-F-01",
+  "pack": "electronics",
+  "type": "F",
+  "title": "The Month-End Lot",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "It is the last day of the month at Meridian Microworks. Lot L-9002 must ship tonight to meet the month-end target and a customer order. It has an open discrepancy: 3 wafers measured just above the thickness limit. The production manager proposes shipping and \"dealing with it next month\". You have 12 visit points to decide.",
+  "visitPoints": 12,
+  "goal": "Decision quality",
+  "branches": [
+    "Judgment"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Metrology",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Thickness data for L-9002",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Ask",
+          "label": "Metrologist: confidence in the readings",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Production manager",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Why ship tonight",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Ask",
+          "label": "Who can approve a deviation",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Quality procedures",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Material review procedure",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Customer deviation terms",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Planning",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Customer due date",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Shipping",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Lot status in the system",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Observe",
+          "label": "Month-end target chart",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Sorting",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Can the 3 wafers be removed",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Packing materials",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Thickness data: 3 of 25 wafers in L-9002 read 0.2 to 0.5 micrometers above the upper limit on gauge TG-1.",
+      "clause": "8.7",
+      "whyItMatters": "Nonconforming output must be identified and controlled.",
+      "missedExplanation": "Compare data with limits.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Metrologist: \"TG-1 was calibrated last week and repeats within 0.05.\" Record confirms.",
+      "clause": "7.1.5",
+      "whyItMatters": "Reliable data.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Valid measurement.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Production manager: \"Month-end numbers matter more than 3 wafers. Ship it.\" (note 2)",
+      "clause": "5.1.1",
+      "whyItMatters": "Leadership must support the system; targets must not override release controls.",
+      "missedExplanation": "Listen for targets replacing controls.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "conforming",
+      "text": "Production manager: \"Quality manager approves deviations; she is on site.\"",
+      "clause": "5.3",
+      "whyItMatters": "Authority defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Roles clear.",
+      "plantedPool": false
+    },
+    {
+      "id": "E5",
+      "kind": "conforming",
+      "text": "Material review procedure MR-2 allows segregation of nonconforming wafers and release of the rest after review.",
+      "clause": "8.7",
+      "whyItMatters": "A route exists.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Sound procedure.",
+      "plantedPool": false
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Customer terms DV-3 require written approval to ship any wafer outside limits.",
+      "clause": "8.2.3",
+      "unlockedBy": [
+        "E5"
+      ],
+      "whyItMatters": "Customer requirements must be met.",
+      "missedExplanation": "Read deviation terms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Customer due date is 3 days from now; tonight's shipment is for the month-end target, not the customer date.",
+      "clause": "8.2.1",
+      "whyItMatters": "The customer is not harmed by a short delay.",
+      "missedExplanation": "Check whose deadline it is.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "nonconformity",
+      "text": "Lot status L-9002 shows \"released\" in the system with the discrepancy open.",
+      "clause": "8.6",
+      "whyItMatters": "Status must reflect the open nonconformity.",
+      "missedExplanation": "Check system status against the facts.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "Month-end target chart shows 96 percent of target.",
+      "clause": "9.1.1",
+      "whyItMatters": "Context, not a finding.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Context.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "observation",
+      "text": "Sort technician: \"I can pull the 3 wafers in 20 minutes.\"",
+      "clause": "8.7",
+      "whyItMatters": "Segregation is quick.",
+      "missedExplanation": "Ask about practical options.",
+      "plantedPool": true
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Packing materials are standard and in stock.",
+      "clause": "8.5.4",
+      "whyItMatters": "Not a finding.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Standard.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What do you recommend?",
+      "options": [
+        "Ship all 25 wafers tonight",
+        "Set the lot to hold, remove the 3 wafers under MR-2, have the quality manager review and release the 22 conforming wafers tonight, and ask the customer about the 3 if needed",
+        "Hold the whole lot until next month",
+        "Say nothing"
+      ],
+      "bestIndex": 1,
+      "rationale": "Segregation lets conforming wafers ship on time while respecting the customer's terms.",
+      "optionFeedback": [
+        "Ships known nonconforming wafers without approval.",
+        "Proportionate and uses the defined route.",
+        "Unnecessary delay for conforming wafers.",
+        "Silence leaves a known issue."
+      ]
+    },
+    {
+      "id": "D2",
+      "prompt": "How do you respond to \"month-end numbers matter more\"?",
+      "options": [
+        "Agree",
+        "Acknowledge the target and show that the 22 wafers can still count tonight through the defined route",
+        "Escalate a complaint about the manager",
+        "Ignore it"
+      ],
+      "bestIndex": 1,
+      "rationale": "Address the pressure with a route that meets both needs."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Set L-9002 to hold and segregate the 3 wafers"
+    ],
+    "correction": [
+      "Release 22 conforming wafers after review; disposition the 3 as authorized"
+    ],
+    "cause": [
+      "The system allows release with an open discrepancy"
+    ],
+    "corrective": [
+      "Block release while discrepancies are open"
+    ],
+    "effectiveness": [
+      "Audit releases at the next three month-ends"
+    ]
+  },
+  "debriefText": {
+    "found": "You found a route that ships conforming wafers on time.",
+    "missed": "Ask whose deadline it really is.",
+    "falseFinding": "Charts and materials are context."
+  }
+}

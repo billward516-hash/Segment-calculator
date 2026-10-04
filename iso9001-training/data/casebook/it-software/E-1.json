@@ -1,0 +1,297 @@
+{
+  "id": "ITS-E-01",
+  "pack": "it-software",
+  "type": "E",
+  "title": "The Production Defect",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "{{cust}}, a customer of the Meridian Digital booking platform, reports that confirmation emails since Tuesday show the wrong appointment time for 1 in 20 bookings. They ask for a written response within 24 hours. You have 12 visit points to contain the defect, find the cause, and prepare the response.",
+  "visitPoints": 12,
+  "goal": "Containment and response",
+  "branches": [
+    "Control",
+    "Cause"
+  ],
+  "tokens": {
+    "cust": [
+      "Meridian client 114",
+      "Meridian client 208",
+      "Meridian client 377"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Support desk",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Incident record INC-902",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Other tickets since Tuesday",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Release register",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Releases deployed on Tuesday",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Release sign-off",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Monitoring",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Email service error logs",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Observe",
+          "label": "Status page",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Developers",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "What changed in the email template",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Review",
+          "label": "Test cases for time zones",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Account management",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Complaint response procedure",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Customer service levels",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Data team",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Query of affected bookings",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Database naming",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Incident INC-902 was logged within 30 minutes with the customer's examples and a priority.",
+      "clause": "9.1.2, 8.2.1",
+      "whyItMatters": "Customer feedback is captured promptly.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Prompt logging is conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "4 other customers raised similar tickets since Tuesday; they were closed as \"user error\" and not linked to INC-902.",
+      "clause": "8.7",
+      "whyItMatters": "When nonconforming output is identified, all affected output and customers must be identified and controlled.",
+      "missedExplanation": "Search for similar tickets beyond the complainant.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "conforming",
+      "text": "Release register: release 12.6 was deployed on Tuesday with change list and build number 5520.",
+      "clause": "8.5.2",
+      "whyItMatters": "Traceability to the release is in place.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The register is complete. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Release 12.6 sign-off records 2 failing time-zone tests marked \"known issue, low risk\" by the developer who wrote the change.",
+      "clause": "8.6",
+      "unlockedBy": [
+        "E3"
+      ],
+      "whyItMatters": "Release with failing verification needs an authorized decision independent of the author.",
+      "missedExplanation": "Read who accepted known failures.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "observation",
+      "text": "Error logs for release 12.6 show 0 errors; the defect produces wrong content, not failures. Monitoring checks only sending success.",
+      "clause": "9.1.1",
+      "whyItMatters": "Monitoring the content of outputs would detect this type of defect. An improvement opportunity.",
+      "missedExplanation": "Ask what the monitoring can and cannot detect.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Developer: \"We changed the template to use the server time instead of the customer's time zone. It was a small change.\" Change CHG-1201 has no impact review.",
+      "clause": "8.5.6",
+      "whyItMatters": "Changes must be reviewed for effect before release.",
+      "missedExplanation": "Ask what changed and whether its effect was reviewed.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Time-zone tests cover 2 of the customer's 6 time zones listed in requirement TZ-4.",
+      "clause": "8.3",
+      "whyItMatters": "Verification should cover the stated requirements.",
+      "missedExplanation": "Compare test coverage with requirement lists.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Complaint response procedure requires a first written response with containment within 24 hours.",
+      "clause": "8.2.1",
+      "whyItMatters": "The response process is defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The procedure is sound. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Customer service levels define severity 2 for wrong customer-facing data, with a 24-hour response.",
+      "clause": "8.2.3",
+      "whyItMatters": "Requirements for response are defined and reviewed.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Service levels are clear. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "conforming",
+      "text": "Data query identifies 1,240 affected confirmations across 5 customers since Tuesday.",
+      "clause": "8.5.2",
+      "whyItMatters": "The affected population can be identified.",
+      "missedExplanation": "Conforming evidence that defines scope.",
+      "falseFindingNote": "The query supports containment. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Status page shows \"all systems operational\".",
+      "clause": "7.4",
+      "whyItMatters": "The status page reports availability, which is correct; it does not claim data accuracy.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The service is up. The defect is in content, which the status page does not cover.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "Database tables use short names such as \"bk_tz\".",
+      "clause": "7.5.2",
+      "whyItMatters": "Naming style is not a requirement.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Naming style does not affect conformity.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What should the 24-hour response to {{cust}} include?",
+      "options": [
+        "A statement that the system is operational",
+        "What happened in plain terms, the affected bookings identified, containment (rollback of the template change and corrected confirmations), the cause under investigation, actions with dates, and a contact",
+        "An offer of a discount only",
+        "A request that the customer checks every booking"
+      ],
+      "bestIndex": 1,
+      "rationale": "The customer needs facts, containment, and a plan. A discount alone does not address the defect."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Roll back the template change and send corrected confirmations to all 5 affected customers",
+      "Reopen the 4 tickets closed as user error and link them to INC-902"
+    ],
+    "correction": [
+      "Correct the 1,240 confirmations with customer agreement on wording"
+    ],
+    "cause": [
+      "Template changes have no impact review, time-zone tests are incomplete, and authors can accept their own failing tests"
+    ],
+    "corrective": [
+      "Require impact review and independent acceptance of known test failures; extend time-zone tests to all listed zones"
+    ],
+    "effectiveness": [
+      "Monitor confirmation accuracy by sampling and review ticket closure reasons for three months"
+    ]
+  },
+  "debriefText": {
+    "found": "You contained beyond the complaint and traced the cause through change and release.",
+    "missed": "Check whether similar tickets were closed under another label.",
+    "falseFinding": "An accurate status page and naming style are not part of this defect."
+  }
+}
