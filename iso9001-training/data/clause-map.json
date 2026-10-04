@@ -1,0 +1,606 @@
+{
+  "meta": {
+    "baseline": "ISO 9001:2015 with Amendment 1:2024 (climate change). All clause numbers in the core training use this edition.",
+    "target": "ISO 9001:2026 (sixth edition), reported as published on 16 September 2026.",
+    "status": "All 2026 fields are preliminary, compiled from secondary commentary, and unverified. They must be confirmed against the purchased standard before any authoritative use.",
+    "caution": "CAUTION: PRELIMINARY 2026 INFORMATION. This section describes the 2026 edition of ISO 9001 using the best available secondary commentary and informed estimates. It has not been verified against the published standard and may contain errors, omissions, or incorrect clause references. Do not use it as a substitute for the standard in audit preparation, certification decisions, procedure revisions, or training records. Always consult the published ISO 9001:2026 text and your certification body.",
+    "confidenceKey": [
+      "High",
+      "Medium",
+      "Single",
+      "Unclear",
+      "Best estimate"
+    ]
+  },
+  "clauses": [
+    {
+      "id": "4.1",
+      "title2015": "Understanding the organization and its context",
+      "ref2026": "4.1",
+      "changeType": "Amended",
+      "note": "Climate change considered when determining relevant issues; issues may be shaped by quality culture and ethical behavior.",
+      "confidence": "High (climate); Medium (culture)",
+      "verifyStatus": "unverified",
+      "modules": [
+        1
+      ]
+    },
+    {
+      "id": "4.2",
+      "title2015": "Understanding the needs and expectations of interested parties",
+      "ref2026": "4.2",
+      "changeType": "Amended",
+      "note": "Climate-related needs of interested parties considered; one source reports sharper emphasis on interested party requirements.",
+      "confidence": "High (climate); Single (emphasis)",
+      "verifyStatus": "unverified",
+      "modules": [
+        1
+      ]
+    },
+    {
+      "id": "4.3",
+      "title2015": "Determining the scope of the quality management system",
+      "ref2026": "4.3",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        1
+      ]
+    },
+    {
+      "id": "4.4",
+      "title2015": "Quality management system and its processes",
+      "ref2026": "4.4",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        1
+      ]
+    },
+    {
+      "id": "5.1",
+      "title2015": "Leadership and commitment",
+      "ref2026": "5.1",
+      "changeType": "See 5.1.1",
+      "note": "The new quality culture and ethical behavior requirement sits in 5.1.1. Lettered sub-items are not cited because sources disagree.",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "modules": [
+        2
+      ]
+    },
+    {
+      "id": "5.1.1",
+      "title2015": "Leadership and commitment: general",
+      "ref2026": "5.1.1",
+      "changeType": "New requirement",
+      "note": "Top management promotes and demonstrates a quality culture and ethical behavior; a note explains how culture can be shown.",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "modules": [
+        2
+      ]
+    },
+    {
+      "id": "5.1.2",
+      "title2015": "Customer focus",
+      "ref2026": "5.1.2",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "modules": [
+        2
+      ]
+    },
+    {
+      "id": "5.2",
+      "title2015": "Policy",
+      "ref2026": "5.2",
+      "changeType": "See 5.2.1",
+      "note": "See 5.2.1.",
+      "confidence": "Single",
+      "verifyStatus": "unverified",
+      "modules": [
+        2
+      ]
+    },
+    {
+      "id": "5.2.1",
+      "title2015": "Establishing the quality policy",
+      "ref2026": "5.2.1",
+      "changeType": "Amended",
+      "note": "Policy expected to align with context and long-term strategic direction.",
+      "confidence": "Single",
+      "verifyStatus": "unverified",
+      "modules": [
+        2
+      ]
+    },
+    {
+      "id": "5.2.2",
+      "title2015": "Communicating the quality policy",
+      "ref2026": "5.2.2",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "modules": [
+        2
+      ]
+    },
+    {
+      "id": "5.3",
+      "title2015": "Organizational roles, responsibilities and authorities",
+      "ref2026": "5.3",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        2
+      ]
+    },
+    {
+      "id": "6.1",
+      "title2015": "Actions to address risks and opportunities",
+      "ref2026": "6.1.1 to 6.1.3",
+      "changeType": "Restructured",
+      "note": "Risks and opportunities determined and addressed more distinctly; expanded Annex A guidance.",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "modules": [
+        3
+      ]
+    },
+    {
+      "id": "6.2",
+      "title2015": "Quality objectives and planning to achieve them",
+      "ref2026": "6.2",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        3
+      ]
+    },
+    {
+      "id": "6.3",
+      "title2015": "Planning of changes",
+      "ref2026": "6.3",
+      "changeType": "Strengthened",
+      "note": "Explicit attention to communication, monitoring, evaluation and review so intended results are achieved.",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "modules": [
+        3
+      ]
+    },
+    {
+      "id": "7.1.1",
+      "title2015": "Resources: general",
+      "ref2026": "7.1.1",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        4
+      ]
+    },
+    {
+      "id": "7.1.2",
+      "title2015": "People",
+      "ref2026": "7.1.2",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        4
+      ]
+    },
+    {
+      "id": "7.1.3",
+      "title2015": "Infrastructure",
+      "ref2026": "7.1.3",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        4
+      ]
+    },
+    {
+      "id": "7.1.4",
+      "title2015": "Environment for the operation of processes",
+      "ref2026": "7.1.4",
+      "changeType": "Amended",
+      "note": "Note recognizes that culture and ethical behavior can influence operating conditions.",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "modules": [
+        4
+      ]
+    },
+    {
+      "id": "7.1.5",
+      "title2015": "Monitoring and measuring resources",
+      "ref2026": "7.1.5",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        4
+      ]
+    },
+    {
+      "id": "7.1.6",
+      "title2015": "Organizational knowledge",
+      "ref2026": "7.1.6",
+      "changeType": "Broadened",
+      "note": "Tied more closely to the intended results of the QMS and to retaining and applying knowledge.",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "modules": [
+        4
+      ]
+    },
+    {
+      "id": "7.2",
+      "title2015": "Competence",
+      "ref2026": "7.2",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        4
+      ]
+    },
+    {
+      "id": "7.3",
+      "title2015": "Awareness",
+      "ref2026": "7.3",
+      "changeType": "Expanded",
+      "note": "Awareness now includes the organization's quality culture and ethical behavior.",
+      "confidence": "High",
+      "verifyStatus": "unverified",
+      "modules": [
+        0,
+        4
+      ]
+    },
+    {
+      "id": "7.4",
+      "title2015": "Communication",
+      "ref2026": "7.4",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        4
+      ]
+    },
+    {
+      "id": "7.5.1",
+      "title2015": "Documented information: general",
+      "ref2026": "7.5.1",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        4
+      ]
+    },
+    {
+      "id": "7.5.2",
+      "title2015": "Creating and updating",
+      "ref2026": "7.5.2",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        4
+      ]
+    },
+    {
+      "id": "7.5.3",
+      "title2015": "Control of documented information",
+      "ref2026": "7.5.3",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        4
+      ]
+    },
+    {
+      "id": "8.1",
+      "title2015": "Operational planning and control",
+      "ref2026": "8.1",
+      "changeType": "Minor (reported)",
+      "note": "Targeted amendments and terminology alignment reported; verify.",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        5
+      ]
+    },
+    {
+      "id": "8.2.1",
+      "title2015": "Customer communication",
+      "ref2026": "8.2.1",
+      "changeType": "Minor (reported)",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        5
+      ]
+    },
+    {
+      "id": "8.2.2",
+      "title2015": "Determining the requirements for products and services",
+      "ref2026": "8.2.2",
+      "changeType": "Minor (reported)",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        5
+      ]
+    },
+    {
+      "id": "8.2.3",
+      "title2015": "Review of the requirements for products and services",
+      "ref2026": "8.2.3",
+      "changeType": "Minor (reported)",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        5
+      ]
+    },
+    {
+      "id": "8.2.4",
+      "title2015": "Changes to requirements for products and services",
+      "ref2026": "8.2.4",
+      "changeType": "Minor (reported)",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        5
+      ]
+    },
+    {
+      "id": "8.3",
+      "title2015": "Design and development of products and services",
+      "ref2026": "8.3",
+      "changeType": "Minor (reported)",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        5
+      ]
+    },
+    {
+      "id": "8.4",
+      "title2015": "Control of externally provided processes, products and services",
+      "ref2026": "8.4",
+      "changeType": "Minor (reported)",
+      "note": "Best estimate: intent unchanged, terminology aligned; read 8.4.1 to 8.4.3.",
+      "confidence": "Best estimate",
+      "verifyStatus": "unverified",
+      "modules": [
+        5
+      ]
+    },
+    {
+      "id": "8.5.1",
+      "title2015": "Control of production and service provision",
+      "ref2026": "8.5.1",
+      "changeType": "Minor (reported)",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        6
+      ]
+    },
+    {
+      "id": "8.5.2",
+      "title2015": "Identification and traceability",
+      "ref2026": "8.5.2",
+      "changeType": "Minor (reported)",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        6
+      ]
+    },
+    {
+      "id": "8.5.3",
+      "title2015": "Property belonging to customers or external providers",
+      "ref2026": "8.5.3",
+      "changeType": "Minor (reported)",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        6
+      ]
+    },
+    {
+      "id": "8.5.4",
+      "title2015": "Preservation",
+      "ref2026": "8.5.4",
+      "changeType": "Minor (reported)",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        6
+      ]
+    },
+    {
+      "id": "8.5.5",
+      "title2015": "Post-delivery activities",
+      "ref2026": "8.5.5",
+      "changeType": "Minor (reported)",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        6
+      ]
+    },
+    {
+      "id": "8.5.6",
+      "title2015": "Control of changes",
+      "ref2026": "8.5.6",
+      "changeType": "Minor (reported)",
+      "note": "Best estimate: possible new or amended note consistent with stronger change planning in 6.3; read 8.5.6.",
+      "confidence": "Best estimate",
+      "verifyStatus": "unverified",
+      "modules": [
+        6
+      ]
+    },
+    {
+      "id": "8.6",
+      "title2015": "Release of products and services",
+      "ref2026": "8.6",
+      "changeType": "Minor (reported)",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        6
+      ]
+    },
+    {
+      "id": "8.7",
+      "title2015": "Control of nonconforming outputs",
+      "ref2026": "8.7",
+      "changeType": "Minor (reported)",
+      "note": "",
+      "confidence": "Unclear",
+      "verifyStatus": "unverified",
+      "modules": [
+        7
+      ]
+    },
+    {
+      "id": "9.1.1",
+      "title2015": "Monitoring, measurement, analysis and evaluation: general",
+      "ref2026": "9.1.1",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "modules": [
+        8
+      ]
+    },
+    {
+      "id": "9.1.2",
+      "title2015": "Customer satisfaction",
+      "ref2026": "9.1.2",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "modules": [
+        8
+      ]
+    },
+    {
+      "id": "9.1.3",
+      "title2015": "Analysis and evaluation",
+      "ref2026": "9.1.3",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "modules": [
+        8
+      ]
+    },
+    {
+      "id": "9.2",
+      "title2015": "Internal audit",
+      "ref2026": "9.2",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "modules": [
+        8
+      ]
+    },
+    {
+      "id": "9.3",
+      "title2015": "Management review",
+      "ref2026": "9.3",
+      "changeType": "No substantive change reported",
+      "note": "",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "modules": [
+        8
+      ]
+    },
+    {
+      "id": "10.1",
+      "title2015": "Improvement: general",
+      "ref2026": "10.1",
+      "changeType": "Consolidated",
+      "note": "2015 Clauses 10.1 and 10.3 reported as combined into a single continual improvement clause.",
+      "confidence": "Single (detail); Medium (consolidation)",
+      "verifyStatus": "unverified",
+      "modules": [
+        9
+      ]
+    },
+    {
+      "id": "10.2",
+      "title2015": "Nonconformity and corrective action",
+      "ref2026": "10.2",
+      "changeType": "No substantive change reported",
+      "note": "No substantive change reported. Numbering after consolidation of 10.1 and 10.3 is unverified.",
+      "confidence": "Medium",
+      "verifyStatus": "unverified",
+      "modules": [
+        9
+      ]
+    },
+    {
+      "id": "10.3",
+      "title2015": "Continual improvement",
+      "ref2026": "10.1",
+      "changeType": "Consolidated",
+      "note": "Combined with 2015 Clause 10.1 (reported).",
+      "confidence": "Single (detail); Medium (consolidation)",
+      "verifyStatus": "unverified",
+      "modules": [
+        9
+      ]
+    }
+  ]
+}

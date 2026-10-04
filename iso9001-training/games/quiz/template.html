@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ISO 9001 Quiz and Clause Sprint</title>
+<style>
+:root{--bg:#fff;--fg:#1b1f24;--muted:#46515c;--line:#b9c2cb;--panel:#f1f4f7;--primary:#0b4f9c;--primary-fg:#fff;--warn:#8a2d00;--warn-bg:#fff1e8;--ok:#0a5c2e;--ok-bg:#e7f6ec;--focus:#b85c00;--font:18px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151b;--fg:#e9eef3;--muted:#b0bac4;--line:#3b4651;--panel:#19212a;--primary:#8dbdff;--primary-fg:#08203c;--warn:#ffb88a;--warn-bg:#3a2316;--ok:#8fe0ae;--ok-bg:#12301f;--focus:#ffcf70}}
+:root[data-theme="dark"]{--bg:#10151b;--fg:#e9eef3;--muted:#b0bac4;--line:#3b4651;--panel:#19212a;--primary:#8dbdff;--primary-fg:#08203c;--warn:#ffb88a;--warn-bg:#3a2316;--ok:#8fe0ae;--ok-bg:#12301f;--focus:#ffcf70}
+*{box-sizing:border-box}
+html{font-size:var(--font)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
+header{border-bottom:2px solid var(--line);padding:.6rem 1rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+header h1{font-size:1.3rem;margin:0}
+main{max-width:60rem;margin:0 auto;padding:1rem}
+h2{font-size:1.35rem;margin:1.2rem 0 .5rem}
+button,select,input{font:inherit;color:inherit}
+button{background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:.4rem .9rem;cursor:pointer;color:var(--fg)}
+button:hover:not(:disabled){border-color:var(--primary)}
+button.primary{background:var(--primary);color:var(--primary-fg);border-color:var(--primary);font-weight:600}
+button.big{font-size:1.1rem;padding:.6rem 1.3rem}
+button:disabled{opacity:.6;cursor:not-allowed}
+select,input{max-width:100%;background:var(--bg);border:2px solid var(--line);border-radius:6px;padding:.3rem .5rem}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+label{display:block;margin:.6rem 0 .15rem;font-weight:600}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.8rem 1rem;margin:.8rem 0}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.8rem}
+.mode{border:2px solid var(--line);border-radius:10px;padding:.8rem 1rem;background:var(--bg)}
+.mode h3{margin:0 0 .3rem;font-size:1.1rem}
+.q{font-size:1.3rem;margin:.5rem 0 1rem}
+.opt{display:flex;gap:.6rem;align-items:flex-start;border:2px solid var(--line);border-radius:8px;padding:.6rem .8rem;margin:.5rem 0;background:var(--bg);cursor:pointer}
+.opt input{margin-top:.35rem}
+.opt.correct{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--warn);background:var(--warn-bg)}
+.badge{display:inline-block;border:2px solid currentColor;border-radius:4px;padding:0 .35rem;font-size:.75rem;font-weight:700;margin-right:.3rem}
+.badge.ok{color:var(--ok);background:var(--ok-bg)}
+.badge.warn{color:var(--warn);background:var(--warn-bg)}
+.muted{color:var(--muted)}
+.progress{height:10px;background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.progress div{height:100%;background:var(--primary)}
+.timer{font-size:2rem;font-weight:800;font-variant-numeric:tabular-nums}
+table{border-collapse:collapse;width:100%}
+th,td{border:1px solid var(--line);padding:.35rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--panel)}
+.notice{border:2px solid var(--line);border-radius:8px;padding:.6rem .9rem;font-size:.85rem;color:var(--muted);margin-top:1.5rem}
+.sr{position:absolute;left:-9999px}
+@media print{header button,.noprint,button{display:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <h1>ISO 9001 Quiz and Clause Sprint</h1>
+  <div class="row">
+    <button type="button" id="btn-size" aria-pressed="false">Large text</button>
+    <button type="button" id="btn-theme">Switch theme</button>
+  </div>
+</header>
+<main id="app" tabindex="-1"></main>
+<div id="live" class="sr" role="status" aria-live="polite"></div>
+<main><p class="notice">This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body. Questions test ISO 9001:2015 requirements for __COMPANY__ and are unverified against the purchased standard until the owner confirms them. Clause numbers are references only.</p></main>
+<script type="application/json" id="qdata">__QUESTIONS_JSON__</script>
+<script>
+(function () {
+'use strict';
+var QUESTIONS = JSON.parse(document.getElementById('qdata').textContent);
+var MODULE_NAMES = ['Orientation', 'Context and scope', 'Leadership and policy', 'Planning, risk, change', 'Support', 'Operation: requirements, design, providers', 'Operation: production, traceability, release', 'Nonconforming outputs', 'Performance evaluation', 'Improvement and corrective action', 'Audits: what to expect'];
+var app = { screen: 'menu', opts: { role: 'all', module: '1', pass: 80, seed: Math.floor(Math.random() * 900000) + 100000, teams: 3 }, run: null };
+
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function rng(seed) { var a = seed | 0; return function () { a |= 0; a = (a + 0x6D2B79F5) | 0; var t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+function shuffle(arr, r) { var a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(r() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function live(m) { document.getElementById('live').textContent = m; }
+
+function prepare(list, seed) {
+  var r = rng(seed);
+  return list.map(function (q) {
+    var opts = q.options.map(function (t, i) { return { text: t, correct: i === q.answer }; });
+    return { q: q, opts: shuffle(opts, r) };
+  });
+}
+function pool(role) { return QUESTIONS.filter(function (q) { return role === 'all' || q.roles.indexOf(role) >= 0; }); }
+
+function start(mode) {
+  var o = app.opts, r = rng(o.seed), list;
+  if (mode === 'quick') list = shuffle(pool(o.role), r).slice(0, 5);
+  else if (mode === 'check') list = shuffle(pool(o.role), r).slice(0, 20);
+  else if (mode === 'module') list = QUESTIONS.filter(function (q) { return String(q.module) === o.module; });
+  else if (mode === 'sprint') list = shuffle(pool(o.role).filter(function (q) { return q.type === 'scenario'; }), r).slice(0, 15);
+  if (!list.length) { live('No questions match this selection.'); return; }
+  app.run = { mode: mode, items: prepare(list, o.seed + 1), idx: 0, answers: [], revealed: false, scores: [], secs: 30, tid: null };
+  if (mode === 'sprint') { for (var i = 0; i < o.teams; i++) app.run.scores.push(0); }
+  app.screen = mode === 'sprint' ? 'sprint' : 'quiz';
+  render();
+}
+
+function render() {
+  var el = document.getElementById('app'), fid = document.activeElement && document.activeElement.getAttribute && document.activeElement.getAttribute('data-fid');
+  el.innerHTML = app.screen === 'menu' ? menu() : app.screen === 'quiz' ? quiz() : app.screen === 'sprint' ? sprint() : result();
+  if (fid) { var n = document.querySelector('[data-fid="' + fid + '"]'); if (n) n.focus({ preventScroll: true }); }
+}
+
+function menu() {
+  var o = app.opts;
+  var mods = MODULE_NAMES.map(function (n, i) { return '<option value="' + i + '"' + (String(i) === o.module ? ' selected' : '') + '>Module ' + i + ': ' + esc(n) + '</option>'; }).join('');
+  return '<h2>Choose a mode</h2><div class="panel"><div class="row">' +
+    '<div><label for="role">Role</label><select id="role" data-opt="role"><option value="all"' + (o.role === 'all' ? ' selected' : '') + '>All roles</option><option value="operator"' + (o.role === 'operator' ? ' selected' : '') + '>Operator</option><option value="technician"' + (o.role === 'technician' ? ' selected' : '') + '>Technician</option><option value="supervisor"' + (o.role === 'supervisor' ? ' selected' : '') + '>Supervisor</option></select></div>' +
+    '<div><label for="pass">Pass mark (percent)</label><input id="pass" type="number" min="1" max="100" value="' + o.pass + '" data-opt="pass"></div>' +
+    '<div><label for="seed">Seed (same seed, same order)</label><input id="seed" type="number" value="' + o.seed + '" data-opt="seed"></div></div></div>' +
+    '<div class="modes">' +
+    '<div class="mode"><h3>Quick round</h3><p class="muted">5 questions. Warm-ups and micro-sessions.</p><button type="button" class="primary" data-start="quick" data-fid="m-quick">Start</button></div>' +
+    '<div class="mode"><h3>Knowledge check</h3><p class="muted">20 questions for the selected role. Pass mark applies.</p><button type="button" class="primary" data-start="check" data-fid="m-check">Start</button></div>' +
+    '<div class="mode"><h3>Module quiz</h3><p class="muted">All questions for one module.</p><label for="mod" class="sr">Module</label><select id="mod" data-opt="module">' + mods + '</select><p><button type="button" class="primary" data-start="module" data-fid="m-module">Start</button></p></div>' +
+    '<div class="mode"><h3>Clause Sprint (teams)</h3><p class="muted">Facilitator reads scenario questions. Teams race to name the answer and clause. Award points as you go.</p><label for="teams">Teams</label><input id="teams" type="number" min="2" max="6" value="' + o.teams + '" data-opt="teams"><p><button type="button" class="primary" data-start="sprint" data-fid="m-sprint">Start</button></p></div>' +
+    '</div>' +
+    '<p class="muted">' + QUESTIONS.length + ' questions in the bank. Answer positions are shuffled each time.</p>';
+}
+
+function quiz() {
+  var run = app.run, it = run.items[run.idx], n = run.items.length;
+  var chosen = run.answers[run.idx];
+  var html = '<div class="row" style="justify-content:space-between"><div>Question ' + (run.idx + 1) + ' of ' + n + '</div><div class="muted">Clause ' + esc(it.q.clause) + ' (shown after you answer)</div></div>' +
+    '<div class="progress" aria-hidden="true"><div style="width:' + Math.round((run.idx / n) * 100) + '%"></div></div>' +
+    '<p class="q" id="stem">' + esc(it.q.stem) + '</p><div role="radiogroup" aria-labelledby="stem">';
+  it.opts.forEach(function (op, i) {
+    var cls = 'opt';
+    if (run.revealed) { if (op.correct) cls += ' correct'; else if (chosen === i) cls += ' wrong'; }
+    html += '<label class="' + cls + '"><input type="radio" name="opt" value="' + i + '"' + (chosen === i ? ' checked' : '') + (run.revealed ? ' disabled' : '') + ' data-fid="o' + i + '"><span><b>' + (i + 1) + '.</b> ' + esc(op.text) +
+      (run.revealed && op.correct ? ' <span class="badge ok">CORRECT ANSWER</span>' : '') + (run.revealed && chosen === i && !op.correct ? ' <span class="badge warn">YOUR ANSWER</span>' : '') + '</span></label>';
+  });
+  html += '</div>';
+  if (run.revealed) html += '<div class="panel"><b>Why:</b> ' + esc(it.q.rationale) + '<br><span class="muted">Clause reference: ' + esc(it.q.clause) + '</span></div>';
+  html += '<div class="row">' + (!run.revealed ? '<button type="button" class="primary big" data-act="check" data-fid="check"' + (chosen == null ? ' disabled' : '') + '>Check answer</button>' : '<button type="button" class="primary big" data-act="next" data-fid="next">' + (run.idx + 1 >= n ? 'See results' : 'Next question') + '</button>') +
+    ' <button type="button" data-act="menu" data-fid="quit">Quit</button></div><p class="muted">Keyboard: press 1 to 4 to choose, Enter to continue.</p>';
+  return html;
+}
+
+function sprint() {
+  var run = app.run, it = run.items[run.idx], n = run.items.length;
+  var html = '<div class="row" style="justify-content:space-between"><div>Scenario ' + (run.idx + 1) + ' of ' + n + '</div><div class="timer" id="timer">' + run.secs + '</div></div>' +
+    '<div class="progress" aria-hidden="true"><div style="width:' + Math.round((run.idx / n) * 100) + '%"></div></div>' +
+    '<p class="q">' + esc(it.q.stem) + '</p>';
+  if (!run.revealed) {
+    html += '<ol>' + it.opts.map(function (op) { return '<li>' + esc(op.text) + '</li>'; }).join('') + '</ol>' +
+      '<div class="row"><button type="button" data-act="timer" data-fid="t-btn">' + (run.tid ? 'Pause timer' : 'Start timer') + '</button><button type="button" class="primary big" data-act="reveal" data-fid="reveal">Reveal answer and clause</button></div>';
+  } else {
+    var correct = it.opts.filter(function (o) { return o.correct; })[0].text;
+    html += '<div class="panel"><b>Answer:</b> ' + esc(correct) + '<br><b>Clause:</b> ' + esc(it.q.clause) + '<br><span class="muted">' + esc(it.q.rationale) + '</span></div>' +
+      '<p><b>Award points</b> (one point for the correct answer, one bonus point to the first team with the right immediate action):</p><div class="row">' +
+      run.scores.map(function (s, i) { return '<button type="button" data-act="pt" data-team="' + i + '" data-fid="pt' + i + '">Team ' + (i + 1) + ' +1</button>'; }).join('') + '</div>' +
+      '<p><button type="button" class="primary big" data-act="next" data-fid="next">' + (run.idx + 1 >= n ? 'Final scores' : 'Next scenario') + '</button></p>';
+  }
+  html += '<h2>Scores</h2><table><thead><tr><th>Team</th><th>Points</th></tr></thead><tbody>' + run.scores.map(function (s, i) { return '<tr><td>Team ' + (i + 1) + '</td><td><b>' + s + '</b></td></tr>'; }).join('') + '</tbody></table>' +
+    '<p><button type="button" data-act="menu" data-fid="quit">Quit to menu</button></p>';
+  return html;
+}
+
+function result() {
+  var run = app.run, o = app.opts;
+  if (run.mode === 'sprint') {
+    var max = Math.max.apply(null, run.scores);
+    return '<h2>Clause Sprint results</h2><table><thead><tr><th>Team</th><th>Points</th></tr></thead><tbody>' + run.scores.map(function (s, i) { return '<tr><td>Team ' + (i + 1) + (s === max ? ' <span class="badge ok">LEADER</span>' : '') + '</td><td>' + s + '</td></tr>'; }).join('') + '</tbody></table>' +
+      '<p>Debrief: which requirement did each scenario relate to? Which immediate action was hardest to name?</p><p><button type="button" class="primary" data-act="menu" data-fid="again">Back to menu</button></p>';
+  }
+  var n = run.items.length, right = 0;
+  run.items.forEach(function (it, i) { if (run.answers[i] != null && it.opts[run.answers[i]].correct) right++; });
+  var pct = Math.round((right / n) * 100), pass = pct >= o.pass;
+  var html = '<h2>Results</h2><div class="panel"><p style="font-size:1.4rem"><b>' + right + ' of ' + n + ' correct (' + pct + '%)</b> ' + (run.mode === 'check' || run.mode === 'module' ? (pass ? '<span class="badge ok">PASS</span>' : '<span class="badge warn">BELOW PASS MARK</span>') + ' Pass mark ' + o.pass + '%.' : '') + '</p>' +
+    (!pass && (run.mode === 'check' || run.mode === 'module') ? '<p>Review the items below with a trainer, then retake. One retake after coaching is allowed under the standard program rules.</p>' : '') + '</div>' +
+    '<h2>Review</h2><table><thead><tr><th>#</th><th>Question</th><th>Your answer</th><th>Result</th><th>Clause</th></tr></thead><tbody>' +
+    run.items.map(function (it, i) {
+      var a = run.answers[i], ok = a != null && it.opts[a].correct;
+      var correct = it.opts.filter(function (x) { return x.correct; })[0].text;
+      return '<tr><td>' + (i + 1) + '</td><td>' + esc(it.q.stem) + '<br><span class="muted">Correct answer: ' + esc(correct) + '</span></td><td>' + (a != null ? esc(it.opts[a].text) : 'No answer') + '</td><td>' + (ok ? '<span class="badge ok">CORRECT</span>' : '<span class="badge warn">INCORRECT</span>') + '</td><td>' + esc(it.q.clause) + '</td></tr>';
+    }).join('') + '</tbody></table>' +
+    '<div class="row noprint"><button type="button" class="primary" data-act="menu" data-fid="again">Back to menu</button> <button type="button" data-act="print" data-fid="print">Print results</button></div>';
+  return html;
+}
+
+function advance() {
+  var run = app.run;
+  if (run.tid) { clearInterval(run.tid); run.tid = null; }
+  run.revealed = false; run.secs = 30;
+  if (run.idx + 1 >= run.items.length) { app.screen = 'result'; } else { run.idx++; }
+}
+
+document.addEventListener('click', function (e) {
+  var t = e.target.closest ? e.target.closest('button') : null;
+  if (!t || t.disabled) return;
+  var run = app.run, act = t.getAttribute('data-act');
+  if (t.hasAttribute('data-start')) { start(t.getAttribute('data-start')); return; }
+  if (t.id === 'btn-size') { var on = document.documentElement.style.getPropertyValue('--font') === '24px'; document.documentElement.style.setProperty('--font', on ? '18px' : '24px'); t.setAttribute('aria-pressed', on ? 'false' : 'true'); return; }
+  if (t.id === 'btn-theme') { var cur = document.documentElement.getAttribute('data-theme'); var dark = cur ? cur === 'dark' : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark'); return; }
+  if (!act) return;
+  if (act === 'menu') { if (run && run.tid) clearInterval(run.tid); app.screen = 'menu'; }
+  else if (act === 'check') { run.revealed = true; }
+  else if (act === 'next') { advance(); }
+  else if (act === 'reveal') { if (run.tid) { clearInterval(run.tid); run.tid = null; } run.revealed = true; }
+  else if (act === 'pt') { run.scores[parseInt(t.getAttribute('data-team'), 10)]++; }
+  else if (act === 'timer') {
+    if (run.tid) { clearInterval(run.tid); run.tid = null; }
+    else run.tid = setInterval(function () { run.secs = Math.max(0, run.secs - 1); var el = document.getElementById('timer'); if (el) el.textContent = run.secs; if (run.secs === 0) { clearInterval(run.tid); run.tid = null; live('Time is up.'); render(); } }, 1000);
+  }
+  else if (act === 'print') { try { window.print(); } catch (err) { /* blocked */ } return; }
+  render();
+});
+
+document.addEventListener('change', function (e) {
+  var el = e.target;
+  if (el.hasAttribute('data-opt')) {
+    var k = el.getAttribute('data-opt'), v = el.value;
+    app.opts[k] = ['pass', 'seed', 'teams'].indexOf(k) >= 0 ? (parseInt(v, 10) || app.opts[k]) : v;
+    if (k === 'teams') app.opts.teams = Math.max(2, Math.min(6, app.opts.teams));
+  } else if (el.name === 'opt' && app.run && !app.run.revealed) {
+    app.run.answers[app.run.idx] = parseInt(el.value, 10); render();
+  }
+});
+
+document.addEventListener('keydown', function (e) {
+  if (app.screen !== 'quiz' || !app.run) return;
+  if (/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName) && e.target.type !== 'radio') return;
+  var run = app.run;
+  if (!run.revealed && e.key >= '1' && e.key <= '4') {
+    var i = parseInt(e.key, 10) - 1;
+    if (i < run.items[run.idx].opts.length) { run.answers[run.idx] = i; render(); e.preventDefault(); }
+  } else if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
+    if (!run.revealed && run.answers[run.idx] != null) { run.revealed = true; render(); e.preventDefault(); }
+    else if (run.revealed) { advance(); render(); e.preventDefault(); }
+  }
+});
+
+render();
+})();
+</script>
+</body>
+</html>

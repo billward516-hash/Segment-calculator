@@ -1,0 +1,35 @@
+'use strict';
+// Builds the single-file HTML games from templates, the engine and the JSON data.
+// Run: node tools/build-games.js
+const fs = require('fs');
+const path = require('path');
+const root = path.join(__dirname, '..');
+const read = f => fs.readFileSync(path.join(root, f), 'utf8');
+const json = f => JSON.parse(read(f));
+// Prevents "</script>" or "<!--" inside embedded JSON from ending the script block early.
+const safe = o => JSON.stringify(o).replace(/</g, '\\u003c');
+
+const QF = require(path.join(root, 'games/quality-flow/engine.js'));
+const company = json('config/company.json');
+const controls = json('data/controls.json');
+const events = json('data/events.json');
+const packs = json('data/packs.json');
+
+// Quality Flow
+const cfg = Object.assign({}, QF.DEFAULT_CONFIG, { company: company.company, industryPack: company.industryPack, edition: company.edition });
+let html = read('games/quality-flow/template.html');
+html = html.replace('__CONFIG_JSON__', () => safe(cfg))
+  .replace('__DATA_JSON__', () => safe({ controls, events, packs }))
+  .replace('/*__ENGINE__*/', () => read('games/quality-flow/engine.js'));
+fs.writeFileSync(path.join(root, 'games/quality-flow/index.html'), html);
+console.log('Built games/quality-flow/index.html (' + Math.round(html.length / 1024) + ' KB)');
+
+// Quiz (only if its template exists)
+const qt = path.join(root, 'games/quiz/template.html');
+if (fs.existsSync(qt)) {
+  const questions = json('data/questions.json');
+  let q = fs.readFileSync(qt, 'utf8');
+  q = q.replace('__QUESTIONS_JSON__', () => safe(questions)).replace('__COMPANY__', () => company.company);
+  fs.writeFileSync(path.join(root, 'games/quiz/index.html'), q);
+  console.log('Built games/quiz/index.html (' + Math.round(q.length / 1024) + ' KB)');
+}
