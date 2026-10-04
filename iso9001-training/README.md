@@ -65,11 +65,10 @@ Known gaps: Sector drills run inside the Casebook rather than as a quiz-app mode
 
 ## Points to confirm
 
-1. **Control costs.** The specification says the 15 controls cost 37 QP in total, but its own table sums to 36. The table values are used. Change `data/controls.json` if 37 was intended.
+1. **Control costs (decided).** The 15 core controls total 36 QP (the specification's table values). With C16 and C17 the 2026 and bridge total is 40 QP, as confirmed by the program owner.
 2. **Quality Flow interpretation.** Where the specification is silent the game uses these defaults, all editable in `economics`: a redone work item is not re-checked and has a 15 percent chance of escaping (`redoEscape`); a held work item without control C09 has a 25 percent chance of release in error (`erroneousRelease`); a complaint review costs 2 per work item (`reviewCost`); under release pressure without C12 a team yields half the time (`pressureYield`); an unmitigated surprise audit and the other events apply the penalties described in `data/events.json`.
-3. **2026 control costs.** The specification says 2026 controls raise the total from 37 to 41 QP; with the table values the 2026 total is 40.
-4. **Interpretations where the specification is silent** are noted at the top of each builder script and in the facilitation chapter (for example Audit Day finding linking, Casebook scoring of observations and statement quality).
-5. **Balance.** A controlled team beats an uncontrolled team in every seeded run, by a wide margin, because escapes are expensive. See `BALANCE.md` for the controls that matter most and for tuning suggestions (control C07 is the weakest purchase under the defaults; in 2026 mode C17 adds value only in a lean control set).
-6. **Verification.** Every 2026 item and every 2015 clause tag and answer must be confirmed against the purchased standard. `data/clause-map.json` marks all 2026 rows `unverified`. Question rationales were written from general knowledge of the standard.
-7. **Owner inputs.** Quality policy, objectives, stop-work authority, non-punitive reporting statement, pass mark, retention period, and scope of design and development are marked **[OWNER INPUT]**.
-8. **Open specification items** (Section 15) remain with the program owner, including the certification body's transition plan.
+3. **Interpretations where the specification is silent** are noted at the top of each builder script and in the facilitation chapter (for example Audit Day finding linking, Casebook scoring of observations and statement quality).
+4. **Balance.** A controlled team beats an uncontrolled team in every seeded run, by a wide margin, because escapes are expensive. See `BALANCE.md` for the controls that matter most and for tuning suggestions (control C07 is the weakest purchase under the defaults; in 2026 mode C17 adds value only in a lean control set).
+5. **Verification.** Every 2026 item and every 2015 clause tag and answer must be confirmed against the purchased standard. `data/clause-map.json` marks all 2026 rows `unverified`. Question rationales were written from general knowledge of the standard.
+6. **Owner inputs.** Quality policy, objectives, stop-work authority, non-punitive reporting statement, pass mark, retention period, and scope of design and development are marked **[OWNER INPUT]**.
+7. **Open specification items** (Section 15) remain with the program owner, including the certification body's transition plan.

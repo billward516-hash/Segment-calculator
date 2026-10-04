@@ -13,7 +13,7 @@ function check(name, ok, detail) {
 }
 
 // Schema checks
-// The specification states a total of 37 QP, but its own control table sums to 36. The table values are used.
+// Core controls total 36 QP (specification table values).
 check('15 controls, per-control costs sum to 36 (spec table)', controls.length === 15 && controls.reduce((n, c) => n + c.cost, 0) === 36);
 check('16 events', events.length === 16);
 check('every event mitigator exists', events.every(e => e.mitigatedBy.every(id => controls.some(c => c.id === id))));
@@ -64,7 +64,7 @@ check('2015 decks are returned unchanged by decksFor', (() => { const d = QF.dec
 const controls26 = read('controls-2026.json'), events26 = read('events-2026.json');
 const d26 = QF.decksFor('2026', controls, events, controls26, events26);
 check('2026 adds controls C16 and C17 at 2 QP each', controls26.map(x => x.id).join() === 'C16,C17' && controls26.every(x => x.cost === 2));
-// The specification says the total rises from 37 to 41 QP; with the table total of 36 (see above) the 2026 total is 40.
+// 2026 and bridge modes: core 36 + C16 + C17 = 40 QP (confirmed by the program owner).
 check('2026 control total is the 2015 table total plus 4 QP (40)', d26.controls.reduce((n, x) => n + x.cost, 0) === 40);
 check('2026 adds events E17 to E20', events26.map(e => e.id).join() === 'E17,E18,E19,E20');
 check('every 2026 event mitigator exists in the 2026 deck', events26.every(e => e.mitigatedBy.every(id => d26.controls.some(x => x.id === id))));
