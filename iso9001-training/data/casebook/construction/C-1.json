@@ -1,0 +1,270 @@
+{
+  "id": "CON-C-01",
+  "pack": "construction",
+  "type": "C",
+  "title": "The Misplaced Anchors",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "On 3 Meridian Build projects this year, cast-in anchor bolts were found out of position after the concrete was placed, and were fixed by drilling new anchors. Corrective action CA-31 says \"setting-out crew reminded\". You have 12 visit points to interview staff and reach a system cause.",
+  "visitPoints": 12,
+  "goal": "Cause depth",
+  "branches": [
+    "Cause"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Corrective action CA-31",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Anchor error records across projects",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Setting-out crew",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "How anchor positions are set",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Setting-out records",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Design office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Anchor layout drawings and steel shop drawings",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "Who coordinates steel and concrete drawings",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Survey equipment",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Total station calibration",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "ITP",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Pre-pour inspection checklist",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Project manager",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Programme pressure",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Coffee rota",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Review",
+          "label": "Crew competence records",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "CA-31 cause \"crew error\", action \"crew reminded\", closed with no check; errors recurred on 2 later projects.",
+      "clause": "10.2",
+      "whyItMatters": "Corrective action must remove the cause and be checked.",
+      "missedExplanation": "Check whether the problem recurred.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "observation",
+      "text": "Error records: all 3 cases involved steel shop drawings issued after the concrete drawings (records AE-1 to AE-3).",
+      "clause": "9.1.3",
+      "whyItMatters": "The pattern points to coordination.",
+      "missedExplanation": "Look for what the cases share.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "conforming",
+      "text": "Crew lead: \"We set from the concrete drawing. If steel changes later we don't hear.\" ",
+      "clause": "7.3",
+      "whyItMatters": "The crew describes the system clearly.",
+      "missedExplanation": "Leads to coordination.",
+      "falseFindingNote": "The crew follows the drawing given.",
+      "plantedPool": false
+    },
+    {
+      "id": "E4",
+      "kind": "conforming",
+      "text": "Setting-out records match the concrete drawings issued at the time.",
+      "clause": "7.5.1",
+      "whyItMatters": "The crew set out correctly to what they had.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Correct to the issued drawing.",
+      "plantedPool": false
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Anchor layout on concrete drawing S-301 rev B differs from steel shop drawing SD-14 rev A by 25 mm; no design check compares them.",
+      "clause": "8.3",
+      "whyItMatters": "Design outputs must be checked for consistency before use.",
+      "missedExplanation": "Compare interfacing drawings.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Design manager: \"Nobody owns steel-to-concrete coordination; each discipline checks its own drawings.\" (note 2)",
+      "clause": "5.3",
+      "whyItMatters": "Responsibilities for interfaces must be assigned.",
+      "missedExplanation": "Ask who owns the interface.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Total station calibration is current.",
+      "clause": "7.1.5",
+      "whyItMatters": "Survey equipment is valid.",
+      "missedExplanation": "Conforming evidence that rules it out.",
+      "falseFindingNote": "Current.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "nonconformity",
+      "text": "Pre-pour checklist PC-1 checks anchor presence but not position against the latest steel drawing.",
+      "clause": "8.6",
+      "whyItMatters": "Inspection must check the characteristic that matters.",
+      "missedExplanation": "Read what the checklist actually verifies.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "observation",
+      "text": "Project manager: \"Steel drawings often arrive late; we pour to keep the programme.\" Programme shows steel drawings due after pour on 2 jobs.",
+      "clause": "8.1",
+      "whyItMatters": "Planning should sequence approvals before dependent work.",
+      "missedExplanation": "Ask about sequence.",
+      "plantedPool": true
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Coffee rota on the wall.",
+      "clause": "7.1.4",
+      "whyItMatters": "Not relevant.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not relevant.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Crew competence records are current; one certificate copy is faded but legible.",
+      "clause": "7.2",
+      "whyItMatters": "Records are adequate.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Legible and current.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which statement best describes the system cause?",
+      "options": [
+        "The setting-out crew is careless",
+        "No one owns steel-to-concrete coordination, interfacing drawings are not cross-checked, pours proceed before steel drawings are final, and the checklist does not check position against them",
+        "The total station is inaccurate",
+        "Steel suppliers are unreliable"
+      ],
+      "bestIndex": 1,
+      "rationale": "The cause is in design coordination, planning, and inspection."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Check anchor positions against the latest steel drawings before each upcoming pour"
+    ],
+    "correction": [
+      "Fix misplaced anchors with the designer's approved method"
+    ],
+    "cause": [
+      "No interface owner, no cross-check of drawings, pours scheduled before steel drawings, and a checklist that checks presence only"
+    ],
+    "corrective": [
+      "Assign an interface coordinator, add a cross-discipline drawing check, hold pours until steel drawings are approved, and revise PC-1",
+      "Reopen CA-31"
+    ],
+    "effectiveness": [
+      "Track anchor errors on all projects for twelve months"
+    ]
+  },
+  "debriefText": {
+    "found": "You moved from crew error to coordination and inspection.",
+    "missed": "Recurring errors across projects point to a shared process.",
+    "falseFinding": "A faded but legible certificate is adequate."
+  }
+}

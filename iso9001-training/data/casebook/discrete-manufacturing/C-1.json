@@ -1,0 +1,305 @@
+{
+  "id": "MFG-C-01",
+  "pack": "discrete-manufacturing",
+  "type": "C",
+  "title": "The Recurring Burr",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "At Meridian Works, burrs on the edge of part 7730 have been found at final inspection in 5 of the last 6 weeks. Each time, the parts were deburred by hand and shipped. Corrective action record CA-118 is marked \"closed: operators reminded\". You have 12 visit points to interview staff and review records, and to reach a system cause.",
+  "visitPoints": 12,
+  "goal": "Cause depth",
+  "branches": [
+    "Cause"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Corrective action record CA-118",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Final inspection reject data, 6 weeks",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Deburr station",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Hand deburring of part 7730",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Ask",
+          "label": "Operator: how often the burr appears",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Tool crib",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Tool change log for the chamfer tool",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Ask",
+          "label": "Tool crib attendant: how tools are replaced",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Machining cell",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Process sheet for part 7730",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Observe",
+          "label": "Coolant nozzles on machine 5",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Ask",
+          "label": "Setter: what changed 6 weeks ago",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Maintenance and training",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Preventive maintenance record, machine 5",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Training record for setter badge 318",
+          "evidenceId": "E13"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Purchasing",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Tool supplier change notice",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Approved supplier list entry",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "CA-118 lists the cause as \"operator error\" and the action as \"operators reminded\". It was closed on day 3 with no effectiveness check, and burrs recurred 4 times after closure.",
+      "clause": "10.2",
+      "whyItMatters": "Corrective action must remove the cause and be checked for effectiveness. A reminder addresses people, not the system, and the recurrence shows it did not work.",
+      "missedExplanation": "Read the closure section of every corrective action record: cause, action, and evidence that it worked.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "observation",
+      "text": "Reject data for 6 weeks shows burrs on 2.3 percent of part 7730, all from machine 5. No chart or analysis is attached to CA-118.",
+      "clause": "9.1.3",
+      "whyItMatters": "Data already held could have pointed to machine 5. Analyzing it is an opportunity to improve the investigation.",
+      "missedExplanation": "Look at reject data by machine, shift, and date before accepting a cause.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "conforming",
+      "text": "Operator: \"It comes and goes. Worse near the end of a tool's life, I think. I report every one in the reject log.\" The log has 14 entries.",
+      "clause": "7.3",
+      "whyItMatters": "The operator reports issues as expected and gives a useful lead.",
+      "missedExplanation": "Interviews give leads. Follow them to records.",
+      "falseFindingNote": "The operator reported each burr. The issue is not the operator's conduct.",
+      "plantedPool": false
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Tool change log: chamfer tool changes for machine 5 are recorded \"when worn\"; intervals vary from 300 to 1,900 parts. The process sheet sets no tool life.",
+      "clause": "8.5.1",
+      "unlockedBy": [
+        "E5"
+      ],
+      "whyItMatters": "Controlled conditions include defined process settings, such as tool life, where they affect the output.",
+      "missedExplanation": "Look for settings that are left to judgment when they affect a characteristic.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "conforming",
+      "text": "Tool crib attendant: \"We replace a tool when the setter asks. Stock is always available.\" Stock count shows 12 chamfer tools.",
+      "clause": "7.1.3",
+      "whyItMatters": "Resources are available. The question is when they are used.",
+      "missedExplanation": "This interview leads to the tool change log.",
+      "falseFindingNote": "Tool availability is fine; the attendant points you to the log.",
+      "plantedPool": false
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Process sheet PS-7730 revision 2 has no edge-break requirement or check frequency for the chamfer, although the drawing calls for \"edges broken 0.2 to 0.4 mm\".",
+      "clause": "8.5.1",
+      "whyItMatters": "The process instructions must define the checks needed to meet the drawing. A missing in-process check lets burrs travel to final inspection.",
+      "missedExplanation": "Compare drawing notes with the process sheet line by line.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Setter: \"About 6 weeks ago purchasing switched to a cheaper chamfer insert. Nobody asked us to trial it.\" (interview note 3)",
+      "clause": "8.5.6",
+      "whyItMatters": "A change that affects production should be reviewed before use and its results checked.",
+      "missedExplanation": "Ask what changed around the time the problem started.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "nonconformity",
+      "text": "Supplier change notice SCN-41 for the new insert was received 7 weeks ago and filed in purchasing. No technical review or trial is recorded.",
+      "clause": "8.4",
+      "unlockedBy": [
+        "E7"
+      ],
+      "whyItMatters": "Changes in externally provided products should be checked for their effect on conformity before acceptance.",
+      "missedExplanation": "Follow a change to its approval record.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "Operator deburrs 40 parts by hand with a scraper, then re-inspects 5 at random. Rework is authorized on the reject ticket.",
+      "clause": "8.7",
+      "whyItMatters": "Authorized rework with re-inspection is acceptable correction of nonconforming output.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The rework is authorized and verified. The problem is that it keeps being needed, which is a cause question, not a control failure at this station.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Coolant nozzles on machine 5 are slightly misaligned, but the coolant flow log shows normal flow and the setter checks alignment each shift.",
+      "clause": "7.1.4",
+      "whyItMatters": "A minor visual impression without effect on the process is not evidence of a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Flow is recorded as normal and alignment is checked. Do not build a cause from an impression.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "conforming",
+      "text": "Preventive maintenance on machine 5 is complete for the quarter; spindle runout was measured at 0.004 mm, within limit.",
+      "clause": "7.1.3",
+      "whyItMatters": "The machine is maintained, which rules out one possible cause.",
+      "missedExplanation": "Conforming evidence that narrows the cause.",
+      "falseFindingNote": "Maintenance is current. Ruling causes out is part of good analysis.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "conforming",
+      "text": "The insert supplier is on the approved supplier list with a current evaluation.",
+      "clause": "8.4",
+      "whyItMatters": "The supplier is approved; the gap is the review of the product change, not the supplier's status.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Supplier approval is current. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E13",
+      "kind": "observation",
+      "text": "Training record for new setter badge 318 shows machine setup training but no record of training on edge-break checks.",
+      "clause": "7.2",
+      "whyItMatters": "Competence should cover the checks a role performs. This is a gap to close rather than evidence of a failure.",
+      "missedExplanation": "Check that training records cover the checks the process needs.",
+      "plantedPool": true
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which statement best describes the system cause?",
+      "options": [
+        "Operators are careless with deburring",
+        "An untrialed insert change met a process with no defined tool life and no in-process edge check, so burrs went undetected until final inspection",
+        "Machine 5 is worn out and must be replaced",
+        "The burr cannot be prevented, so hand deburring should continue"
+      ],
+      "bestIndex": 1,
+      "rationale": "The evidence links the timing to the insert change, and shows that the process had no tool life and no in-process check. Those are system conditions that apply to anyone running the job."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Increase edge checks on part 7730 from machine 5 until the cause is removed"
+    ],
+    "correction": [
+      "Deburr and re-inspect affected parts under the existing authorized rework"
+    ],
+    "cause": [
+      "No review of the insert change, no defined tool life, and no in-process edge-break check"
+    ],
+    "corrective": [
+      "Trial and approve tool changes through change control; set tool life and an in-process edge check in PS-7730",
+      "Reopen CA-118 with the system cause and a defined effectiveness check"
+    ],
+    "effectiveness": [
+      "Track burr rejects on part 7730 for eight weeks after the change, with a target of zero"
+    ]
+  },
+  "debriefText": {
+    "found": "You moved from symptom to system: the insert change, the missing tool life, and the missing in-process check.",
+    "missed": "In a root cause case, ask \"what changed?\" and \"what in the process allows this?\" before accepting any answer that names a person.",
+    "falseFinding": "Authorized rework and a cosmetic impression are not causes. Test every suspected cause against a record."
+  }
+}

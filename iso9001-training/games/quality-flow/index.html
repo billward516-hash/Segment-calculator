@@ -64,6 +64,10 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .timer{font-size:2rem;font-weight:800;font-variant-numeric:tabular-nums}
 .row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
 .err{color:var(--warn);font-weight:700}
+.caution{border:3px solid var(--warn);background:var(--warn-bg);color:var(--fg);border-radius:8px;padding:.7rem 1rem;margin:0 0 1rem}
+.caution .caution-label{font-weight:800;color:var(--warn);text-transform:uppercase;letter-spacing:.04em;font-size:.85rem}
+.caution p{margin:.2rem 0 0}
+.conf{display:inline-block;border:2px solid var(--warn);color:var(--warn);border-radius:4px;padding:0 .35rem;font-size:.75rem;font-weight:700;margin-left:.3rem;vertical-align:middle}
 ul.log{margin:.3rem 0;padding-left:1.2rem;font-size:.9rem}
 @media (max-width:700px){.board{grid-template-columns:repeat(2,1fr)}}
 @media print{nav.views,.tools,button,.noprint{display:none!important}body{background:#fff;color:#000}.panel,.event{border-color:#000}}
@@ -81,11 +85,11 @@ ul.log{margin:.3rem 0;padding-left:1.2rem;font-size:.9rem}
 <main id="app" tabindex="-1"></main>
 <div id="live" class="sr" role="status" aria-live="polite"></div>
 <footer><main>
-  <p class="notice">This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body. Fictional organization. Examples are illustrative. Sector-specific legal, clinical, safety, and food safety requirements are outside this program. Clause references use the 2015 edition numbering.</p>
+  <p class="notice">This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body. Fictional organization. Examples are illustrative. Sector-specific legal, clinical, safety, and food safety requirements are outside this program. <span id="edition-note">Clause references use the 2015 edition numbering.</span></p>
 </main></footer>
 
 <script type="application/json" id="qf-config">{"company":"Meridian Group","industryPack":"generic","edition":"2015","seed":12345,"rounds":12,"teams":4,"workItemsReleasedPerRound":4,"startingQP":20,"qpPerRound":1,"stages":[{"id":"intake","name":"Intake","capacity":6,"defectProb":0.04,"manual":true},{"id":"prep","name":"Preparation","capacity":5,"defectProb":0.08,"manual":true},{"id":"core","name":"Core process","capacity":4,"defectProb":0.12,"constraint":true},{"id":"finish","name":"Finishing","capacity":5,"defectProb":0.1,"manual":true},{"id":"check","name":"Final check","capacity":6,"detectBase":0.6},{"id":"deliver","name":"Delivery","capacity":6,"defectProb":0.04,"manual":true}],"economics":{"goodItem":10,"scrapItem":-6,"redoItem":-2,"escape":-15,"escapeReputation":-1,"redoSuccess":0.7,"redoEscape":0.15,"constraintScrapExtra":-2,"reviewCost":-2,"erroneousRelease":0.25,"pressureYield":0.5},"reputationStart":5,"inProcessDetect":0.8,"bonusRounds":[4,8,12],"budgetShockRound":0}</script>
-<script type="application/json" id="qf-data">{"controls":[{"id":"C01","name":"Measuring and monitoring resource control","clause":"7.1.5","cost":3,"effect":"Prevents measurement drift and expired verification events; final check detection +10 points"},{"id":"C02","name":"Competence and training matrix","clause":"7.2, 7.3","cost":3,"effect":"Cuts defect probability at manual stages by 30 percent; prevents the unqualified person event"},{"id":"C03","name":"Controlled instructions and documented information","clause":"7.5","cost":2,"effect":"Prevents outdated instruction and undocumented verbal change events"},{"id":"C04","name":"External provider evaluation and input verification","clause":"8.4","cost":3,"effect":"Halves the out-of-specification input event; Intake defect probability -50 percent"},{"id":"C05","name":"Work item identification and traceability","clause":"8.5.2","cost":2,"effect":"Limits review scope in complaint events to one work item"},{"id":"C06","name":"Change control","clause":"6.3, 8.5.6","cost":2,"effect":"Prevents the unreviewed process change event; mitigates provider change"},{"id":"C07","name":"In-process check at the constraint","clause":"8.1, 8.6","cost":3,"effect":"Detects 80 percent of defects at the core process before more value is added"},{"id":"C08","name":"Final release criteria and authorization","clause":"8.6","cost":2,"effect":"Final check detection rises to 85 percent (stacks with C01, cap 95 percent)"},{"id":"C09","name":"Nonconformance hold and disposition","clause":"8.7","cost":2,"effect":"Eliminates erroneous release of held work items"},{"id":"C10","name":"Corrective action process","clause":"10.2","cost":3,"effect":"Unlocks the corrective action opportunity (halves one past event's impact)"},{"id":"C11","name":"Internal audit program","clause":"9.2","cost":2,"effect":"Reveals one hidden gap at rounds 4, 8, 12; softens audit and training-gap events"},{"id":"C12","name":"Management review and objectives","clause":"5.1, 6.2, 9.3","cost":2,"effect":"Resists rush-order pressure; +2 QP at rounds 4, 8, 12"},{"id":"C13","name":"Customer feedback and complaint handling","clause":"8.2, 9.1.2","cost":2,"effect":"Halves reputation loss from escapes"},{"id":"C14","name":"Infrastructure and work environment control","clause":"7.1.3, 7.1.4","cost":3,"effect":"Halves equipment, system and environment disruption events"},{"id":"C15","name":"Requirements review","clause":"8.2.3, 8.2.4","cost":2,"effect":"Prevents impact of the customer requirement change event"}],"events":[{"id":"E01","text":"An outdated revision of an instruction, template, or procedure is used at Finishing.","mitigatedBy":["C03"],"impact":"2 work items defective"},{"id":"E02","text":"A measuring tool or test method drifts; false passes occur.","mitigatedBy":["C01"],"impact":"1 defective work item passes the final check"},{"id":"E03","text":"A new person is assigned to the core process without qualification.","mitigatedBy":["C02"],"impact":"Core process defect probability +15 points this round"},{"id":"E04","text":"An externally provided input is out of specification.","mitigatedBy":["C04"],"impact":"2 work items defective (1 with C04)"},{"id":"E05","text":"A customer reports a defect on a delivered work item.","mitigatedBy":["C05"],"impact":"4 work items held for review (1 with C05)"},{"id":"E06","text":"A change to the core process is made without review.","mitigatedBy":["C06"],"impact":"Core process defect probability +20 points this round"},{"id":"E07","text":"A work environment disruption (conditions, power, system outage, staffing gap).","mitigatedBy":["C14"],"impact":"2 work items defective at Finishing (1 with C14)"},{"id":"E08","text":"The final check finds a defective work item; a colleague suggests releasing it to meet the delivery date.","mitigatedBy":["C09","C12"],"impact":"Without C12 the team may yield to the pressure"},{"id":"E09","text":"A repeat of an earlier complaint type.","mitigatedBy":["C10"],"impact":"Repeat penalty if an earlier escape occurred"},{"id":"E10","text":"A surprise customer audit.","mitigatedBy":["C11"],"impact":"Reputation -2 unless at least 8 controls are owned"},{"id":"E11","text":"Rush order: pressure to skip the final check.","mitigatedBy":["C08","C12"],"impact":"Final check skipped; escapes likely"},{"id":"E12","text":"Core process equipment or system outage.","mitigatedBy":["C14"],"impact":"Core capacity -2 for one round (-1 with C14)"},{"id":"E13","text":"A measuring tool is found past its verification date during an audit walk.","mitigatedBy":["C01"],"impact":"Audit points lost; data validity questioned"},{"id":"E14","text":"Shift or team handoff misses a verbal process change.","mitigatedBy":["C03","C06"],"impact":"1 work item defective; no record of the change"},{"id":"E15","text":"The customer changes a requirement mid-order.","mitigatedBy":["C15"],"impact":"2 work items processed to the wrong requirement"},{"id":"E16","text":"An unrecorded training gap is found.","mitigatedBy":["C11","C02"],"impact":"Found later by the customer: penalty (halved with C02, none with C11)"}],"packs":[{"id":"generic","name":"Generic (sector-neutral)","company":"Meridian Group","term":["work item","work items"],"stages":["Intake","Preparation","Core process","Finishing","Final check","Delivery"],"skins":{}},{"id":"discrete-manufacturing","name":"Discrete manufacturing","company":"Meridian Works","term":["batch","batches"],"stages":["Receiving inspection","Cutting and machining","Assembly","Finishing and test","Final inspection","Pack and ship"],"skins":{"E01":"A part is machined to drawing revision B; revision C is current.","E02":"A micrometer drifts and out-of-tolerance parts pass.","E04":"A bar stock lot fails the material certificate check.","E05":"A customer reports parts failing fit on a delivered batch.","E07":"A coolant system failure causes a shop temperature excursion.","E08":"A supervisor proposes shipping a batch with an open dimensional discrepancy."}},{"id":"process-food","name":"Process, food, and consumer goods","company":"Meridian Foods","term":["production batch","production batches"],"stages":["Receiving and ingredient check","Preparation and weighing","Cooking or processing","Packaging and labeling","Final check and release","Dispatch"],"skins":{"E01":"An old label artwork revision is used on a packaging run.","E02":"A temperature probe drifts and under-processed product passes.","E04":"An ingredient lot arrives without the required supplier certificate.","E05":"A customer reports packaging faults on a delivered batch.","E07":"A refrigeration fault disrupts the processing area temperature.","E08":"A supervisor proposes releasing a batch while a laboratory result is pending."}},{"id":"electronics","name":"Electronics and semiconductor","company":"Meridian Microworks","term":["lot","lots"],"stages":["Incoming inspection","Preparation or film strip","Polish or main process","Final clean","Final inspection","Pack and ship"],"skins":{"E01":"An obsolete instruction revision is used at final clean.","E02":"A thickness gauge drifts and false passes occur.","E04":"A chemical lot is out of specification.","E05":"A customer reports particle defects on a shipped lot.","E07":"A cleanroom particle excursion occurs.","E08":"A lot with an open discrepancy is proposed for release to meet shipment."}},{"id":"construction","name":"Construction and engineering projects","company":"Meridian Build","term":["work package","work packages"],"stages":["Tender and requirements review","Design and planning","Site execution","Inspection and testing","Handover review","Close-out and warranty"],"skins":{"E01":"A crew builds to a superseded drawing revision.","E02":"A survey instrument is out of calibration; levels are wrong.","E04":"A delivered material fails its test certificate.","E05":"A client reports a defect found after handover.","E07":"Severe weather and a site access disruption occur.","E08":"A foreman proposes covering work before the inspection hold point."}},{"id":"it-software","name":"IT and software services","company":"Meridian Digital","term":["release","releases"],"stages":["Requirements intake","Design","Build","Test","Release review","Deploy and support"],"skins":{"E01":"A team follows an outdated deployment procedure.","E02":"A test suite has a flaw; defects pass to release.","E04":"A third-party library update introduces a defect.","E05":"A customer reports a defect found in production.","E07":"A cloud outage and a staffing gap occur together.","E08":"A manager proposes deploying before test sign-off to meet a date."}},{"id":"healthcare","name":"Healthcare and clinical services (management system topics only)","company":"Meridian Care","term":["case","cases"],"stages":["Referral and intake","Assessment","Treatment or procedure","Documentation and results review","Discharge or handover check","Follow-up"],"skins":{"E01":"A team uses an outdated protocol sheet.","E02":"A clinical measuring device drifts; readings are unreliable.","E04":"A supplied item arrives with a missing or invalid certificate.","E05":"A patient or family reports an incomplete handover.","E07":"A staffing shortage and an equipment outage occur together.","E08":"A colleague proposes discharging before a pending result is reviewed."}},{"id":"logistics","name":"Logistics, warehousing, and distribution","company":"Meridian Logistics","term":["order","orders"],"stages":["Receiving","Put-away and storage","Picking and packing","Loading check","Final dispatch check","Delivery and proof of delivery"],"skins":{"E01":"Pickers use an outdated slotting or handling instruction.","E02":"A scale or scanner drifts; quantities are wrong.","E04":"A carrier substitutes an unapproved vehicle for a temperature-controlled load.","E05":"A customer reports a wrong item on a delivered order.","E07":"A system outage and a cold store fault occur together.","E08":"A dispatcher proposes sending a load with an unresolved count discrepancy."}},{"id":"professional-services","name":"Professional, financial, and education services","company":"Meridian Advisory","term":["engagement","engagements"],"stages":["Enquiry and scoping","Planning","Delivery or analysis","Peer review","Client sign-off","Aftercare and feedback"],"skins":{"E01":"A team uses an outdated report template.","E02":"A calculation model contains an unverified formula change.","E04":"A data provider supplies a corrupted dataset.","E05":"A client reports an error in a delivered report.","E07":"A key specialist is absent and a system outage occurs.","E08":"A partner proposes sending a deliverable before peer review to meet a deadline."}}]}</script>
+<script type="application/json" id="qf-data">{"controls":[{"id":"C01","name":"Measuring and monitoring resource control","clause":"7.1.5","cost":3,"effect":"Prevents measurement drift and expired verification events; final check detection +10 points"},{"id":"C02","name":"Competence and training matrix","clause":"7.2, 7.3","cost":3,"effect":"Cuts defect probability at manual stages by 30 percent; prevents the unqualified person event"},{"id":"C03","name":"Controlled instructions and documented information","clause":"7.5","cost":2,"effect":"Prevents outdated instruction and undocumented verbal change events"},{"id":"C04","name":"External provider evaluation and input verification","clause":"8.4","cost":3,"effect":"Halves the out-of-specification input event; Intake defect probability -50 percent"},{"id":"C05","name":"Work item identification and traceability","clause":"8.5.2","cost":2,"effect":"Limits review scope in complaint events to one work item"},{"id":"C06","name":"Change control","clause":"6.3, 8.5.6","cost":2,"effect":"Prevents the unreviewed process change event; mitigates provider change"},{"id":"C07","name":"In-process check at the constraint","clause":"8.1, 8.6","cost":3,"effect":"Detects 80 percent of defects at the core process before more value is added"},{"id":"C08","name":"Final release criteria and authorization","clause":"8.6","cost":2,"effect":"Final check detection rises to 85 percent (stacks with C01, cap 95 percent)"},{"id":"C09","name":"Nonconformance hold and disposition","clause":"8.7","cost":2,"effect":"Eliminates erroneous release of held work items"},{"id":"C10","name":"Corrective action process","clause":"10.2","cost":3,"effect":"Unlocks the corrective action opportunity (halves one past event's impact)"},{"id":"C11","name":"Internal audit program","clause":"9.2","cost":2,"effect":"Reveals one hidden gap at rounds 4, 8, 12; softens audit and training-gap events"},{"id":"C12","name":"Management review and objectives","clause":"5.1, 6.2, 9.3","cost":2,"effect":"Resists rush-order pressure; +2 QP at rounds 4, 8, 12"},{"id":"C13","name":"Customer feedback and complaint handling","clause":"8.2, 9.1.2","cost":2,"effect":"Halves reputation loss from escapes"},{"id":"C14","name":"Infrastructure and work environment control","clause":"7.1.3, 7.1.4","cost":3,"effect":"Halves equipment, system and environment disruption events"},{"id":"C15","name":"Requirements review","clause":"8.2.3, 8.2.4","cost":2,"effect":"Prevents impact of the customer requirement change event"}],"events":[{"id":"E01","text":"An outdated revision of an instruction, template, or procedure is used at Finishing.","mitigatedBy":["C03"],"impact":"2 work items defective"},{"id":"E02","text":"A measuring tool or test method drifts; false passes occur.","mitigatedBy":["C01"],"impact":"1 defective work item passes the final check"},{"id":"E03","text":"A new person is assigned to the core process without qualification.","mitigatedBy":["C02"],"impact":"Core process defect probability +15 points this round"},{"id":"E04","text":"An externally provided input is out of specification.","mitigatedBy":["C04"],"impact":"2 work items defective (1 with C04)"},{"id":"E05","text":"A customer reports a defect on a delivered work item.","mitigatedBy":["C05"],"impact":"4 work items held for review (1 with C05)"},{"id":"E06","text":"A change to the core process is made without review.","mitigatedBy":["C06"],"impact":"Core process defect probability +20 points this round"},{"id":"E07","text":"A work environment disruption (conditions, power, system outage, staffing gap).","mitigatedBy":["C14"],"impact":"2 work items defective at Finishing (1 with C14)"},{"id":"E08","text":"The final check finds a defective work item; a colleague suggests releasing it to meet the delivery date.","mitigatedBy":["C09","C12"],"impact":"Without C12 the team may yield to the pressure"},{"id":"E09","text":"A repeat of an earlier complaint type.","mitigatedBy":["C10"],"impact":"Repeat penalty if an earlier escape occurred"},{"id":"E10","text":"A surprise customer audit.","mitigatedBy":["C11"],"impact":"Reputation -2 unless at least 8 controls are owned"},{"id":"E11","text":"Rush order: pressure to skip the final check.","mitigatedBy":["C08","C12"],"impact":"Final check skipped; escapes likely"},{"id":"E12","text":"Core process equipment or system outage.","mitigatedBy":["C14"],"impact":"Core capacity -2 for one round (-1 with C14)"},{"id":"E13","text":"A measuring tool is found past its verification date during an audit walk.","mitigatedBy":["C01"],"impact":"Audit points lost; data validity questioned"},{"id":"E14","text":"Shift or team handoff misses a verbal process change.","mitigatedBy":["C03","C06"],"impact":"1 work item defective; no record of the change"},{"id":"E15","text":"The customer changes a requirement mid-order.","mitigatedBy":["C15"],"impact":"2 work items processed to the wrong requirement"},{"id":"E16","text":"An unrecorded training gap is found.","mitigatedBy":["C11","C02"],"impact":"Found later by the customer: penalty (halved with C02, none with C11)"}],"packs":[{"id":"generic","name":"Generic (sector-neutral)","company":"Meridian Group","term":["work item","work items"],"stages":["Intake","Preparation","Core process","Finishing","Final check","Delivery"],"skins":{}},{"id":"discrete-manufacturing","name":"Discrete manufacturing","company":"Meridian Works","term":["batch","batches"],"stages":["Receiving inspection","Cutting and machining","Assembly","Finishing and test","Final inspection","Pack and ship"],"skins":{"E01":"A part is machined to drawing revision B; revision C is current.","E02":"A micrometer drifts and out-of-tolerance parts pass.","E04":"A bar stock lot fails the material certificate check.","E05":"A customer reports parts failing fit on a delivered batch.","E07":"A coolant system failure causes a shop temperature excursion.","E08":"A supervisor proposes shipping a batch with an open dimensional discrepancy."}},{"id":"process-food","name":"Process, food, and consumer goods","company":"Meridian Foods","term":["production batch","production batches"],"stages":["Receiving and ingredient check","Preparation and weighing","Cooking or processing","Packaging and labeling","Final check and release","Dispatch"],"skins":{"E01":"An old label artwork revision is used on a packaging run.","E02":"A temperature probe drifts and under-processed product passes.","E04":"An ingredient lot arrives without the required supplier certificate.","E05":"A customer reports packaging faults on a delivered batch.","E07":"A refrigeration fault disrupts the processing area temperature.","E08":"A supervisor proposes releasing a batch while a laboratory result is pending."}},{"id":"electronics","name":"Electronics and semiconductor","company":"Meridian Microworks","term":["lot","lots"],"stages":["Incoming inspection","Preparation or film strip","Polish or main process","Final clean","Final inspection","Pack and ship"],"skins":{"E01":"An obsolete instruction revision is used at final clean.","E02":"A thickness gauge drifts and false passes occur.","E04":"A chemical lot is out of specification.","E05":"A customer reports particle defects on a shipped lot.","E07":"A cleanroom particle excursion occurs.","E08":"A lot with an open discrepancy is proposed for release to meet shipment."}},{"id":"construction","name":"Construction and engineering projects","company":"Meridian Build","term":["work package","work packages"],"stages":["Tender and requirements review","Design and planning","Site execution","Inspection and testing","Handover review","Close-out and warranty"],"skins":{"E01":"A crew builds to a superseded drawing revision.","E02":"A survey instrument is out of calibration; levels are wrong.","E04":"A delivered material fails its test certificate.","E05":"A client reports a defect found after handover.","E07":"Severe weather and a site access disruption occur.","E08":"A foreman proposes covering work before the inspection hold point."}},{"id":"it-software","name":"IT and software services","company":"Meridian Digital","term":["release","releases"],"stages":["Requirements intake","Design","Build","Test","Release review","Deploy and support"],"skins":{"E01":"A team follows an outdated deployment procedure.","E02":"A test suite has a flaw; defects pass to release.","E04":"A third-party library update introduces a defect.","E05":"A customer reports a defect found in production.","E07":"A cloud outage and a staffing gap occur together.","E08":"A manager proposes deploying before test sign-off to meet a date."}},{"id":"healthcare","name":"Healthcare and clinical services (management system topics only)","company":"Meridian Care","term":["case","cases"],"stages":["Referral and intake","Assessment","Treatment or procedure","Documentation and results review","Discharge or handover check","Follow-up"],"skins":{"E01":"A team uses an outdated protocol sheet.","E02":"A clinical measuring device drifts; readings are unreliable.","E04":"A supplied item arrives with a missing or invalid certificate.","E05":"A patient or family reports an incomplete handover.","E07":"A staffing shortage and an equipment outage occur together.","E08":"A colleague proposes discharging before a pending result is reviewed."}},{"id":"logistics","name":"Logistics, warehousing, and distribution","company":"Meridian Logistics","term":["order","orders"],"stages":["Receiving","Put-away and storage","Picking and packing","Loading check","Final dispatch check","Delivery and proof of delivery"],"skins":{"E01":"Pickers use an outdated slotting or handling instruction.","E02":"A scale or scanner drifts; quantities are wrong.","E04":"A carrier substitutes an unapproved vehicle for a temperature-controlled load.","E05":"A customer reports a wrong item on a delivered order.","E07":"A system outage and a cold store fault occur together.","E08":"A dispatcher proposes sending a load with an unresolved count discrepancy."}},{"id":"professional-services","name":"Professional, financial, and education services","company":"Meridian Advisory","term":["engagement","engagements"],"stages":["Enquiry and scoping","Planning","Delivery or analysis","Peer review","Client sign-off","Aftercare and feedback"],"skins":{"E01":"A team uses an outdated report template.","E02":"A calculation model contains an unverified formula change.","E04":"A data provider supplies a corrupted dataset.","E05":"A client reports an error in a delivered report.","E07":"A key specialist is absent and a system outage occurs.","E08":"A partner proposes sending a deliverable before peer review to meet a deadline."}}],"controls2026":[{"id":"C16","name":"Quality culture and speak-up system","clause":"5.1.1, 7.3, 7.1.4","clause2015":"5.1.1, 7.3, 7.1.4","cost":2,"effect":"Prevents the adjusted-reading and unreported near-miss events (E17, E18); once per game a near-miss is reported and fixed before it becomes a defect","edition":"2026","confidence":"High (5.1.1, 7.3); Medium (7.1.4)","verifyStatus":"unverified","basis":"Reported new 2026 expectation that top management promotes and demonstrates quality culture and ethical behavior, with awareness extended to culture and ethics. Paraphrased from secondary commentary; check 5.1.1, 7.3 and the note under 7.1.4 in the purchased text."},{"id":"C17","name":"Organizational knowledge capture","clause":"7.1.6","clause2015":"7.1.6","cost":2,"effect":"Prevents the knowledge-loss event (E19); halves the impact of a problem type the team has met before","edition":"2026","confidence":"Medium","verifyStatus":"unverified","basis":"Reported broadening of organizational knowledge and its link to intended results. Two sources. Check 7.1.6 in the purchased text."}],"events2026":[{"id":"E17","text":"A supervisor suggests adjusting a recorded reading so that a work item avoids a hold.","mitigatedBy":["C16","C09"],"impact":"The adjusted record lets a defective work item pass the final check (with C16 or C09 the true value is recorded and the item is held)","edition":"2026","confidence":"High","clause":"5.1.1, 8.7","verifyStatus":"unverified","basis":"Models the reported 5.1.1 expectation on ethical behavior in records (High). The game effect is a training device, not a requirement."},{"id":"E18","text":"A near-miss goes unreported because an earlier reporter was reprimanded.","mitigatedBy":["C16"],"impact":"1 work item fails later (passes the final check undetected)","edition":"2026","confidence":"High","clause":"5.1.1, 7.3","verifyStatus":"unverified","basis":"Models the reported culture and awareness changes (High). The game effect is a training device."},{"id":"E19","text":"An experienced lead of the core process moves to another role; undocumented know-how is lost.","mitigatedBy":["C17"],"impact":"Core process defect probability +10 points for two rounds","edition":"2026","confidence":"Medium","clause":"7.1.6","verifyStatus":"unverified","basis":"Models the reported broadening of 7.1.6 (Medium, two sources)."},{"id":"E20","text":"Opportunity: a trial of an improved measuring or automation tool is offered.","mitigatedBy":["C12"],"impact":"Teams that own C12 may invest 2 QP for a permanent final check detection increase of 5 points; others cannot take it up","edition":"2026","confidence":"High","clause":"6.1.1 to 6.1.3","verifyStatus":"unverified","opportunity":true,"basis":"Models the reported separation of risks and opportunities in 6.1 (High). Subclause numbering 6.1.1 to 6.1.3 is reported, not verified."}]}</script>
 <script>
 /* Quality Flow simulation engine. Pure JavaScript, no dependencies.
    Used inline by games/quality-flow/index.html and directly by tests. */
@@ -135,6 +139,21 @@ var QF = (function () {
     { n: 11, name: 'Internal audit evidence', controls: ['C11'] },
     { n: 12, name: 'Customer feedback handling and requirements review', controls: ['C13', 'C15'] }
   ];
+  // 2026 and bridge modes add two checks (Appendix A.6.3). Maximum audit points rise from 24 to 28.
+  // PRELIMINARY: C16 and C17 model reported 2026 changes that are not yet verified against the standard.
+  var AUDIT_CHECKS_2026 = AUDIT_CHECKS.concat([
+    { n: 13, name: 'Culture and ethics evidence', controls: ['C16'] },
+    { n: 14, name: 'Organizational knowledge', controls: ['C17'] }
+  ]);
+  var EDITIONS = ['2015', '2026', 'bridge'];
+  function isNewEdition(ed) { return ed === '2026' || ed === 'bridge'; }
+  function auditChecksFor(ed) { return isNewEdition(ed) ? AUDIT_CHECKS_2026 : AUDIT_CHECKS; }
+  function auditMax(ed) { return auditChecksFor(ed).length * 2; }
+  // Returns the control and event decks for an edition. 2015 returns the base decks unchanged.
+  function decksFor(ed, controls, events, controls2026, events2026) {
+    if (!isNewEdition(ed)) return { controls: controls, events: events };
+    return { controls: controls.concat(controls2026 || []), events: events.concat(events2026 || []) };
+  }
 
   // Controls that count as used every round once owned (routine daily use).
   var ALWAYS_USED = ['C01', 'C02', 'C03', 'C04', 'C05', 'C08', 'C15'];
@@ -161,6 +180,8 @@ var QF = (function () {
   // other rolls happened. A replay with the same seed and different purchases therefore changes
   // outcomes only where a control actually applies.
   var PURPOSE = { defect: 1, detect: 2, c07: 3, errel: 4, press: 5, deliv: 6, redo: 7, redoesc: 8 };
+  // Controls that count as routinely used once owned in 2026 and bridge modes.
+  var ALWAYS_USED_2026 = ['C16', 'C17'];
   function draw(g, t, purpose, itemId, stageIdx) {
     return mulberry32(mix(g.cfg.seed + (t.index + 1) * 7919, g.round * 64 + PURPOSE[purpose], itemId * 17 + (stageIdx || 0)))();
   }
@@ -204,6 +225,8 @@ var QF = (function () {
         queues: [[], [], [], [], [], []], pendingHolds: [], nextId: 1,
         log: [], history: [], lastRound: null
       });
+      // Only games in 2026 or bridge mode carry the edition on each team, so 2015 state is unchanged.
+      if (isNewEdition(cfg.edition)) g.teams[n].edition = cfg.edition;
     }
     return g;
   }
@@ -232,6 +255,7 @@ var QF = (function () {
     g.phase = 'invest';
     g.teams.forEach(function (t) {
       t.lastRound = null;
+      if (t.opportunityOffered) t.opportunityOffered = false;
       if (g.round > 1) t.qp += g.cfg.qpPerRound;
       if (g.cfg.budgetShockRound && g.round === g.cfg.budgetShockRound) {
         t.qp = Math.floor(t.qp / 2);
@@ -259,7 +283,10 @@ var QF = (function () {
 
   function perturb(t, n, id) {
     // A corrective action halves the impact of that event type.
-    return t.corrective[id] ? Math.floor(n / 2) : n;
+    var r = t.corrective[id] ? Math.floor(n / 2) : n;
+    // 2026 control C17 (knowledge capture) halves the impact of a problem the team has met before.
+    if (t.owned.C17 && t.eventsSeen.indexOf(id) >= 0) { r = Math.floor(r / 2); t.used.C17 = true; }
+    return r;
   }
 
   function newItem(t) { return { id: t.nextId++, defective: false, origin: -1, falsePass: false, forceDetect: false, pressure: false }; }
@@ -303,7 +330,11 @@ var QF = (function () {
       case 'E07': { mitigated = owns('C14'); if (mitigated) t.used.C14 = true; force(3, perturb(t, owns('C14') ? 1 : 2, 'E07')); } break;
       case 'E08': ctx.injectDetected = 1; ctx.pressure = !owns('C12'); mitigated = owns('C12'); break;
       case 'E09':
-        if (t.escapes > 0 && !owns('C10')) { t.penalties += 15; t.externalFailure += 15; impact = 'repeat penalty -15'; }
+        if (t.escapes > 0 && !owns('C10')) {
+          var rp = owns('C17') ? 7 : 15;
+          t.penalties += rp; t.externalFailure += rp; impact = 'repeat penalty -' + rp;
+          if (owns('C17')) t.used.C17 = true;
+        }
         else mitigated = true;
         if (owns('C10')) t.used.C10 = true;
         break;
@@ -321,7 +352,27 @@ var QF = (function () {
         if (owns('C11')) { mitigated = true; }
         else { var pen = owns('C02') ? 4 : 8; t.penalties += pen; t.externalFailure += pen; if (!owns('C02')) t.rep = Math.max(0, t.rep - 1); impact = 'penalty -' + pen; }
         break;
+      // ----- 2026 and bridge mode events (PRELIMINARY; Appendix A.6.3) -----
+      case 'E17':
+        // Suggestion to adjust a recorded reading. With C16 or C09 the true value is recorded and the
+        // work item is held; otherwise the adjusted record lets a defective work item pass.
+        if (owns('C16') || owns('C09')) { mitigated = true; ctx.inject17 = 'held'; if (owns('C16')) t.used.C16 = true; if (owns('C09')) t.used.C09 = true; }
+        else { ctx.inject17 = 'adjusted'; impact = 'reading adjusted; defective work item passes'; }
+        break;
+      case 'E18':
+        if (owns('C16')) { mitigated = true; t.used.C16 = true; }
+        else { ctx.falsePass += perturb(t, 1, 'E18'); impact = 'unreported near-miss; 1 work item fails later'; }
+        break;
+      case 'E19':
+        if (owns('C17')) { mitigated = true; t.used.C17 = true; }
+        else { t.knowledgeLoss = 2; t.knowledgeLossAdd = t.corrective.E19 ? 0.05 : 0.10; impact = 'core defect probability +' + Math.round(t.knowledgeLossAdd * 100) + ' points for 2 rounds'; }
+        break;
+      case 'E20':
+        if (owns('C12')) { mitigated = true; t.used.C12 = true; t.opportunityOffered = true; impact = 'opportunity available (2 QP)'; }
+        else impact = 'opportunity not captured (needs C12)';
+        break;
     }
+    if (t.knowledgeLoss > 0) { ctx.coreProbAdd += t.knowledgeLossAdd; t.knowledgeLoss--; }
     roundStats.mitigated = mitigated; roundStats.impact = impact;
     if (mitigated && ev.mitigatedBy.some(owns)) {
       ev.mitigatedBy.forEach(function (id) { if (owns(id)) t.used[id] = true; });
@@ -332,10 +383,17 @@ var QF = (function () {
     // Release new work items.
     for (var i = 0; i < cfg.workItemsReleasedPerRound; i++) t.queues[0].push(newItem(t));
     if (ctx.injectDetected) { var inj = newItem(t); inj.defective = true; inj.origin = 3; inj.forceDetect = true; inj.pressure = true; t.queues[4].unshift(inj); }
+    if (ctx.inject17) {
+      var i17 = newItem(t); i17.defective = true; i17.origin = 3;
+      if (ctx.inject17 === 'held') i17.forceDetect = true; else i17.falsePass = true;
+      t.queues[4].unshift(i17);
+    }
 
     ALWAYS_USED.forEach(function (id) { if (owns(id)) t.used[id] = true; });
+    ALWAYS_USED_2026.forEach(function (id) { if (owns(id)) t.used[id] = true; });
 
     var detectP = Math.min(0.95, (owns('C08') ? 0.85 : stages[4].detectBase) + (owns('C01') ? 0.10 : 0));
+    if (t.detectBonus) detectP = Math.min(0.95, detectP + t.detectBonus);
 
     function hold(item, stageIdx) {
       if (!owns('C09') && draw(g, t, 'errel', item.id, stageIdx) < eco.erroneousRelease) {
@@ -390,7 +448,13 @@ var QF = (function () {
         take.forEach(function (it) {
           if (!it.defective) {
             if (f > 0) { it.defective = true; it.origin = s; f--; }
-            else if (draw(g, t, 'defect', it.id, s) < Math.min(1, p)) { it.defective = true; it.origin = s; }
+            else if (draw(g, t, 'defect', it.id, s) < Math.min(1, p)) {
+              if (owns('C16') && !t.nearMissUsed) {
+                // C16: once per game a near-miss is reported and fixed before it becomes a defect.
+                t.nearMissUsed = true; t.used.C16 = true;
+                t.log.push({ round: g.round, kind: 'control', text: 'C16 speak-up: a near-miss at ' + st.name + ' was reported and fixed before it became a defect' });
+              } else { it.defective = true; it.origin = s; }
+            }
           }
         });
         take.forEach(function (it) {
@@ -446,9 +510,18 @@ var QF = (function () {
     return true;
   }
 
+  // 2026 opportunity (event E20): a team that owns C12 may invest 2 QP for a permanent +5 point detection increase.
+  function captureOpportunity(g, t) {
+    if (!t.opportunityOffered || t.qp < 2) return false;
+    t.qp -= 2; t.spentQP += 2; t.opportunityOffered = false;
+    t.detectBonus = Math.round(((t.detectBonus || 0) + 0.05) * 100) / 100;
+    t.log.push({ round: g.round, kind: 'control', text: 'E20 opportunity captured: final check detection +5 points (2 QP)' });
+    return true;
+  }
+
   function finalAudit(t) {
     var total = 0;
-    var rows = AUDIT_CHECKS.map(function (c) {
+    var rows = auditChecksFor(t.edition).map(function (c) {
       var owned = c.controls.some(function (id) { return t.owned[id]; });
       var used = c.controls.some(function (id) { return t.owned[id] && t.used[id]; });
       var pts = (owned ? 1 : 0) + (owned && used ? 1 : 0);
@@ -480,6 +553,7 @@ var QF = (function () {
         var st = strategy[t.index % strategy.length] || strategy[0];
         if (st.order !== 'none') st.order.forEach(function (id) { buy(g, t, id); });
         runFlow(g, t);
+        if (t.opportunityOffered && st.captureOpportunity !== false) captureOpportunity(g, t);
         resolveHolds(g, t, t.pendingHolds.map(function () { return st.disposition || 'redo'; }));
         if (t.owned.C10 && g.round % 3 === 0) {
           var best = t.eventsSeen.filter(function (id) { return !t.corrective[id]; })[0];
@@ -502,7 +576,8 @@ var QF = (function () {
   }
 
   return {
-    DEFAULT_CONFIG: DEFAULT_CONFIG, AUDIT_CHECKS: AUDIT_CHECKS,
+    DEFAULT_CONFIG: DEFAULT_CONFIG, AUDIT_CHECKS: AUDIT_CHECKS, AUDIT_CHECKS_2026: AUDIT_CHECKS_2026, EDITIONS: EDITIONS,
+    isNewEdition: isNewEdition, auditChecksFor: auditChecksFor, auditMax: auditMax, decksFor: decksFor, captureOpportunity: captureOpportunity,
     createGame: createGame, buy: buy, startRound: startRound, runFlow: runFlow,
     resolveHolds: resolveHolds, applyCorrective: applyCorrective, correctiveAvailable: correctiveAvailable, finalAudit: finalAudit,
     score: score, autoPlay: autoPlay, csv: csv, eventText: eventText, mulberry32: mulberry32, ownedCount: ownedCount
@@ -527,7 +602,27 @@ var app = {
 function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 function n1(n) { var r = Math.round(n * 10) / 10; return (r < 0 ? '−' : '') + Math.abs(r); }
 function packById(id) { return DATA.packs.filter(function (p) { return p.id === id; })[0] || DATA.packs[0]; }
-function ctl(id) { return DATA.controls.filter(function (c) { return c.id === id; })[0]; }
+var CONTROLS_2026 = DATA.controls2026 || [], EVENTS_2026 = DATA.events2026 || [];
+var CAUTION_TEXT = 'This section describes the 2026 edition of ISO 9001 using the best available secondary commentary and informed estimates. It has not been verified against the published standard and may contain errors, omissions, or incorrect clause references. Do not use it as a substitute for the standard in audit preparation, certification decisions, procedure revisions, or training records. Always consult the published ISO 9001:2026 text and your certification body.';
+function curEdition() { return String((app.game && app.screen !== 'setup' ? app.game.cfg.edition : app.setupCfg.edition) || '2015'); }
+function isNew() { return QF.isNewEdition(curEdition()); }
+function decks() { return QF.decksFor(curEdition(), DATA.controls, DATA.events, CONTROLS_2026, EVENTS_2026); }
+function ctlList() { return decks().controls; }
+function evList() { return decks().events; }
+function evById(id) { return DATA.events.concat(EVENTS_2026).filter(function (e) { return e.id === id; })[0]; }
+function ctl(id) { return DATA.controls.concat(CONTROLS_2026).filter(function (c) { return c.id === id; })[0]; }
+function cautionBox() {
+  return '<aside class="caution" role="note" aria-label="Preliminary 2026 information"><div class="caution-label">Preliminary 2026 information</div><p><b>CAUTION: PRELIMINARY 2026 INFORMATION.</b> ' + CAUTION_TEXT + '</p></aside>';
+}
+function confBadge(item) { return item && item.edition === '2026' ? '<span class="conf" title="Confidence label for this 2026 item">2026 • ' + esc(item.confidence) + ' • unverified</span>' : ''; }
+// Clause reference by edition. Bridge mode shows "2015 / 2026". The other controls are reported to keep their numbers.
+function clauseRef(c) {
+  var ed = curEdition(), c15 = c.clause2015 || c.clause, c26 = c.clause;
+  if (ed === 'bridge') return c15 + ' / ' + c26;
+  if (ed === '2026') return c26;
+  return c15;
+}
+function editionLabel() { var ed = curEdition(); return ed === 'bridge' ? 'Bridge mode (2015 / 2026)' : ed === '2026' ? '2026 mode (preliminary)' : '2015 edition'; }
 function live(msg) { var el = document.getElementById('live'); if (el) el.textContent = msg; }
 function stageName(i) { return app.game.cfg.stages[i] ? app.game.cfg.stages[i].name : ''; }
 function term(plural) { var p = packById(app.game ? app.game.cfg.industryPack : app.setupCfg.industryPack); return plural ? p.term[1] : p.term[0]; }
@@ -543,6 +638,7 @@ function validateCfg(c) {
   if (!c.stages[4] || c.stages[4].id !== 'check') return 'The fifth stage must be the final check (id "check").';
   if (!packById(c.industryPack) || packById(c.industryPack).id !== c.industryPack) return 'industryPack must be one of the pack ids in this file.';
   if (!c.economics || typeof c.economics.goodItem !== 'number') return 'economics is missing or incomplete.';
+  if (c.edition != null && QF.EDITIONS.indexOf(String(c.edition)) < 0) return 'edition must be "2015", "2026" or "bridge".';
   return '';
 }
 
@@ -562,7 +658,8 @@ function clearSaved() { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /
 function newGame(cfg, names) {
   var pack = packById(cfg.industryPack);
   app.cfgUsed = JSON.parse(JSON.stringify(cfg));
-  app.game = QF.createGame(cfg, DATA.controls, DATA.events, pack);
+  var dk = QF.decksFor(cfg.edition, DATA.controls, DATA.events, CONTROLS_2026, EVENTS_2026);
+  app.game = QF.createGame(cfg, dk.controls, dk.events, pack);
   app.names = names.slice();
   app.game.teams.forEach(function (t, i) { t.name = names[i] || ('Team ' + (i + 1)); });
   app.actions = []; app.decisions = {}; app.corr = {};
@@ -603,6 +700,10 @@ function doNext() {
   save();
   live(app.phase === 'final' ? 'Game complete. Final audit shown.' : 'Round ' + g.round + ' started. Invest step.');
 }
+function doOpportunity(ti) {
+  var g = app.game;
+  if (QF.captureOpportunity(g, g.teams[ti])) { app.actions.push({ t: 'opp', team: ti }); save(); live(g.teams[ti].name + ' captured the opportunity'); }
+}
 function replaySaved(sv) {
   newGame(sv.cfg, sv.names || []);
   sv.actions.forEach(function (a) {
@@ -610,6 +711,7 @@ function replaySaved(sv) {
     else if (a.t === 'run') doRun();
     else if (a.t === 'resolve') { app.decisions = a.d; doResolve(); }
     else if (a.t === 'next') { app.corr = a.c || {}; doNext(); }
+    else if (a.t === 'opp') doOpportunity(a.team);
   });
 }
 
@@ -641,7 +743,7 @@ function render() {
     html = renderSetup();
   } else {
     var g = app.game, pack = packById(g.cfg.industryPack);
-    meta.textContent = g.cfg.company + ' • ' + pack.name + ' • Seed ' + g.cfg.seed + ' • ' + (app.screen === 'final' ? 'Final audit' : 'Round ' + g.round + ' of ' + g.cfg.rounds);
+    meta.textContent = g.cfg.company + ' • ' + pack.name + ' • ' + editionLabel() + ' • Seed ' + g.cfg.seed + ' • ' + (app.screen === 'final' ? 'Final audit' : 'Round ' + g.round + ' of ' + g.cfg.rounds);
     var tabs = [['fac', 'Facilitator view']];
     g.teams.forEach(function (t, i) { tabs.push(['team' + i, t.name]); });
     tabs.push(['ref', 'Controls and events']);
@@ -655,6 +757,9 @@ function render() {
     else if (app.view === 'final') html = renderFinal();
     else html = renderTeam(app.teamView);
   }
+  if (isNew()) html = cautionBox() + html;
+  var en = document.getElementById('edition-note');
+  if (en) en.textContent = curEdition() === 'bridge' ? 'Clause references are shown as 2015 / 2026; 2026 references are preliminary and unverified.' : curEdition() === '2026' ? 'Clause references use the reported 2026 numbering, which is preliminary and unverified.' : 'Clause references use the 2015 edition numbering.';
   document.getElementById('app').innerHTML = html;
   if (fid) { var el = document.querySelector('[data-fid="' + fid + '"]'); if (el) el.focus({ preventScroll: true }); }
   window.scrollTo(0, scrollY);
@@ -674,6 +779,9 @@ function renderSetup() {
     '<label for="f-pack">Industry pack</label><select id="f-pack" data-field="industryPack">' +
       packs.map(function (p) { return '<option value="' + esc(p.id) + '"' + (p.id === c.industryPack ? ' selected' : '') + '>' + esc(p.name) + ' (' + esc(p.company) + ')</option>'; }).join('') + '</select>' +
     '<p class="muted">The pack supplies stage names, the work item term and event wording. Mechanics and clause tags never change.</p>' +
+    '<label for="f-edition">Edition</label><select id="f-edition" data-field="edition">' +
+      [['2015', '2015 (current certified baseline)'], ['2026', '2026 mode (preliminary, adds C16, C17, E17 to E20)'], ['bridge', 'Bridge mode (2026 mechanics, clauses shown as 2015 / 2026)']].map(function (o) { return '<option value="' + o[0] + '"' + (String(c.edition || '2015') === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>' +
+    (QF.isNewEdition(String(c.edition)) ? '<p class="muted">2026 and bridge modes add controls C16 (quality culture and speak-up) and C17 (knowledge capture), events E17 to E20, and audit checks 13 and 14. Every 2026 item shows its confidence label. All 2026 content is preliminary and unverified.</p>' : '<p class="muted">2015 mode plays the core game. 2026 and bridge modes are preliminary.</p>') +
     '<label for="f-teams">Number of teams (1 to 6)</label><input id="f-teams" type="number" min="1" max="6" value="' + c.teams + '" data-field="teams">' +
     '<label for="f-rounds">Rounds</label><select id="f-rounds" data-field="rounds"><option value="6"' + (c.rounds === 6 ? ' selected' : '') + '>6 (short form, about 40 minutes)</option><option value="12"' + (c.rounds === 12 ? ' selected' : '') + '>12 (full game, 60 to 90 minutes)</option>' +
       (c.rounds !== 6 && c.rounds !== 12 ? '<option value="' + c.rounds + '" selected>' + c.rounds + ' (custom)</option>' : '') + '</select>' +
@@ -694,8 +802,9 @@ function renderSetup() {
     '<li><b>Process.</b> Work items pass six stages. Defects occur by chance. The final check detects some defects. Defects that pass are escapes and trigger complaints.</li>' +
     '<li><b>Disposition.</b> Choose redo or scrap for each held work item. Redo costs less on average but is not guaranteed.</li>' +
     '<li><b>Score.</b> Revenue, reputation and QP update. Every third round, teams with the corrective action control choose a past event to correct.</li>' +
-    '<li><b>Audit.</b> At the end, a mock audit awards points for owning controls and for using them.</li></ol>' +
-    '<p>Final score = revenue + audit points (maximum 24) + reputation × 3 − penalties.</p></div>';
+    '<li><b>Audit.</b> At the end, a mock audit awards points for owning controls and for using them.</li>' +
+    (QF.isNewEdition(String(c.edition)) ? '<li><b>2026 additions.</b> Culture, speak-up and knowledge events can strike. An opportunity card (E20) can be taken up only by teams that own C12.</li>' : '') + '</ol>' +
+    '<p>Final score = revenue + audit points (maximum ' + QF.auditMax(String(c.edition)) + ') + reputation × 3 − penalties.</p></div>';
 }
 
 function stageBoard(t) {
@@ -710,8 +819,8 @@ function stageBoard(t) {
 
 function eventCard(showFull) {
   var g = app.game, ev = g.event;
-  var mit = ev.mitigatedBy.map(function (id) { var c = ctl(id); return esc(id + ' ' + c.name + ' (Cl. ' + c.clause + ')'); }).join('; ');
-  return '<div class="event" aria-label="Event card"><div class="id">Event ' + esc(ev.id) + ' • Round ' + g.round + '</div>' +
+  var mit = ev.mitigatedBy.map(function (id) { var c = ctl(id); return esc(id + ' ' + c.name + ' (Cl. ' + clauseRef(c) + ')'); }).join('; ');
+  return '<div class="event" aria-label="Event card"><div class="id">Event ' + esc(ev.id) + ' • Round ' + g.round + (ev.opportunity ? ' <span class="badge ok">OPPORTUNITY</span>' : '') + confBadge(ev) + '</div>' +
     '<div class="txt">' + esc(QF.eventText(g, ev)) + '</div>' +
     (showFull ? '<div><b>Mitigated by:</b> ' + mit + '</div><div><b>Impact if unmitigated:</b> ' + esc(ev.impact) + '</div>' : '') + '</div>';
 }
@@ -753,7 +862,7 @@ function scoreboard(rows) {
   var g = app.game;
   return '<table><caption class="sr">Team scoreboard</caption><thead><tr><th>Rank</th><th>Team</th><th class="num">QP</th><th class="num">Controls</th><th class="num">Delivered</th><th class="num">Escapes</th><th class="num">Scrapped</th><th class="num">Revenue</th><th class="num">Reputation</th><th class="num">Score so far</th><th>Status</th></tr></thead><tbody>' +
     rows.map(function (t, i) {
-      return '<tr><td>' + (i + 1) + '</td><td>' + esc(t.name) + '</td><td class="num">' + t.qp + '</td><td class="num">' + QF.ownedCount(t) + ' of ' + DATA.controls.length + '</td><td class="num">' + t.delivered + '</td><td class="num">' + t.escapes + '</td><td class="num">' + t.scrapped + '</td><td class="num">' + n1(t.revenue) + '</td><td class="num">' + n1(t.rep) + '</td><td class="num"><b>' + n1(runningScore(t)) + '</b></td><td>' + (t.rep <= 0 ? '<span class="badge warn">SUPPLY ON HOLD</span>' : '<span class="badge ok">ACTIVE</span>') + '</td></tr>';
+      return '<tr><td>' + (i + 1) + '</td><td>' + esc(t.name) + '</td><td class="num">' + t.qp + '</td><td class="num">' + QF.ownedCount(t) + ' of ' + ctlList().length + '</td><td class="num">' + t.delivered + '</td><td class="num">' + t.escapes + '</td><td class="num">' + t.scrapped + '</td><td class="num">' + n1(t.revenue) + '</td><td class="num">' + n1(t.rep) + '</td><td class="num"><b>' + n1(runningScore(t)) + '</b></td><td>' + (t.rep <= 0 ? '<span class="badge warn">SUPPLY ON HOLD</span>' : '<span class="badge ok">ACTIVE</span>') + '</td></tr>';
     }).join('') + '</tbody></table><p class="muted">Score so far excludes audit points, which are added at the end.</p>';
 }
 
@@ -768,22 +877,23 @@ function costTable(g) {
 function renderTeam(ti) {
   var g = app.game, t = g.teams[ti], ph = app.phase;
   var html = '<h2>' + esc(t.name) + ' • Team view</h2>';
-  html += '<div class="kpis"><div class="kpi">Quality Points<b>' + t.qp + '</b></div><div class="kpi">Controls owned<b>' + QF.ownedCount(t) + ' of ' + DATA.controls.length + '</b></div><div class="kpi">Reputation<b>' + n1(t.rep) + '</b></div><div class="kpi">Revenue<b>' + n1(t.revenue) + '</b></div><div class="kpi">Escapes<b>' + t.escapes + '</b></div><div class="kpi">Delivered<b>' + t.delivered + '</b></div></div>';
+  html += '<div class="kpis"><div class="kpi">Quality Points<b>' + t.qp + '</b></div><div class="kpi">Controls owned<b>' + QF.ownedCount(t) + ' of ' + ctlList().length + '</b></div><div class="kpi">Reputation<b>' + n1(t.rep) + '</b></div><div class="kpi">Revenue<b>' + n1(t.revenue) + '</b></div><div class="kpi">Escapes<b>' + t.escapes + '</b></div><div class="kpi">Delivered<b>' + t.delivered + '</b></div></div>';
   if (t.rep <= 0) html += '<p><span class="badge warn">SUPPLY ON HOLD</span> The customer has placed supply on hold. Remaining output earns half value.</p>';
   html += '<h3>Workflow (' + esc(term(true)) + ')</h3>' + stageBoard(t);
   if (ph !== 'invest') html += '<h3>This round</h3>' + eventCard(false) + roundResult(t);
   if (ph === 'disposition') html += dispositionPanel(t);
+  if (ph === 'disposition' || ph === 'done') html += opportunityPanel(t, ti);
   if (ph === 'done') html += correctivePanel(t);
   html += '<h3>Controls' + (ph === 'invest' ? ' (Invest step: buy now)' : '') + '</h3>';
   if (ph !== 'invest') html += '<p class="muted">Purchases open again at the next Invest step.</p>';
-  html += '<div class="shop">' + DATA.controls.map(function (c) {
+  html += '<div class="shop">' + ctlList().map(function (c) {
     var owned = !!t.owned[c.id];
     var btn;
     if (owned) btn = '<span class="badge ok">OWNED</span>';
     else if (ph !== 'invest') btn = '<span class="muted">Not owned</span>';
     else if (t.qp < c.cost) btn = '<button type="button" disabled data-fid="buy-' + ti + '-' + c.id + '">Buy (' + c.cost + ' QP)</button> <span class="muted">Needs ' + (c.cost - t.qp) + ' more QP</span>';
     else btn = '<button type="button" class="primary" data-act="buy" data-team="' + ti + '" data-id="' + c.id + '" data-fid="buy-' + ti + '-' + c.id + '">Buy (' + c.cost + ' QP)</button>';
-    return '<div class="ctl' + (owned ? ' owned' : '') + '"><div class="head"><span>' + esc(c.id) + ' ' + esc(c.name) + '</span><span>' + c.cost + ' QP</span></div><small>Clause ' + esc(c.clause) + '</small><div>' + esc(c.effect) + '</div><div style="margin-top:.3rem">' + btn + '</div></div>';
+    return '<div class="ctl' + (owned ? ' owned' : '') + '"><div class="head"><span>' + esc(c.id) + ' ' + esc(c.name) + '</span><span>' + c.cost + ' QP</span></div><small>Clause ' + esc(clauseRef(c)) + confBadge(c) + '</small><div>' + esc(c.effect) + '</div><div style="margin-top:.3rem">' + btn + '</div></div>';
   }).join('') + '</div>';
   if (t.gaps.length) html += '<h3>Internal audit gaps found</h3><ul>' + t.gaps.map(function (id) { return '<li>' + esc(id + ' ' + ctl(id).name) + ' (no evidence at the time of the audit)</li>'; }).join('') + '</ul>';
   html += '<details><summary>Team log</summary><ul class="log">' + t.log.slice(-40).reverse().map(function (l) { return '<li>R' + l.round + ' [' + esc(l.kind) + '] ' + esc(l.text) + '</li>'; }).join('') + '</ul></details>';
@@ -808,6 +918,11 @@ function dispositionPanel(t) {
     }).join('') + '</div>';
 }
 
+function opportunityPanel(t, ti) {
+  if (!t.opportunityOffered) return '';
+  return '<div class="panel"><h3>Opportunity (E20)</h3><p>Your management review and objectives control (C12) lets you take up the trial. Invest 2 QP for a permanent final check detection increase of 5 points. Risks and opportunities are reported to be addressed more distinctly in 2026 (6.1, High, unverified).</p>' +
+    (t.qp >= 2 ? '<button type="button" class="primary" data-act="opp" data-team="' + ti + '" data-fid="opp-' + ti + '">Invest 2 QP in the trial</button>' : '<p class="muted">Needs 2 QP.</p>') + '</div>';
+}
 function correctivePanel(t) {
   var gm = app.game;
   if (!QF.correctiveAvailable(gm, t) || isLast()) return '';
@@ -815,27 +930,29 @@ function correctivePanel(t) {
   if (!opts.length) return '';
   return '<div class="panel"><h3>Corrective action opportunity</h3><p>Choose a past event. Name its cause with 5 Whys, then record the corrective action. Its future impact is halved.</p>' +
     '<label for="corr-' + t.index + '">Event to correct</label><select id="corr-' + t.index + '" data-corr="' + t.index + '"><option value="">No action this time</option>' +
-    opts.map(function (id) { var ev = DATA.events.filter(function (e) { return e.id === id; })[0]; return '<option value="' + id + '"' + (app.corr[t.index] === id ? ' selected' : '') + '>' + esc(id + ': ' + QF.eventText(gm, ev)) + '</option>'; }).join('') + '</select></div>';
+    opts.map(function (id) { var ev = evById(id); return '<option value="' + id + '"' + (app.corr[t.index] === id ? ' selected' : '') + '>' + esc(id + ': ' + QF.eventText(gm, ev)) + '</option>'; }).join('') + '</select></div>';
 }
 
 function renderRef() {
   var gm = app.game;
-  return '<h2>Controls</h2><table><thead><tr><th>ID</th><th>Control</th><th>Clause (2015)</th><th class="num">QP</th><th>Effect</th></tr></thead><tbody>' +
-    DATA.controls.map(function (c) { return '<tr><td>' + c.id + '</td><td>' + esc(c.name) + '</td><td>' + esc(c.clause) + '</td><td class="num">' + c.cost + '</td><td>' + esc(c.effect) + '</td></tr>'; }).join('') + '</tbody></table>' +
+  var ed = curEdition(), hdr = ed === 'bridge' ? 'Clause (2015 / 2026)' : ed === '2026' ? 'Clause (2026, preliminary)' : 'Clause (2015)';
+  return '<h2>Controls</h2><table><thead><tr><th>ID</th><th>Control</th><th>' + hdr + '</th><th class="num">QP</th><th>Effect</th></tr></thead><tbody>' +
+    ctlList().map(function (c) { return '<tr><td>' + c.id + '</td><td>' + esc(c.name) + '</td><td>' + esc(clauseRef(c)) + confBadge(c) + '</td><td class="num">' + c.cost + '</td><td>' + esc(c.effect) + (isNew() && c.id === 'C12' ? ' 2026 mode: also lets the team take up opportunity cards (E20).' : '') + '</td></tr>'; }).join('') + '</tbody></table>' +
+    (isNew() ? '<p class="muted">Controls other than C16 and C17 are reported to keep their clause numbers in 2026 (Medium; verify). C16 and C17 cost 4 QP in total.</p>' : '') +
     '<h2>Event deck (sector wording for this game)</h2><table><thead><tr><th>ID</th><th>Event</th><th>Mitigated by</th><th>Impact if unmitigated</th></tr></thead><tbody>' +
-    DATA.events.map(function (e) { return '<tr><td>' + e.id + '</td><td>' + esc(QF.eventText(gm, e)) + '</td><td>' + esc(e.mitigatedBy.join(', ')) + '</td><td>' + esc(e.impact) + '</td></tr>'; }).join('') + '</tbody></table>';
+    evList().map(function (e) { return '<tr><td>' + e.id + confBadge(e) + '</td><td>' + esc(QF.eventText(gm, e)) + '</td><td>' + esc(e.mitigatedBy.join(', ')) + '</td><td>' + esc(e.impact) + '</td></tr>'; }).join('') + '</tbody></table>';
 }
 
 function renderFinal() {
   var gm = app.game;
   var res = gm.teams.map(function (t) { return { t: t, s: QF.score(t), a: QF.finalAudit(t) }; }).sort(function (x, y) { return y.s.total - x.s.total; });
-  var html = '<h2>Final results</h2><table><thead><tr><th>Rank</th><th>Team</th><th class="num">Revenue</th><th class="num">Audit points (max 24)</th><th class="num">Reputation × 3</th><th class="num">Penalties</th><th class="num">Final score</th></tr></thead><tbody>' +
+  var html = '<h2>Final results</h2><table><thead><tr><th>Rank</th><th>Team</th><th class="num">Revenue</th><th class="num">Audit points (max ' + QF.auditMax(curEdition()) + ')</th><th class="num">Reputation × 3</th><th class="num">Penalties</th><th class="num">Final score</th></tr></thead><tbody>' +
     res.map(function (r, i) { return '<tr><td>' + (i + 1) + '</td><td>' + esc(r.t.name) + '</td><td class="num">' + n1(r.s.revenue) + '</td><td class="num">' + r.s.audit + '</td><td class="num">' + n1(r.s.reputation * 3) + '</td><td class="num">−' + n1(r.s.penalties) + '</td><td class="num"><b>' + n1(r.s.total) + '</b></td></tr>'; }).join('') + '</tbody></table>';
   html += '<h3>Quality cost breakdown</h3>' + costTable(gm);
   html += '<h2>Mock audit by team</h2>';
   res.forEach(function (r) {
-    html += '<details><summary><b>' + esc(r.t.name) + '</b>: ' + r.a.points + ' of 24 audit points</summary><table><thead><tr><th>#</th><th>Check</th><th>Controls</th><th>Owned</th><th>Evidence of use</th><th class="num">Points</th></tr></thead><tbody>' +
-      r.a.rows.map(function (row) { return '<tr><td>' + row.n + '</td><td>' + esc(row.name) + '</td><td>' + esc(row.controls.join(', ')) + '</td><td>' + (row.owned ? 'Yes' : 'No') + '</td><td>' + (row.used ? 'Yes' : 'No') + '</td><td class="num">' + row.points + '</td></tr>'; }).join('') + '</tbody></table>' +
+    html += '<details><summary><b>' + esc(r.t.name) + '</b>: ' + r.a.points + ' of ' + QF.auditMax(curEdition()) + ' audit points</summary><table><thead><tr><th>#</th><th>Check</th><th>Controls</th><th>Owned</th><th>Evidence of use</th><th class="num">Points</th></tr></thead><tbody>' +
+      r.a.rows.map(function (row) { return '<tr><td>' + row.n + '</td><td>' + esc(row.name) + (row.n > 12 ? confBadge(ctl(row.controls[0])) : '') + '</td><td>' + esc(row.controls.join(', ')) + '</td><td>' + (row.owned ? 'Yes' : 'No') + '</td><td>' + (row.used ? 'Yes' : 'No') + '</td><td class="num">' + row.points + '</td></tr>'; }).join('') + '</tbody></table>' +
       (r.t.auditPenalty ? '<p>Audit points reduced by ' + r.t.auditPenalty + ' (measuring resource found overdue).</p>' : '') + '</details>';
   });
   html += '<h2>Clause mapping debrief</h2><p>For each event your team met, name the clause. Then check the table.</p>';
@@ -843,8 +960,8 @@ function renderFinal() {
     var seen = r.t.eventsSeen;
     html += '<details><summary><b>' + esc(r.t.name) + '</b>: ' + seen.length + ' events</summary><table><thead><tr><th>Round</th><th>Event</th><th>Mitigating control and clause</th><th>Owned</th></tr></thead><tbody>' +
       seen.map(function (id, i) {
-        var ev = DATA.events.filter(function (e) { return e.id === id; })[0];
-        var ms = ev.mitigatedBy.map(function (m) { return m + ' (Cl. ' + ctl(m).clause + ')'; }).join('; ');
+        var ev = evById(id);
+        var ms = ev.mitigatedBy.map(function (m) { return m + ' (Cl. ' + clauseRef(ctl(m)) + ')'; }).join('; ');
         var own = ev.mitigatedBy.filter(function (m) { return r.t.owned[m]; });
         return '<tr><td>' + (i + 1) + '</td><td>' + esc(id + ': ' + QF.eventText(gm, ev)) + '</td><td>' + esc(ms) + '</td><td>' + (own.length ? 'Yes (' + esc(own.join(', ')) + ')' : 'No') + '</td></tr>';
       }).join('') + '</tbody></table></details>';
@@ -857,7 +974,11 @@ function renderFinal() {
     'Which records would you show an auditor? Which were missing?',
     'How does this compare with the factory game on Theory of Constraints?',
     '(Mixed-sector groups) Which controls looked different in your sector, and which looked identical?'
-  ].map(function (q) { return '<li>' + q + '</li>'; }).join('') + '</ol>';
+  ].concat(isNew() ? [
+    '(2026 mode) When the adjusted-reading or unreported near-miss event came up, what made the right action easy or hard? What would a leader need to do differently?',
+    '(2026 mode) Did your team take up the opportunity card? How is managing an opportunity different from managing a risk?',
+    '(2026 mode) Where does know-how in your process live today? What would be lost if one person moved roles?'
+  ] : []).map(function (q) { return '<li>' + q + '</li>'; }).join('') + '</ol>';
   html += '<div class="row noprint"><button type="button" class="primary" data-act="replay" data-fid="replay">Replay with the same seed</button> <button type="button" data-act="csv" data-fid="csv">Download log (CSV)</button> <button type="button" data-act="record" data-fid="record">Download game record (JSON)</button> <button type="button" data-act="print" data-fid="print">Print results</button> <button type="button" data-act="newgame" data-fid="newgame">New game</button></div>';
   if (app.csvText) html += '<details open><summary>Log text</summary><textarea readonly aria-label="Log text">' + esc(app.csvText) + '</textarea></details>';
   return html;
@@ -882,6 +1003,7 @@ document.addEventListener('click', function (e) {
   switch (act) {
     case 'view': { var v = b.getAttribute('data-v'); if (v.indexOf('team') === 0) { app.view = 'team'; app.teamView = parseInt(v.slice(4), 10); } else app.view = v; break; }
     case 'buy': doBuy(parseInt(b.getAttribute('data-team'), 10), b.getAttribute('data-id')); break;
+    case 'opp': doOpportunity(parseInt(b.getAttribute('data-team'), 10)); break;
     case 'run': doRun(); break;
     case 'resolve': doResolve(); break;
     case 'next': doNext(); break;

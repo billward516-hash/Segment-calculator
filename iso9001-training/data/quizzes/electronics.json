@@ -1,0 +1,616 @@
+{
+  "pack": "electronics",
+  "specPrefix": "EL",
+  "specSection": "Appendix C C.2.3",
+  "specPackName": "Electronics and Semiconductor",
+  "company": "Meridian Microworks",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "notes": "Items EL01 to EL12 are the Appendix C seed items (rationales added where the spec gave none). Items EL13 to EL24 were written for this build in the same style (C.5 task 5). Clause tags are references only and are unverified against the purchased standard. clause2015 holds the primary clause; clauseRefs lists every clause the spec or author cited. Spec pack prefix EL maps to pack id \"electronics\".",
+  "items": [
+    {
+      "id": "EL01",
+      "sector": "electronics",
+      "stem": "A technician finds that the process instruction at the station is an earlier revision. What should be done?",
+      "options": [
+        "Stop, obtain the current revision, and notify the supervisor.",
+        "Continue and make a note.",
+        "Ask the previous shift.",
+        "Work from memory."
+      ],
+      "answerIndex": 0,
+      "rationale": "Only current, approved documents are used at the point of use.",
+      "clause2015": "7.5.3",
+      "clauseRefs": [
+        "7.5.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "EL02",
+      "sector": "electronics",
+      "stem": "A thickness gauge shows an expired calibration date. What is correct?",
+      "options": [
+        "Use it with a margin.",
+        "Keep using it and add notes.",
+        "Do not use it; flag it and report it.",
+        "Pass the lot using visual checks only."
+      ],
+      "answerIndex": 2,
+      "rationale": "Equipment past its calibration interval cannot be relied on to give valid results.",
+      "clause2015": "7.1.5",
+      "clauseRefs": [
+        "7.1.5"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "EL03",
+      "sector": "electronics",
+      "stem": "A particle count above the limit is recorded on a lot already staged for packing. What is the first action?",
+      "options": [
+        "Re-measure until it passes.",
+        "Stop the movement, flag and hold the lot, and notify the supervisor and quality.",
+        "Pack it and flag it later.",
+        "Move it to another cart."
+      ],
+      "answerIndex": 1,
+      "rationale": "Nonconforming output is identified and controlled to prevent its unintended use or delivery.",
+      "clause2015": "8.7",
+      "clauseRefs": [
+        "8.7"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "EL04",
+      "sector": "electronics",
+      "stem": "Wafers supplied by a customer for processing are best described as:",
+      "options": [
+        "The organization's inventory.",
+        "A consumable.",
+        "Scrap.",
+        "Customer property to be identified, protected, and reported if lost or damaged."
+      ],
+      "answerIndex": 3,
+      "rationale": "Property belonging to customers is cared for while under the organization's control.",
+      "clause2015": "8.5.3",
+      "clauseRefs": [
+        "8.5.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "EL05",
+      "sector": "electronics",
+      "stem": "A lot is split and recombined without a record. Which requirement is most directly compromised?",
+      "options": [
+        "Traceability.",
+        "Policy.",
+        "Context.",
+        "Infrastructure planning."
+      ],
+      "answerIndex": 0,
+      "rationale": "Where traceability is required, the unique identity of outputs is controlled and recorded.",
+      "clause2015": "8.5.2",
+      "clauseRefs": [
+        "8.5.2"
+      ],
+      "roles": [
+        "F",
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "EL06",
+      "sector": "electronics",
+      "stem": "A cleanroom particle monitor alarms during a run. Which clause area addresses the conditions needed for the process?",
+      "options": [
+        "Context of the organization.",
+        "Quality objectives.",
+        "Environment for the operation of processes.",
+        "Customer property."
+      ],
+      "answerIndex": 2,
+      "rationale": "The organization provides and maintains the environment needed for its processes and for conforming output.",
+      "clause2015": "7.1.4",
+      "clauseRefs": [
+        "7.1.4"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "EL07",
+      "sector": "electronics",
+      "stem": "A chemical lot arrives without its certificate of conformance. What is appropriate?",
+      "options": [
+        "Use it with extra rinsing.",
+        "Hold it and verify it before use.",
+        "Use it on non-critical lots first.",
+        "Ask the operator to judge."
+      ],
+      "answerIndex": 1,
+      "rationale": "Externally provided inputs are verified against requirements before use.",
+      "clause2015": "8.4",
+      "clauseRefs": [
+        "8.4"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "EL08",
+      "sector": "electronics",
+      "stem": "Engineering adjusts a polish pressure recipe. What is required before use?",
+      "options": [
+        "Operators try it on one lot.",
+        "A note in the shift log.",
+        "Verbal approval.",
+        "Review of consequences, authorization, communication, and records."
+      ],
+      "answerIndex": 3,
+      "rationale": "Changes to production are reviewed and controlled, and records describe the change and its authorization.",
+      "clause2015": "8.5.6",
+      "clauseRefs": [
+        "8.5.6"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "EL09",
+      "sector": "electronics",
+      "stem": "A recurring scratch defect has been scrapped each time. What is missing?",
+      "options": [
+        "Cause investigation, action to eliminate the cause, and an effectiveness check.",
+        "More scrapping.",
+        "A new label.",
+        "Nothing."
+      ],
+      "answerIndex": 0,
+      "rationale": "Scrapping is a correction; corrective action removes the cause so the defect does not recur.",
+      "clause2015": "10.2",
+      "clauseRefs": [
+        "10.2"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "EL10",
+      "sector": "electronics",
+      "stem": "Operators record gauge readings at the end of shift from memory. What is the main risk?",
+      "options": [
+        "Higher speed.",
+        "Fewer records.",
+        "Records that cannot serve as reliable objective evidence.",
+        "Lower cost."
+      ],
+      "answerIndex": 2,
+      "rationale": "Records are made at the time of the activity so that they are accurate evidence.",
+      "clause2015": "7.5",
+      "clauseRefs": [
+        "7.5"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "EL11",
+      "sector": "electronics",
+      "stem": "A lot with an open discrepancy is proposed for release to meet a shipment date. What is the correct response?",
+      "options": [
+        "Release it; the schedule matters.",
+        "Hold it until resolved or until release is authorized by a person with the authority (and the customer where applicable).",
+        "Release it at the supervisor's request without records.",
+        "Ship half."
+      ],
+      "answerIndex": 1,
+      "rationale": "Release requires completed verification or authorized approval, with records.",
+      "clause2015": "8.6",
+      "clauseRefs": [
+        "8.6"
+      ],
+      "roles": [
+        "F",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "EL12",
+      "sector": "electronics",
+      "stem": "Why are training records retained?",
+      "options": [
+        "For human resources only.",
+        "To reduce audit time.",
+        "To satisfy equipment vendors.",
+        "As evidence of competence."
+      ],
+      "answerIndex": 3,
+      "rationale": "Retained records show that people are competent for the work they do.",
+      "clause2015": "7.2",
+      "clauseRefs": [
+        "7.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "EL13",
+      "sector": "electronics",
+      "stem": "Meridian Microworks starts offering a wafer reclaim service. What must be checked about its quality management system scope?",
+      "options": [
+        "Nothing; the scope never changes.",
+        "Whether the scope covers the new service, and whether any requirement claimed as not applicable is still justified.",
+        "Only the website wording.",
+        "Only the price list."
+      ],
+      "answerIndex": 1,
+      "rationale": "The scope states the products and services covered, and any requirement judged not applicable must be justified.",
+      "clause2015": "4.3",
+      "clauseRefs": [
+        "4.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "EL14",
+      "sector": "electronics",
+      "stem": "Managers approve quality objectives but never provide resources for the planned actions. What does this show?",
+      "options": [
+        "Weak leadership commitment; top management is expected to make resources available so the system achieves its intended results.",
+        "Strong leadership.",
+        "A calibration problem.",
+        "A customer property problem."
+      ],
+      "answerIndex": 0,
+      "rationale": "Leadership is shown by providing resources and making sure the system achieves its intended results.",
+      "clause2015": "5.1",
+      "clauseRefs": [
+        "5.1"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "EL15",
+      "sector": "electronics",
+      "stem": "A new operator does not know why the particle limit matters to the customer. Which requirement area applies?",
+      "options": [
+        "Infrastructure.",
+        "Design and development.",
+        "Awareness.",
+        "External provider evaluation."
+      ],
+      "answerIndex": 2,
+      "rationale": "People understand how their work contributes to conformity and what happens when requirements are not met.",
+      "clause2015": "7.3",
+      "clauseRefs": [
+        "7.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "EL16",
+      "sector": "electronics",
+      "stem": "Which is a well-formed quality objective for the fab?",
+      "options": [
+        "\"Better yield.\"",
+        "\"Try harder.\"",
+        "\"Reduce customer-reported particle defects below an agreed rate per thousand lots by year end, reviewed monthly.\"",
+        "\"No problems.\""
+      ],
+      "answerIndex": 2,
+      "rationale": "Objectives are measurable, have a time frame, and are monitored.",
+      "clause2015": "6.2",
+      "clauseRefs": [
+        "6.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "EL17",
+      "sector": "electronics",
+      "stem": "A risk review of final clean ranks one failure mode as high. What should follow?",
+      "options": [
+        "Plan actions proportionate to the risk, build them into the process, and evaluate their effectiveness.",
+        "File the review.",
+        "Lower the ranking.",
+        "Wait for a customer complaint."
+      ],
+      "answerIndex": 0,
+      "rationale": "Identified risks lead to planned actions that are integrated into processes and evaluated.",
+      "clause2015": "6.1",
+      "clauseRefs": [
+        "6.1"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "EL18",
+      "sector": "electronics",
+      "stem": "A wet bench is repeatedly used past its scheduled maintenance date. Which requirement is most relevant?",
+      "options": [
+        "Customer property.",
+        "Maintenance of the infrastructure needed for conforming product.",
+        "Quality policy.",
+        "Organizational context."
+      ],
+      "answerIndex": 1,
+      "rationale": "Equipment that the process depends on is provided and maintained.",
+      "clause2015": "7.1.3",
+      "clauseRefs": [
+        "7.1.3"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "EL19",
+      "sector": "electronics",
+      "stem": "An engineering hold on a recipe is announced only by email to day shift. Night shift runs the recipe. What is the gap?",
+      "options": [
+        "Calibration.",
+        "Customer focus.",
+        "Design and development.",
+        "Internal communication that reaches everyone affected."
+      ],
+      "answerIndex": 3,
+      "rationale": "Internal communication defines what is communicated, to whom, when, and how.",
+      "clause2015": "7.4",
+      "clauseRefs": [
+        "7.4"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "EL20",
+      "sector": "electronics",
+      "stem": "A customer asks for a new film stack the fab has never produced. Which requirement area governs planning, reviews, verification, and validation of the new process?",
+      "options": [
+        "Purchasing only.",
+        "Design and development.",
+        "Management review only.",
+        "Customer property."
+      ],
+      "answerIndex": 1,
+      "rationale": "New products and processes that are not already defined are developed through a controlled design and development process.",
+      "clause2015": "8.3",
+      "clauseRefs": [
+        "8.3"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "EL21",
+      "sector": "electronics",
+      "stem": "Lots wait in open carriers outside the cleanroom during a tool outage. Which requirement is most at risk?",
+      "options": [
+        "Quality policy.",
+        "Organizational context.",
+        "Preservation of outputs.",
+        "Internal audit."
+      ],
+      "answerIndex": 2,
+      "rationale": "Outputs are preserved during processing and storage so that conformity is maintained.",
+      "clause2015": "8.5.4",
+      "clauseRefs": [
+        "8.5.4"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "EL22",
+      "sector": "electronics",
+      "stem": "A customer telephones a technician with a complaint. What should happen?",
+      "options": [
+        "Handle it informally.",
+        "Forget it after the call.",
+        "Tell the customer to email someone else.",
+        "Record it and pass it into the customer communication and complaint process."
+      ],
+      "answerIndex": 3,
+      "rationale": "Customer communication includes handling feedback and complaints through a defined route.",
+      "clause2015": "8.2.1",
+      "clauseRefs": [
+        "8.2.1"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "EL23",
+      "sector": "electronics",
+      "stem": "Yield data shows a slow downward trend that has not yet breached any limit. What is expected?",
+      "options": [
+        "Analyze and evaluate the trend and decide whether action is needed.",
+        "Wait for a breach.",
+        "Change the limit.",
+        "Stop collecting the data."
+      ],
+      "answerIndex": 0,
+      "rationale": "Analysis of data looks for trends and opportunities, not only for limit breaches.",
+      "clause2015": "9.1.3",
+      "clauseRefs": [
+        "9.1.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "EL24",
+      "sector": "electronics",
+      "stem": "Which statement describes improvement in the quality management system?",
+      "options": [
+        "Only fixing defects.",
+        "Only buying new tools.",
+        "Only customer audits.",
+        "Selecting and acting on opportunities to improve products, services, processes, and results, including correcting and preventing problems."
+      ],
+      "answerIndex": 3,
+      "rationale": "Improvement covers correction, prevention, and enhancement of results.",
+      "clause2015": "10.1",
+      "clauseRefs": [
+        "10.1"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    }
+  ]
+}

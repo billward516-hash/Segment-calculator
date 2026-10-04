@@ -1,0 +1,917 @@
+{
+  "meta": {
+    "caution": "CAUTION: PRELIMINARY 2026 INFORMATION. This section describes the 2026 edition of ISO 9001 using the best available secondary commentary and informed estimates. It has not been verified against the published standard and may contain errors, omissions, or incorrect clause references. Do not use it as a substitute for the standard in audit preparation, certification decisions, procedure revisions, or training records. Always consult the published ISO 9001:2026 text and your certification body.",
+    "edition": "2026",
+    "verifyStatus": "unverified",
+    "source": "Authored from Appendix A.6.3 and A.6.5 of the program specification. Original wording; fictional settings; no real names or incidents.",
+    "findingNote": "Finding categories shown are illustrative; the certification body determines actual classification.",
+    "cultureScoring": "Each role choice earns 0, 1 or 2 points. A supervisor or manager response that supports the person who raised the concern earns 1 extra point.",
+    "cultureSafety": [
+      "Fictional scenarios only.",
+      "No real names or incidents.",
+      "The facilitator stops any discussion that turns to real individuals.",
+      "Ethics content is reviewed by Human Resources or Legal before delivery; no disciplinary or legal guidance is given in this game."
+    ],
+    "cultureRoles": [
+      "operator",
+      "technician",
+      "supervisor",
+      "manager"
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "S101",
+      "title": "Measure until it passes",
+      "setting": "Final inspection",
+      "narrative": "A final check result on a work item is just outside its limit. The delivery is due in two hours. The shift supervisor tells the inspector to measure again, and then again, until a reading falls inside the limit. The passing reading is recorded and the work item is released.",
+      "evidence": [
+        "Inspection record shows one reading, inside the limit, with no note of the earlier readings",
+        "The inspector says in interview that three earlier readings were outside the limit",
+        "No hold flag or nonconformance record exists for the work item",
+        "The supervisor says the instrument \"reads high sometimes\"; no measurement investigation is recorded"
+      ],
+      "clause": "5.1.1, 8.7",
+      "clause2015": "5.1.1, 8.7",
+      "finding_type": "major (or per certification body)",
+      "expected_action": "Hold and recall or assess the released work item; record the true readings; investigate the measuring method; review how leaders respond under delivery pressure; reinforce the stop-work authority and non-punitive reporting.",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "edition": "2026",
+      "confidence": "High",
+      "confidenceNote": "Culture and ethical behavior in 5.1.1 is reported by multiple sources. Control of nonconforming output (8.7) is a 2015 requirement that already applies.",
+      "verifyStatus": "unverified"
+    },
+    {
+      "id": "S102",
+      "title": "Metrics only",
+      "setting": "Management",
+      "narrative": "Management review minutes for the last two meetings list output, on-time delivery, and scrap figures. There is no record of discussion of reporting behavior, speak-up events, or how leaders support quality decisions under pressure.",
+      "evidence": [
+        "Two sets of minutes with metrics tables and actions on output only",
+        "No agenda item on culture, conduct, or reports raised by staff",
+        "Leaders describe monthly floor walks, but no observations or actions from them are recorded"
+      ],
+      "clause": "5.1.1, 9.3",
+      "clause2015": "5.1.1, 9.3",
+      "finding_type": "observation",
+      "expected_action": "Add a culture and conduct item to the management review agenda; record examples of leadership actions and decisions; link floor-walk observations to actions.",
+      "roles": [
+        "supervisor"
+      ],
+      "edition": "2026",
+      "confidence": "High",
+      "confidenceNote": "5.1.1 change: High. Link to 9.3 inputs is a Best estimate (reasoning: new concepts usually flow into review inputs; check 9.3.2).",
+      "verifyStatus": "unverified"
+    },
+    {
+      "id": "S103",
+      "title": "Awareness gap",
+      "setting": "Training",
+      "narrative": "The induction and annual refresher cover the quality policy, objectives, and the consequences of not conforming. Neither covers the company expectations on quality culture and ethical behavior. Three new starters cannot say how they would report a concern.",
+      "evidence": [
+        "Induction slide set dated last year with no culture or ethics content",
+        "Attendance records complete",
+        "Interviews: three of five new starters do not know the reporting channel"
+      ],
+      "clause": "7.3",
+      "clause2015": "7.3",
+      "finding_type": "minor",
+      "expected_action": "Update induction and refresher content to include culture, ethical behavior, and the reporting channel (coordinate ethics content with Human Resources); retrain and confirm understanding.",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "edition": "2026",
+      "confidence": "High",
+      "confidenceNote": "Awareness extended to culture and ethics is reported by multiple sources.",
+      "verifyStatus": "unverified"
+    },
+    {
+      "id": "S104",
+      "title": "Risks only",
+      "setting": "Planning",
+      "narrative": "The risk register has 22 entries, each with a rating and an action. No opportunities are identified. The process owners say opportunities are \"discussed informally\" but there is no record of what was decided.",
+      "evidence": [
+        "Risk register with 22 risks, owners, and actions",
+        "No opportunity entries, column, or separate register",
+        "No record of decisions on improvement ideas raised by staff"
+      ],
+      "clause": "6.1.1 to 6.1.3",
+      "clause2015": "6.1",
+      "finding_type": "minor",
+      "expected_action": "Add opportunity management: identify opportunities, decide which to act on, plan proportionate actions, assign owners, and check results.",
+      "roles": [
+        "supervisor"
+      ],
+      "edition": "2026",
+      "confidence": "High",
+      "confidenceNote": "Restructuring of 6.1 is reported by multiple sources; subclause numbering is reported, not verified.",
+      "verifyStatus": "unverified"
+    },
+    {
+      "id": "S105",
+      "title": "Supplier change, no follow-up",
+      "setting": "Engineering",
+      "narrative": "An external provider for a key input was changed to reduce cost. The change form was approved and the new provider started deliveries. There is no record of who was informed, what was monitored after the change, or whether the change achieved its intended result.",
+      "evidence": [
+        "Change form with description, risk, and approval signatures",
+        "No communication list or record of briefing the receiving team",
+        "No monitoring plan; intake defect rate has risen since the change",
+        "No review date or effectiveness decision"
+      ],
+      "clause": "6.3",
+      "clause2015": "6.3, 8.5.6",
+      "finding_type": "minor",
+      "expected_action": "Add communication, monitoring, review date, and effectiveness decision fields to the change process (Change Planning Record); review this change now.",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "edition": "2026",
+      "confidence": "High",
+      "confidenceNote": "Strengthening of 6.3 is reported by multiple sources.",
+      "verifyStatus": "unverified"
+    },
+    {
+      "id": "S106",
+      "title": "Know-how walked out the door",
+      "setting": "Knowledge",
+      "narrative": "The experienced lead of the core process moved to another site. There was no handover record. Since then the core process defect rate has doubled. The replacement says key settings were \"in his head\".",
+      "evidence": [
+        "No handover or knowledge-capture record",
+        "Process notes last updated four years ago",
+        "Defect rate at the core process doubled over six weeks",
+        "Training matrix shows no backup for the role"
+      ],
+      "clause": "7.1.6",
+      "clause2015": "7.1.6",
+      "finding_type": "minor",
+      "expected_action": "Capture and update process knowledge (settings, reasons, lessons learned); establish backup coverage in the training matrix; add knowledge capture to role-change checklists.",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "edition": "2026",
+      "confidence": "Medium",
+      "confidenceNote": "Broadening of 7.1.6 is reported by two sources. 7.1.6 is also a 2015 requirement.",
+      "verifyStatus": "unverified"
+    },
+    {
+      "id": "S107",
+      "title": "No climate determination",
+      "setting": "Context",
+      "narrative": "The context register lists market, technology, and workforce issues. There is no record of whether climate change was considered or judged relevant. The interested party register has no entry on climate-related requirements.",
+      "evidence": [
+        "Context register last reviewed eight months ago",
+        "No entry or rationale on climate change",
+        "One customer questionnaire on sustainability received and filed without review"
+      ],
+      "clause": "4.1, 4.2",
+      "clause2015": "4.1, 4.2",
+      "finding_type": "minor",
+      "expected_action": "Determine whether climate change is relevant and record the rationale either way; review interested party requirements, including the customer questionnaire.",
+      "roles": [
+        "supervisor"
+      ],
+      "edition": "2026",
+      "confidence": "High",
+      "confidenceNote": "Already in force through Amendment 1:2024; reported as integrated into the 2026 base text.",
+      "verifyStatus": "unverified"
+    },
+    {
+      "id": "S108",
+      "title": "Reporting that works",
+      "setting": "Culture (conforming)",
+      "narrative": "An operator reported a near-miss through the reporting channel. The supervisor acknowledged it the same day, the cause was fixed, and the operator was thanked at the shift meeting. The report and the action are recorded.",
+      "evidence": [
+        "Near-miss log with date, description, and action",
+        "Shift meeting notes record the recognition",
+        "Interviews: operators describe the channel and say reports are acted on"
+      ],
+      "clause": "5.1.1, 7.3",
+      "clause2015": "5.1.1, 7.3",
+      "finding_type": "conforming",
+      "expected_action": "No finding. Recognize the practice as good evidence of culture and awareness.",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "edition": "2026",
+      "confidence": "High",
+      "confidenceNote": "Reported culture and awareness changes: High.",
+      "verifyStatus": "unverified"
+    },
+    {
+      "id": "S109",
+      "title": "Recognition that works",
+      "setting": "Leadership (conforming)",
+      "narrative": "During a leadership visit, the site manager asks a team what slows them down. A team member names a recurring input problem. The manager assigns an owner, and the next visit record shows the action closed and the result checked.",
+      "evidence": [
+        "Leadership visit record with the issue raised and the owner assigned",
+        "Action log entry closed with a result check",
+        "Team member confirms the problem stopped"
+      ],
+      "clause": "5.1.1",
+      "clause2015": "5.1.1",
+      "finding_type": "conforming",
+      "expected_action": "No finding. Good evidence that leaders promote and demonstrate a quality culture.",
+      "roles": [
+        "supervisor"
+      ],
+      "edition": "2026",
+      "confidence": "High",
+      "confidenceNote": "5.1.1 change: High.",
+      "verifyStatus": "unverified"
+    },
+    {
+      "id": "S110",
+      "title": "Opportunity register in use",
+      "setting": "Planning (conforming)",
+      "narrative": "The opportunity register lists an automation trial suggested by a technician, a decision to proceed, a trial plan, and a review showing rework fell. The risk register is reviewed alongside it.",
+      "evidence": [
+        "Opportunity register with owner, action, and check",
+        "Trial review record with before-and-after rework data",
+        "Management review minutes reference both registers"
+      ],
+      "clause": "6.1.1 to 6.1.3",
+      "clause2015": "6.1",
+      "finding_type": "conforming",
+      "expected_action": "No finding. Shows opportunities identified, acted on, and checked.",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "edition": "2026",
+      "confidence": "High",
+      "confidenceNote": "Restructuring of 6.1: High; numbering unverified.",
+      "verifyStatus": "unverified"
+    },
+    {
+      "id": "S111",
+      "title": "Backfilled records before the audit",
+      "setting": "Records",
+      "narrative": "The day before a customer audit, a team leader asks two operators to fill in blank verification records from the previous week \"from memory\" so the file looks complete.",
+      "evidence": [
+        "Verification records for five days in the same pen and handwriting style",
+        "Operators say in interview they were asked to complete them yesterday",
+        "No note that the entries were made late"
+      ],
+      "clause": "5.1.1, 7.5",
+      "clause2015": "5.1.1, 7.5",
+      "finding_type": "major (or per certification body)",
+      "expected_action": "Stop the practice; mark the late entries as such; assess whether the verifications were actually done and hold affected work if needed; review leadership expectations on honest records.",
+      "roles": [
+        "operator",
+        "technician",
+        "supervisor"
+      ],
+      "edition": "2026",
+      "confidence": "High",
+      "confidenceNote": "Ethical behavior in records (5.1.1): High. Control of documented information (7.5) is a 2015 requirement that already applies.",
+      "verifyStatus": "unverified"
+    },
+    {
+      "id": "S112",
+      "title": "Planned change done well",
+      "setting": "Process change (conforming)",
+      "narrative": "A new software version for a test station was introduced with a Change Planning Record. Affected staff were briefed before the switch, first-pass yield was monitored for four weeks, and a review recorded that the change met its intended result.",
+      "evidence": [
+        "Change Planning Record with all nine fields complete",
+        "Briefing attendance list",
+        "Monitoring chart and signed review decision"
+      ],
+      "clause": "6.3",
+      "clause2015": "6.3, 8.5.6",
+      "finding_type": "conforming",
+      "expected_action": "No finding. Good evidence of planned, communicated, monitored, and reviewed change.",
+      "roles": [
+        "technician",
+        "supervisor"
+      ],
+      "edition": "2026",
+      "confidence": "High",
+      "confidenceNote": "Strengthening of 6.3: High.",
+      "verifyStatus": "unverified"
+    }
+  ],
+  "cultureUnderPressure": [
+    {
+      "id": "CU01",
+      "title": "The deadline and the open discrepancy",
+      "clause": "5.1.1, 8.6, 8.7",
+      "confidence": "High",
+      "situation": "A shipment is due to leave in two hours. Final check has found a discrepancy on one work item in the batch. The cause is not yet known. The customer has already called twice about the delivery.",
+      "roles": {
+        "operator": {
+          "prompt": "You found the discrepancy.",
+          "options": [
+            {
+              "text": "Flag and hold the work item, and tell the supervisor at once.",
+              "points": 2,
+              "consequence": "The item is contained. The supervisor has time to decide with facts.",
+              "supports": false
+            },
+            {
+              "text": "Tell a colleague and carry on with the next item.",
+              "points": 1,
+              "consequence": "Word reaches the supervisor 40 minutes later. Less time to act.",
+              "supports": false
+            },
+            {
+              "text": "Leave it in the batch; someone at final release will notice.",
+              "points": 0,
+              "consequence": "Nobody notices. The work item ships and the customer finds it.",
+              "supports": false
+            }
+          ]
+        },
+        "technician": {
+          "prompt": "You are asked to look at the discrepancy.",
+          "options": [
+            {
+              "text": "Check the measuring method and record the actual results, whatever they show.",
+              "points": 2,
+              "consequence": "The data is trustworthy. The team knows whether the item is truly nonconforming.",
+              "supports": false
+            },
+            {
+              "text": "Give a quick opinion without recording anything.",
+              "points": 1,
+              "consequence": "The opinion helps, but there is no record to support the decision.",
+              "supports": false
+            },
+            {
+              "text": "Suggest the instrument is probably wrong and the item is fine.",
+              "points": 0,
+              "consequence": "An unverified guess becomes the reason to ship.",
+              "supports": false
+            }
+          ]
+        },
+        "supervisor": {
+          "prompt": "The operator brings you the held item.",
+          "options": [
+            {
+              "text": "Thank the operator, keep the hold, and escalate to decide on the customer and the delivery.",
+              "points": 2,
+              "consequence": "The team sees that holding work is the right call. The customer gets an honest update.",
+              "supports": true
+            },
+            {
+              "text": "Keep the hold but tell the operator they should have caught it earlier.",
+              "points": 1,
+              "consequence": "The item is safe, but next time the operator may hesitate to report.",
+              "supports": false
+            },
+            {
+              "text": "Release the item to meet the date and deal with it later.",
+              "points": 0,
+              "consequence": "The release criteria are bypassed. If the item fails, the customer and the auditor will ask why.",
+              "supports": false
+            }
+          ]
+        },
+        "manager": {
+          "prompt": "The supervisor calls you about the late shipment.",
+          "options": [
+            {
+              "text": "Back the hold, call the customer yourself, and agree a partial or late delivery.",
+              "points": 2,
+              "consequence": "The customer hears the truth from a leader. Staff see leaders support the decision.",
+              "supports": true
+            },
+            {
+              "text": "Ask for the decision to be made quickly and leave it to the supervisor.",
+              "points": 1,
+              "consequence": "The supervisor holds, but feels alone under pressure.",
+              "supports": false
+            },
+            {
+              "text": "Ask whether the item really needs to be held.",
+              "points": 0,
+              "consequence": "The question signals that delivery matters more than conformity.",
+              "supports": false
+            }
+          ]
+        }
+      },
+      "debrief": "What made holding the work easy or hard? Who had the most influence on the outcome?"
+    },
+    {
+      "id": "CU02",
+      "title": "The record that does not match",
+      "clause": "5.1.1, 7.5, 8.6",
+      "confidence": "High",
+      "situation": "A reading on a verification is slightly outside its limit. The record form has the target value pre-printed in the result box to save time. Writing the true value means a hold and a delay.",
+      "roles": {
+        "operator": {
+          "prompt": "You took the reading.",
+          "options": [
+            {
+              "text": "Cross out the pre-printed value, write the actual reading, and report it.",
+              "points": 2,
+              "consequence": "The record is true. The excursion is visible and can be acted on.",
+              "supports": false
+            },
+            {
+              "text": "Leave the form blank and ask the technician.",
+              "points": 1,
+              "consequence": "The reading is not lost, but the record is incomplete for a time.",
+              "supports": false
+            },
+            {
+              "text": "Leave the pre-printed target value; it is close enough.",
+              "points": 0,
+              "consequence": "The record is false. Nobody can trust the file if this comes to light.",
+              "supports": false
+            }
+          ]
+        },
+        "technician": {
+          "prompt": "The operator asks you what to do.",
+          "options": [
+            {
+              "text": "Confirm the reading, record the true value, and raise the form design as a problem.",
+              "points": 2,
+              "consequence": "The record is corrected and the form will be fixed so this does not recur.",
+              "supports": false
+            },
+            {
+              "text": "Confirm the reading and record it, but say nothing about the form.",
+              "points": 1,
+              "consequence": "This case is right. The form will cause the same pressure next time.",
+              "supports": false
+            },
+            {
+              "text": "Say the instrument often reads high and keep the target value.",
+              "points": 0,
+              "consequence": "A false record plus an unverified claim about the instrument.",
+              "supports": false
+            }
+          ]
+        },
+        "supervisor": {
+          "prompt": "You learn the form has the target value pre-printed.",
+          "options": [
+            {
+              "text": "Thank the team, remove the pre-printed values, and check other forms.",
+              "points": 2,
+              "consequence": "The cause of the pressure is removed. The team sees their report changed something.",
+              "supports": true
+            },
+            {
+              "text": "Tell the team to be careful with the form.",
+              "points": 1,
+              "consequence": "Awareness rises, but the form still invites the wrong entry.",
+              "supports": false
+            },
+            {
+              "text": "Ask why this is a problem if values are usually on target.",
+              "points": 0,
+              "consequence": "Signals that accurate records are optional.",
+              "supports": false
+            }
+          ]
+        },
+        "manager": {
+          "prompt": "The supervisor tells you about the form.",
+          "options": [
+            {
+              "text": "Say clearly that true values are expected even when they cause delay, and fund the form change.",
+              "points": 2,
+              "consequence": "Leaders show ethical behavior in records is a priority, with resources behind it.",
+              "supports": true
+            },
+            {
+              "text": "Approve the change but say nothing to the team.",
+              "points": 1,
+              "consequence": "The form is fixed; the message about honesty is not heard.",
+              "supports": false
+            },
+            {
+              "text": "Ask whether the delay could have been avoided.",
+              "points": 0,
+              "consequence": "The question puts schedule before honesty.",
+              "supports": false
+            }
+          ]
+        }
+      },
+      "debrief": "Which design choices in our own forms and systems make the wrong entry easier than the right one?"
+    },
+    {
+      "id": "CU03",
+      "title": "The skipped verification",
+      "clause": "5.1.1, 7.3, 8.5.1",
+      "confidence": "High",
+      "situation": "A colleague skipped the first-item verification at the start of a run to catch up on time. The run has produced 30 work items since then.",
+      "roles": {
+        "operator": {
+          "prompt": "You saw the verification being skipped.",
+          "options": [
+            {
+              "text": "Ask your colleague to stop and verify now, and tell the supervisor so the 30 items can be checked.",
+              "points": 2,
+              "consequence": "The run is verified and the 30 items are assessed. Nothing unknown ships.",
+              "supports": false
+            },
+            {
+              "text": "Mention it to your colleague but not to anyone else.",
+              "points": 1,
+              "consequence": "The verification may be done now, but the 30 items are not assessed.",
+              "supports": false
+            },
+            {
+              "text": "Say nothing; it is not your station.",
+              "points": 0,
+              "consequence": "If the setting was wrong, all 30 items are affected and nobody knows.",
+              "supports": false
+            }
+          ]
+        },
+        "technician": {
+          "prompt": "You are asked to help assess the 30 items.",
+          "options": [
+            {
+              "text": "Perform the verification, then check a sample of the 30 items and record the results.",
+              "points": 2,
+              "consequence": "Facts replace guesses. The disposition can be decided on evidence.",
+              "supports": false
+            },
+            {
+              "text": "Perform the verification only.",
+              "points": 1,
+              "consequence": "The current run is safe; the earlier items remain uncertain.",
+              "supports": false
+            },
+            {
+              "text": "Assume the items are fine because the last run was fine.",
+              "points": 0,
+              "consequence": "An assumption is used in place of evidence.",
+              "supports": false
+            }
+          ]
+        },
+        "supervisor": {
+          "prompt": "The operator reports what happened.",
+          "options": [
+            {
+              "text": "Thank the operator, contain the 30 items, and ask the colleague what made skipping seem necessary.",
+              "points": 2,
+              "consequence": "Containment plus a cause question. The reporter is protected and the real pressure is found.",
+              "supports": true
+            },
+            {
+              "text": "Contain the items and issue a warning to the colleague.",
+              "points": 1,
+              "consequence": "The items are safe, but people learn that reports lead to blame.",
+              "supports": false
+            },
+            {
+              "text": "Tell the operator to mind their own station.",
+              "points": 0,
+              "consequence": "The next report will not come.",
+              "supports": false
+            }
+          ]
+        },
+        "manager": {
+          "prompt": "You hear the run was behind schedule.",
+          "options": [
+            {
+              "text": "Review the schedule pressure that led to the skip and make the verification time part of the plan.",
+              "points": 2,
+              "consequence": "The system cause is addressed. Verification is no longer in competition with output.",
+              "supports": true
+            },
+            {
+              "text": "Remind everyone that verifications are mandatory.",
+              "points": 1,
+              "consequence": "Correct message, but the pressure that caused the skip remains.",
+              "supports": false
+            },
+            {
+              "text": "Ask for overtime to catch up and move on.",
+              "points": 0,
+              "consequence": "The same pressure will produce the same skip.",
+              "supports": false
+            }
+          ]
+        }
+      },
+      "debrief": "What did the skip tell us about the plan, not only about the person?"
+    },
+    {
+      "id": "CU04",
+      "title": "The near-miss nobody reported",
+      "clause": "5.1.1, 7.3",
+      "confidence": "High",
+      "situation": "Last month a team member who reported a problem was criticized in front of the team for slowing things down. Today a different person sees a near-miss: a work item almost went to the wrong customer.",
+      "roles": {
+        "operator": {
+          "prompt": "You saw the near-miss.",
+          "options": [
+            {
+              "text": "Report it through the reporting channel anyway.",
+              "points": 2,
+              "consequence": "The cause is found before it becomes a real escape.",
+              "supports": false
+            },
+            {
+              "text": "Fix it quietly and tell nobody.",
+              "points": 1,
+              "consequence": "This item is safe; the cause remains and will recur.",
+              "supports": false
+            },
+            {
+              "text": "Ignore it; reporting got the last person in trouble.",
+              "points": 0,
+              "consequence": "The near-miss repeats next week and the item ships.",
+              "supports": false
+            }
+          ]
+        },
+        "technician": {
+          "prompt": "The operator tells you about it privately.",
+          "options": [
+            {
+              "text": "Encourage the report, offer to go with them, and check the labeling method.",
+              "points": 2,
+              "consequence": "The report is made with support, and the technical cause is checked.",
+              "supports": false
+            },
+            {
+              "text": "Check the labeling method yourself without a report.",
+              "points": 1,
+              "consequence": "The cause may be fixed, but there is no record or learning.",
+              "supports": false
+            },
+            {
+              "text": "Advise them to keep quiet after what happened last time.",
+              "points": 0,
+              "consequence": "The silence spreads.",
+              "supports": false
+            }
+          ]
+        },
+        "supervisor": {
+          "prompt": "You receive the report.",
+          "options": [
+            {
+              "text": "Thank the reporter in public, act on the cause, and acknowledge the earlier criticism was wrong.",
+              "points": 2,
+              "consequence": "Trust begins to recover. People see reporting is valued.",
+              "supports": true
+            },
+            {
+              "text": "Act on the cause but say nothing about last month.",
+              "points": 1,
+              "consequence": "The fix happens; the fear remains.",
+              "supports": false
+            },
+            {
+              "text": "Ask why it was not prevented in the first place.",
+              "points": 0,
+              "consequence": "The reporter hears blame again.",
+              "supports": false
+            }
+          ]
+        },
+        "manager": {
+          "prompt": "You learn about both events.",
+          "options": [
+            {
+              "text": "Restate the non-punitive reporting expectation, make sure the reporting channel is known, and recognize good reports.",
+              "points": 2,
+              "consequence": "Leaders model the culture the standard is reported to expect.",
+              "supports": true
+            },
+            {
+              "text": "Send an email about reporting.",
+              "points": 1,
+              "consequence": "The message is sent, but behavior on the floor has not changed.",
+              "supports": false
+            },
+            {
+              "text": "Take no action; it was only a near-miss.",
+              "points": 0,
+              "consequence": "Leaders signal that near-misses do not matter.",
+              "supports": false
+            }
+          ]
+        }
+      },
+      "debrief": "What happens here when someone reports a problem that delays a shipment? What would make reporting easier?"
+    },
+    {
+      "id": "CU05",
+      "title": "The phone call change",
+      "clause": "5.1.1, 8.2.4, 8.5.6",
+      "confidence": "High",
+      "situation": "A customer contact phones the team directly and asks for a change to a work item now in progress. They say the paperwork will follow. The change seems small.",
+      "roles": {
+        "operator": {
+          "prompt": "You took the call.",
+          "options": [
+            {
+              "text": "Note the request and pass it to the supervisor; do not change the work until it is reviewed.",
+              "points": 2,
+              "consequence": "The request is captured and reviewed before work changes.",
+              "supports": false
+            },
+            {
+              "text": "Make the change and tell the supervisor afterward.",
+              "points": 1,
+              "consequence": "Honest, but the work has changed without review or record.",
+              "supports": false
+            },
+            {
+              "text": "Make the change and say nothing.",
+              "points": 0,
+              "consequence": "Nobody else knows the work no longer matches the order.",
+              "supports": false
+            }
+          ]
+        },
+        "technician": {
+          "prompt": "You are asked whether the change is feasible.",
+          "options": [
+            {
+              "text": "Assess the effect on the process and records, and record your assessment.",
+              "points": 2,
+              "consequence": "The change can be approved or refused on evidence.",
+              "supports": false
+            },
+            {
+              "text": "Say it is probably fine without checking.",
+              "points": 1,
+              "consequence": "Quick, but the effect on other steps is unknown.",
+              "supports": false
+            },
+            {
+              "text": "Adjust the setting now to save time.",
+              "points": 0,
+              "consequence": "An unreviewed process change is made.",
+              "supports": false
+            }
+          ]
+        },
+        "supervisor": {
+          "prompt": "The request reaches you.",
+          "options": [
+            {
+              "text": "Confirm the change in writing with the customer, update the requirements, and brief the team.",
+              "points": 2,
+              "consequence": "Requirements, records, and people all match the new order.",
+              "supports": true
+            },
+            {
+              "text": "Approve verbally and plan to fix the paperwork later.",
+              "points": 1,
+              "consequence": "Later often never comes; the records will not match.",
+              "supports": false
+            },
+            {
+              "text": "Tell the team to do whatever the customer asks.",
+              "points": 0,
+              "consequence": "Requirements review is bypassed.",
+              "supports": false
+            }
+          ]
+        },
+        "manager": {
+          "prompt": "You hear the customer is calling the floor directly.",
+          "options": [
+            {
+              "text": "Agree a single route for customer changes with the customer and support the team for following it.",
+              "points": 2,
+              "consequence": "The pressure point is removed for everyone.",
+              "supports": true
+            },
+            {
+              "text": "Ask the team to be flexible but careful.",
+              "points": 1,
+              "consequence": "Mixed message: no clear route.",
+              "supports": false
+            },
+            {
+              "text": "Praise the team for being responsive.",
+              "points": 0,
+              "consequence": "Unreviewed changes are rewarded.",
+              "supports": false
+            }
+          ]
+        }
+      },
+      "debrief": "Where do requests reach our teams without going through review? Who can fix that?"
+    },
+    {
+      "id": "CU06",
+      "title": "The file that looks complete",
+      "clause": "5.1.1, 7.5",
+      "confidence": "High",
+      "situation": "A customer audit is tomorrow. Some verification records from last week are blank. Someone suggests filling them in from memory so the file looks complete.",
+      "roles": {
+        "operator": {
+          "prompt": "You are asked to fill in the blanks.",
+          "options": [
+            {
+              "text": "Decline, and say the blanks should be reported as they are.",
+              "points": 2,
+              "consequence": "The record stays true. The gap can be investigated properly.",
+              "supports": false
+            },
+            {
+              "text": "Fill in only the ones you clearly remember and mark them as late entries.",
+              "points": 1,
+              "consequence": "More honest, but memory is not evidence the verification was done.",
+              "supports": false
+            },
+            {
+              "text": "Fill them in as asked.",
+              "points": 0,
+              "consequence": "The records are now false. An auditor who notices will doubt the whole file.",
+              "supports": false
+            }
+          ]
+        },
+        "technician": {
+          "prompt": "You notice the same handwriting across five days.",
+          "options": [
+            {
+              "text": "Raise it with the supervisor and check whether the verifications were actually done.",
+              "points": 2,
+              "consequence": "The real question is answered: was the work verified?",
+              "supports": false
+            },
+            {
+              "text": "Mention it to a colleague.",
+              "points": 1,
+              "consequence": "The concern exists but goes nowhere.",
+              "supports": false
+            },
+            {
+              "text": "Say nothing; the audit is tomorrow.",
+              "points": 0,
+              "consequence": "The false records stand.",
+              "supports": false
+            }
+          ]
+        },
+        "supervisor": {
+          "prompt": "You learn the records were blank.",
+          "options": [
+            {
+              "text": "Stop the backfilling, thank whoever raised it, and record the gap with an action to assess affected work.",
+              "points": 2,
+              "consequence": "An honest gap with an action is far stronger evidence than a perfect-looking file.",
+              "supports": true
+            },
+            {
+              "text": "Stop the backfilling but say nothing else.",
+              "points": 1,
+              "consequence": "Correct, but the gap and its cause are not addressed.",
+              "supports": false
+            },
+            {
+              "text": "Let it go this once because of the audit.",
+              "points": 0,
+              "consequence": "The team learns that records are for show.",
+              "supports": false
+            }
+          ]
+        },
+        "manager": {
+          "prompt": "The supervisor tells you about the gap the night before the audit.",
+          "options": [
+            {
+              "text": "Thank the supervisor and tell the auditor about the gap and the action if asked.",
+              "points": 2,
+              "consequence": "Leaders demonstrate ethical behavior when it is costly.",
+              "supports": true
+            },
+            {
+              "text": "Accept the gap but hope it is not sampled.",
+              "points": 1,
+              "consequence": "Honest records, but no openness.",
+              "supports": false
+            },
+            {
+              "text": "Ask why the file cannot be made complete.",
+              "points": 0,
+              "consequence": "Pressure to falsify comes from the top.",
+              "supports": false
+            }
+          ]
+        }
+      },
+      "debrief": "Why is an honest gap with an action better than a perfect-looking file? What would an auditor conclude from each?"
+    }
+  ]
+}

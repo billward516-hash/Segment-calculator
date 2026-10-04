@@ -46,6 +46,21 @@ var QF = (function () {
     { n: 11, name: 'Internal audit evidence', controls: ['C11'] },
     { n: 12, name: 'Customer feedback handling and requirements review', controls: ['C13', 'C15'] }
   ];
+  // 2026 and bridge modes add two checks (Appendix A.6.3). Maximum audit points rise from 24 to 28.
+  // PRELIMINARY: C16 and C17 model reported 2026 changes that are not yet verified against the standard.
+  var AUDIT_CHECKS_2026 = AUDIT_CHECKS.concat([
+    { n: 13, name: 'Culture and ethics evidence', controls: ['C16'] },
+    { n: 14, name: 'Organizational knowledge', controls: ['C17'] }
+  ]);
+  var EDITIONS = ['2015', '2026', 'bridge'];
+  function isNewEdition(ed) { return ed === '2026' || ed === 'bridge'; }
+  function auditChecksFor(ed) { return isNewEdition(ed) ? AUDIT_CHECKS_2026 : AUDIT_CHECKS; }
+  function auditMax(ed) { return auditChecksFor(ed).length * 2; }
+  // Returns the control and event decks for an edition. 2015 returns the base decks unchanged.
+  function decksFor(ed, controls, events, controls2026, events2026) {
+    if (!isNewEdition(ed)) return { controls: controls, events: events };
+    return { controls: controls.concat(controls2026 || []), events: events.concat(events2026 || []) };
+  }
 
   // Controls that count as used every round once owned (routine daily use).
   var ALWAYS_USED = ['C01', 'C02', 'C03', 'C04', 'C05', 'C08', 'C15'];
@@ -72,6 +87,8 @@ var QF = (function () {
   // other rolls happened. A replay with the same seed and different purchases therefore changes
   // outcomes only where a control actually applies.
   var PURPOSE = { defect: 1, detect: 2, c07: 3, errel: 4, press: 5, deliv: 6, redo: 7, redoesc: 8 };
+  // Controls that count as routinely used once owned in 2026 and bridge modes.
+  var ALWAYS_USED_2026 = ['C16', 'C17'];
   function draw(g, t, purpose, itemId, stageIdx) {
     return mulberry32(mix(g.cfg.seed + (t.index + 1) * 7919, g.round * 64 + PURPOSE[purpose], itemId * 17 + (stageIdx || 0)))();
   }
@@ -115,6 +132,8 @@ var QF = (function () {
         queues: [[], [], [], [], [], []], pendingHolds: [], nextId: 1,
         log: [], history: [], lastRound: null
       });
+      // Only games in 2026 or bridge mode carry the edition on each team, so 2015 state is unchanged.
+      if (isNewEdition(cfg.edition)) g.teams[n].edition = cfg.edition;
     }
     return g;
   }
@@ -143,6 +162,7 @@ var QF = (function () {
     g.phase = 'invest';
     g.teams.forEach(function (t) {
       t.lastRound = null;
+      if (t.opportunityOffered) t.opportunityOffered = false;
       if (g.round > 1) t.qp += g.cfg.qpPerRound;
       if (g.cfg.budgetShockRound && g.round === g.cfg.budgetShockRound) {
         t.qp = Math.floor(t.qp / 2);
@@ -170,7 +190,10 @@ var QF = (function () {
 
   function perturb(t, n, id) {
     // A corrective action halves the impact of that event type.
-    return t.corrective[id] ? Math.floor(n / 2) : n;
+    var r = t.corrective[id] ? Math.floor(n / 2) : n;
+    // 2026 control C17 (knowledge capture) halves the impact of a problem the team has met before.
+    if (t.owned.C17 && t.eventsSeen.indexOf(id) >= 0) { r = Math.floor(r / 2); t.used.C17 = true; }
+    return r;
   }
 
   function newItem(t) { return { id: t.nextId++, defective: false, origin: -1, falsePass: false, forceDetect: false, pressure: false }; }
@@ -214,7 +237,11 @@ var QF = (function () {
       case 'E07': { mitigated = owns('C14'); if (mitigated) t.used.C14 = true; force(3, perturb(t, owns('C14') ? 1 : 2, 'E07')); } break;
       case 'E08': ctx.injectDetected = 1; ctx.pressure = !owns('C12'); mitigated = owns('C12'); break;
       case 'E09':
-        if (t.escapes > 0 && !owns('C10')) { t.penalties += 15; t.externalFailure += 15; impact = 'repeat penalty -15'; }
+        if (t.escapes > 0 && !owns('C10')) {
+          var rp = owns('C17') ? 7 : 15;
+          t.penalties += rp; t.externalFailure += rp; impact = 'repeat penalty -' + rp;
+          if (owns('C17')) t.used.C17 = true;
+        }
         else mitigated = true;
         if (owns('C10')) t.used.C10 = true;
         break;
@@ -232,7 +259,27 @@ var QF = (function () {
         if (owns('C11')) { mitigated = true; }
         else { var pen = owns('C02') ? 4 : 8; t.penalties += pen; t.externalFailure += pen; if (!owns('C02')) t.rep = Math.max(0, t.rep - 1); impact = 'penalty -' + pen; }
         break;
+      // ----- 2026 and bridge mode events (PRELIMINARY; Appendix A.6.3) -----
+      case 'E17':
+        // Suggestion to adjust a recorded reading. With C16 or C09 the true value is recorded and the
+        // work item is held; otherwise the adjusted record lets a defective work item pass.
+        if (owns('C16') || owns('C09')) { mitigated = true; ctx.inject17 = 'held'; if (owns('C16')) t.used.C16 = true; if (owns('C09')) t.used.C09 = true; }
+        else { ctx.inject17 = 'adjusted'; impact = 'reading adjusted; defective work item passes'; }
+        break;
+      case 'E18':
+        if (owns('C16')) { mitigated = true; t.used.C16 = true; }
+        else { ctx.falsePass += perturb(t, 1, 'E18'); impact = 'unreported near-miss; 1 work item fails later'; }
+        break;
+      case 'E19':
+        if (owns('C17')) { mitigated = true; t.used.C17 = true; }
+        else { t.knowledgeLoss = 2; t.knowledgeLossAdd = t.corrective.E19 ? 0.05 : 0.10; impact = 'core defect probability +' + Math.round(t.knowledgeLossAdd * 100) + ' points for 2 rounds'; }
+        break;
+      case 'E20':
+        if (owns('C12')) { mitigated = true; t.used.C12 = true; t.opportunityOffered = true; impact = 'opportunity available (2 QP)'; }
+        else impact = 'opportunity not captured (needs C12)';
+        break;
     }
+    if (t.knowledgeLoss > 0) { ctx.coreProbAdd += t.knowledgeLossAdd; t.knowledgeLoss--; }
     roundStats.mitigated = mitigated; roundStats.impact = impact;
     if (mitigated && ev.mitigatedBy.some(owns)) {
       ev.mitigatedBy.forEach(function (id) { if (owns(id)) t.used[id] = true; });
@@ -243,10 +290,17 @@ var QF = (function () {
     // Release new work items.
     for (var i = 0; i < cfg.workItemsReleasedPerRound; i++) t.queues[0].push(newItem(t));
     if (ctx.injectDetected) { var inj = newItem(t); inj.defective = true; inj.origin = 3; inj.forceDetect = true; inj.pressure = true; t.queues[4].unshift(inj); }
+    if (ctx.inject17) {
+      var i17 = newItem(t); i17.defective = true; i17.origin = 3;
+      if (ctx.inject17 === 'held') i17.forceDetect = true; else i17.falsePass = true;
+      t.queues[4].unshift(i17);
+    }
 
     ALWAYS_USED.forEach(function (id) { if (owns(id)) t.used[id] = true; });
+    ALWAYS_USED_2026.forEach(function (id) { if (owns(id)) t.used[id] = true; });
 
     var detectP = Math.min(0.95, (owns('C08') ? 0.85 : stages[4].detectBase) + (owns('C01') ? 0.10 : 0));
+    if (t.detectBonus) detectP = Math.min(0.95, detectP + t.detectBonus);
 
     function hold(item, stageIdx) {
       if (!owns('C09') && draw(g, t, 'errel', item.id, stageIdx) < eco.erroneousRelease) {
@@ -301,7 +355,13 @@ var QF = (function () {
         take.forEach(function (it) {
           if (!it.defective) {
             if (f > 0) { it.defective = true; it.origin = s; f--; }
-            else if (draw(g, t, 'defect', it.id, s) < Math.min(1, p)) { it.defective = true; it.origin = s; }
+            else if (draw(g, t, 'defect', it.id, s) < Math.min(1, p)) {
+              if (owns('C16') && !t.nearMissUsed) {
+                // C16: once per game a near-miss is reported and fixed before it becomes a defect.
+                t.nearMissUsed = true; t.used.C16 = true;
+                t.log.push({ round: g.round, kind: 'control', text: 'C16 speak-up: a near-miss at ' + st.name + ' was reported and fixed before it became a defect' });
+              } else { it.defective = true; it.origin = s; }
+            }
           }
         });
         take.forEach(function (it) {
@@ -357,9 +417,18 @@ var QF = (function () {
     return true;
   }
 
+  // 2026 opportunity (event E20): a team that owns C12 may invest 2 QP for a permanent +5 point detection increase.
+  function captureOpportunity(g, t) {
+    if (!t.opportunityOffered || t.qp < 2) return false;
+    t.qp -= 2; t.spentQP += 2; t.opportunityOffered = false;
+    t.detectBonus = Math.round(((t.detectBonus || 0) + 0.05) * 100) / 100;
+    t.log.push({ round: g.round, kind: 'control', text: 'E20 opportunity captured: final check detection +5 points (2 QP)' });
+    return true;
+  }
+
   function finalAudit(t) {
     var total = 0;
-    var rows = AUDIT_CHECKS.map(function (c) {
+    var rows = auditChecksFor(t.edition).map(function (c) {
       var owned = c.controls.some(function (id) { return t.owned[id]; });
       var used = c.controls.some(function (id) { return t.owned[id] && t.used[id]; });
       var pts = (owned ? 1 : 0) + (owned && used ? 1 : 0);
@@ -391,6 +460,7 @@ var QF = (function () {
         var st = strategy[t.index % strategy.length] || strategy[0];
         if (st.order !== 'none') st.order.forEach(function (id) { buy(g, t, id); });
         runFlow(g, t);
+        if (t.opportunityOffered && st.captureOpportunity !== false) captureOpportunity(g, t);
         resolveHolds(g, t, t.pendingHolds.map(function () { return st.disposition || 'redo'; }));
         if (t.owned.C10 && g.round % 3 === 0) {
           var best = t.eventsSeen.filter(function (id) { return !t.corrective[id]; })[0];
@@ -413,7 +483,8 @@ var QF = (function () {
   }
 
   return {
-    DEFAULT_CONFIG: DEFAULT_CONFIG, AUDIT_CHECKS: AUDIT_CHECKS,
+    DEFAULT_CONFIG: DEFAULT_CONFIG, AUDIT_CHECKS: AUDIT_CHECKS, AUDIT_CHECKS_2026: AUDIT_CHECKS_2026, EDITIONS: EDITIONS,
+    isNewEdition: isNewEdition, auditChecksFor: auditChecksFor, auditMax: auditMax, decksFor: decksFor, captureOpportunity: captureOpportunity,
     createGame: createGame, buy: buy, startRound: startRound, runFlow: runFlow,
     resolveHolds: resolveHolds, applyCorrective: applyCorrective, correctiveAvailable: correctiveAvailable, finalAudit: finalAudit,
     score: score, autoPlay: autoPlay, csv: csv, eventText: eventText, mulberry32: mulberry32, ownedCount: ownedCount

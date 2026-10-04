@@ -16,7 +16,11 @@ Open `index.html` in any browser. Everything runs offline from a folder, USB dri
 | `handouts.html` | STOP, FLAG, HOLD, REPORT card; audit response card; clause-to-role map |
 | `games/quality-flow/index.html` | Flagship simulation (single file, seeded, facilitator and team views) |
 | `games/quiz/index.html` | Quick round, knowledge check, module quiz, and the Clause Sprint team race |
-| `games/printables/` | Printable equivalents: cards, boards, dice tables, record sheets, quiz sheets |
+| `games/audit-day/index.html` | Audit Day role-play: generated dossier with planted findings, finding entry, scoring, scenario cards |
+| `games/casebook/index.html` | Sector Casebook (optional deep-dive): six investigation cases per sector, drills, capstone; `results-reader.html` for instructors |
+| `games/bridge/index.html` | 2026 bridge games: Bridge Sprint and Culture Under Pressure (preliminary 2026 content) |
+| `module-summaries.html`, `sector-tracks.html` | One-page module summaries; sector primers and drills |
+| `games/printables/` | Printable equivalents of every game, plus kits for Root Cause Relay, Document Control Relay, Traceability Challenge, Management Review Boardroom, Workplace Evidence Hunt and Change Control Challenge |
 
 ## Running Quality Flow
 
@@ -53,17 +57,19 @@ npm test        # schema tests, simulation tests, content validation
 
 Open a file in `games/printables/` and print at Letter size with margins as set by the page. Each pack has its own file (`quality-flow-<pack>.html`) with control cards, event cards, a facilitator key with the event order for the chosen seed, stage board, disposition sheet, tracking sheet, final audit sheet, hold flags, and a two-dice lookup table that replaces the percentages. Rebuild with a different seed using `node tools/build-printables.js --seed 777`.
 
-## What is included and what is not
+## What is included
 
-Included: participant guide Modules 0 to 12 with 2026 Bridge boxes, glossary, three handouts, instructor overview with agendas for Formats A and B, answer keys for every quick check, the 120-question bank, Quality Flow with all eight industry packs, the quiz and Clause Sprint, printables, tests, and a content validator.
+Everything in the specification's repository layout: participant guide Modules 0 to 12 with 2026 Bridge boxes and Appendix A, glossary, instructor guide (formats A to E, facilitation notes for every module, game facilitation, assessment and records, troubleshooting, 2026 bridge session, sector deep-dive, 28 micro-sessions, answer keys), handouts and one-page summaries, 120 core questions, 192 sector quiz questions, 42 bridge questions, 86 scenarios plus 2026 scenarios, Quality Flow with eight packs and a 2015 / 2026 / bridge edition setting, the quiz app in all Appendix C modes, Audit Day, the Sector Casebook (48 cases), the 2026 bridge games, printable kits for every game, and tests for each part.
 
-Not built (listed in the specification and available to add): the other classroom games (Audit Day, Root Cause Relay, Document Control Relay, Traceability Challenge, Management Review Boardroom, Workplace Evidence Hunt, Change Control Challenge), the Sector Deep-Dive Track and casebook, the sector quiz banks, the 40-scenario library, the per-module one-page summaries and instructor facilitation notes beyond the Module 7 model, the Quality Flow 2026 mode and edition toggle, and the 2026 bridge session materials. The 2026 content that exists is in Module 11 and the Bridge boxes.
+Known gaps: Sector drills run inside the Casebook rather than as a quiz-app mode; no 2026 variant cases are written for the Casebook; the optional placement check is not built.
 
 ## Points to confirm
 
 1. **Control costs.** The specification says the 15 controls cost 37 QP in total, but its own table sums to 36. The table values are used. Change `data/controls.json` if 37 was intended.
 2. **Quality Flow interpretation.** Where the specification is silent the game uses these defaults, all editable in `economics`: a redone work item is not re-checked and has a 15 percent chance of escaping (`redoEscape`); a held work item without control C09 has a 25 percent chance of release in error (`erroneousRelease`); a complaint review costs 2 per work item (`reviewCost`); under release pressure without C12 a team yields half the time (`pressureYield`); an unmitigated surprise audit and the other events apply the penalties described in `data/events.json`.
-3. **Balance.** A controlled team beats an uncontrolled team in every seeded run, by a wide margin, because escapes are expensive. See `BALANCE.md` for the controls that matter most and for tuning suggestions (control C07 is the weakest purchase under the defaults).
-4. **Verification.** Every 2026 item and every 2015 clause tag and answer must be confirmed against the purchased standard. `data/clause-map.json` marks all 2026 rows `unverified`. Question rationales were written from general knowledge of the standard.
-5. **Owner inputs.** Quality policy, objectives, stop-work authority, non-punitive reporting statement, pass mark, retention period, and scope of design and development are marked **[OWNER INPUT]**.
-6. **Open specification items** (Section 15) remain with the program owner, including the certification body's transition plan.
+3. **2026 control costs.** The specification says 2026 controls raise the total from 37 to 41 QP; with the table values the 2026 total is 40.
+4. **Interpretations where the specification is silent** are noted at the top of each builder script and in the facilitation chapter (for example Audit Day finding linking, Casebook scoring of observations and statement quality).
+5. **Balance.** A controlled team beats an uncontrolled team in every seeded run, by a wide margin, because escapes are expensive. See `BALANCE.md` for the controls that matter most and for tuning suggestions (control C07 is the weakest purchase under the defaults; in 2026 mode C17 adds value only in a lean control set).
+6. **Verification.** Every 2026 item and every 2015 clause tag and answer must be confirmed against the purchased standard. `data/clause-map.json` marks all 2026 rows `unverified`. Question rationales were written from general knowledge of the standard.
+7. **Owner inputs.** Quality policy, objectives, stop-work authority, non-punitive reporting statement, pass mark, retention period, and scope of design and development are marked **[OWNER INPUT]**.
+8. **Open specification items** (Section 15) remain with the program owner, including the certification body's transition plan.

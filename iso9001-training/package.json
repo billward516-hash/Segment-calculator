@@ -4,8 +4,8 @@
   "private": true,
   "description": "ISO 9001 participant guide, instructor guide, handouts and classroom games. No dependencies.",
   "scripts": {
-    "build": "node tools/build-games.js && node tools/build-printables.js && node tools/build-guide.js",
-    "test": "node tests/schema-tests.js && node tests/simulation-tests.js && node tools/validate-content.js",
+    "build": "node tools/build-games.js && node tools/build-bridge.js && node tools/build-audit-day.js && node tools/build-casebook.js && node tools/build-printables.js && node tools/build-sector-printables.js && node tools/build-game-kits.js && node tools/build-guide.js",
+    "test": "node tests/schema-tests.js && node tests/simulation-tests.js && node tests/scenario-tests.js && node tests/sector-quiz-tests.js && node tests/game-kits-tests.js && node tests/casebook-tests.js && node tools/validate-content.js",
     "balance": "node tools/balance-report.js"
   },
   "license": "UNLICENSED"

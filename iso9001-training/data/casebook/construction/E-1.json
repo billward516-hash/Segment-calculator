@@ -1,0 +1,285 @@
+{
+  "id": "CON-E-01",
+  "pack": "construction",
+  "type": "E",
+  "title": "The Handover Defect",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Two months after handover of a Meridian Build school extension, the client reports water entering at 4 windows in the new classrooms. They ask for a response within 5 working days. You have 12 visit points to contain, find the cause, and respond.",
+  "visitPoints": 12,
+  "goal": "Containment and response",
+  "branches": [
+    "Control",
+    "Cause"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Aftercare desk",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Defect report from the client",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Other projects with the same window system",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Handover file",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Handover inspection records",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Window water test records",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Subcontractor",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Window installer records",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "Installer: sealing method",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "ITP",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Inspection and test plan for windows",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Aftercare procedure",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Snag list close-out",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Site visit",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Window head detail",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Paint colour of frames",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Classroom notice board",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Defect report DR-15 logged on the day with photos and an owner.",
+      "clause": "9.1.2",
+      "whyItMatters": "Feedback captured.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Prompt.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "The same window system and installer were used on 2 other handed-over projects; no one has checked them.",
+      "clause": "8.7",
+      "whyItMatters": "Containment includes other output built the same way.",
+      "missedExplanation": "Ask where else the method was used.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "conforming",
+      "text": "Handover inspection records are signed by the client.",
+      "clause": "8.6",
+      "whyItMatters": "Handover done.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Signed.",
+      "plantedPool": false
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Water test records: ITP requires testing 10 percent of windows; 2 of 48 windows were tested (record WT-1).",
+      "clause": "8.6",
+      "whyItMatters": "Planned verification must be completed.",
+      "missedExplanation": "Compare tested quantity with the plan.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Window installer records show a change of sealant product (SL-9 to SL-12) mid-project; not reviewed by Meridian Build.",
+      "clause": "8.4",
+      "whyItMatters": "Changes by external providers must be controlled.",
+      "missedExplanation": "Check subcontractor material changes.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Installer: \"Head flashing wasn't on our drawing, so we sealed only.\" Drawing W-12 revision A lacks the head flashing shown in revision B. (note 3)",
+      "clause": "8.5.1",
+      "whyItMatters": "Work must follow current drawings.",
+      "missedExplanation": "Ask what the installer worked from.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "ITP section 4 for windows does not name who witnesses water tests.",
+      "clause": "8.1",
+      "whyItMatters": "Clearer roles would strengthen the test.",
+      "missedExplanation": "Read roles in the ITP.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Aftercare procedure requires a response in 5 working days.",
+      "clause": "8.2.1",
+      "whyItMatters": "Defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Defined.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Snag list was closed with client sign-off.",
+      "clause": "8.5.5",
+      "whyItMatters": "Post-delivery activities in place.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Closed properly.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "observation",
+      "text": "Window head W-3 shows no flashing, consistent with drawing W-12 revision A.",
+      "clause": "8.5.1",
+      "whyItMatters": "Site evidence confirms the detail.",
+      "missedExplanation": "Look at the physical detail.",
+      "plantedPool": true
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "A classroom notice board shows a hand-drawn sign about the leak.",
+      "clause": "7.4",
+      "whyItMatters": "An informal sign by the client is not a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The client's sign is not a finding.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Frame paint colour slightly differs from the sample, within the agreed tolerance.",
+      "clause": "8.2.3",
+      "whyItMatters": "Within tolerance.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Within tolerance.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What should the response to the client include?",
+      "options": [
+        "A note that the client signed handover",
+        "Temporary protection of the classrooms, the cause found so far, permanent repair plan with dates, inspection of all windows, and a contact",
+        "A request that the client calls the installer",
+        "An offer of a discount only"
+      ],
+      "bestIndex": 1,
+      "rationale": "Handover sign-off does not end the obligation to correct defects."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Protect the affected classrooms and inspect the other 2 projects with the same system"
+    ],
+    "correction": [
+      "Install head flashing per revision B and retest windows"
+    ],
+    "cause": [
+      "Installer worked from an old drawing, sealant change was not reviewed, and water testing fell short of the ITP"
+    ],
+    "corrective": [
+      "Issue drawings to subcontractors through the register, review subcontractor material changes, and enforce ITP test quantities"
+    ],
+    "effectiveness": [
+      "Water test 10 percent of windows on the next three projects with witnessed records"
+    ]
+  },
+  "debriefText": {
+    "found": "You extended containment to other projects.",
+    "missed": "Ask which drawing the subcontractor actually used.",
+    "falseFinding": "A colour within tolerance is conforming."
+  }
+}

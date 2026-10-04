@@ -1,0 +1,273 @@
+{
+  "id": "PRO-F-01",
+  "pack": "professional-services",
+  "type": "F",
+  "title": "The Deadline Draft",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "At Meridian Advisory it is 4 p.m. A partner wants to send a client deliverable, report R-3001, by 5 p.m. to meet a contract date. Peer review is not done; the reviewer can start at 4:30 p.m. and needs 90 minutes. The partner proposes sending now \"as a final version\". You have 12 visit points to decide.",
+  "visitPoints": 12,
+  "goal": "Decision quality",
+  "branches": [
+    "Judgment"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Review desk",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Review status for R-3001",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Ask",
+          "label": "Reviewer: how long is needed",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Partner",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Why send now",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Ask",
+          "label": "Who can approve release without review",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Contract",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Contract delivery terms",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Release procedure",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Client",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Account lead: would the client accept a draft",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "System",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Document status",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Office",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Clock",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Partner office door",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Review status for R-3001: not started; document marked \"final\" (status field 3).",
+      "clause": "8.6",
+      "whyItMatters": "Release requires review or authorized decision.",
+      "missedExplanation": "Read status against review.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Reviewer can finish by 6 p.m.",
+      "clause": "7.1.2",
+      "whyItMatters": "Resource available.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Available.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Partner: \"Review is a formality for me. Send it as final.\" (note 1)",
+      "clause": "5.1.1",
+      "whyItMatters": "Leaders must support review.",
+      "missedExplanation": "Listen for pressure replacing control.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "conforming",
+      "text": "Quality partner can approve release exceptions and is available.",
+      "clause": "5.3",
+      "whyItMatters": "Authority available.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Available.",
+      "plantedPool": false
+    },
+    {
+      "id": "E5",
+      "kind": "observation",
+      "text": "Contract delivery terms (clause 7) set delivery \"by end of business day\", which the client defines as 6 p.m.",
+      "clause": "8.2.3",
+      "whyItMatters": "Time exists.",
+      "missedExplanation": "Read the actual deadline.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "conforming",
+      "text": "Release procedure RL-1 allows a marked draft with client agreement, or release after review.",
+      "clause": "8.6",
+      "whyItMatters": "Route defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Sound.",
+      "plantedPool": false
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Account lead: \"The client has accepted marked drafts before.\" (email AE-9)",
+      "clause": "8.2.1",
+      "whyItMatters": "Option exists.",
+      "missedExplanation": "Ask about options.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "nonconformity",
+      "text": "Document status \"final\" was set without approval (status log SL-3001).",
+      "clause": "7.5.2",
+      "whyItMatters": "Status must reflect approval.",
+      "missedExplanation": "Check status changes.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "Clock is correct.",
+      "clause": "7.1.4",
+      "whyItMatters": "Not relevant.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Correct.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Partner's door is closed.",
+      "clause": "7.1.4",
+      "whyItMatters": "Not relevant.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not relevant.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What do you recommend?",
+      "options": [
+        "Send as final now",
+        "Reset status to draft; either send a clearly marked draft now with the client's agreement and the final after review by 6 p.m., or send the reviewed final by 6 p.m.",
+        "Miss the deadline",
+        "Say nothing"
+      ],
+      "bestIndex": 1,
+      "rationale": "Both options meet the contract and respect review.",
+      "optionFeedback": [
+        "Sends an unreviewed deliverable as final.",
+        "Meets the deadline and the review requirement.",
+        "Unnecessary.",
+        "Leaves a breach."
+      ]
+    },
+    {
+      "id": "D2",
+      "prompt": "How do you respond to \"review is a formality\"?",
+      "options": [
+        "Agree",
+        "Acknowledge the experience and explain that review protects the client and the partner, and that 6 p.m. still meets the contract",
+        "Report the partner",
+        "Ignore it"
+      ],
+      "bestIndex": 1,
+      "rationale": "Address seniority and pressure calmly with facts."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Reset R-3001 status to draft"
+    ],
+    "correction": [
+      "Complete review or send a marked draft with client agreement"
+    ],
+    "cause": [
+      "Status can be set to final without recorded review"
+    ],
+    "corrective": [
+      "Lock final status until review is recorded or an exception is approved"
+    ],
+    "effectiveness": [
+      "Audit status changes monthly for three months"
+    ]
+  },
+  "debriefText": {
+    "found": "You met the deadline without skipping review.",
+    "missed": "Read the contract for the real deadline.",
+    "falseFinding": "Clocks and doors are not findings."
+  }
+}

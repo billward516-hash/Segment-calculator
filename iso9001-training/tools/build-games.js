@@ -14,12 +14,15 @@ const company = json('config/company.json');
 const controls = json('data/controls.json');
 const events = json('data/events.json');
 const packs = json('data/packs.json');
+// Preliminary 2026 decks, used only when the game edition is "2026" or "bridge".
+const controls2026 = json('data/controls-2026.json');
+const events2026 = json('data/events-2026.json');
 
 // Quality Flow
 const cfg = Object.assign({}, QF.DEFAULT_CONFIG, { company: company.company, industryPack: company.industryPack, edition: company.edition });
 let html = read('games/quality-flow/template.html');
 html = html.replace('__CONFIG_JSON__', () => safe(cfg))
-  .replace('__DATA_JSON__', () => safe({ controls, events, packs }))
+  .replace('__DATA_JSON__', () => safe({ controls, events, packs, controls2026, events2026 }))
   .replace('/*__ENGINE__*/', () => read('games/quality-flow/engine.js'));
 fs.writeFileSync(path.join(root, 'games/quality-flow/index.html'), html);
 console.log('Built games/quality-flow/index.html (' + Math.round(html.length / 1024) + ' KB)');
@@ -28,8 +31,17 @@ console.log('Built games/quality-flow/index.html (' + Math.round(html.length / 1
 const qt = path.join(root, 'games/quiz/template.html');
 if (fs.existsSync(qt)) {
   const questions = json('data/questions.json');
+  // Sector quiz banks (Appendix C): every data/quizzes/<pack>.json, keyed by pack id.
+  const quizDir = path.join(root, 'data/quizzes');
+  const sectorQuizzes = {};
+  if (fs.existsSync(quizDir)) {
+    fs.readdirSync(quizDir).filter(f => f.endsWith('.json')).sort().forEach(f => {
+      const bank = json('data/quizzes/' + f);
+      sectorQuizzes[bank.pack || path.basename(f, '.json')] = bank;
+    });
+  }
   let q = fs.readFileSync(qt, 'utf8');
-  q = q.replace('__QUESTIONS_JSON__', () => safe(questions)).replace('__COMPANY__', () => company.company);
+  q = q.replace('__QUESTIONS_JSON__', () => safe(questions)).replace('__SECTOR_QUIZZES_JSON__', () => safe(sectorQuizzes)).replace('__COMPANY__', () => company.company);
   fs.writeFileSync(path.join(root, 'games/quiz/index.html'), q);
   console.log('Built games/quiz/index.html (' + Math.round(q.length / 1024) + ' KB)');
 }

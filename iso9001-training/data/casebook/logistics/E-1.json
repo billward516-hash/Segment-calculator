@@ -1,0 +1,281 @@
+{
+  "id": "LOG-E-01",
+  "pack": "logistics",
+  "type": "E",
+  "title": "The Wrong Item",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "A pharmacy chain customer of Meridian Logistics reports that order {{ord}} contained 40 units of a similar-looking product instead of the one ordered. They ask for a response within 24 hours. You have 12 visit points to contain, find the cause, and respond.",
+  "visitPoints": 12,
+  "goal": "Containment and response",
+  "branches": [
+    "Control",
+    "Cause"
+  ],
+  "tokens": {
+    "ord": [
+      "OR-55102",
+      "OR-61877",
+      "OR-48210"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Customer service",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Complaint record",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Other orders with the same item that day",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Pick face",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Adjacent pick locations",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Pick confirmation for {{ord}}",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Slotting",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Recent slotting changes",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Dispatch",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Outbound check method",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Complaint procedure",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Look-alike product list",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Pickers",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Picker: how items are confirmed",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Lighting at the pick face",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Picker headset",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Complaint CS-881 for {{ord}} logged within 1 hour with photos.",
+      "clause": "9.1.2",
+      "whyItMatters": "Captured.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Prompt.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "7 other orders picked from the same location that day went to 5 customers; none checked.",
+      "clause": "8.7",
+      "whyItMatters": "Containment must include similar output.",
+      "missedExplanation": "Check other orders from the same location.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Look-alike products sit in adjacent locations C-14 and C-15 with similar packaging.",
+      "clause": "8.5.1",
+      "whyItMatters": "Process conditions should prevent predictable mix-ups.",
+      "missedExplanation": "Look at what sits next to what.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Pick confirmation for {{ord}} used location scan only, not product barcode (method M-2).",
+      "clause": "8.5.1",
+      "whyItMatters": "Confirmation should verify the item.",
+      "missedExplanation": "Check what was scanned.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Slotting change SL-40, 2 weeks ago, placed the look-alikes side by side; no review against the look-alike list.",
+      "clause": "8.5.6",
+      "unlockedBy": [
+        "E3"
+      ],
+      "whyItMatters": "Changes must be reviewed for effect.",
+      "missedExplanation": "Ask what changed recently.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "observation",
+      "text": "Outbound check counts cartons but does not verify item codes (check OC-1).",
+      "clause": "8.6",
+      "whyItMatters": "Verifying codes at outbound would catch errors.",
+      "missedExplanation": "Read what the check covers.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Complaint procedure requires a 24-hour response.",
+      "clause": "8.2.1",
+      "whyItMatters": "Defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Defined.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Look-alike product list LA-1 exists and is current.",
+      "clause": "6.1",
+      "whyItMatters": "Risk identified; not used in slotting.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Current list.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Picker: \"The system only asks for the location scan.\" Accurate.",
+      "clause": "7.3",
+      "whyItMatters": "The picker follows the method.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Follows the method.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Lighting is adequate, measured at the standard level.",
+      "clause": "7.1.4",
+      "whyItMatters": "Not a cause.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Adequate.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Picker headset is a newer model.",
+      "clause": "7.1.3",
+      "whyItMatters": "Not relevant.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not relevant.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What should the 24-hour response include?",
+      "options": [
+        "An apology and a credit",
+        "Collection and replacement for {{ord}}, checks of the 7 other orders, the immediate cause (look-alikes side by side, location-only scanning), actions with dates, and a contact",
+        "A statement that the picker has been warned",
+        "A request that the customer sorts the goods"
+      ],
+      "bestIndex": 1,
+      "rationale": "The customer needs containment, cause, and a plan, not blame."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Contact the 5 other customers and check the 7 orders"
+    ],
+    "correction": [
+      "Replace the wrong items for {{ord}}"
+    ],
+    "cause": [
+      "Slotting change ignored the look-alike list and pick confirmation scans location only"
+    ],
+    "corrective": [
+      "Separate look-alikes, require product barcode scan, and check slotting changes against LA-1"
+    ],
+    "effectiveness": [
+      "Track wrong-item complaints for six months"
+    ]
+  },
+  "debriefText": {
+    "found": "You contained across orders and found the slotting and scan causes.",
+    "missed": "Look at what sits next to the wrong item.",
+    "falseFinding": "Lighting and headsets were not causes."
+  }
+}

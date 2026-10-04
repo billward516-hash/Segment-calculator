@@ -1,0 +1,281 @@
+{
+  "id": "PRO-B-01",
+  "pack": "professional-services",
+  "type": "B",
+  "title": "Engagement File Trail",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "A Meridian Advisory client says the cost review in engagement {{eng}} used last year's rates. You need to trace the engagement file to find which data and model versions were used and which other engagements may be affected. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Scope accuracy",
+  "branches": [
+    "Mapping",
+    "Control"
+  ],
+  "tokens": {
+    "eng": [
+      "EN-3304",
+      "EN-4182",
+      "EN-2950"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Engagement file",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "File index for {{eng}}",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Data source log",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Model library",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Rate table version used",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Model version history",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Data provider",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Data provider delivery records",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Provider approval",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Other engagements",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Engagements using the same model this quarter",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Peer review",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Review checklist for {{eng}}",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Team lead",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "How rate tables are updated",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "File naming",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Printed copies on desk",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "File index for {{eng}} lists all documents with versions.",
+      "clause": "7.5.3",
+      "whyItMatters": "Trail start.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Data source log records the rate table file used: RT-2025.",
+      "clause": "7.5.1",
+      "whyItMatters": "Source recorded; leads to the version.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Recorded.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Rate table RT-2025 was superseded by RT-2026 on 1 March; {{eng}} ran in April.",
+      "clause": "7.5.3",
+      "unlockedBy": [
+        "E2"
+      ],
+      "whyItMatters": "Current approved data must be used.",
+      "missedExplanation": "Compare data versions with dates.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Model library holds RT-2025 and RT-2026 side by side; RT-2025 is not marked obsolete.",
+      "clause": "7.5.3",
+      "whyItMatters": "Obsolete documents must be removed or marked.",
+      "missedExplanation": "Look for obsolete versions still available.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "conforming",
+      "text": "Data provider delivered RT-2026 on time.",
+      "clause": "8.4",
+      "whyItMatters": "Provider performed.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "On time.",
+      "plantedPool": false
+    },
+    {
+      "id": "E6",
+      "kind": "conforming",
+      "text": "Provider approved and evaluated.",
+      "clause": "8.4",
+      "whyItMatters": "Approved.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Approved.",
+      "plantedPool": false
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "5 other engagements this quarter (EN-3310 to EN-3314) used the same model; 3 show RT-2025 in their source logs; no review started.",
+      "clause": "8.7",
+      "whyItMatters": "Containment includes other affected output.",
+      "missedExplanation": "Check other users of the same data.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "nonconformity",
+      "text": "Review checklist item 4, \"data current\", is ticked for {{eng}} with no version noted.",
+      "clause": "8.6",
+      "whyItMatters": "Review must actually verify.",
+      "missedExplanation": "Read what a tick proves.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "observation",
+      "text": "Team lead: \"Whoever notices the new table loads it.\" (note 3)",
+      "clause": "5.3",
+      "whyItMatters": "An owner for data updates would make it reliable.",
+      "missedExplanation": "Ask who owns updates.",
+      "plantedPool": true
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "File names use mixed date formats.",
+      "clause": "7.5.2",
+      "whyItMatters": "Not a requirement.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Style.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Printed copies are on a desk in a locked office.",
+      "clause": "8.5.3",
+      "whyItMatters": "Protected.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Locked office.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which engagements need review?",
+      "options": [
+        "{{eng}} only",
+        "{{eng}} and the 3 other engagements this quarter whose source logs show RT-2025, with a check of the remaining 2",
+        "All engagements ever",
+        "None"
+      ],
+      "bestIndex": 1,
+      "rationale": "The obsolete table and weak review widen the scope."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Inform the affected clients and review the 4 engagements"
+    ],
+    "correction": [
+      "Recalculate with RT-2026 and reissue reports after peer review"
+    ],
+    "cause": [
+      "No owner for data updates, obsolete tables left available, and a review tick that does not record the version"
+    ],
+    "corrective": [
+      "Assign a data owner, archive superseded tables, and require the version on the checklist"
+    ],
+    "effectiveness": [
+      "Audit source logs of engagements monthly for three months"
+    ]
+  },
+  "debriefText": {
+    "found": "You traced the data version and found other affected engagements.",
+    "missed": "A tick on a checklist does not prove the check.",
+    "falseFinding": "Naming style and locked papers are not findings."
+  }
+}

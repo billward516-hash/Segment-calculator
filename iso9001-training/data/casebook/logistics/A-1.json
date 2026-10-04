@@ -1,0 +1,284 @@
+{
+  "id": "LOG-A-01",
+  "pack": "logistics",
+  "type": "A",
+  "title": "Dock Walk",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "You walk the Meridian Logistics distribution centre at shift change, from receiving docks to dispatch, as an internal auditor. The site manager wants a view of the whole flow before a major retail customer's audit. Warehouse safety is managed separately and is outside this visit. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Coverage",
+  "branches": [
+    "Evidence"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Receiving dock",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Damaged inbound pallet",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Receiving discrepancy log",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Cold store",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Temperature logger status",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Review",
+          "label": "Temperature records",
+          "evidenceId": "E10"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Pick face",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Pick instruction at zone C",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Observe",
+          "label": "Scanner at zone C",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Returns area",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Customer returnable crates",
+          "evidenceId": "E5"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Dispatch",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Load check records",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Observe",
+          "label": "Pallet labels on outbound lane 3",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Shift lead",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "What to do when a count is wrong",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Observe",
+          "label": "Shift rota",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Floor markings",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Inbound pallet IN-5521 of customer goods has crushed cartons; it is put away in bay 14 with no damage record and no customer notice.",
+      "clause": "8.5.3",
+      "whyItMatters": "Customer goods are customer property; damage must be recorded and reported.",
+      "missedExplanation": "Watch what happens to damaged goods.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Cold store temperature logger TL-4 verification is overdue by 6 weeks.",
+      "clause": "7.1.5",
+      "whyItMatters": "Monitoring devices must be verified at the planned interval.",
+      "missedExplanation": "Read verification labels on loggers.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Pick instruction at zone C is issue 5; the system shows issue 6 with a new slotting map for 40 locations.",
+      "clause": "7.5.3",
+      "whyItMatters": "Current instructions must be at the point of use.",
+      "missedExplanation": "Compare issue numbers.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "observation",
+      "text": "Scanner SC-12 at zone C fails to read 1 in 10 labels; pickers key codes by hand.",
+      "clause": "7.1.5",
+      "whyItMatters": "Manual keying increases errors; repair would reduce risk.",
+      "missedExplanation": "Watch how scanners are used.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Customer returnable crates (about 60, owner code RC-7) are stacked outside, unlabeled and mixed with company crates.",
+      "clause": "8.5.3",
+      "whyItMatters": "Customer property must be identified and protected.",
+      "missedExplanation": "Ask who owns the crates.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "conforming",
+      "text": "Load check records for this morning's 12 loads are complete and signed.",
+      "clause": "8.6",
+      "whyItMatters": "Release checks done.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "2 pallets in outbound lane 3 carry labels for order OR-9902, but the system shows them as order OR-9920.",
+      "clause": "8.5.2",
+      "whyItMatters": "Identification must match the record.",
+      "missedExplanation": "Compare labels with the system.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Shift lead: \"A wrong count goes on hold in the red lane until checked and authorized.\"",
+      "clause": "8.7",
+      "whyItMatters": "Staff know the process.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Sound answer.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Receiving discrepancy log is complete for the week.",
+      "clause": "8.4",
+      "whyItMatters": "Discrepancies recorded.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "conforming",
+      "text": "Temperature records for the week are complete and within range.",
+      "clause": "9.1.1",
+      "whyItMatters": "Monitoring done.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "The shift rota is handwritten.",
+      "clause": "7.1.2",
+      "whyItMatters": "Acceptable.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not a requirement.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "Floor markings are faded in one aisle; the safety team has a work order.",
+      "clause": "7.1.4",
+      "whyItMatters": "Safety matter outside this visit and already in hand.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Outside this visit and already addressed.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What needs action before the next dispatch wave?",
+      "options": [
+        "The rota",
+        "Hold the 2 mislabeled pallets in lane 3 and correct them, and segregate and report the damaged customer pallet",
+        "Nothing until the audit",
+        "Stop all dispatch for the day"
+      ],
+      "bestIndex": 1,
+      "rationale": "Issues that could send the wrong goods or hide damage come first."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold lane 3 pallets until labels match the system; segregate pallet IN-5521"
+    ],
+    "correction": [
+      "Relabel, report damage to the customer, label the crates, verify TL-4, and post issue 6"
+    ],
+    "cause": [
+      "No receiving damage step, no logger due alert, and no issue control at pick faces"
+    ],
+    "corrective": [
+      "Add a damage step at receiving, logger due alerts, and a weekly instruction issue check"
+    ],
+    "effectiveness": [
+      "Repeat the walk monthly for three months"
+    ]
+  },
+  "debriefText": {
+    "found": "You covered receiving to dispatch.",
+    "missed": "Compare labels with system records.",
+    "falseFinding": "A handwritten rota and a known safety work order are not quality findings."
+  }
+}

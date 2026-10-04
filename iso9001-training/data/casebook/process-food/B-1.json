@@ -1,0 +1,300 @@
+{
+  "id": "FOD-B-01",
+  "pack": "process-food",
+  "type": "B",
+  "title": "Where Did Batch 62 Go",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Meridian Foods learns that sweetener lot SW-90, used on {{day}}, was supplied with the wrong grade. You need to find where production batch {{b}} and any other batch using SW-90 went, and define what is affected. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Scope accuracy",
+  "branches": [
+    "Mapping",
+    "Control"
+  ],
+  "tokens": {
+    "b": [
+      "62",
+      "62",
+      "62"
+    ],
+    "day": [
+      "Monday",
+      "Tuesday",
+      "Wednesday"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Goods receiving",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Receiving record for lot SW-90",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Supplier certificate for SW-90",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Weighing room",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Weighing record for batch {{b}}",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Weighing records for the rest of {{day}}",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Processing",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Batch record for batch {{b}}",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Rework log",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Warehouse",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Finished goods stock report",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Observe",
+          "label": "Pallet labels in bay 6",
+          "evidenceId": "E12"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Dispatch",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Dispatch records for the week",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Traceability exercise records",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Supplier evaluation file",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Wall calendar",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Receiving record shows lot SW-90 received on day 2, quantity 400 kg, with an internal lot code R-1144.",
+      "clause": "8.5.2",
+      "whyItMatters": "Receiving links supplier lot to internal code; the trail starts here.",
+      "missedExplanation": "This record gives the internal code to search for.",
+      "falseFindingNote": "Receiving identification is complete. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Certificate for SW-90 states grade B; purchase order PO-7713 requires grade A. The certificate is stamped \"checked\".",
+      "clause": "8.4",
+      "whyItMatters": "Verification of external inputs must compare them with the requirement. A stamp without a real comparison does not verify.",
+      "missedExplanation": "Compare the certificate with the purchase order, not just the stamp.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "conforming",
+      "text": "Weighing record for batch {{b}} lists R-1144, 12 kg, and the weigher's initials.",
+      "clause": "8.5.2",
+      "whyItMatters": "Batch records show which ingredient lots were used.",
+      "missedExplanation": "This record confirms batch {{b}} is affected.",
+      "falseFindingNote": "Weighing traceability is complete for this batch.",
+      "plantedPool": false
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Weighing records for {{day}}: batches 63 and 64 list sweetener as \"SW\" with no lot code.",
+      "clause": "8.5.2",
+      "unlockedBy": [
+        "E3"
+      ],
+      "whyItMatters": "Without lot codes the organization cannot prove which batches used SW-90; scope widens to every batch where it is unknown.",
+      "missedExplanation": "Read every batch from the same day, not just the named batch.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "conforming",
+      "text": "Batch record for batch {{b}} is complete with process times and sign-off.",
+      "clause": "8.5.1",
+      "whyItMatters": "Production records are complete.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete records. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Rework log: 30 kg of batch {{b}} was reworked into batch 66 on day 4. The log does not record which cases of batch 66 contain it.",
+      "clause": "8.5.2",
+      "whyItMatters": "Rework must stay traceable; otherwise affected product spreads unseen.",
+      "missedExplanation": "Rework logs show where product went after the first batch.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Stock report shows 140 cases of batch {{b}} and 80 cases of batch 66 still in the warehouse.",
+      "clause": "8.5.2",
+      "whyItMatters": "Knowing what remains is the start of containment.",
+      "missedExplanation": "Check stock before dispatch for scope.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "nonconformity",
+      "text": "Dispatch records: 3 customer orders this week list \"mixed batches\" on pallet PL-77 without batch numbers per case.",
+      "clause": "8.5.2",
+      "whyItMatters": "Dispatch records should allow tracing to the customer. \"Mixed batches\" breaks the trail.",
+      "missedExplanation": "Look for vague entries in dispatch records.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "nonconformity",
+      "text": "Traceability exercise records: the last mock trace was 14 months ago; the plan requires every 6 months.",
+      "clause": "8.5.2, 9.1.1",
+      "whyItMatters": "Planned checks of the traceability system show whether it works before it is needed.",
+      "missedExplanation": "Ask when traceability was last tested.",
+      "plantedPool": true
+    },
+    {
+      "id": "E10",
+      "kind": "conforming",
+      "text": "The sweetener supplier is approved, with an evaluation 5 months ago.",
+      "clause": "8.4",
+      "whyItMatters": "The supplier is approved; the gap is in checking the delivery.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Supplier approval is current. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "The wall calendar still shows last month's page.",
+      "clause": "7.4",
+      "whyItMatters": "A calendar page is not a quality record.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not a quality matter.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "Pallet labels in bay 6 are hand-corrected for quantity with initials and date.",
+      "clause": "8.5.2",
+      "whyItMatters": "A controlled correction is acceptable.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Corrections with initials and date are conforming.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which production batches need to be held or reviewed?",
+      "options": [
+        "Batch {{b}} only",
+        "Batch {{b}}, batches 63 and 64 (lot unknown), batch 66 (rework), and the 3 customer orders on pallet PL-77",
+        "Every batch made this year",
+        "None until the supplier confirms"
+      ],
+      "bestIndex": 1,
+      "rationale": "Each gap widens the scope: unknown lot codes, rework, and mixed dispatch pallets."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold remaining stock of batches {{b}}, 63, 64, and 66 and contact the 3 customers"
+    ],
+    "correction": [
+      "Evaluate the affected product with the customer and dispose as authorized"
+    ],
+    "cause": [
+      "Certificate checks rely on a stamp rather than a comparison, and lot codes are optional in weighing and rework records"
+    ],
+    "corrective": [
+      "Make lot code a required field in weighing, rework, and dispatch records; add a certificate-to-order comparison step"
+    ],
+    "effectiveness": [
+      "Run a mock trace within one month and every six months after, with a time target"
+    ]
+  },
+  "debriefText": {
+    "found": "You followed the lot from receiving to customers, including rework.",
+    "missed": "Rework logs and other batches from the same day are where traceability breaks most often.",
+    "falseFinding": "A properly corrected label is conforming."
+  }
+}

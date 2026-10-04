@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sector Casebook</title>
+<style>
+:root{
+  --paper:#f7f3ea;--paper-2:#ede5d4;--sheet:#fffdf8;--ink:#262421;--ink-soft:#57514a;--rule:#b9ad97;--rule-soft:#d9cfbd;
+  --accent-light:#2c5175;--accent-dark:#a6c2e2;--accent:var(--accent-light);
+  --stamp:#7c2d1c;--focus:#7a3e00;--hl:#efe4c8;
+  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --size:17px
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#1e1c19;--paper-2:#2a2621;--sheet:#25221e;--ink:#ece6da;--ink-soft:#c9c0b1;--rule:#6d6457;--rule-soft:#433d35;
+  --accent:var(--accent-dark);--stamp:#f0a58e;--focus:#ffd27a;--hl:#3a3326}}
+:root[data-theme="dark"]{
+  --paper:#1e1c19;--paper-2:#2a2621;--sheet:#25221e;--ink:#ece6da;--ink-soft:#c9c0b1;--rule:#6d6457;--rule-soft:#433d35;
+  --accent:var(--accent-dark);--stamp:#f0a58e;--focus:#ffd27a;--hl:#3a3326}
+*{box-sizing:border-box}
+html{font-size:var(--size)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.25;color:var(--ink)}
+h1{font-size:1.6rem;margin:0}
+h2{font-size:1.35rem;margin:1.4rem 0 .5rem}
+h3{font-size:1.12rem;margin:1rem 0 .4rem}
+p{margin:.5rem 0}
+a{color:var(--accent)}
+code,.mono{font-family:var(--mono);font-size:.92em}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:var(--sheet);color:var(--ink);border:1.5px solid var(--ink-soft);border-radius:3px;padding:.38rem .8rem;cursor:pointer;font-family:var(--sans)}
+button:hover:not(:disabled){background:var(--hl)}
+button.ink{background:var(--ink);color:var(--paper);border-color:var(--ink);font-weight:600}
+button.ink:hover:not(:disabled){background:var(--accent);border-color:var(--accent);color:var(--paper)}
+button.link{border:0;background:none;color:var(--accent);text-decoration:underline;padding:.1rem .2rem}
+button:disabled{opacity:.62;cursor:not-allowed}
+input[type=text],select,textarea{background:var(--sheet);border:1.5px solid var(--ink-soft);border-radius:3px;padding:.35rem .5rem;max-width:100%}
+textarea{width:100%;min-height:5.5rem;font-family:var(--serif);line-height:1.45}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+label{font-weight:600}
+.sr{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.skip{position:absolute;left:-9999px}.skip:focus{left:1rem;top:.5rem;z-index:5;background:var(--sheet);padding:.4rem .8rem}
+
+/* masthead: a folder label rather than a toolbar */
+.masthead{display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;align-items:center;justify-content:space-between;padding:.9rem 1rem .7rem;border-bottom:3px double var(--rule)}
+.masthead .label{border:1.5px solid var(--ink);padding:.25rem .8rem;background:var(--sheet);box-shadow:3px 3px 0 var(--rule-soft)}
+.masthead .label small{display:block;font-family:var(--sans);font-size:.78rem;color:var(--ink-soft);letter-spacing:.04em}
+.masthead .tools{display:flex;flex-wrap:wrap;gap:.4rem}
+.masthead .tools button{font-size:.85rem;padding:.25rem .6rem}
+main{max-width:66rem;margin:0 auto;padding:1rem}
+
+/* shelf of folders */
+.sector-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:.7rem;margin:.6rem 0 1rem;padding:0;list-style:none}
+.sector-list button{width:100%;text-align:left;padding:.6rem .8rem .6rem 1.1rem;position:relative;background:var(--sheet);border:1.5px solid var(--rule)}
+.sector-list button::before{content:"";position:absolute;left:0;top:0;bottom:0;width:.45rem;background:var(--swatch)}
+.sector-list button[aria-pressed="true"]{border:2.5px solid var(--ink);font-weight:600}
+.sector-list button[aria-pressed="true"]::after{content:"Selected";position:absolute;right:.5rem;top:.35rem;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+.sector-list .co{display:block;font-size:.85rem;color:var(--ink-soft);font-weight:400}
+.sheet{background:var(--sheet);border:1px solid var(--rule);padding:1rem 1.1rem;margin:.8rem 0;position:relative}
+.sheet.clip::before{content:"";position:absolute;top:-.55rem;left:1.4rem;width:.8rem;height:2rem;border:2px solid var(--ink-soft);border-radius:.5rem;background:transparent}
+.memo{border-left:5px solid var(--accent)}
+.margin{border-left:2px solid var(--accent);padding:.1rem 0 .1rem .8rem;margin:.6rem 0;font-family:var(--serif);font-style:italic}
+.margin b{font-style:normal;font-family:var(--sans);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;display:block;color:var(--ink-soft)}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.muted{color:var(--ink-soft)}
+.small{font-size:.88rem}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));gap:1rem}
+table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.95rem}
+th,td{border-bottom:1px solid var(--rule-soft);padding:.4rem .45rem;text-align:left;vertical-align:top}
+thead th{border-bottom:2px solid var(--ink-soft);font-family:var(--sans);font-size:.85rem;letter-spacing:.03em}
+.tablewrap{overflow-x:auto}
+ul.plain{list-style:none;padding:0;margin:.3rem 0}
+ul.plain li{margin:.35rem 0}
+
+/* rubber stamps: text always carries the meaning */
+.stamp{display:inline-block;font-family:var(--sans);font-weight:800;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;border:2.5px double var(--stamp);color:var(--stamp);padding:.05rem .45rem;transform:rotate(-2deg);margin:0 .3rem .2rem 0;background:transparent}
+.stamp.plain{border-color:var(--ink-soft);color:var(--ink-soft)}
+.stamp.acc{border-color:var(--accent);color:var(--accent)}
+
+/* case folder with tabs */
+.folder-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 1rem;align-items:flex-end;margin-top:.4rem}
+.casecode{font-family:var(--mono);font-size:1rem;border:1.5px dashed var(--ink-soft);padding:.1rem .5rem;background:var(--sheet)}
+.points{font-family:var(--sans);font-weight:600}
+.pips{display:inline-flex;gap:3px;vertical-align:middle;margin-left:.3rem}
+.pips i{display:inline-block;width:.55rem;height:.9rem;border:1.5px solid var(--ink-soft)}
+.pips i.full{background:var(--accent);border-color:var(--accent)}
+[role=tablist]{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.8rem;border-bottom:2px solid var(--ink-soft);padding-left:.4rem}
+[role=tab]{border:1.5px solid var(--rule);border-bottom:0;border-radius:.6rem .6rem 0 0;background:var(--paper-2);padding:.35rem .95rem .3rem;margin-bottom:-2px;font-family:var(--serif);font-size:1rem}
+[role=tab][aria-selected=true]{background:var(--sheet);border-color:var(--ink-soft);border-bottom:2px solid var(--sheet);font-weight:700}
+[role=tabpanel]{background:var(--sheet);border:1.5px solid var(--ink-soft);border-top:0;padding:1rem 1.1rem 1.4rem}
+.spots{display:grid;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));gap:.8rem}
+.spot{border:1px solid var(--rule);background:var(--paper);padding:.6rem .8rem}
+.spot h3{margin:.1rem 0 .4rem;font-size:1.05rem}
+.spot ul{list-style:none;padding:0;margin:0}
+.spot li{margin:.3rem 0}
+.spot button{width:100%;text-align:left}
+.spot .done{font-size:.9rem;color:var(--ink-soft)}
+.verb{font-family:var(--sans);font-size:.72rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-right:.35rem}
+.evcard{border:1px solid var(--rule);background:var(--paper);padding:.7rem .9rem;margin:.7rem 0;box-shadow:2px 2px 0 var(--rule-soft)}
+.evcard .meta{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft)}
+.evcard .txt{font-family:var(--serif);font-size:1.05rem;margin:.35rem 0}
+.evcard fieldset{border:0;padding:0;margin:.4rem 0}
+.evcard legend{font-weight:600;font-size:.9rem;padding:0}
+.choice{display:inline-flex;align-items:center;gap:.3rem;margin:.15rem .7rem .15rem 0;font-weight:400}
+.choice input{width:1.05rem;height:1.05rem}
+details{margin:.4rem 0}
+summary{cursor:pointer;font-weight:600}
+.notice{border-top:3px double var(--rule);margin-top:2rem;padding:1rem;color:var(--ink-soft);font-size:.86rem;max-width:66rem;margin-left:auto;margin-right:auto}
+.big{font-size:2.6rem;font-family:var(--mono);letter-spacing:.06em}
+.timer{font-size:3rem;font-family:var(--mono)}
+.msg{border:1.5px solid var(--ink-soft);background:var(--hl);padding:.5rem .8rem;margin:.6rem 0}
+.measure{font-family:var(--mono);font-weight:700;white-space:nowrap}
+.opt{display:flex;gap:.6rem;align-items:flex-start;border:1px solid var(--rule);padding:.5rem .7rem;margin:.4rem 0;background:var(--paper);font-weight:400}
+.opt input{margin-top:.3rem}
+.hintlog li{margin:.2rem 0}
+@media (max-width:640px){
+  main{padding:.7rem 16px}
+  .masthead{padding:.7rem 16px}
+  [role=tab]{padding:.3rem .55rem;font-size:.92rem}
+  [role=tabpanel]{padding:.8rem .7rem 1rem}
+  .big{font-size:1.8rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+@media print{.masthead .tools,.noprint,button{display:none!important}body{background:#fff;color:#000}[role=tabpanel],.sheet{border-color:#000}}
+</style>
+</head>
+<body>
+<a class="skip" href="#app">Skip to the casebook</a>
+<header class="masthead">
+  <div class="label"><h1>Sector Casebook</h1><small>Quality training program · Industry Deep-Dive Track</small></div>
+  <div class="tools noprint">
+    <button type="button" data-act="home" id="t-home">Case shelf</button>
+    <button type="button" data-act="textsize" id="t-text" aria-pressed="false">Larger text</button>
+    <button type="button" data-act="theme" id="t-theme">Light or dark paper</button>
+  </div>
+</header>
+<main id="app" tabindex="-1"></main>
+<div id="live" class="sr" role="status" aria-live="polite"></div>
+<footer class="notice">
+  <p>This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body.</p>
+  <p>Fictional organization. Examples are illustrative. Sector-specific legal, clinical, safety, and food safety requirements are outside this program. Clause references use ISO 9001:2015 numbering and are unverified until confirmed against the purchased standard.</p>
+  <p>Results codes are a training aid, not an assessment record. The Sector Practitioner badge is recorded only after an instructor reviews the learner's work.</p>
+</footer>
+
+<script type="application/json" id="cb-data">__CASEBOOK_DATA__</script>
+<script>
+/*__RNG__*/
+/*__ENGINE__*/
+</script>
+<script>
+(function () {
+'use strict';
+var DATA = JSON.parse(document.getElementById('cb-data').textContent);
+var SAVE_KEY = 'iso9001-casebook-v1';
+var TYPES = DATA.meta.caseTypes;
+var CLAUSE_TITLE = {};
+DATA.clauses.forEach(function (c) { CLAUSE_TITLE[c.id] = c.title; });
+Object.keys(DATA.meta.clauseFamilies).forEach(function (k) { if (!CLAUSE_TITLE[k]) CLAUSE_TITLE[k] = DATA.meta.clauseFamilies[k]; });
+
+var S = {
+  screen: 'shelf', sector: null, gen: null, visit: null, tab: 'brief', last: null, flash: '', debrief: null, resultCode: '',
+  progress: { learner: '', sectors: {} }, drill: null, drillView: null, compare: { clause: '', a: '', b: '', shown: false, text: '' },
+  room: { code: '', gen: null, reveal: false, secs: 1500, left: 1500, running: false, timerId: null, tally: '', names: false, error: '' },
+  draft: { clause: '', evidence: null, statement: '', editing: null }, openCodeError: ''
+};
+
+/* ---------- utilities ---------- */
+function esc(s) { return String(s === undefined || s === null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function live(m) { var el = document.getElementById('live'); el.textContent = ''; setTimeout(function () { el.textContent = m; }, 30); }
+function sectorByPack(p) { return DATA.sectors.filter(function (s) { return s.pack === p; })[0]; }
+function sectorByCode(c) { return DATA.sectors.filter(function (s) { return s.code === c; })[0]; }
+function casesOf(p) { return (DATA.cases[p] || []).slice().sort(function (a, b) { return a.id < b.id ? -1 : 1; }); }
+function pctText(v) { return v === null || v === undefined ? 'Not applicable' : Math.round(v * 100) + ' percent'; }
+function clauseLabel(id) { return id + (CLAUSE_TITLE[id] ? ' ' + CLAUSE_TITLE[id] : ''); }
+function setAccent(sec) {
+  var r = document.documentElement.style;
+  r.setProperty('--accent-light', sec ? sec.accent.light : '#2c5175');
+  r.setProperty('--accent-dark', sec ? sec.accent.dark : '#a6c2e2');
+}
+function prog(pack) {
+  if (!S.progress.sectors[pack]) S.progress.sectors[pack] = { primer: false, drillBest: null, attempts: [], reflection: ['', '', ''], reflectionSubmitted: false };
+  return S.progress.sectors[pack];
+}
+function save() {
+  try {
+    var cur = null;
+    if (S.visit && !S.visit.closed) { var v = {}; Object.keys(S.visit).forEach(function (k) { if (k !== 'gen') v[k] = S.visit[k]; }); cur = { code: S.gen.code, visit: v, tab: S.tab }; }
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ progress: S.progress, sector: S.sector, current: cur }));
+  } catch (e) { /* storage may be unavailable; progress stays in memory and in results codes */ }
+}
+function load() {
+  try { var s = localStorage.getItem(SAVE_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; }
+}
+function download(name, text) {
+  try {
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
+    a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+    return true;
+  } catch (e) { return false; }
+}
+function copyText(text, msg) {
+  try { navigator.clipboard.writeText(text).then(function () { live(msg || 'Copied.'); }, function () { live('Copy is blocked here. Select the text and copy it.'); }); }
+  catch (e) { live('Copy is blocked here. Select the text and copy it.'); }
+}
+function srcOf(gen, id) {
+  for (var i = 0; i < gen.hotspots.length; i++) for (var j = 0; j < gen.hotspots[i].actions.length; j++) {
+    var a = gen.hotspots[i].actions[j]; if (a.evidenceId === id) return { h: gen.hotspots[i], a: a };
+  }
+  return null;
+}
+function clauseOptions(sel, placeholder) {
+  return '<option value="">' + esc(placeholder || 'Choose a clause') + '</option>' + DATA.clauses.map(function (c) {
+    return '<option value="' + esc(c.id) + '"' + (sel === c.id ? ' selected' : '') + '>' + esc(c.id + ' ' + c.title) + '</option>';
+  }).join('');
+}
+
+/* ---------- rendering ---------- */
+function render() {
+  var ae = document.activeElement, active = ae && ae.id, selS = null, selE = null;
+  try { if (ae && (ae.tagName === 'TEXTAREA' || (ae.tagName === 'INPUT' && ae.type === 'text'))) { selS = ae.selectionStart; selE = ae.selectionEnd; } } catch (e) { /* ignore */ }
+  var app = document.getElementById('app');
+  var html = '';
+  if (S.screen === 'shelf') html = viewShelf();
+  else if (S.screen === 'case') html = viewCase();
+  else if (S.screen === 'drills') html = viewDrills();
+  else if (S.screen === 'compare') html = viewCompare();
+  else if (S.screen === 'room') html = viewRoom();
+  app.innerHTML = html;
+  if (active) { var el = document.getElementById(active); if (el) { el.focus(); if (selS !== null) { try { el.setSelectionRange(selS, selE); } catch (e) { /* ignore */ } } } }
+}
+
+function badgeStatus(pack) {
+  var p = prog(pack), cs = casesOf(pack);
+  var attemptedTypes = {};
+  p.attempts.forEach(function (a) { if (a.edition !== '2026') attemptedTypes[a.type] = true; });
+  var six = cs.filter(function (c) { return c.edition === '2015'; }).every(function (c) { return attemptedTypes[c.type]; }) && cs.length >= 6;
+  var items = [
+    { label: DATA.meta.badgeCriteria[0], ok: p.primer },
+    { label: DATA.meta.badgeCriteria[1], ok: p.drillBest !== null && p.drillBest >= 80, note: p.drillBest === null ? 'Not yet taken' : 'Best first-try score ' + p.drillBest + ' percent' },
+    { label: DATA.meta.badgeCriteria[2], ok: six, note: Object.keys(attemptedTypes).filter(function (t) { return t !== 'X'; }).length + ' of 6 case types attempted' },
+    { label: DATA.meta.badgeCriteria[3], ok: !!attemptedTypes.X },
+    { label: DATA.meta.badgeCriteria[4], ok: p.reflectionSubmitted },
+    { label: DATA.meta.badgeCriteria[5], ok: null }
+  ];
+  var ready = items.slice(0, 5).every(function (i) { return i.ok; });
+  return { items: items, ready: ready };
+}
+
+function viewShelf() {
+  var h = '<h2>The case shelf</h2>' +
+    '<p>The Sector Casebook is part of the optional Industry Deep-Dive Track. You visit fictional organizations as an investigator, gather evidence, link it to requirements, and decide on actions. The core modules are recommended first, but nothing is locked: open any part of a track, in any order.</p>';
+  if (S.flash) h += '<p class="msg" role="status">' + esc(S.flash) + '</p>';
+  if (S.resume) {
+    h += '<div class="sheet clip memo"><h3>Unfinished visit</h3><p>A visit to case <span class="mono">' + esc(S.resume.code) + '</span> was saved on this device.</p><div class="row"><button type="button" class="ink" data-act="resume" id="b-resume">Resume the visit</button><button type="button" data-act="discard-resume" id="b-discard">Set it aside</button></div></div>';
+  }
+  h += '<div class="sheet"><label for="learner">Name or initials for results codes (optional)</label><p class="small muted">Kept only on this device and inside the results codes you choose to share.</p><input type="text" id="learner" data-field="learner" maxlength="40" value="' + esc(S.progress.learner) + '"></div>';
+  h += '<h3 id="sec-h">Choose a sector</h3><ul class="sector-list" aria-labelledby="sec-h">' + DATA.sectors.map(function (s) {
+    return '<li><button type="button" id="sec-' + s.code + '" data-act="sector" data-pack="' + s.pack + '" aria-pressed="' + (S.sector === s.pack) + '" style="--swatch:' + s.accent.light + '">' + esc(s.name) + '<span class="co">' + esc(s.company) + ' · ' + esc(s.accent.name) + ' folder</span></button></li>';
+  }).join('') + '</ul>';
+  h += '<div class="sheet"><h3>Open a case by code</h3><p class="small">A code such as <span class="mono">MFG-B-7K3Q</span> reproduces the same case on any device. Use the code your facilitator gives you.</p>' +
+    '<div class="row"><label class="sr" for="opencode">Case code</label><input type="text" id="opencode" class="mono" size="14" maxlength="14" placeholder="MFG-B-7K3Q"><button type="button" class="ink" data-act="open-code" id="b-open-code">Open case</button></div>' +
+    (S.openCodeError ? '<p class="msg" role="alert">' + esc(S.openCodeError) + '</p>' : '') + '</div>';
+  if (S.sector) h += viewTrack(S.sector);
+  h += '<div class="sheet"><h3>For facilitators and cross-sector study</h3><div class="row">' +
+    '<button type="button" data-act="room" id="b-room">Case Room facilitator view</button>' +
+    '<button type="button" data-act="compare" id="b-compare">Compare two sectors</button>' +
+    '<a href="results-reader.html">Open the Results Reader</a></div></div>';
+  return h;
+}
+
+function viewTrack(pack) {
+  var s = sectorByPack(pack), p = prog(pack), cs = casesOf(pack);
+  var attempts = p.attempts;
+  var map = CB.skillMap(attempts);
+  var rec = CB.recommendNext(map, attempts.map(function (a) { return a.caseId; }), cs);
+  var h = '<section class="sheet clip memo" aria-labelledby="track-h"><h2 id="track-h">' + esc(s.name) + ' track</h2>' +
+    '<p class="muted">' + esc(s.company) + ' (fictional). Process stages: ' + esc((s.stages || []).join(' → ')) + '.</p>';
+  h += '<h3>1. Sector primer</h3><p>Read how ISO 9001 shows up in this sector: process map, clause table, records, typical nonconformities, vocabulary, and scheme notes.</p><div class="row">' +
+    (DATA.primers[pack] ? '<a href="../../sector-tracks.html#' + esc(pack) + '-primer">Open the ' + esc(s.name) + ' primer</a>' : '<span class="muted">Primer not yet available.</span>') +
+    '<label class="choice"><input type="checkbox" id="primer-read" data-act="primer" ' + (p.primer ? 'checked' : '') + '> I have read the primer</label></div>';
+  var nd = (DATA.drills[pack] || []).length;
+  h += '<h3>2. Sector drills</h3><p>' + nd + ' untimed items with immediate feedback: multiple choice, Translate items, and a scenario sort. Missed items return until they are secure. The pass mark is 80 percent on the first try.</p>' +
+    '<div class="row"><button type="button" data-act="drills" id="b-drills"' + (nd ? '' : ' disabled') + '>Start the drills</button><span>' + (p.drillBest === null ? 'Not yet taken.' : 'Best first-try score: ' + p.drillBest + ' percent.') + '</span>' +
+    (DATA.primers[pack] ? '<a href="../../sector-tracks.html#' + esc(pack) + '-drills">Printable drills</a>' : '') + '</div>';
+  h += '<h3>3. Six cases</h3><div class="tablewrap"><table><thead><tr><th scope="col">Type</th><th scope="col">Case</th><th scope="col">Goal</th><th scope="col">Main branch</th><th scope="col">Status</th><th scope="col"><span class="sr">Open</span></th></tr></thead><tbody>' +
+    cs.map(function (c) {
+      var mine = attempts.filter(function (a) { return a.caseId === c.id; });
+      var lastA = mine[mine.length - 1];
+      return '<tr><td>' + c.type + '. ' + esc(TYPES[c.type].name) + '</td><td><strong>' + esc(c.title) + '</strong>' + (c.edition === '2026' ? ' <span class="stamp">2026 variant, unverified</span>' : '') + '<br><span class="small muted">About ' + TYPES[c.type].minutes + ' minutes</span></td><td class="small">' + esc(c.goal) + '</td><td>' + esc(c.branches.join(', ')) + '</td><td>' +
+        (lastA ? '<span class="stamp acc">Reviewed</span><br><span class="small">' + mine.length + ' attempt' + (mine.length === 1 ? '' : 's') + '; coverage ' + pctText(lastA.measures.coverage) + '</span>' : '<span class="small muted">Not yet attempted</span>') +
+        '</td><td><button type="button" data-act="start" data-case="' + c.id + '" id="start-' + c.id + '">Open with a new seed</button></td></tr>';
+    }).join('') + '</tbody></table></div>';
+  h += '<h3>4. Sector capstone</h3><p>An unseen visit built from at least three case types of this sector, with 16 visit points. About 30 minutes.</p><button type="button" data-act="start-cap" id="b-cap">Open a capstone</button>';
+  h += '<h3>5. Reflection</h3><p class="small">Kept with your training record. Your instructor reads it during the badge review.</p>';
+  DATA.meta.reflectionQuestions.forEach(function (q, i) {
+    h += '<label for="refl-' + i + '">' + esc((i + 1) + '. ' + q) + '</label><textarea id="refl-' + i + '" data-field="refl" data-i="' + i + '">' + esc(p.reflection[i]) + '</textarea>';
+  });
+  h += '<div class="row"><button type="button" data-act="refl-submit" id="b-refl">' + (p.reflectionSubmitted ? 'Update the reflection' : 'Submit the reflection') + '</button>' + (p.reflectionSubmitted ? '<span class="stamp acc">Submitted</span>' : '') + '</div>';
+  var bs = badgeStatus(pack);
+  h += '<h3>6. Sector Practitioner: ' + esc(s.name) + '</h3><ul class="plain">' + bs.items.map(function (it) {
+    return '<li>' + (it.ok === null ? '<span class="stamp plain">Instructor</span>' : (it.ok ? '<span class="stamp acc">Done</span>' : '<span class="stamp plain">Open</span>')) + esc(it.label) + (it.note ? ' <span class="small muted">(' + esc(it.note) + ')</span>' : '') + '</li>';
+  }).join('') + '</ul><p><strong>Status:</strong> ' + (bs.ready ? 'Ready for instructor review. The badge is recorded only after the instructor reviews your capstone findings.' : 'In progress. No score decides the badge on its own; an instructor reviews your work.') + '</p>';
+  h += '<h3>Skill map</h3>' + skillTable(map, null) +
+    (rec ? '<p><strong>Suggested next case:</strong> ' + esc(caseTitle(rec.caseId)) + '. ' + esc(rec.reason) + ' <button type="button" data-act="start" data-case="' + rec.caseId + '" id="rec-' + rec.caseId + '">Open it</button></p>' : '');
+  if (attempts.length) {
+    var all = attempts.map(function (a) { return a.resultCode; }).join('\n');
+    h += '<h3>Your results codes</h3><label class="sr" for="codes-all">Results codes</label><textarea id="codes-all" class="mono" readonly rows="' + Math.min(8, attempts.length + 1) + '">' + esc(all) + '</textarea>' +
+      '<div class="row"><button type="button" data-act="copy-codes" id="b-copy-codes">Copy all codes</button><button type="button" data-act="export-record" id="b-export-record">Save my track record as text</button></div>';
+  }
+  h += '</section>';
+  return h;
+}
+function caseTitle(id) {
+  for (var p in DATA.cases) { var c = DATA.cases[p].filter(function (x) { return x.id === id; })[0]; if (c) return c.type + '. ' + c.title; }
+  return id;
+}
+function skillTable(map, thisCase) {
+  return '<div class="tablewrap"><table><thead><tr><th scope="col">Branch</th><th scope="col">What it builds</th>' + (thisCase ? '<th scope="col">This case</th>' : '') + '<th scope="col">Overall marker</th></tr></thead><tbody>' +
+    DATA.meta.branches.map(function (b) {
+      var m = map[b.name];
+      return '<tr><th scope="row">' + esc(b.name) + '</th><td class="small">' + esc(b.builds) + '</td>' + (thisCase ? '<td class="measure">' + pctText(thisCase[b.name]) + '</td>' : '') +
+        '<td><strong>' + esc(m.marker) + '</strong>' + (m.value !== null ? ' <span class="small muted">(' + Math.round(m.value * 100) + ' percent, ' + m.cases + ' case' + (m.cases === 1 ? '' : 's') + ')</span>' : '') + '</td></tr>';
+    }).join('') + '</tbody></table></div>';
+}
+
+/* ---------- case folder ---------- */
+var TABS = [['brief', 'Brief'], ['site', 'Site'], ['notebook', 'Notebook'], ['findings', 'Findings'], ['debrief', 'Debrief']];
+function viewCase() {
+  var g = S.gen, v = S.visit;
+  var tinfo = TYPES[g.type];
+  var pips = '';
+  for (var i = 0; i < g.visitPoints; i++) pips += '<i class="' + (i < v.points ? 'full' : '') + '"></i>';
+  var h = '<div class="folder-head"><div><p class="small muted" style="margin:0">' + esc(g.company) + ' · ' + esc(g.type + '. ' + tinfo.name) + '</p><h2 style="margin:.1rem 0">' + esc(g.title) + '</h2></div>' +
+    '<div><span class="casecode" aria-label="Case code">' + esc(g.code) + '</span> <span class="points">Visit points left: ' + v.points + ' of ' + g.visitPoints + '</span><span class="pips" aria-hidden="true">' + pips + '</span></div></div>';
+  h += '<div role="tablist" aria-label="Case folder">' + TABS.map(function (t) {
+    var sel = S.tab === t[0];
+    var label = t[1] + (t[0] === 'notebook' ? ' (' + v.collected.length + ')' : '') + (t[0] === 'findings' ? ' (' + v.findings.length + ')' : '');
+    return '<button type="button" role="tab" id="tab-' + t[0] + '" aria-controls="panel" aria-selected="' + sel + '" tabindex="' + (sel ? 0 : -1) + '" data-act="tab" data-tab="' + t[0] + '">' + esc(label) + '</button>';
+  }).join('') + '</div>';
+  h += '<div role="tabpanel" id="panel" aria-labelledby="tab-' + S.tab + '" tabindex="0">';
+  if (S.flash) h += '<p class="msg" role="status">' + esc(S.flash) + '</p>';
+  if (S.tab === 'brief') h += tabBrief();
+  else if (S.tab === 'site') h += tabSite();
+  else if (S.tab === 'notebook') h += tabNotebook();
+  else if (S.tab === 'findings') h += tabFindings();
+  else h += tabDebrief();
+  h += '</div>';
+  if (!v.closed) h += hintPanel();
+  return h;
+}
+function tabBrief() {
+  var g = S.gen, t = TYPES[g.type];
+  var h = '<div class="sheet memo"><p class="small muted mono">VISIT BRIEF · ' + esc(g.code) + ' · edition ' + esc(g.edition) + ' · clause tags ' + esc(g.verifyStatus2015) + '</p>' +
+    '<p style="font-family:var(--serif);font-size:1.1rem">' + esc(g.brief) + '</p>';
+  if (g.components) h += '<ol>' + g.components.map(function (c) { return '<li><strong>' + esc(c.title) + '.</strong> ' + esc(c.brief) + '</li>'; }).join('') + '</ol>';
+  h += '<table><tbody><tr><th scope="row">Your role</th><td>Investigator (internal auditor or quality representative)</td></tr>' +
+    '<tr><th scope="row">Goal for this case type</th><td>' + esc(t.goal) + '</td></tr>' +
+    '<tr><th scope="row">Skill branches</th><td>' + esc(g.branches.join(', ')) + '</td></tr>' +
+    '<tr><th scope="row">Visit points</th><td>' + g.visitPoints + '. Each Observe, Ask, or Review costs one point.</td></tr>' +
+    '<tr><th scope="row">Typical length</th><td>About ' + t.minutes + ' minutes</td></tr></tbody></table></div>';
+  if (g.edition === '2026') h += '<p class="msg">CAUTION: PRELIMINARY 2026 INFORMATION. This case reflects unverified commentary on the 2026 edition and is excluded from badge scoring until verified.</p>';
+  h += '<h3>How the visit works</h3><ol><li><strong>Site:</strong> choose where to look. Evidence cards go into your Notebook.</li><li><strong>Notebook:</strong> classify each card and link it to a clause.</li><li><strong>Findings:</strong> write a finding for each nonconformity, choose actions, and make any decisions.</li><li><strong>Debrief:</strong> see every planted issue and red herring, the reasoning, and your five measures.</li></ol>' +
+    '<p>If the visit points run out, the visit ends and you continue with what you gathered. Nothing is lost. Hints are always available and never change a measure.</p>' +
+    '<button type="button" class="ink" data-act="tab" data-tab="site" id="b-begin">Begin the visit</button>';
+  return h;
+}
+function tabSite() {
+  var g = S.gen, v = S.visit;
+  var h = '';
+  if (v.visitEnded) h += '<p class="msg">' + (v.points === 0 ? 'The visit points are used, so the visit has ended. Nothing is lost: sort your evidence in the Notebook and write your findings.' : 'You ended the visit. Continue in the Notebook and Findings.') + '</p>';
+  if (S.last) h += '<div class="evcard" id="latest" tabindex="-1"><p class="meta">LATEST · ' + esc(S.last.verb + ': ' + S.last.label) + '</p><p class="txt">' + esc(S.last.text) + '</p>' + (S.last.unlocked ? '<p class="small"><strong>New lead:</strong> ' + esc(S.last.unlocked) + '</p>' : '') + '</div>';
+  var avail = CB.availableActions(v);
+  var groups = [];
+  g.hotspots.forEach(function (hs) { if (groups.indexOf(hs.group) < 0) groups.push(hs.group); });
+  groups.forEach(function (grp) {
+    if (grp) h += '<h3>' + esc(grp) + '</h3>';
+    h += '<div class="spots">';
+    g.hotspots.filter(function (hs) { return hs.group === grp; }).forEach(function (hs) {
+      var acts = avail.filter(function (x) { return x.hotspot.id === hs.id; });
+      if (!acts.length) return;
+      h += '<section class="spot" aria-label="' + esc(hs.name) + '"><h3>' + esc(hs.name) + '</h3><ul>' + acts.map(function (x) {
+        var a = x.action;
+        if (x.done) return '<li class="done"><span class="verb">' + esc(a.verb) + '</span>' + esc(a.label) + ' · examined' + (a.evidenceId ? ' (card ' + esc(a.evidenceId) + ')' : '') + '</li>';
+        return '<li><button type="button" data-act="act" data-key="' + esc(a.key) + '" id="act-' + esc(a.key.replace(/\./g, '_')) + '"' + (v.visitEnded ? ' disabled' : '') + '><span class="verb">' + esc(a.verb) + '</span>' + esc(a.label) + ' <span class="small muted">(1 point)</span></button></li>';
+      }).join('') + '</ul></section>';
+    });
+    h += '</div>';
+  });
+  if (v.notes.length) h += '<h3>Nothing of note</h3><ul>' + v.notes.map(function (n) { return '<li>' + esc(n.label) + ': ' + esc(n.note) + '</li>'; }).join('') + '</ul>';
+  h += '<div class="row" style="margin-top:1rem">' + (v.visitEnded ? '' : '<button type="button" data-act="end-visit" id="b-end-visit">End the visit now</button>') + '<button type="button" class="ink" data-act="tab" data-tab="notebook" id="b-to-nb">Go to the Notebook</button></div>';
+  return h;
+}
+function tabNotebook() {
+  var g = S.gen, v = S.visit;
+  if (!v.collected.length) return '<p>Your Notebook is empty. Visit the Site to gather evidence.</p><button type="button" data-act="tab" data-tab="site" id="b-nb-site">Go to the Site</button>';
+  var h = '<p>For each card, choose a classification and link the clause that states the requirement. A card may conform. "Need more evidence" keeps a card open without counting it as a finding.</p>';
+  v.collected.forEach(function (id) {
+    var ev = g.evidence[id], src = srcOf(g, id), c = v.cls[id] || { cls: '', clause: '' };
+    var sid = id.replace(/\./g, '_');
+    h += '<article class="evcard" aria-labelledby="evh-' + sid + '"><p class="meta" id="evh-' + sid + '">CARD ' + esc(id) + ' · ' + esc(src ? src.h.name + ' · ' + src.a.verb + ': ' + src.a.label : '') + '</p>' +
+      (c.cls ? '<span class="stamp">' + esc(CB.CLASS_LABEL[c.cls]) + '</span>' : '<span class="stamp plain">Not yet classified</span>') +
+      '<p class="txt">' + esc(ev.text) + '</p><fieldset><legend>Classification</legend>' + CB.CLASSES.map(function (k) {
+        return '<label class="choice"><input type="radio" name="cls-' + sid + '" id="cls-' + sid + '-' + k + '" data-act="cls" data-id="' + esc(id) + '" value="' + k + '"' + (c.cls === k ? ' checked' : '') + (v.closed ? ' disabled' : '') + '> ' + esc(CB.CLASS_LABEL[k]) + '</label>';
+      }).join('') + '</fieldset>' +
+      '<label for="cl-' + sid + '">Clause link</label> <select id="cl-' + sid + '" data-act="clause" data-id="' + esc(id) + '"' + (v.closed ? ' disabled' : '') + '>' + clauseOptions(c.clause, 'No clause linked') + '</select>' +
+      (c.cls ? '<details><summary>Why this matters</summary><p>' + esc(ev.whyItMatters) + '</p></details>' : '') + '</article>';
+  });
+  h += '<button type="button" class="ink" data-act="tab" data-tab="findings" id="b-to-findings">Go to Findings</button>';
+  return h;
+}
+function tabFindings() {
+  var g = S.gen, v = S.visit, d = S.draft;
+  var h = '';
+  if (v.closed) return '<p>The case is closed. Your findings are listed in the Debrief.</p>';
+  var flagged = v.collected.filter(function (id) { var c = v.cls[id]; return c && c.cls === 'nonconformity'; });
+  if (d.evidence === null) d.evidence = flagged.filter(function (id) { return !v.findings.some(function (f) { return f.evidence.indexOf(id) >= 0; }); }).slice(0, 2);
+  h += '<section class="sheet" aria-labelledby="wf-h"><h3 id="wf-h">' + (d.editing ? 'Edit finding ' + esc(d.editing) : 'Write a finding') + '</h3>' +
+    '<p class="small">A sound finding names the requirement, cites the specific evidence (record names and numbers), is factual and neutral, and reads as a complete sentence. Write one finding for each nonconformity.</p>' +
+    '<label for="f-clause">Requirement (clause)</label><br><select id="f-clause" data-field="f-clause">' + clauseOptions(d.clause) + '</select>' +
+    '<fieldset style="border:0;padding:0;margin:.6rem 0"><legend><strong>Evidence cited</strong></legend>' +
+    (v.collected.length ? v.collected.map(function (id) {
+      var c = v.cls[id], sid = id.replace(/\./g, '_');
+      return '<label class="opt"><input type="checkbox" id="fe-' + sid + '" data-field="f-ev" value="' + esc(id) + '"' + (d.evidence.indexOf(id) >= 0 ? ' checked' : '') + '><span><span class="mono small">' + esc(id) + (c && c.cls ? ' · ' + esc(CB.CLASS_LABEL[c.cls]) : '') + '</span><br>' + esc(g.evidence[id].text) + '</span></label>';
+    }).join('') : '<p class="muted">No evidence collected yet.</p>') + '</fieldset>' +
+    '<label for="f-stmt">Finding statement</label><textarea id="f-stmt" data-field="f-stmt" rows="4">' + esc(d.statement) + '</textarea>' +
+    '<div class="row"><button type="button" data-act="frame" id="b-frame">Insert a statement frame</button><button type="button" class="ink" data-act="save-finding" id="b-save-finding">' + (d.editing ? 'Save changes' : 'Add the finding') + '</button>' + (d.editing ? '<button type="button" data-act="cancel-edit" id="b-cancel-edit">Cancel</button>' : '') + '</div></section>';
+  if (v.findings.length) {
+    h += '<h3>Findings written</h3>' + v.findings.map(function (f) {
+      return '<div class="evcard"><p class="meta">FINDING ' + esc(f.id) + ' · ' + esc(f.clause ? clauseLabel(f.clause) : 'no clause') + ' · cards ' + esc(f.evidence.join(', ') || 'none') + '</p><p class="txt">' + esc(f.statement || '(no statement)') + '</p>' +
+        '<div class="row"><button type="button" data-act="edit-finding" data-id="' + f.id + '" id="ed-' + f.id + '">Edit</button><button type="button" data-act="del-finding" data-id="' + f.id + '" id="del-' + f.id + '">Remove</button></div></div>';
+    }).join('');
+  }
+  if (g.actionOptions) {
+    h += '<section class="sheet" aria-labelledby="ap-h"><h3 id="ap-h">Action plan' + (g.actionFocus ? ' for: ' + esc(g.actionFocus) : '') + '</h3><p class="small">Choose the options that are present and proportionate for each element. Choose as many as apply.</p>';
+    CB.ACTION_CATS.forEach(function (cat) {
+      var sel = v.actions[cat] || [];
+      h += '<fieldset style="border:0;padding:0;margin:.7rem 0"><legend><strong>' + esc(CB.ACTION_LABEL[cat]) + '</strong></legend>' + g.actionOptions[cat].map(function (o) {
+        return '<label class="opt"><input type="checkbox" id="ac-' + esc(o.key.replace(/\./g, '_')) + '" data-act="action" data-cat="' + cat + '" value="' + esc(o.key) + '"' + (sel.indexOf(o.key) >= 0 ? ' checked' : '') + '><span>' + esc(o.text) + '</span></label>';
+      }).join('') + '</fieldset>';
+    });
+    h += '</section>';
+  }
+  if (g.decisions.length) {
+    h += '<section class="sheet" aria-labelledby="dc-h"><h3 id="dc-h">Decision' + (g.decisions.length > 1 ? 's' : '') + '</h3>';
+    g.decisions.forEach(function (dd) {
+      var sid = dd.id.replace(/\./g, '_');
+      h += '<fieldset style="border:0;padding:0;margin:.7rem 0"><legend><strong>' + esc(dd.prompt) + '</strong></legend>' + dd.options.map(function (o, i) {
+        return '<label class="opt"><input type="radio" name="dec-' + sid + '" id="dec-' + sid + '-' + i + '" data-act="decide" data-id="' + esc(dd.id) + '" value="' + i + '"' + (v.decisions[dd.id] === i ? ' checked' : '') + '><span>' + esc(o) + '</span></label>';
+      }).join('') + '<label for="just-' + sid + '">Your justification (optional, shown in the debrief)</label><textarea id="just-' + sid + '" data-field="just" data-id="' + esc(dd.id) + '" rows="2">' + esc(v.justifications[dd.id] || '') + '</textarea></fieldset>';
+    });
+    h += '</section>';
+  }
+  h += '<div class="sheet"><p>When you are ready, close the case. The debrief shows every planted issue and red herring, your five measures, and the reasoning. You can then replay the same case or a new one.</p><button type="button" class="ink" data-act="close-case" id="b-close-case">Close the case and open the debrief</button></div>';
+  return h;
+}
+function hintPanel() {
+  var v = S.visit;
+  return '<aside class="sheet noprint" aria-labelledby="hint-h"><h3 id="hint-h">Hints</h3><p class="small">Hints are logged for your information and shown in the debrief. They never reduce a measure.</p>' +
+    '<button type="button" data-act="hint" id="b-hint">Show a hint</button>' +
+    (v.hints.length ? '<ol class="hintlog small">' + v.hints.map(function (x) { return '<li>' + (x.level ? 'Level ' + x.level + ': ' : '') + esc(x.text) + '</li>'; }).join('') + '</ol>' : '') + '</aside>';
+}
+function measureRows(db) {
+  var names = { coverage: 'Coverage', precision: 'Precision', mapping: 'Mapping accuracy', statement: 'Statement quality', action: 'Action soundness' };
+  return Object.keys(names).map(function (k) {
+    var m = db.measures[k];
+    var val = k === 'statement' ? (m.value === null ? 'Not applicable' : m.value + ' of 4') : pctText(m.value);
+    return '<tr><th scope="row">' + names[k] + '</th><td class="measure">' + esc(val) + '</td><td>' + esc(m.detail) + '<br><span class="small muted">' + esc(m.text) + '</span></td></tr>';
+  }).join('');
+}
+function tabDebrief() {
+  var g = S.gen, v = S.visit;
+  if (!v.closed) return '<p>The debrief opens when you close the case from the Findings tab. You can close it at any time; nothing ends the case before then.</p><button type="button" data-act="tab" data-tab="findings" id="b-db-findings">Go to Findings</button>';
+  var db = S.debrief;
+  var sec = sectorByPack(g.pack);
+  var map = CB.skillMap(prog(g.pack).attempts);
+  var rec = CB.recommendNext(map, prog(g.pack).attempts.map(function (a) { return a.caseId; }), casesOf(g.pack));
+  var h = '<p><span class="stamp">Reviewed</span> <span class="small muted">Case ' + esc(g.code) + ' · debrief</span></p>';
+  h += '<h3>Five measures</h3><p class="small">There is no pass or fail score. Each measure explains one part of the investigation.</p><div class="tablewrap"><table><thead><tr><th scope="col">Measure</th><th scope="col">Result</th><th scope="col">What it means</th></tr></thead><tbody>' + measureRows(db) + '</tbody></table></div>';
+  h += '<p class="small muted">Visit points left over: ' + db.pointsLeft + '. Shown for information; it does not raise or lower any measure. Hints used: ' + db.hints.length + ' (never penalized).</p>';
+  h += '<h3>Margin notes</h3>' + db.marginNotes.map(function (n) { return '<p class="margin"><b>Inspector</b>' + esc(n) + '</p>'; }).join('');
+  h += '<h3>Coverage map</h3><p class="small">Every area of the site, with each card marked by symbol and text: ✓ found or correctly treated, ○ collected but not identified, ✗ reported as an issue but conforming, – not examined.</p><div class="spots">' + db.coverageMap.map(function (hs) {
+    return '<section class="spot"><h3>' + esc(hs.name) + (hs.group ? ' <span class="small muted">(' + esc(hs.group) + ')</span>' : '') + '</h3><ul>' + hs.items.map(function (it) {
+      var kind = it.supports ? 'supporting evidence' : ({ nonconformity: 'planted nonconformity', observation: 'planted observation', conforming: 'conforming', redHerring: 'red herring (conforming)' })[it.kind];
+      return '<li><span aria-hidden="true">' + it.status.mark + '</span> <span class="mono small">' + esc(it.id) + '</span> ' + esc(it.label) + '<br><span class="small"><strong>' + esc(it.status.label) + '</strong> · ' + esc(kind) + '</span></li>';
+    }).join('') + '</ul></section>';
+  }).join('') + '</div>';
+  h += '<h3>Planted issues</h3>' + db.expected.map(function (x) {
+    return '<div class="evcard"><p class="meta">CARD ' + esc(x.id) + (x.supports.length ? ' (supported by ' + esc(x.supports.join(', ')) + ')' : '') + ' · ' + esc(x.kind === 'observation' ? 'Observation' : 'Nonconformity') + ' · ' + esc(x.clauses.map(clauseLabel).join('; ')) + '</p>' +
+      '<span class="stamp' + (x.found ? ' acc' : '') + '">' + (x.found ? 'Found' : 'Missed') + '</span><p class="txt">' + esc(x.text) + '</p><p><strong>Why it matters:</strong> ' + esc(x.why) + '</p>' + (x.found ? '' : '<p><strong>How to notice it:</strong> ' + esc(x.missed) + '</p>') + '</div>';
+  }).join('');
+  h += '<p class="margin"><b>Inspector</b>' + esc(db.missed.length ? db.text.missed : db.text.found) + '</p>';
+  h += '<h3>False-finding review</h3>' + (db.falseFindings.length ? db.falseFindings.map(function (x) { return '<div class="evcard"><p class="meta">CARD ' + esc(x.id) + '</p><p class="txt">' + esc(x.text) + '</p><p><strong>Why it conforms:</strong> ' + esc(x.why) + '</p></div>'; }).join('') + '<p class="margin"><b>Inspector</b>' + esc(db.text.falseFinding) + '</p>' : '<p>No conforming evidence was reported as an issue.</p>');
+  h += '<h3>Red herrings in this case</h3><ul>' + db.redHerrings.map(function (x) { return '<li><span class="mono small">' + esc(x.id) + '</span> ' + esc(x.text) + '<br><span class="small"><strong>' + esc(x.status.label) + '.</strong> ' + esc(x.why) + '</span></li>'; }).join('') + '</ul>';
+  h += '<h3>Your findings</h3>' + (v.findings.length ? db.score.rubrics.map(function (r) {
+    var f = v.findings.filter(function (x) { return x.id === r.id; })[0];
+    return '<div class="evcard"><p class="meta">FINDING ' + esc(f.id) + ' · ' + esc(f.clause ? clauseLabel(f.clause) : 'no clause') + ' · cards ' + esc(f.evidence.join(', ') || 'none') + ' · rubric ' + r.r.total + ' of 4</p><p class="txt">' + esc(f.statement) + '</p>' +
+      '<ul class="small"><li>States the requirement: ' + (r.r.requirement ? 'yes' : 'no') + '</li><li>Cites specific evidence: ' + (r.r.evidence ? 'yes' : 'no') + '</li><li>Factual and neutral: ' + (r.r.neutral ? 'yes' : 'no') + '</li><li>Understandable: ' + (r.r.clear ? 'yes' : 'no') + '</li></ul>' +
+      (r.r.notes.length ? '<p class="small"><strong>To improve:</strong> ' + esc(r.r.notes.join(' ')) + '</p>' : '') + '</div>';
+  }).join('') : '<p>No findings were written. The planted issues above show what a finding could have addressed.</p>');
+  if (db.decisions.length) {
+    h += '<h3>Decision review</h3>' + db.decisions.map(function (d) {
+      return '<div class="evcard"><p><strong>' + esc(d.prompt) + '</strong></p><p>Your decision: ' + esc(d.chosenText) + (d.chosen === d.best ? ' <span class="stamp acc">Best supported</span>' : '') + '</p>' + (d.feedback ? '<p class="small">' + esc(d.feedback) + '</p>' : '') +
+        (d.justification ? '<p class="small">Your justification: ' + esc(d.justification) + '</p>' : '') + '<p>Best-supported answer: ' + esc(d.bestText) + '</p><p><strong>Rationale:</strong> ' + esc(d.rationale) + '</p></div>';
+    }).join('');
+  }
+  if (db.expectedActions) {
+    h += '<h3>Expected actions' + (db.actionFocus ? ' for: ' + esc(db.actionFocus) : '') + '</h3><div class="tablewrap"><table><thead><tr><th scope="col">Element</th><th scope="col">Sound options</th><th scope="col">Your choice</th></tr></thead><tbody>' + CB.ACTION_CATS.map(function (cat) {
+      var chosen = (v.actions[cat] || []).map(function (k) { var o = g.actionOptions[cat].filter(function (x) { return x.key === k; })[0]; return o ? (o.expected ? '✓ ' : '✗ ') + o.text : ''; }).filter(Boolean);
+      return '<tr><th scope="row">' + esc(CB.ACTION_LABEL[cat]) + '</th><td><ul class="plain">' + db.expectedActions[cat].map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></td><td class="small">' + (chosen.length ? chosen.map(esc).join('<br>') : 'Nothing chosen') + '</td></tr>';
+    }).join('') + '</tbody></table></div><p class="small muted">✓ marks a sound option; ✗ marks a weak option.</p>';
+  }
+  h += '<h3>Skill map update</h3>' + skillTable(map, db.branches);
+  if (rec) h += '<p><strong>Recommended next case:</strong> ' + esc(caseTitle(rec.caseId)) + '. ' + esc(rec.reason) + '</p>';
+  if (db.hints.length) h += '<h3>Hints used</h3><ol class="small">' + db.hints.map(function (x) { return '<li>' + esc(x.text) + '</li>'; }).join('') + '</ol>';
+  h += '<h3>Results code</h3><p class="small">Give this code to your instructor. It records the case code, the five measures, the decision result, the issues found, and the date. It is a training aid, not an assessment record.</p>' +
+    '<p><label for="rc">Results code</label><br><input type="text" id="rc" class="mono" readonly size="44" value="' + esc(S.resultCode) + '"></p>' +
+    '<div class="row"><button type="button" data-act="copy-rc" id="b-copy-rc">Copy the results code</button><button type="button" data-act="export-findings" id="b-export-f">Save my findings as text</button></div>';
+  h += '<h3>Next</h3><div class="row"><button type="button" class="ink" data-act="retry-same" id="b-retry-same">Replay the same case (same seed)</button><button type="button" data-act="retry-new" id="b-retry-new">Try a new seed</button>' +
+    (rec ? '<button type="button" data-act="start" data-case="' + rec.caseId + '" id="b-rec-next">Open the recommended case</button>' : '') + '<button type="button" data-act="home" id="b-db-home">Back to the case shelf</button></div>';
+  return h;
+}
+
+/* ---------- drills ---------- */
+function viewDrills() {
+  var pack = S.sector, s = sectorByPack(pack), sess = S.drill, dv = S.drillView;
+  var h = '<h2>' + esc(s.name) + ': sector drills</h2><p class="small">Untimed. Each answer shows feedback at once. Missed items come back later until you answer them correctly. Your score is the share answered correctly on the first try.</p>';
+  if (!dv) {
+    var sc = CB.drillScore(sess);
+    h += '<div class="sheet memo"><p><span class="stamp">Secure</span> All ' + sess.items.length + ' items answered correctly at least once.</p><p>First-try score: <strong>' + sc.percent + ' percent</strong> (' + sc.firstTryCorrect + ' of ' + sess.items.length + '). ' + (sc.percent >= 80 ? 'This meets the 80 percent pass mark for the track.' : 'The pass mark is 80 percent. Review the primer and repeat the drills when ready.') + '</p>' +
+      '<div class="row"><button type="button" class="ink" data-act="drills" id="b-drill-again">Repeat the drills</button><button type="button" data-act="home" id="b-drill-home">Back to the track</button></div></div>';
+    return h;
+  }
+  var it = sess.items[dv.idx];
+  var left = sess.queue.length;
+  h += '<p class="small muted">' + left + ' item' + (left === 1 ? '' : 's') + ' in the queue · ' + Object.keys(sess.firstTry).length + ' of ' + sess.items.length + ' seen</p>';
+  var kindLabel = { mc: 'Multiple choice', translate: 'Translate', sort: 'Scenario sort: conforming or nonconforming?' }[it.kind];
+  h += '<div class="sheet"><p class="mono small">' + esc(it.id) + ' · ' + esc(kindLabel) + '</p><fieldset style="border:0;padding:0"><legend style="font-family:var(--serif);font-size:1.15rem">' + esc(it.stem) + '</legend>';
+  dv.order.forEach(function (oi, pos) {
+    var cls = '';
+    var mark = '';
+    if (dv.answered) { if (oi === it.answer) mark = ' (correct answer)'; else if (oi === dv.choice) mark = ' (your answer)'; }
+    h += '<label class="opt' + cls + '"><input type="radio" name="drill" id="dr-' + pos + '" data-act="drill-pick" value="' + oi + '"' + (dv.choice === oi ? ' checked' : '') + (dv.answered ? ' disabled' : '') + '><span>' + esc(it.options[oi]) + '<strong>' + esc(mark) + '</strong></span></label>';
+  });
+  h += '</fieldset>';
+  if (!dv.answered) h += '<button type="button" class="ink" data-act="drill-check" id="b-drill-check"' + (dv.choice === null ? ' disabled' : '') + '>Check the answer</button>';
+  else h += '<div class="msg" role="status"><p><strong>' + (dv.ok ? 'Correct.' : 'Not this time. The item will return later.') + '</strong> ' + esc(it.rationale) + ' <span class="mono small">(Clause ' + esc(it.clause) + ')</span></p></div><button type="button" class="ink" data-act="drill-next" id="b-drill-next">Next item</button>';
+  h += '</div><button type="button" data-act="home" id="b-drill-leave">Leave the drills</button>';
+  return h;
+}
+
+/* ---------- compare (cross-sector) ---------- */
+function issuesFor(pack, clause) {
+  var out = [];
+  casesOf(pack).forEach(function (c) { c.evidence.forEach(function (ev) { if ((ev.kind === 'nonconformity') && !ev.supports && ev.clause.split(/,\s*/).indexOf(clause) >= 0) out.push({ c: c, ev: ev }); }); });
+  return out;
+}
+function plainText(s) { return String(s).replace(/\{\{(\w+)\}\}/g, function (m, k) { return '[' + k + ']'; }); }
+function plainFor(c, s) { return String(s).replace(/\{\{(\w+)\}\}/g, function (m, k) { return c.tokens && c.tokens[k] ? c.tokens[k][0] : m; }); }
+function viewCompare() {
+  var cmp = S.compare;
+  var clauseSet = {};
+  DATA.sectors.forEach(function (s) { casesOf(s.pack).forEach(function (c) { c.evidence.forEach(function (ev) { if (ev.kind === 'nonconformity' && !ev.supports) ev.clause.split(/,\s*/).forEach(function (k) { clauseSet[k] = (clauseSet[k] || 0) + 1; }); }); }); });
+  var cls = Object.keys(clauseSet).filter(function (k) { return clauseSet[k] >= 2; }).sort(function (a, b) { var x = a.split('.').map(Number), y = b.split('.').map(Number); for (var i = 0; i < 3; i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); } return 0; });
+  if (!cmp.clause) cmp.clause = cls.indexOf('8.6') >= 0 ? '8.6' : cls[0];
+  if (!cmp.a) cmp.a = 'process-food';
+  if (!cmp.b) cmp.b = 'it-software';
+  var h = '<h2>Compare two sectors</h2><p>The same requirement appears in every sector. Only the evidence differs. Choose a clause and two sectors to see them side by side, then translate a finding from one sector into the language of the other. This option is recommended after you complete one sector, but it is open to everyone.</p>';
+  h += '<div class="sheet row"><label for="cmp-clause">Requirement</label><select id="cmp-clause" data-field="cmp-clause">' + cls.map(function (k) { return '<option value="' + k + '"' + (cmp.clause === k ? ' selected' : '') + '>' + esc(clauseLabel(k)) + '</option>'; }).join('') + '</select>' +
+    '<label for="cmp-a">Sector A</label><select id="cmp-a" data-field="cmp-a">' + DATA.sectors.map(function (s) { return '<option value="' + s.pack + '"' + (cmp.a === s.pack ? ' selected' : '') + '>' + esc(s.name) + '</option>'; }).join('') + '</select>' +
+    '<label for="cmp-b">Sector B</label><select id="cmp-b" data-field="cmp-b">' + DATA.sectors.map(function (s) { return '<option value="' + s.pack + '"' + (cmp.b === s.pack ? ' selected' : '') + '>' + esc(s.name) + '</option>'; }).join('') + '</select></div>';
+  var A = issuesFor(cmp.a, cmp.clause), B = issuesFor(cmp.b, cmp.clause);
+  var col = function (pack, list) {
+    var s = sectorByPack(pack);
+    return '<section class="sheet" aria-label="' + esc(s.name) + '"><h3>' + esc(s.name) + '</h3><p class="small muted">' + esc(s.company) + '</p>' + (list.length ? list.slice(0, 3).map(function (x) { return '<div class="evcard"><p class="meta">' + esc(x.c.id + ' · ' + x.c.title) + '</p><p class="txt">' + esc(plainFor(x.c, x.ev.text)) + '</p><p class="small">' + esc(plainFor(x.c, x.ev.whyItMatters)) + '</p></div>'; }).join('') : '<p class="muted">No case in this sector plants an issue under this clause. Try another clause.</p>') + '</section>';
+  };
+  h += '<div class="grid2">' + col(cmp.a, A) + col(cmp.b, B) + '</div>';
+  if (A.length) {
+    var x = A[0];
+    h += '<section class="sheet memo" aria-labelledby="tr-h"><h3 id="tr-h">Translate a finding</h3><p>Finding from ' + esc(sectorByPack(cmp.a).name) + ':</p><p class="margin">Requirement ' + esc(clauseLabel(cmp.clause)) + ' was not met. Evidence: ' + esc(plainFor(x.c, x.ev.text)) + '</p>' +
+      '<label for="tr-text">Rewrite this finding as it would read in ' + esc(sectorByPack(cmp.b).name) + '. Keep the requirement; change the evidence to that sector\'s records and vocabulary.</label><textarea id="tr-text" data-field="tr-text">' + esc(cmp.text) + '</textarea>' +
+      '<button type="button" data-act="cmp-show" id="b-cmp-show">' + (cmp.shown ? 'Hide' : 'Show') + ' model evidence from sector B</button>' +
+      (cmp.shown ? (B.length ? '<p class="small">Model: Requirement ' + esc(clauseLabel(cmp.clause)) + ' was not met. Evidence: ' + esc(plainFor(B[0].c, B[0].ev.text)) + '</p>' : '<p class="small muted">No model is available for this pair. Compare with the primer of sector B.</p>') : '') + '</section>';
+  }
+  h += '<button type="button" data-act="home" id="b-cmp-home">Back to the case shelf</button>';
+  return h;
+}
+
+/* ---------- Case Room facilitator view ---------- */
+function fmtTime(s) { var m = Math.floor(s / 60), r = s % 60; return (m < 10 ? '0' : '') + m + ':' + (r < 10 ? '0' : '') + r; }
+function viewRoom() {
+  var R = S.room;
+  var h = '<h2>Case Room: facilitator view</h2><p class="small">For the projector. Every learner opens the same case code, investigates, and then the group compares notebooks and findings.</p>';
+  h += '<div class="sheet row"><label for="room-code">Case code</label><input type="text" id="room-code" class="mono" size="14" value="' + esc(R.code) + '" placeholder="MFG-B-7K3Q"><button type="button" class="ink" data-act="room-load" id="b-room-load">Show this case</button>' +
+    '<label for="room-new" class="sr">Case for a new code</label><select id="room-new">' + DATA.sectors.map(function (s) { return casesOf(s.pack).map(function (c) { return '<option value="' + c.id + '">' + esc(s.code + ' · ' + c.type + '. ' + c.title) + '</option>'; }).join('') + '<option value="CAP-' + s.code + '">' + esc(s.code + ' · Sector capstone') + '</option>'; }).join('') + '</select><button type="button" data-act="room-newcode" id="b-room-newcode">Make a new code for this case</button></div>';
+  if (R.error) h += '<p class="msg" role="alert">' + esc(R.error) + '</p>';
+  if (!R.gen) return h + '<button type="button" data-act="home" id="b-room-home">Back to the case shelf</button>';
+  var g = R.gen;
+  h += '<div class="sheet memo" style="text-align:center"><p class="small muted">' + esc(g.company + ' · ' + TYPES[g.type].name + ' · ' + g.title) + '</p><p class="big">' + esc(g.code) + '</p></div>';
+  h += '<div class="sheet"><h3>Timer</h3><p class="timer" aria-live="off" id="room-timer">' + fmtTime(R.left) + '</p><div class="row"><label for="room-min">Minutes</label><input type="text" id="room-min" size="3" value="' + Math.round(R.secs / 60) + '"><button type="button" data-act="timer-toggle" id="b-timer">' + (R.running ? 'Pause' : 'Start') + '</button><button type="button" data-act="timer-reset" id="b-timer-reset">Reset</button></div></div>';
+  h += '<div class="sheet"><h3>Session guide (60 minutes)</h3><table><tbody><tr><td>0:00 to 0:05</td><td>Introduce the sector and the case type; give the case code</td></tr><tr><td>0:05 to 0:30</td><td>Learners investigate individually or in pairs</td></tr><tr><td>0:30 to 0:45</td><td>Compare findings; reveal the coverage map and answer key</td></tr><tr><td>0:45 to 0:55</td><td>Discuss missed evidence, false findings, and the best actions</td></tr><tr><td>0:55 to 1:00</td><td>Reflection: one change to make at work</td></tr></tbody></table>' +
+    '<p class="small"><strong>Prompts:</strong> What did you notice first? What made you look at that record? Which evidence looked suspicious but was conforming? What system condition allowed the issue? What would you check at your own workplace?</p></div>';
+  // Tally
+  var lines = R.tally.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+  var decoded = lines.map(function (l) { return CB.decodeResult(l); });
+  var mine = decoded.filter(function (d) { return !d.error && d.code === g.code; });
+  h += '<div class="sheet"><h3>Tally of issues found</h3><label for="room-tally">Paste results codes, one per line</label><textarea id="room-tally" data-field="room-tally" class="mono" rows="4">' + esc(R.tally) + '</textarea>' +
+    '<label class="choice"><input type="checkbox" id="room-names" data-act="room-names"' + (R.names ? ' checked' : '') + '> Show names</label>' +
+    '<p class="small">' + mine.length + ' code' + (mine.length === 1 ? '' : 's') + ' for this case; ' + (decoded.length - mine.length) + ' other or unreadable line' + (decoded.length - mine.length === 1 ? '' : 's') + '.</p>';
+  if (mine.length) {
+    h += '<table><thead><tr><th scope="col">Planted issue</th><th scope="col">Learners who found it</th>' + (R.names ? '<th scope="col">Names</th>' : '') + '</tr></thead><tbody>' + g.planted.map(function (id, i) {
+      var who = mine.filter(function (d) { return d.foundMask & (1 << i); });
+      return '<tr><td>' + (R.reveal ? esc(id + ' · ' + g.evidence[id].clauses.join(', ') + ' · ' + g.evidence[id].text) : 'Issue ' + (i + 1) + ' <span class="small muted">(reveal the key for details)</span>') + '</td><td class="measure">' + who.length + ' of ' + mine.length + '</td>' + (R.names ? '<td class="small">' + esc(who.map(function (d) { return d.learner || '(no name)'; }).join(', ')) + '</td>' : '') + '</tr>';
+    }).join('') + '</tbody></table>';
+  }
+  h += '</div>';
+  h += '<div class="sheet"><button type="button" class="ink" data-act="room-reveal" id="b-room-reveal" aria-expanded="' + R.reveal + '">' + (R.reveal ? 'Hide the answer key' : 'Reveal the answer key') + '</button>';
+  if (R.reveal) {
+    h += '<h3>Planted issues</h3><ol>' + g.planted.map(function (id) {
+      var ev = g.evidence[id]; var src = srcOf(g, id);
+      var sup = g.included.filter(function (x) { return g.evidence[x].supports === id; });
+      return '<li><span class="mono small">' + esc(id) + '</span> <strong>' + esc(ev.kind === 'observation' ? 'Observation' : 'Nonconformity') + ', ' + esc(ev.clauses.map(clauseLabel).join('; ')) + '</strong> (' + esc(src.h.name + ' · ' + src.a.verb + ': ' + src.a.label) + ')' + (sup.length ? ' · supported by ' + esc(sup.join(', ')) : '') + '<br>' + esc(ev.text) + '</li>';
+    }).join('') + '</ol><h3>Red herrings and conforming evidence</h3><ul>' + g.included.filter(function (id) { var k = g.evidence[id].kind; return k === 'redHerring' || k === 'conforming'; }).map(function (id) {
+      var ev = g.evidence[id]; return '<li><span class="mono small">' + esc(id) + '</span> ' + esc(ev.kind === 'redHerring' ? 'Red herring' : 'Conforming') + ': ' + esc(ev.text) + '</li>';
+    }).join('') + '</ul>';
+    if (g.decisions.length) h += '<h3>Decisions</h3>' + g.decisions.map(function (d) { return '<p><strong>' + esc(d.prompt) + '</strong><br>Best supported: ' + esc(d.options[d.bestIndex]) + '<br><span class="small">' + esc(d.rationale) + '</span></p>'; }).join('');
+    if (g.expectedActions) h += '<h3>Expected actions' + (g.actionFocus ? ' for: ' + esc(g.actionFocus) : '') + '</h3><ul>' + CB.ACTION_CATS.map(function (k) { return '<li><strong>' + esc(CB.ACTION_LABEL[k]) + ':</strong> ' + esc(g.expectedActions[k].join('; ')) + '</li>'; }).join('') + '</ul>';
+  }
+  h += '</div><button type="button" data-act="home" id="b-room-home2">Back to the case shelf</button>';
+  return h;
+}
+
+/* ---------- actions ---------- */
+function openCase(code, opts) {
+  var r = CB.buildFromCode(code, DATA);
+  if (r.error) return r.error;
+  S.gen = r.gen; S.visit = CB.newVisit(r.gen); S.tab = 'brief'; S.last = null; S.flash = ''; S.debrief = null; S.resultCode = '';
+  S.draft = { clause: '', evidence: null, statement: '', editing: null };
+  S.sector = r.sector.pack; setAccent(r.sector); S.screen = 'case';
+  if (opts && opts.visit) { Object.keys(opts.visit).forEach(function (k) { S.visit[k] = opts.visit[k]; }); S.tab = opts.tab || 'site'; }
+  save();
+  return '';
+}
+function startCase(caseId) {
+  var parts = caseId.split('-');
+  var n = parseInt(parts[2], 10);
+  return openCase(CB.formatCode(parts[0], parts[1], n, CB.randomSeed()));
+}
+function closeCase() {
+  var v = S.visit, g = S.gen;
+  CB.closeCase(v);
+  S.debrief = CB.debrief(v, CLAUSE_TITLE);
+  var m = S.debrief.score;
+  S.resultCode = CB.encodeResult({ code: g.code, measures: m, date: new Date(), foundMask: m.foundMask, plantedCount: m.plantedCount, learner: S.progress.learner });
+  var p = prog(g.pack);
+  p.attempts.push({ caseId: g.id, type: g.type, code: g.code, edition: g.edition, date: new Date().toISOString().slice(0, 10), measures: { coverage: m.coverage, precision: m.precision, mapping: m.mapping, statement: m.statement, action: m.action, decision: m.decision }, branches: S.debrief.branches, resultCode: S.resultCode });
+  S.tab = 'debrief'; S.flash = '';
+  save();
+  live('The case is closed. The debrief is open.');
+}
+function findingsText() {
+  var g = S.gen, v = S.visit;
+  var out = ['Sector Casebook: findings record', 'Case code: ' + g.code + ' (' + g.title + ', ' + g.company + ')', 'Learner: ' + (S.progress.learner || '(not given)'), 'Results code: ' + S.resultCode, 'Training aid, not an assessment record.', '', 'NOTEBOOK'];
+  v.collected.forEach(function (id) { var c = v.cls[id] || {}; out.push(id + ' [' + (c.cls ? CB.CLASS_LABEL[c.cls] : 'not classified') + (c.clause ? '; ' + c.clause : '') + '] ' + g.evidence[id].text); });
+  out.push('', 'FINDINGS');
+  v.findings.forEach(function (f) { out.push(f.id + ' (' + (f.clause || 'no clause') + '; cards ' + (f.evidence.join(', ') || 'none') + '): ' + f.statement); });
+  if (g.actionOptions) {
+    out.push('', 'ACTION PLAN' + (g.actionFocus ? ' for ' + g.actionFocus : ''));
+    CB.ACTION_CATS.forEach(function (cat) { (v.actions[cat] || []).forEach(function (k) { var o = g.actionOptions[cat].filter(function (x) { return x.key === k; })[0]; if (o) out.push(CB.ACTION_LABEL[cat] + ': ' + o.text); }); });
+  }
+  if (g.decisions.length) { out.push('', 'DECISIONS'); g.decisions.forEach(function (d) { var c = v.decisions[d.id]; out.push(d.prompt + ' -> ' + (c === undefined ? 'no decision' : d.options[c]) + (v.justifications[d.id] ? ' (justification: ' + v.justifications[d.id] + ')' : '')); }); }
+  return out.join('\n');
+}
+function recordText(pack) {
+  var s = sectorByPack(pack), p = prog(pack), bs = badgeStatus(pack);
+  var out = ['Sector Casebook: track record', 'Sector: ' + s.name, 'Learner: ' + (S.progress.learner || '(not given)'), 'Date: ' + new Date().toISOString().slice(0, 10), '',
+    'Primer read: ' + (p.primer ? 'yes' : 'no'), 'Drills best first-try score: ' + (p.drillBest === null ? 'not taken' : p.drillBest + ' percent'), '', 'RESULTS CODES (training aid, not an assessment record)'];
+  p.attempts.forEach(function (a) { out.push(a.resultCode); });
+  out.push('', 'REFLECTION' + (p.reflectionSubmitted ? '' : ' (not yet submitted)'));
+  DATA.meta.reflectionQuestions.forEach(function (q, i) { out.push((i + 1) + '. ' + q, '   ' + (p.reflection[i] || '')); });
+  out.push('', 'Badge status: ' + (bs.ready ? 'ready for instructor review' : 'in progress') + '. The badge requires instructor review of the capstone findings.');
+  return out.join('\n');
+}
+function newDrill() {
+  var items = DATA.drills[S.sector] || [];
+  S.drill = CB.drillSession(items, CB.randomSeed());
+  nextDrillView();
+}
+function nextDrillView() {
+  var sess = S.drill;
+  if (!sess.queue.length) { S.drillView = null; var sc = CB.drillScore(sess); var p = prog(S.sector); if (p.drillBest === null || sc.percent > p.drillBest) p.drillBest = sc.percent; save(); return; }
+  var it = sess.items[sess.queue[0]];
+  var order = it.options.map(function (o, i) { return i; });
+  if (it.kind !== 'sort') order = CB.shuffle(order, CB.mulberry32(CB.fnv(sess.seed + '|' + sess.attempts)));
+  S.drillView = { idx: sess.queue[0], order: order, choice: null, answered: false, ok: false };
+}
+function tickRoom() {
+  var R = S.room;
+  if (!R.running) return;
+  R.left = Math.max(0, R.left - 1);
+  var el = document.getElementById('room-timer');
+  if (el) el.textContent = fmtTime(R.left);
+  if (R.left === 0) { R.running = false; clearInterval(R.timerId); live('Time is up.'); render(); }
+}
+
+document.addEventListener('click', function (e) {
+  var t = e.target.closest('[data-act]');
+  if (!t) return;
+  var act = t.getAttribute('data-act');
+  var v = S.visit;
+  switch (act) {
+    case 'home': S.screen = 'shelf'; S.flash = ''; S.openCodeError = ''; if (S.room.running) { S.room.running = false; clearInterval(S.room.timerId); } render(); document.getElementById('app').focus(); return;
+    case 'textsize': var on = t.getAttribute('aria-pressed') !== 'true'; t.setAttribute('aria-pressed', on); document.documentElement.style.setProperty('--size', on ? '21px' : '17px'); return;
+    case 'theme':
+      var cur = document.documentElement.getAttribute('data-theme');
+      var dark = cur ? cur === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark'); live(dark ? 'Light paper' : 'Dark paper'); return;
+    case 'sector': S.sector = t.getAttribute('data-pack'); setAccent(sectorByPack(S.sector)); save(); render(); live(sectorByPack(S.sector).name + ' selected. The track is shown below.'); return;
+    case 'primer': prog(S.sector).primer = t.checked; save(); render(); return;
+    case 'open-code':
+      var code = document.getElementById('opencode').value;
+      S.openCodeError = openCase(code); render(); if (!S.openCodeError) document.getElementById('app').focus(); return;
+    case 'start': S.openCodeError = ''; startCase(t.getAttribute('data-case')); render(); document.getElementById('app').focus(); live('Case opened. The brief is shown.'); return;
+    case 'start-cap': openCase(CB.formatCode(sectorByPack(S.sector).code, 'X', 1, CB.randomSeed())); render(); document.getElementById('app').focus(); return;
+    case 'resume': var rs = S.resume; S.resume = null; openCase(rs.code, { visit: rs.visit, tab: rs.tab }); render(); return;
+    case 'discard-resume': S.resume = null; save(); render(); return;
+    case 'tab': S.tab = t.getAttribute('data-tab'); S.flash = ''; render(); var tb = document.getElementById('tab-' + S.tab); if (tb) tb.focus(); return;
+    case 'act':
+      var r = CB.act(v, t.getAttribute('data-key'));
+      if (r.ok) {
+        S.last = { verb: r.action.verb, label: r.action.label, text: r.evidence ? r.evidence.text : r.action.note, unlocked: r.unlocked.map(function (a) { return a.verb + ': ' + a.label; }).join('; ') };
+        S.flash = r.visitEnded ? 'That was the last visit point. The visit has ended; nothing is lost. Continue in the Notebook.' : '';
+        save(); render();
+        live((r.evidence ? 'Card ' + r.evidence.id + ' added to the Notebook. ' : 'Nothing of note. ') + (r.unlocked.length ? 'New lead available. ' : '') + v.points + ' visit points left.');
+        var lt = document.getElementById('latest'); if (lt) lt.focus();
+      }
+      return;
+    case 'end-visit': CB.endVisit(v); S.flash = 'Visit ended with ' + v.points + ' points unused. Nothing is lost. Continue in the Notebook.'; save(); render(); return;
+    case 'cls': CB.classify(v, t.getAttribute('data-id'), t.value, null); save(); render(); live('Classified as ' + CB.CLASS_LABEL[t.value] + '.'); return;
+    case 'hint': var hh = CB.hint(v, CLAUSE_TITLE); save(); render(); live('Hint: ' + hh.text); return;
+    case 'frame':
+      var ta = document.getElementById('f-stmt');
+      var cl = document.getElementById('f-clause').value;
+      S.draft.statement = 'The requirement for ' + (cl ? (CLAUSE_TITLE[cl] || cl).toLowerCase() + ' (clause ' + cl + ')' : '[requirement]') + ' was not met. Evidence: [what was seen, with the record name and number]. This means [the effect on the output or the customer].';
+      render(); var ta2 = document.getElementById('f-stmt'); if (ta2) ta2.focus(); return;
+    case 'save-finding':
+      var f = { clause: document.getElementById('f-clause').value, evidence: Array.prototype.slice.call(document.querySelectorAll('[data-field="f-ev"]:checked')).map(function (x) { return x.value; }), statement: document.getElementById('f-stmt').value.trim() };
+      if (!f.statement && !f.evidence.length) { S.flash = 'Choose evidence or write a statement before adding a finding.'; render(); return; }
+      if (S.draft.editing) { CB.updateFinding(v, S.draft.editing, f); S.flash = 'Finding ' + S.draft.editing + ' saved.'; }
+      else { var fid = CB.addFinding(v, f); S.flash = 'Finding ' + fid + ' added.'; }
+      S.draft = { clause: '', evidence: null, statement: '', editing: null };
+      save(); render(); live(S.flash); return;
+    case 'edit-finding':
+      var fx = v.findings.filter(function (x) { return x.id === t.getAttribute('data-id'); })[0];
+      S.draft = { clause: fx.clause, evidence: fx.evidence.slice(), statement: fx.statement, editing: fx.id }; render(); document.getElementById('f-clause').focus(); return;
+    case 'cancel-edit': S.draft = { clause: '', evidence: null, statement: '', editing: null }; render(); return;
+    case 'del-finding': CB.removeFinding(v, t.getAttribute('data-id')); S.flash = 'Finding removed.'; save(); render(); live(S.flash); return;
+    case 'action':
+      var cat = t.getAttribute('data-cat');
+      CB.setActions(v, cat, Array.prototype.slice.call(document.querySelectorAll('[data-act="action"][data-cat="' + cat + '"]:checked')).map(function (x) { return x.value; }));
+      save(); return;
+    case 'decide': CB.decide(v, t.getAttribute('data-id'), parseInt(t.value, 10)); save(); return;
+    case 'close-case': closeCase(); render(); var dtab = document.getElementById('tab-debrief'); if (dtab) dtab.focus(); return;
+    case 'copy-rc': copyText(S.resultCode, 'Results code copied.'); return;
+    case 'export-findings': if (!download('casebook-' + S.gen.code + '.txt', findingsText())) live('Download is blocked. Copy the results code instead.'); return;
+    case 'retry-same': openCase(S.gen.code); render(); document.getElementById('app').focus(); live('Same case reopened with the same seed.'); return;
+    case 'retry-new':
+      if (S.gen.type === 'X') openCase(CB.formatCode(sectorByPack(S.gen.pack).code, 'X', 1, CB.randomSeed()));
+      else startCase(S.gen.id);
+      render(); document.getElementById('app').focus(); live('Case opened with a new seed.'); return;
+    case 'refl-submit': var pr = prog(S.sector); pr.reflectionSubmitted = pr.reflection.some(function (x) { return x.trim(); }); S.flash = pr.reflectionSubmitted ? 'Reflection submitted.' : 'Write at least one answer before submitting.'; save(); render(); live(S.flash); return;
+    case 'copy-codes': copyText(prog(S.sector).attempts.map(function (a) { return a.resultCode; }).join('\n'), 'Results codes copied.'); return;
+    case 'export-record': if (!download('casebook-track-' + S.sector + '.txt', recordText(S.sector))) live('Download is blocked. Copy the codes instead.'); return;
+    case 'drills': newDrill(); S.screen = 'drills'; render(); document.getElementById('app').focus(); return;
+    case 'drill-pick': S.drillView.choice = parseInt(t.value, 10); render(); return;
+    case 'drill-check':
+      // drillAnswer moves the queue; the view keeps showing this item (drillView.idx) until Next.
+      S.drillView.ok = CB.drillAnswer(S.drill, S.drillView.idx, S.drillView.choice); S.drillView.answered = true; render(); var nb = document.getElementById('b-drill-next'); if (nb) nb.focus(); return;
+    case 'drill-next': nextDrillView(); render(); var f0 = document.getElementById('dr-0') || document.getElementById('b-drill-again'); if (f0) f0.focus(); return;
+    case 'compare': S.screen = 'compare'; render(); document.getElementById('app').focus(); return;
+    case 'cmp-show': S.compare.shown = !S.compare.shown; render(); return;
+    case 'room': S.screen = 'room'; render(); document.getElementById('app').focus(); return;
+    case 'room-load':
+      var rc = CB.buildFromCode(document.getElementById('room-code').value, DATA);
+      if (rc.error) { S.room.error = rc.error; S.room.gen = null; } else { S.room.error = ''; S.room.gen = rc.gen; S.room.code = rc.gen.code; S.room.reveal = false; setAccent(rc.sector); }
+      render(); return;
+    case 'room-newcode':
+      var sel = document.getElementById('room-new').value;
+      var code2 = sel.indexOf('CAP-') === 0 ? CB.formatCode(sel.slice(4), 'X', 1, CB.randomSeed()) : CB.formatCode(sel.split('-')[0], sel.split('-')[1], parseInt(sel.split('-')[2], 10), CB.randomSeed());
+      var rc2 = CB.buildFromCode(code2, DATA); S.room.error = ''; S.room.gen = rc2.gen; S.room.code = rc2.gen.code; S.room.reveal = false; setAccent(rc2.sector); render(); return;
+    case 'timer-toggle':
+      var R = S.room;
+      if (R.running) { R.running = false; clearInterval(R.timerId); }
+      else { if (R.left === 0) R.left = R.secs; R.running = true; R.timerId = setInterval(tickRoom, 1000); }
+      render(); return;
+    case 'timer-reset':
+      var mins = parseInt(document.getElementById('room-min').value, 10);
+      S.room.secs = (mins > 0 && mins < 240 ? mins : 25) * 60; S.room.left = S.room.secs; S.room.running = false; clearInterval(S.room.timerId); render(); return;
+    case 'room-reveal': S.room.reveal = !S.room.reveal; render(); return;
+    case 'room-names': S.room.names = t.checked; render(); return;
+  }
+});
+document.addEventListener('change', function (e) {
+  var t = e.target;
+  if (t.getAttribute('data-act') === 'clause') { CB.classify(S.visit, t.getAttribute('data-id'), null, t.value); save(); live(t.value ? 'Linked to clause ' + t.value + '.' : 'Clause link removed.'); return; }
+  var f = t.getAttribute('data-field');
+  if (f === 'cmp-clause' || f === 'cmp-a' || f === 'cmp-b') { S.compare[f.slice(4)] = t.value; S.compare.shown = false; render(); return; }
+  if (f === 'f-clause') S.draft.clause = t.value;
+  if (f === 'f-ev') S.draft.evidence = Array.prototype.slice.call(document.querySelectorAll('[data-field="f-ev"]:checked')).map(function (x) { return x.value; });
+});
+document.addEventListener('input', function (e) {
+  var t = e.target, f = t.getAttribute('data-field');
+  if (f === 'learner') { S.progress.learner = t.value; save(); }
+  else if (f === 'refl') { prog(S.sector).reflection[+t.getAttribute('data-i')] = t.value; save(); }
+  else if (f === 'f-stmt') S.draft.statement = t.value;
+  else if (f === 'just') { S.visit.justifications[t.getAttribute('data-id')] = t.value; save(); }
+  else if (f === 'tr-text') S.compare.text = t.value;
+  else if (f === 'room-tally') { S.room.tally = t.value; clearTimeout(S.room.tt); S.room.tt = setTimeout(render, 400); }
+});
+// Tabs: arrow keys, Home, and End move between tabs (ARIA tabs pattern).
+document.addEventListener('keydown', function (e) {
+  var t = e.target;
+  if (t.getAttribute && t.getAttribute('role') === 'tab') {
+    var ids = TABS.map(function (x) { return x[0]; });
+    var i = ids.indexOf(t.getAttribute('data-tab'));
+    var n = null;
+    if (e.key === 'ArrowRight') n = (i + 1) % ids.length; else if (e.key === 'ArrowLeft') n = (i + ids.length - 1) % ids.length; else if (e.key === 'Home') n = 0; else if (e.key === 'End') n = ids.length - 1;
+    if (n !== null) { e.preventDefault(); S.tab = ids[n]; S.flash = ''; render(); document.getElementById('tab-' + S.tab).focus(); }
+  }
+  if (e.key === 'Enter' && t.id === 'opencode') { e.preventDefault(); document.getElementById('b-open-code').click(); }
+  if (e.key === 'Enter' && t.id === 'room-code') { e.preventDefault(); document.getElementById('b-room-load').click(); }
+});
+
+/* ---------- start ---------- */
+var saved = load();
+if (saved) {
+  if (saved.progress) S.progress = saved.progress;
+  if (saved.sector) { S.sector = saved.sector; setAccent(sectorByPack(S.sector)); }
+  if (saved.current) S.resume = saved.current;
+}
+var q = /[?&#]code=([A-Za-z0-9-]+)/.exec(location.search + location.hash);
+if (q && !openCase(q[1])) { /* opened from a link */ }
+render();
+})();
+</script>
+</body>
+</html>

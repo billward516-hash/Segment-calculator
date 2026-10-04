@@ -1,0 +1,284 @@
+{
+  "id": "LOG-D-01",
+  "pack": "logistics",
+  "type": "D",
+  "title": "The Layout Change",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Meridian Logistics plans to re-slot 600 pick locations over a weekend to cut travel time. Change request LC-12 goes for approval on Wednesday. Warehouse safety review is handled separately. You have 12 visit points to assess the quality aspects of the change.",
+  "visitPoints": 12,
+  "goal": "Completeness",
+  "branches": [
+    "Control"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Operations",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Change request LC-12",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Re-slotting plan",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "IT",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "System location update plan",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Customers",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Customer storage requirements",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Inventory",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Stock count plan after the move",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Location label printing plan",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Label stock delivery",
+          "evidenceId": "E12"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Training",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Picker briefing plan",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Review",
+          "label": "Pick instructions",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Planning",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Weekend labour plan",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Observe",
+          "label": "New aisle signs",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Coffee machine move",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "LC-12 states purpose, scope, and approvers.",
+      "clause": "6.3",
+      "whyItMatters": "Change started properly.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Re-slotting plan lists each location move.",
+      "clause": "8.1",
+      "whyItMatters": "Plan defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Defined.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "System update plan loads new locations on Monday at 6 a.m., after physical moves end on Sunday night; picks in between would use old locations (plan step 7).",
+      "clause": "8.5.2",
+      "whyItMatters": "Identification of location must stay accurate throughout.",
+      "missedExplanation": "Compare physical and system timing.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Customer storage terms ST-3 require 2 customers' goods to stay in temperature-monitored aisles; the plan moves them to aisle 22, which has no logger.",
+      "clause": "8.5.4, 8.2.3",
+      "whyItMatters": "Customer requirements on storage must be met.",
+      "missedExplanation": "Check moves against customer terms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "No stock count is planned after the move (plan section 9 blank).",
+      "clause": "8.5.2",
+      "whyItMatters": "Verifying stock after a move confirms identification.",
+      "missedExplanation": "Ask how the result will be verified.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "observation",
+      "text": "Picker briefing plan BP-2 is a notice on the board.",
+      "clause": "7.4",
+      "whyItMatters": "A fuller briefing would help adoption.",
+      "missedExplanation": "Ask how people learn.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Pick instructions PI-9 show old location codes; no revision planned.",
+      "clause": "7.5.2",
+      "whyItMatters": "Documents must be updated with the change.",
+      "missedExplanation": "List documents affected.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Weekend labour plan is adequate.",
+      "clause": "7.1.2",
+      "whyItMatters": "Resources planned.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Adequate.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "nonconformity",
+      "text": "Location labels for the 600 new locations are printed in one batch; plan step 5 has no check that each label matches its system code.",
+      "clause": "8.5.2",
+      "whyItMatters": "Location identification must be verified, or picks go to the wrong place.",
+      "missedExplanation": "Ask how new labels are checked against the system.",
+      "plantedPool": true
+    },
+    {
+      "id": "E12",
+      "kind": "conforming",
+      "text": "Label stock for the move was delivered on order PO-3301 and checked on receipt.",
+      "clause": "8.4",
+      "whyItMatters": "Supplies verified.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Checked on receipt.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "New aisle signs are printed in a new font.",
+      "clause": "7.4",
+      "whyItMatters": "Allowed.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Allowed.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "The coffee machine moves too.",
+      "clause": "7.1.4",
+      "whyItMatters": "Not relevant.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not relevant.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Should LC-12 be approved?",
+      "options": [
+        "Yes",
+        "Approve with conditions: system update in step with moves, keep monitored goods in monitored aisles, stock count after the move, updated instructions, and a briefing",
+        "Reject",
+        "Approve and fix issues as they arise"
+      ],
+      "bestIndex": 1,
+      "rationale": "The benefit is kept once the gaps are closed."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Block picking during the move window"
+    ],
+    "correction": [
+      "Revise the plan for system timing, customer terms, stock count, PI-9, and briefing"
+    ],
+    "cause": [
+      "The change template lacks system, customer, verification, and document prompts"
+    ],
+    "corrective": [
+      "Add these prompts to the layout change template"
+    ],
+    "effectiveness": [
+      "Measure pick errors for four weeks after the move"
+    ]
+  },
+  "debriefText": {
+    "found": "You checked system timing, customer terms, verification, and documents.",
+    "missed": "Compare physical and system timing in any move.",
+    "falseFinding": "Fonts and the coffee machine are not findings."
+  }
+}

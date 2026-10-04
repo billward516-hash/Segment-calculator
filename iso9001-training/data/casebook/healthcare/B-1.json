@@ -1,0 +1,273 @@
+{
+  "id": "HCS-B-01",
+  "pack": "healthcare",
+  "type": "B",
+  "title": "Handover Trail",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "A family tells Meridian Care that a follow-up appointment promised at discharge was never booked for their relative (case ref C-4471). This visit covers management system topics only. Clinical decisions, clinical standards, and law are outside its scope; the investigator does not judge clinical care. You trace the handover and discharge records to find where the trail broke and which other cases may be affected. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Scope accuracy",
+  "branches": [
+    "Mapping",
+    "Control"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Patient records",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Discharge summary for C-4471",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Handover sheet for C-4471",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Booking office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Follow-up booking log",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Booking requests from the ward that week",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Ward office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Discharge checklist",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "Ward clerk: how follow-up requests are sent",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "IT systems",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Referral system change log",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Feedback record",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Similar concerns this quarter",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Ward area",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Discharge lounge",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Leaflet rack",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Discharge summary for C-4471 records the follow-up requirement and is signed.",
+      "clause": "8.5.1",
+      "whyItMatters": "The requirement was recorded.",
+      "missedExplanation": "The trail starts here.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Handover sheet for C-4471 does not carry the follow-up task to the evening shift (form HS-2 section D blank).",
+      "clause": "8.5.1",
+      "unlockedBy": [
+        "E1"
+      ],
+      "whyItMatters": "Handover records must carry outstanding tasks.",
+      "missedExplanation": "Compare the summary with the handover.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Booking log has no request for C-4471; 2 other cases discharged the same day also show no request.",
+      "clause": "8.5.2",
+      "whyItMatters": "The organization must be able to trace requests through to completion.",
+      "missedExplanation": "Check other cases from the same day.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Booking requests that week: 4 requests were rejected by the system for a missing code and returned to a shared inbox no one monitors.",
+      "clause": "8.7",
+      "whyItMatters": "Failed outputs must be identified and acted on.",
+      "missedExplanation": "Ask where rejected requests go.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "observation",
+      "text": "Discharge checklist DC-1 asks \"follow-up arranged?\" with a tick box, but no reference number.",
+      "clause": "7.5.1",
+      "whyItMatters": "A reference number would make the check verifiable.",
+      "missedExplanation": "Read what checklists prove.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "conforming",
+      "text": "Ward clerk: \"We send requests through the referral system and assume they arrive.\"",
+      "clause": "7.3",
+      "whyItMatters": "Describes the process clearly.",
+      "missedExplanation": "Leads to the system.",
+      "falseFindingNote": "Describes the process.",
+      "plantedPool": false
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Referral system change RS-14, 3 weeks ago, made a clinic code mandatory; wards were not told.",
+      "clause": "8.5.6",
+      "whyItMatters": "Changes must be reviewed for their effect and communicated.",
+      "missedExplanation": "Check what changed in systems.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Feedback record FB-201 logged the family's concern on the day with an owner.",
+      "clause": "9.1.2",
+      "whyItMatters": "Feedback captured.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Prompt.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "observation",
+      "text": "3 similar concerns this quarter were handled separately (FB-188, FB-193, FB-197).",
+      "clause": "9.1.3",
+      "whyItMatters": "Linking concerns reveals patterns.",
+      "missedExplanation": "Search for similar concerns.",
+      "plantedPool": true
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "The discharge lounge is busy.",
+      "clause": "7.1.4",
+      "whyItMatters": "Not linked.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not linked.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Leaflet rack has the current leaflets.",
+      "clause": "7.5.3",
+      "whyItMatters": "Conforming.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Current.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which cases need review?",
+      "options": [
+        "C-4471 only",
+        "C-4471, the 2 other cases discharged that day without a request, every request returned to the shared inbox since change RS-14, and the 3 similar concerns this quarter",
+        "All patients ever discharged",
+        "None; the family can rebook"
+      ],
+      "bestIndex": 1,
+      "rationale": "The system change and the unmonitored inbox widen the scope. Responsible clinicians decide any clinical follow-up."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Identify every request returned since RS-14 and pass them to the booking office and responsible clinicians"
+    ],
+    "correction": [
+      "Book outstanding follow-ups and inform the families"
+    ],
+    "cause": [
+      "A system change was not communicated, rejected requests go to an unmonitored inbox, and handover does not carry pending tasks"
+    ],
+    "corrective": [
+      "Assess and brief system changes, route rejected requests to a monitored queue, and add a follow-up reference to the handover and checklist"
+    ],
+    "effectiveness": [
+      "Audit discharge follow-up references weekly for two months"
+    ]
+  },
+  "debriefText": {
+    "found": "You followed the request from discharge to booking.",
+    "missed": "Ask where failed or rejected requests go.",
+    "falseFinding": "A busy lounge and current leaflets are not findings."
+  }
+}

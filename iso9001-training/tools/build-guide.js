@@ -174,10 +174,23 @@ function write(name, html) { fs.writeFileSync(path.join(root, name), html); out.
 
 // Participant guide: modules in order, then glossary
 const pg = list('content/participant-guide');
-const order = pg.filter(f => /^\d/.test(f)).concat(pg.filter(f => !/^\d/.test(f) && f !== 'appendix-a-bridging-2015-to-2026.md'));
+const order = pg.filter(f => /^\d/.test(f)).concat(pg.filter(f => f.startsWith('appendix')), pg.filter(f => !/^\d/.test(f) && !f.startsWith('appendix')));
 write('participant-guide.html', page('ISO 9001 Participant Guide', 'Quality management system training for frontline staff, technical staff, and supervisors', chaptersFrom('content/participant-guide', order)));
 write('instructor-guide.html', page('ISO 9001 Instructor Guide', 'Facilitation, agendas, assessment, and answer keys', chaptersFrom('content/instructor-guide', list('content/instructor-guide'))));
 write('handouts.html', page('ISO 9001 Handouts', 'Cards and reference sheets for printing', chaptersFrom('content/handouts', list('content/handouts'))));
+const exists = d => fs.existsSync(path.join(root, d));
+if (exists('content/handouts/one-page-summaries')) {
+  write('module-summaries.html', page('ISO 9001 Module Summaries', 'One printed page per module', chaptersFrom('content/handouts/one-page-summaries', list('content/handouts/one-page-summaries'))));
+}
+if (exists('content/sector-tracks')) {
+  const chapters = [];
+  fs.readdirSync(path.join(root, 'content/sector-tracks')).sort().forEach(id => {
+    const dir = 'content/sector-tracks/' + id;
+    if (!fs.statSync(path.join(root, dir)).isDirectory()) return;
+    chaptersFrom(dir, list(dir)).forEach(c => { c.id = id + '-' + c.id; chapters.push(c); });
+  });
+  if (chapters.length) write('sector-tracks.html', page('ISO 9001 Sector Deep-Dive Track', 'Sector primers and drills (optional, after the general instruction)', chapters));
+}
 
 // Landing page
 const printFiles = fs.existsSync(path.join(root, 'games/printables')) ? fs.readdirSync(path.join(root, 'games/printables')).filter(f => f.endsWith('.html')).sort() : [];
@@ -195,8 +208,13 @@ const landing = '<!doctype html><html lang="en"><head><meta charset="utf-8"><met
   card('handouts.html', 'Handouts', 'STOP, FLAG, HOLD, REPORT card, audit response card, and the clause-to-role map.') +
   card('games/quality-flow/index.html', 'Game: Quality Flow', 'Round-based workflow simulation. Invest in controls, meet random events, and face a mock audit. Works offline.') +
   card('games/quiz/index.html', 'Game: Quiz and Clause Sprint', 'Knowledge checks, module quizzes, and a team race to name the clause. ' + 'Question bank with answers and rationale.') +
+  (exists('games/audit-day/index.html') ? card('games/audit-day/index.html', 'Game: Audit Day', 'Role-play audit with a planted-finding dossier, finding entry, and scoring.') : '') +
+  (exists('games/casebook/index.html') ? card('games/casebook/index.html', 'Sector Casebook', 'Optional deep-dive investigation cases for each industry. Instructors read results with the results reader.') : '') +
+  (exists('games/bridge/index.html') ? card('games/bridge/index.html', '2026 Bridge games', 'Culture Under Pressure and Bridge Sprint. Preliminary, unverified 2026 information.') : '') +
+  (exists('module-summaries.html') ? card('module-summaries.html', 'Module summaries', 'One printed page per module.') : '') +
+  (exists('sector-tracks.html') ? card('sector-tracks.html', 'Sector Deep-Dive Track', 'Sector primers and drills for each industry pack.') : '') +
   '</div><h2>Printable versions</h2><p>Cards, boards, record sheets, and dice tables generated from the same data as the games.</p><details open><summary>Quality Flow printables by industry pack</summary><ul>' + packLinks + '</ul></details>' +
-  '<ul><li><a href="games/printables/quiz-sheets.html">Knowledge check sheets with answer key</a></li><li><a href="games/printables/clause-sprint-cards.html">Clause Sprint cards</a></li></ul>' +
+  '<details open><summary>Other printables</summary><ul>' + printFiles.filter(f => !f.startsWith('quality-flow-')).map(f => '<li><a href="games/printables/' + f + '">' + esc(f.replace(/\.html$/, '').replace(/-/g, ' ').replace(/^./, c => c.toUpperCase())) + '</a></li>').join('') + '</ul></details>' +
   '<footer><p>This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body.</p><p>All 2026 content is preliminary and unverified. Confirm it against the published ISO 9001:2026 text and your certification body before relying on it.</p></footer></div></body></html>';
 write('index.html', landing);
 console.log('Built: ' + out.join(', '));

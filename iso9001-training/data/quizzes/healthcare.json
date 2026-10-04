@@ -1,0 +1,625 @@
+{
+  "pack": "healthcare",
+  "specPrefix": "HC",
+  "specSection": "Appendix C C.2.6",
+  "specPackName": "Healthcare and Clinical Services",
+  "company": "Meridian Care",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "notes": "Items HC01 to HC12 are the Appendix C seed items (rationales added where the spec gave none). Items HC13 to HC24 were written for this build in the same style (C.5 task 5). Clause tags are references only and are unverified against the purchased standard. clause2015 holds the primary clause; clauseRefs lists every clause the spec or author cited. Spec pack prefix HC maps to pack id \"healthcare\".",
+  "items": [
+    {
+      "id": "HC01",
+      "sector": "healthcare",
+      "stem": "A ward uses a protocol sheet that is not the current approved version. What is the management system issue?",
+      "options": [
+        "There is no issue.",
+        "Training only.",
+        "Staffing only.",
+        "An obsolete document is in use at the point of use."
+      ],
+      "answerIndex": 3,
+      "rationale": "Only current, approved documents are available where work is done.",
+      "clause2015": "7.5.3",
+      "clauseRefs": [
+        "7.5.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "HC02",
+      "sector": "healthcare",
+      "stem": "A measuring device used to record observations is past its verification date. What is the appropriate management response?",
+      "options": [
+        "Remove it from use, flag it, and assess the validity of earlier readings.",
+        "Continue to use it.",
+        "Remove the date label.",
+        "Ask staff to estimate."
+      ],
+      "answerIndex": 0,
+      "rationale": "Equipment past its verification date cannot be relied on, and earlier results are assessed.",
+      "clause2015": "7.1.5",
+      "clauseRefs": [
+        "7.1.5"
+      ],
+      "roles": [
+        "F",
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "HC03",
+      "sector": "healthcare",
+      "stem": "Patient records are visible to staff who do not need access. Which requirement area is relevant?",
+      "options": [
+        "Context only.",
+        "Internal audit only.",
+        "Protection of customer property, which includes personal information entrusted to the organization.",
+        "Continual improvement only."
+      ],
+      "answerIndex": 2,
+      "rationale": "Information entrusted to the organization is protected as customer property.",
+      "clause2015": "8.5.3",
+      "clauseRefs": [
+        "8.5.3"
+      ],
+      "roles": [
+        "F",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "HC04",
+      "sector": "healthcare",
+      "stem": "A handover record is missing sections for several cases. What is the quality management system concern?",
+      "options": [
+        "Appearance.",
+        "Controlled delivery and release, with records showing requirements were met before handover.",
+        "Pay.",
+        "Parking."
+      ],
+      "answerIndex": 1,
+      "rationale": "Service is provided under controlled conditions, and records show requirements were met.",
+      "clause2015": "8.5.1",
+      "clauseRefs": [
+        "8.5.1",
+        "8.6"
+      ],
+      "roles": [
+        "F",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "HC05",
+      "sector": "healthcare",
+      "stem": "An externally supplied item arrives without the required documentation. What is appropriate?",
+      "options": [
+        "Use it.",
+        "Return it later.",
+        "Keep it with a note.",
+        "Hold it and verify it against requirements before use."
+      ],
+      "answerIndex": 3,
+      "rationale": "Externally provided items are verified against requirements before use.",
+      "clause2015": "8.4",
+      "clauseRefs": [
+        "8.4"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "HC06",
+      "sector": "healthcare",
+      "stem": "An agency staff member is scheduled for a task that requires a specific qualification. What does the organization need?",
+      "options": [
+        "Confirmation of competence and retained evidence.",
+        "A verbal assurance.",
+        "A badge only.",
+        "Nothing."
+      ],
+      "answerIndex": 0,
+      "rationale": "Competence is confirmed for everyone doing the work, including people supplied by external providers.",
+      "clause2015": "7.2",
+      "clauseRefs": [
+        "7.2",
+        "8.4"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "HC07",
+      "sector": "healthcare",
+      "stem": "A change to the patient transfer documents is proposed. What should occur?",
+      "options": [
+        "Change it on the ward.",
+        "Announce it afterward.",
+        "Review consequences, authorize, communicate, and record.",
+        "Wait for an incident."
+      ],
+      "answerIndex": 2,
+      "rationale": "Changes are planned, reviewed, and controlled, with records.",
+      "clause2015": "6.3",
+      "clauseRefs": [
+        "6.3",
+        "8.5.6"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "HC08",
+      "sector": "healthcare",
+      "stem": "A near-miss is reported. Which response supports improvement?",
+      "options": [
+        "File it.",
+        "Review it, determine whether a cause needs action, and track the action.",
+        "Hide it.",
+        "Discipline the reporter."
+      ],
+      "answerIndex": 1,
+      "rationale": "Reports are reviewed for causes and acted on; a non-punitive response encourages reporting.",
+      "clause2015": "10.2",
+      "clauseRefs": [
+        "10.2",
+        "10.3"
+      ],
+      "roles": [
+        "F",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "HC09",
+      "sector": "healthcare",
+      "stem": "Patient and family feedback is collected but never analyzed. Which requirement is not met?",
+      "options": [
+        "Communication planning.",
+        "Design review.",
+        "Risk planning.",
+        "Monitoring customer perception, and analyzing and evaluating the data."
+      ],
+      "answerIndex": 3,
+      "rationale": "Customer feedback is monitored, analyzed, and evaluated.",
+      "clause2015": "9.1.2",
+      "clauseRefs": [
+        "9.1.2",
+        "9.1.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "HC10",
+      "sector": "healthcare",
+      "stem": "Which statement about this program and clinical care is correct?",
+      "options": [
+        "It addresses the quality management system only; clinical standards and law govern care.",
+        "It replaces clinical guidance.",
+        "It provides treatment advice.",
+        "It overrides legal requirements."
+      ],
+      "answerIndex": 0,
+      "rationale": "This program covers the quality management system only; clinical standards and law govern care. Clause 4.3 (scope) is the nearest reference.",
+      "clause2015": "4.3",
+      "clauseRefs": [
+        "4.3"
+      ],
+      "roles": [
+        "F",
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "HC11",
+      "sector": "healthcare",
+      "stem": "Internal audit findings in the ward are never reviewed by senior leaders. Which element is weak?",
+      "options": [
+        "Calibration.",
+        "Document control.",
+        "Reporting audit results to relevant management and using them in management review.",
+        "Training."
+      ],
+      "answerIndex": 2,
+      "rationale": "Audit results are reported to relevant management and are an input to management review.",
+      "clause2015": "9.2",
+      "clauseRefs": [
+        "9.2",
+        "9.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "HC12",
+      "sector": "healthcare",
+      "stem": "What does \"hold\" mean for a case documentation set with an unresolved discrepancy?",
+      "options": [
+        "Archive it.",
+        "A status that prevents it from proceeding until it is reviewed and dispositioned.",
+        "Delete it.",
+        "Forward it."
+      ],
+      "answerIndex": 1,
+      "rationale": "Nonconforming output is identified and kept from proceeding until a decision is made.",
+      "clause2015": "8.7",
+      "clauseRefs": [
+        "8.7"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "HC13",
+      "sector": "healthcare",
+      "stem": "Meridian Care serves patients, families, referring organizations, and funders. Why identify these parties?",
+      "options": [
+        "To determine their requirements that are relevant to the quality management system, and to review them.",
+        "For marketing only.",
+        "To set prices.",
+        "It is not needed."
+      ],
+      "answerIndex": 0,
+      "rationale": "Interested parties and their relevant requirements are determined and kept under review.",
+      "clause2015": "4.2",
+      "clauseRefs": [
+        "4.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "HC14",
+      "sector": "healthcare",
+      "stem": "Two departments each assume the other checks that equipment service records are complete. What is the system issue?",
+      "options": [
+        "There is no issue.",
+        "Responsibilities and authorities are not clearly assigned and communicated.",
+        "A calibration error.",
+        "A design issue."
+      ],
+      "answerIndex": 1,
+      "rationale": "Top management assigns and communicates responsibilities so that nothing falls between teams.",
+      "clause2015": "5.3",
+      "clauseRefs": [
+        "5.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "HC15",
+      "sector": "healthcare",
+      "stem": "A new administrator does not know how to report a records discrepancy. Which requirement area applies?",
+      "options": [
+        "Infrastructure.",
+        "Design and development.",
+        "Awareness, including how to contribute and the effect of not following the system.",
+        "Customer property."
+      ],
+      "answerIndex": 2,
+      "rationale": "People know how to contribute to the system, including how to raise problems.",
+      "clause2015": "7.3",
+      "clauseRefs": [
+        "7.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "HC16",
+      "sector": "healthcare",
+      "stem": "Which is a measurable objective for an outpatient clinic's administrative service?",
+      "options": [
+        "\"Be caring.\"",
+        "\"Improve.\"",
+        "\"Do better than last year.\"",
+        "\"Send at least 95 percent of appointment letters within two working days, reviewed monthly.\""
+      ],
+      "answerIndex": 3,
+      "rationale": "Objectives are measurable and monitored.",
+      "clause2015": "6.2",
+      "clauseRefs": [
+        "6.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "HC17",
+      "sector": "healthcare",
+      "stem": "The scheduling system has no fallback process if it fails. What should management do?",
+      "options": [
+        "Assess the risk to service delivery, plan proportionate actions, and review their effect.",
+        "Wait.",
+        "Ignore it.",
+        "Buy any system available."
+      ],
+      "answerIndex": 0,
+      "rationale": "Risks to service delivery are addressed with proportionate, evaluated actions.",
+      "clause2015": "6.1",
+      "clauseRefs": [
+        "6.1"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "HC18",
+      "sector": "healthcare",
+      "stem": "The air conditioning in a records storage room fails repeatedly. Which requirement area applies?",
+      "options": [
+        "Quality policy.",
+        "Infrastructure, including its maintenance.",
+        "Organizational context.",
+        "Design and development."
+      ],
+      "answerIndex": 1,
+      "rationale": "Buildings and equipment needed for the service are provided and maintained.",
+      "clause2015": "7.1.3",
+      "clauseRefs": [
+        "7.1.3"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "HC19",
+      "sector": "healthcare",
+      "stem": "A referral form exists in several uncontrolled local versions. What should happen?",
+      "options": [
+        "Keep all versions.",
+        "Let each team pick one.",
+        "Withdraw obsolete versions and make the current approved version available where it is used.",
+        "Wait for a complaint."
+      ],
+      "answerIndex": 2,
+      "rationale": "Documents are approved, controlled, and available at the point of use; obsolete versions are withdrawn.",
+      "clause2015": "7.5.3",
+      "clauseRefs": [
+        "7.5.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "HC20",
+      "sector": "healthcare",
+      "stem": "A family member raises a concern about a delayed appointment letter. What should the receptionist do?",
+      "options": [
+        "Record the concern and route it through the feedback and complaint process.",
+        "Tell them to write a letter.",
+        "Ignore it.",
+        "Promise a fix without recording it."
+      ],
+      "answerIndex": 0,
+      "rationale": "Customer feedback, including complaints, is captured and handled through a defined route.",
+      "clause2015": "8.2.1",
+      "clauseRefs": [
+        "8.2.1"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "HC21",
+      "sector": "healthcare",
+      "stem": "A laundry contractor repeatedly delivers late. What should the organization do?",
+      "options": [
+        "Nothing.",
+        "Evaluate and monitor the provider's performance against defined criteria and act on the results.",
+        "Pay more.",
+        "Stop checking deliveries."
+      ],
+      "answerIndex": 1,
+      "rationale": "External providers are evaluated and monitored against criteria, and action is taken on the results.",
+      "clause2015": "8.4",
+      "clauseRefs": [
+        "8.4"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "HC22",
+      "sector": "healthcare",
+      "stem": "The internal audit programme never covers the appointment booking process. What is the weakness?",
+      "options": [
+        "There is no weakness.",
+        "The process is too small to matter.",
+        "Only external auditors cover it.",
+        "The audit programme should take account of the importance of processes, changes, and previous results."
+      ],
+      "answerIndex": 3,
+      "rationale": "The audit programme is planned according to the importance of processes, changes, and earlier results.",
+      "clause2015": "9.2",
+      "clauseRefs": [
+        "9.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "HC23",
+      "sector": "healthcare",
+      "stem": "Management review minutes list topics but record no decisions or actions. What is missing?",
+      "options": [
+        "A longer meeting.",
+        "More attendees.",
+        "A new template only.",
+        "Outputs such as decisions on improvement, changes needed, and resources."
+      ],
+      "answerIndex": 3,
+      "rationale": "Management review produces decisions and actions, and records of them are retained.",
+      "clause2015": "9.3",
+      "clauseRefs": [
+        "9.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "HC24",
+      "sector": "healthcare",
+      "stem": "Staff suggest a simpler checklist for record handover. What does continual improvement expect?",
+      "options": [
+        "Ignore suggestions.",
+        "Change it on the ward without review.",
+        "Consider the suggestion, evaluate it through change control, and act where it improves results.",
+        "Wait for the audit."
+      ],
+      "answerIndex": 2,
+      "rationale": "Improvement ideas are evaluated and, where they help, implemented in a controlled way.",
+      "clause2015": "10.3",
+      "clauseRefs": [
+        "10.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    }
+  ]
+}

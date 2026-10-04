@@ -1,0 +1,285 @@
+{
+  "id": "FOD-C-01",
+  "pack": "process-food",
+  "type": "C",
+  "title": "The Monthly Label Error",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "For 4 months in a row, Meridian Foods has found one packing run with the wrong best-before date format on the label. Each time the run was relabeled. Corrective action CA-201 says \"operator retrained\". You have 12 visit points to interview staff and reach a system cause.",
+  "visitPoints": 12,
+  "goal": "Cause depth",
+  "branches": [
+    "Cause"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Corrective action CA-201",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Label error records, 4 months",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Labeler",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Operator: how dates are entered",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Observe",
+          "label": "Labeler settings screen",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Planning",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Planner: what differs about the affected runs",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Customer label specifications",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Engineering",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Labeler software change history",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Ask",
+          "label": "Engineer: what happens at month end",
+          "evidenceId": "E8"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Training",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Operator training records",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Line",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Label verification camera",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Line speed board",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Operator break schedule",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "CA-201 cause: \"operator error\". Action: \"operator retrained\". Closed with no check; the error recurred in months 3 and 4.",
+      "clause": "10.2",
+      "whyItMatters": "Corrective action must remove the cause and be checked. Retraining one person does not address a system cause.",
+      "missedExplanation": "Read whether the action was checked and whether the problem returned.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "observation",
+      "text": "Error records: all 4 errors happened on the first run of a new month, for 2 export customers.",
+      "clause": "9.1.3",
+      "whyItMatters": "The pattern points to the cause. Analyzing it is the missing step.",
+      "missedExplanation": "Look for timing patterns.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "conforming",
+      "text": "Operator: \"I select the customer code and the date fills in. I don't type it.\" The operator reported 2 of the 4 errors.",
+      "clause": "7.3",
+      "whyItMatters": "The operator follows the method and reports problems.",
+      "missedExplanation": "Leads to the labeler settings.",
+      "falseFindingNote": "The operator is following the method. Not a person issue.",
+      "plantedPool": false
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Labeler L-2 screen: the date format is stored per product, not per customer; export customers need format DD.MM.YYYY, set manually by a lead each month.",
+      "clause": "8.5.1",
+      "whyItMatters": "Controlled production needs settings that ensure the correct output. A manual monthly step without a check invites errors.",
+      "missedExplanation": "Ask where a setting is stored and who changes it.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "conforming",
+      "text": "Planner: \"Export orders for 2 customers start each month; other months are domestic only.\"",
+      "clause": "8.2.2",
+      "whyItMatters": "Planning information explains the timing.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The planner describes the schedule accurately.",
+      "plantedPool": false
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Customer label specifications for the 2 export customers (specs LS-14 and LS-15) were never entered into the labeler master data; they exist only as PDF files.",
+      "clause": "8.2.3",
+      "whyItMatters": "Customer requirements must be reviewed and built into the process that delivers them.",
+      "missedExplanation": "Check that customer requirements reach the system that applies them.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Labeler software was updated 5 months ago (change SW-12); the update reset per-customer formats to the default. No post-change check is recorded.",
+      "clause": "8.5.6",
+      "whyItMatters": "After a change, outputs should be checked to confirm the change did not cause problems.",
+      "missedExplanation": "Ask what changed shortly before the problem began.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "nonconformity",
+      "text": "Engineer: \"At month end the lead re-enters the export format by hand. There's no second check and no checklist.\" (note 6)",
+      "clause": "8.5.1",
+      "supports": "E4",
+      "whyItMatters": "A critical manual step needs a defined method and check.",
+      "missedExplanation": "Ask exactly how the monthly step is done.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Training records: all labeler operators are trained on the current procedure.",
+      "clause": "7.2",
+      "whyItMatters": "Competence records are current; training is not the gap.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Training is current. Retraining was not the answer.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "observation",
+      "text": "Label verification camera MV-2 checks the barcode only, not the date format.",
+      "clause": "8.6",
+      "whyItMatters": "Extending the existing check to the date would detect errors before release.",
+      "missedExplanation": "Ask what the inspection system actually checks.",
+      "plantedPool": true
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Line speed board shows normal speed for the affected runs.",
+      "clause": "7.1.3",
+      "whyItMatters": "Speed is not linked to the errors.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Speed is normal. Not a cause.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "Breaks are scheduled as usual.",
+      "clause": "7.1.4",
+      "whyItMatters": "Breaks are not linked to the errors.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Normal breaks are not a cause.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which statement best describes the system cause?",
+      "options": [
+        "Operators make mistakes at month end",
+        "A software update reset customer formats, export specifications were never built into master data, and a manual monthly re-entry has no check",
+        "The label printer is unreliable",
+        "The customers change their requirements too often"
+      ],
+      "bestIndex": 1,
+      "rationale": "The cause lies in master data, change control, and an unchecked manual step."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Check the date format on the first export run of each month until the fix is in place"
+    ],
+    "correction": [
+      "Relabel affected product under the existing authorized rework"
+    ],
+    "cause": [
+      "Export date formats are not held in master data, the software change reset formats, and the manual step has no check"
+    ],
+    "corrective": [
+      "Enter LS-14 and LS-15 into labeler master data, verify settings after software changes, and extend camera MV-2 to check the date format",
+      "Reopen CA-201 with the system cause"
+    ],
+    "effectiveness": [
+      "Track export label errors for six months, target zero"
+    ]
+  },
+  "debriefText": {
+    "found": "You moved from \"operator error\" to master data, change, and inspection.",
+    "missed": "When an error follows a calendar pattern, look for manual steps tied to that date.",
+    "falseFinding": "Speed and breaks were not causes."
+  }
+}

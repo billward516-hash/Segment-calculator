@@ -1,0 +1,272 @@
+{
+  "id": "FOD-D-01",
+  "pack": "process-food",
+  "type": "D",
+  "title": "The Yield Adjustment",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Meridian Foods proposes reducing the cooking time for sauce line 1 by 4 minutes to raise yield. Change request CH-37 is due for approval on Friday. Food safety requirements belong to the separate food safety system and are outside this visit. You have 12 visit points to assess the change for quality risks, controls, and records.",
+  "visitPoints": 12,
+  "goal": "Completeness",
+  "branches": [
+    "Control"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Technical office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Change request CH-37",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Trial batch results",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Food safety team",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Has the food safety team reviewed the change",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Customer files",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Customer specification for the sauce",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Review",
+          "label": "Customer change notification terms",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Laboratory",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Viscosity test method and capability",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Review",
+          "label": "Calibration of viscometer V-1",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Production",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Batch record template",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Ask",
+          "label": "Operators: how they will learn the new time",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Finance",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Yield savings estimate",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Review",
+          "label": "Cost centre code",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "CH-37 states the reason, the product range, and the approvers.",
+      "clause": "8.5.6",
+      "whyItMatters": "The request is properly started.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete request. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Trial results: 2 trial batches; viscosity measured on 1, shelf-life quality testing not started. No acceptance criteria stated.",
+      "clause": "8.5.6",
+      "whyItMatters": "A change must be shown not to affect conformity; the trial does not show that.",
+      "missedExplanation": "Ask what the trial was meant to prove.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Food safety team lead: \"We have not been asked. CH-37 was not sent to us.\" Their review is a required step on form CH (section 5).",
+      "clause": "6.3, 8.5.6",
+      "whyItMatters": "Changes must be reviewed by the functions whose controls they affect. The food safety review is outside this program but must happen.",
+      "missedExplanation": "Check that every required reviewer has seen the change.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "conforming",
+      "text": "Customer specification lists viscosity limits 1,800 to 2,400 units.",
+      "clause": "8.2.3",
+      "whyItMatters": "Requirements are defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Clear specification. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Customer agreement CA-9 requires 30 days' notice of process changes; CH-37 plans implementation in 7 days with no notice.",
+      "clause": "8.2.3",
+      "whyItMatters": "Customer requirements on change notice must be met.",
+      "missedExplanation": "Read customer agreements for change terms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Viscosity method capability study is 3 years old and used the old product; the new texture is not covered.",
+      "clause": "7.1.5",
+      "unlockedBy": [
+        "E7"
+      ],
+      "whyItMatters": "Measuring methods must be suitable for the product as changed.",
+      "missedExplanation": "Ask whether the test can detect the change's effect.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Viscometer V-1 is calibrated, due in 2 months.",
+      "clause": "7.1.5",
+      "whyItMatters": "The instrument is calibrated.",
+      "missedExplanation": "Leads to the capability study.",
+      "falseFindingNote": "Calibrated. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "nonconformity",
+      "text": "Batch record template BR-4 still shows the old cooking time; no draft revision is attached to CH-37.",
+      "clause": "7.5.2",
+      "whyItMatters": "Documents affected by a change need updating and approval before use.",
+      "missedExplanation": "List every document the change touches.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "observation",
+      "text": "Operators: \"We'd hear about it at the shift briefing.\" No training plan exists for CH-37.",
+      "clause": "7.2",
+      "whyItMatters": "A defined training step would ensure consistent use.",
+      "missedExplanation": "Ask how people will learn the change.",
+      "plantedPool": true
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Savings estimate shows 3 percent more yield.",
+      "clause": "6.2",
+      "whyItMatters": "The business benefit is the reason for the change, not a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The estimate is context.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "The cost centre code on CH-37 is an old format but valid.",
+      "clause": "7.5.2",
+      "whyItMatters": "Not a quality requirement.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Finance codes do not affect conformity.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Should CH-37 be approved on Friday?",
+      "options": [
+        "Yes, the yield benefit is clear",
+        "No. Return it with conditions: food safety team review, trial criteria and full testing, method capability for the new product, updated batch record, training, and customer notice",
+        "Approve for night shift only",
+        "Reject it permanently"
+      ],
+      "bestIndex": 1,
+      "rationale": "The change may be sound but the review is incomplete."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Keep the current cooking time until CH-37 is approved"
+    ],
+    "correction": [
+      "Complete the missing reviews, tests, documents, training, and customer notice"
+    ],
+    "cause": [
+      "The change form allows submission without required reviewer sign-offs or customer notice"
+    ],
+    "corrective": [
+      "Make reviewer sign-offs and a customer notice check mandatory before a change can be scheduled"
+    ],
+    "effectiveness": [
+      "Audit the next five change requests for complete reviews"
+    ]
+  },
+  "debriefText": {
+    "found": "You checked the change against reviewers, measurements, documents, people, and customer terms.",
+    "missed": "A process change touches documents, methods, people, and customers.",
+    "falseFinding": "Savings and finance codes are context."
+  }
+}

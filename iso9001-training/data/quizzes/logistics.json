@@ -1,0 +1,623 @@
+{
+  "pack": "logistics",
+  "specPrefix": "LG",
+  "specSection": "Appendix C C.2.7",
+  "specPackName": "Logistics, Warehousing, and Distribution",
+  "company": "Meridian Logistics",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "notes": "Items LG01 to LG12 are the Appendix C seed items (rationales added where the spec gave none). Items LG13 to LG24 were written for this build in the same style (C.5 task 5). Clause tags are references only and are unverified against the purchased standard. clause2015 holds the primary clause; clauseRefs lists every clause the spec or author cited. Spec pack prefix LG maps to pack id \"logistics\".",
+  "items": [
+    {
+      "id": "LG01",
+      "sector": "logistics",
+      "stem": "Pickers use an older handling instruction. What should happen?",
+      "options": [
+        "Stop, obtain the current instruction, and inform the supervisor.",
+        "Continue.",
+        "Ask a colleague.",
+        "Update it later."
+      ],
+      "answerIndex": 0,
+      "rationale": "Only current, approved instructions are used at the point of use.",
+      "clause2015": "7.5.3",
+      "clauseRefs": [
+        "7.5.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "LG02",
+      "sector": "logistics",
+      "stem": "A dock scale is past its calibration date. What is correct?",
+      "options": [
+        "Use it.",
+        "Use it and make deductions.",
+        "Do not use it; flag it and use a valid scale or hold the weighing.",
+        "Remove the label."
+      ],
+      "answerIndex": 2,
+      "rationale": "Equipment past its calibration date cannot be relied on to give valid results.",
+      "clause2015": "7.1.5",
+      "clauseRefs": [
+        "7.1.5"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "LG03",
+      "sector": "logistics",
+      "stem": "Damaged customer goods are found at receiving. What should be done?",
+      "options": [
+        "Put them in stock.",
+        "Record the damage, protect the goods, and inform the customer.",
+        "Dispose of them.",
+        "Replace them silently."
+      ],
+      "answerIndex": 1,
+      "rationale": "Customer property that is damaged is recorded and reported to the customer.",
+      "clause2015": "8.5.3",
+      "clauseRefs": [
+        "8.5.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "LG04",
+      "sector": "logistics",
+      "stem": "A load has a count discrepancy against the order. What is required before dispatch?",
+      "options": [
+        "Dispatch and correct the invoice.",
+        "Dispatch half.",
+        "Ask the driver.",
+        "Hold the load until the discrepancy is resolved or release is authorized."
+      ],
+      "answerIndex": 3,
+      "rationale": "Output is not released until verification is complete or release is authorized.",
+      "clause2015": "8.6",
+      "clauseRefs": [
+        "8.6",
+        "8.7"
+      ],
+      "roles": [
+        "F",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "LG05",
+      "sector": "logistics",
+      "stem": "A customer reports a wrong item. Which capability limits the scope of the review?",
+      "options": [
+        "Order, lot, and pallet identification with traceable records.",
+        "Quality policy.",
+        "Organizational context.",
+        "Awareness."
+      ],
+      "answerIndex": 0,
+      "rationale": "Identification and traceability records show which other orders may be affected.",
+      "clause2015": "8.5.2",
+      "clauseRefs": [
+        "8.5.2"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "LG06",
+      "sector": "logistics",
+      "stem": "A carrier substitutes an unapproved vehicle for a temperature-controlled load. Which control applies?",
+      "options": [
+        "Calibration.",
+        "Document retention.",
+        "Control of externally provided services, including defined requirements and verification.",
+        "Training."
+      ],
+      "answerIndex": 2,
+      "rationale": "Requirements are communicated to external providers, and their services are verified.",
+      "clause2015": "8.4",
+      "clauseRefs": [
+        "8.4"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "LG07",
+      "sector": "logistics",
+      "stem": "A temperature logger has a gap in its record. What should happen?",
+      "options": [
+        "Fill in estimated values.",
+        "Investigate, evaluate the affected goods, and record the outcome.",
+        "Delete the record.",
+        "Ignore it."
+      ],
+      "answerIndex": 1,
+      "rationale": "Gaps in monitoring are investigated, potentially affected goods are evaluated, and the outcome is recorded.",
+      "clause2015": "7.1.5",
+      "clauseRefs": [
+        "7.1.5",
+        "8.5.4",
+        "8.7"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "LG08",
+      "sector": "logistics",
+      "stem": "A warehouse layout change is planned. What is required?",
+      "options": [
+        "Staff discover it during the shift.",
+        "Announce it afterward.",
+        "Record only the cost.",
+        "Review consequences, communicate, monitor, and record."
+      ],
+      "answerIndex": 3,
+      "rationale": "Changes are planned and controlled, with their effects reviewed.",
+      "clause2015": "6.3",
+      "clauseRefs": [
+        "6.3",
+        "8.5.6"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "LG09",
+      "sector": "logistics",
+      "stem": "A new forklift operator starts. What must be in place?",
+      "options": [
+        "Competence determined, training given, and evidence retained.",
+        "A verbal approval.",
+        "Observation only.",
+        "Nothing."
+      ],
+      "answerIndex": 0,
+      "rationale": "Competence is determined and evidenced before independent work.",
+      "clause2015": "7.2",
+      "clauseRefs": [
+        "7.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "LG10",
+      "sector": "logistics",
+      "stem": "The same mislabeled pallet error occurs weekly. What step goes beyond correcting each pallet?",
+      "options": [
+        "Relabel faster.",
+        "Add inspectors.",
+        "Identify and act on the cause and verify effectiveness.",
+        "Ignore it."
+      ],
+      "answerIndex": 2,
+      "rationale": "Corrective action removes the cause so the error does not recur.",
+      "clause2015": "10.2",
+      "clauseRefs": [
+        "10.2"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "LG11",
+      "sector": "logistics",
+      "stem": "Which is an appropriate measurable objective?",
+      "options": [
+        "\"Be fast.\"",
+        "\"At least 99 percent of orders delivered complete and on time.\"",
+        "\"Improve.\"",
+        "\"Make customers happy.\""
+      ],
+      "answerIndex": 1,
+      "rationale": "Objectives are measurable so progress can be monitored.",
+      "clause2015": "6.2",
+      "clauseRefs": [
+        "6.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "LG12",
+      "sector": "logistics",
+      "stem": "Why are internal audits performed?",
+      "options": [
+        "To assign blame.",
+        "To replace management review.",
+        "To set prices.",
+        "To determine whether the system conforms to requirements and is effectively implemented and maintained."
+      ],
+      "answerIndex": 3,
+      "rationale": "Internal audits provide information on whether the system conforms and is effective.",
+      "clause2015": "9.2",
+      "clauseRefs": [
+        "9.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "LG13",
+      "sector": "logistics",
+      "stem": "A major customer moves to next-day delivery for all orders. Where should Meridian Logistics first take account of this?",
+      "options": [
+        "Only in the transport schedule.",
+        "In its review of external issues and interested-party requirements, and then in planning.",
+        "Nowhere.",
+        "Only at the next audit."
+      ],
+      "answerIndex": 1,
+      "rationale": "Changes in interested-party requirements are reviewed and reflected in planning.",
+      "clause2015": "4.1",
+      "clauseRefs": [
+        "4.1",
+        "4.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "LG14",
+      "sector": "logistics",
+      "stem": "A new returns process is introduced. What should be determined for it?",
+      "options": [
+        "Its inputs, outputs, sequence, interactions, criteria, resources, responsibilities, and how its performance is monitored.",
+        "Only the dock door number.",
+        "Nothing.",
+        "Only the cost."
+      ],
+      "answerIndex": 0,
+      "rationale": "Processes in the system are defined, resourced, assigned, and monitored.",
+      "clause2015": "4.4",
+      "clauseRefs": [
+        "4.4"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "LG15",
+      "sector": "logistics",
+      "stem": "Managers tell staff that quality matters but reward only speed. What does leadership commitment require?",
+      "options": [
+        "Nothing more.",
+        "A focus on speed only.",
+        "Promoting customer focus and making sure the system achieves its intended results, with consistent direction.",
+        "Leaving quality to the quality team."
+      ],
+      "answerIndex": 2,
+      "rationale": "Leaders show commitment through consistent direction and support for the system.",
+      "clause2015": "5.1",
+      "clauseRefs": [
+        "5.1"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "LG16",
+      "sector": "logistics",
+      "stem": "A picker does not know that a wrong item leads to a customer complaint and a return. Which requirement area applies?",
+      "options": [
+        "Calibration.",
+        "Design and development.",
+        "Customer property.",
+        "Awareness."
+      ],
+      "answerIndex": 3,
+      "rationale": "People are aware of how their work contributes and the effect of errors.",
+      "clause2015": "7.3",
+      "clauseRefs": [
+        "7.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "LG17",
+      "sector": "logistics",
+      "stem": "Peak season will double volume. What should planning include?",
+      "options": [
+        "Identifying risks to on-time and accurate delivery, planning proportionate actions, and evaluating them.",
+        "Hoping volume can be absorbed.",
+        "Cancelling orders.",
+        "Ignoring the forecast."
+      ],
+      "answerIndex": 0,
+      "rationale": "Risks to planned results are addressed with proportionate actions that are evaluated.",
+      "clause2015": "6.1",
+      "clauseRefs": [
+        "6.1"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "LG18",
+      "sector": "logistics",
+      "stem": "Handheld scanners fail often, and staff key in codes by hand. What is the concern?",
+      "options": [
+        "Work becomes faster.",
+        "Infrastructure needed for conforming work is not maintained, which raises the chance of errors.",
+        "Costs fall.",
+        "There is no concern."
+      ],
+      "answerIndex": 1,
+      "rationale": "Equipment needed for conforming work is provided and maintained.",
+      "clause2015": "7.1.3",
+      "clauseRefs": [
+        "7.1.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "LG19",
+      "sector": "logistics",
+      "stem": "A customer changes a delivery address, but the change does not reach the loading team. What is the gap?",
+      "options": [
+        "Calibration.",
+        "Organizational context.",
+        "Communication of changes to the people who need them.",
+        "Quality policy."
+      ],
+      "answerIndex": 2,
+      "rationale": "Changes to requirements are communicated to the people affected.",
+      "clause2015": "7.4",
+      "clauseRefs": [
+        "7.4",
+        "8.2.4"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "LG20",
+      "sector": "logistics",
+      "stem": "Sales agrees to a delivery window the fleet cannot meet. What should have happened?",
+      "options": [
+        "A review of the requirement and confirmation of capability before commitment.",
+        "Nothing.",
+        "Drivers should try harder.",
+        "The customer should adjust."
+      ],
+      "answerIndex": 0,
+      "rationale": "Requirements are reviewed before commitment to make sure they can be met.",
+      "clause2015": "8.2.3",
+      "clauseRefs": [
+        "8.2.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "LG21",
+      "sector": "logistics",
+      "stem": "Goods are stored under a leaking roof. Which requirement is most at risk?",
+      "options": [
+        "Quality policy.",
+        "Organizational context.",
+        "Internal audit.",
+        "Preservation of outputs."
+      ],
+      "answerIndex": 3,
+      "rationale": "Goods are preserved during handling and storage so that they stay conforming.",
+      "clause2015": "8.5.4",
+      "clauseRefs": [
+        "8.5.4"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "LG22",
+      "sector": "logistics",
+      "stem": "A customer asks for collection of damaged goods under the service agreement. Which requirement area applies?",
+      "options": [
+        "Calibration.",
+        "Design and development.",
+        "Post-delivery activities.",
+        "Quality policy."
+      ],
+      "answerIndex": 2,
+      "rationale": "Agreed activities after delivery are planned and carried out.",
+      "clause2015": "8.5.5",
+      "clauseRefs": [
+        "8.5.5"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "LG23",
+      "sector": "logistics",
+      "stem": "Mis-pick data is collected but never analyzed. What is missing?",
+      "options": [
+        "More collection.",
+        "Analysis and evaluation to find causes and trends.",
+        "A new form.",
+        "Nothing."
+      ],
+      "answerIndex": 1,
+      "rationale": "Data is analyzed and evaluated so that it can drive action.",
+      "clause2015": "9.1.3",
+      "clauseRefs": [
+        "9.1.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "LG24",
+      "sector": "logistics",
+      "stem": "What should management review result in?",
+      "options": [
+        "Only meeting minutes.",
+        "Only a date for the next meeting.",
+        "A list of attendees.",
+        "Decisions and actions on improvement, changes to the system, and resource needs."
+      ],
+      "answerIndex": 3,
+      "rationale": "Management review outputs are decisions and actions, not only records of discussion.",
+      "clause2015": "9.3",
+      "clauseRefs": [
+        "9.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    }
+  ]
+}

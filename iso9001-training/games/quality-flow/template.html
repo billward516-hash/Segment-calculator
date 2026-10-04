@@ -64,6 +64,10 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .timer{font-size:2rem;font-weight:800;font-variant-numeric:tabular-nums}
 .row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
 .err{color:var(--warn);font-weight:700}
+.caution{border:3px solid var(--warn);background:var(--warn-bg);color:var(--fg);border-radius:8px;padding:.7rem 1rem;margin:0 0 1rem}
+.caution .caution-label{font-weight:800;color:var(--warn);text-transform:uppercase;letter-spacing:.04em;font-size:.85rem}
+.caution p{margin:.2rem 0 0}
+.conf{display:inline-block;border:2px solid var(--warn);color:var(--warn);border-radius:4px;padding:0 .35rem;font-size:.75rem;font-weight:700;margin-left:.3rem;vertical-align:middle}
 ul.log{margin:.3rem 0;padding-left:1.2rem;font-size:.9rem}
 @media (max-width:700px){.board{grid-template-columns:repeat(2,1fr)}}
 @media print{nav.views,.tools,button,.noprint{display:none!important}body{background:#fff;color:#000}.panel,.event{border-color:#000}}
@@ -81,7 +85,7 @@ ul.log{margin:.3rem 0;padding-left:1.2rem;font-size:.9rem}
 <main id="app" tabindex="-1"></main>
 <div id="live" class="sr" role="status" aria-live="polite"></div>
 <footer><main>
-  <p class="notice">This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body. Fictional organization. Examples are illustrative. Sector-specific legal, clinical, safety, and food safety requirements are outside this program. Clause references use the 2015 edition numbering.</p>
+  <p class="notice">This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body. Fictional organization. Examples are illustrative. Sector-specific legal, clinical, safety, and food safety requirements are outside this program. <span id="edition-note">Clause references use the 2015 edition numbering.</span></p>
 </main></footer>
 
 <script type="application/json" id="qf-config">__CONFIG_JSON__</script>
@@ -105,7 +109,27 @@ var app = {
 function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 function n1(n) { var r = Math.round(n * 10) / 10; return (r < 0 ? '−' : '') + Math.abs(r); }
 function packById(id) { return DATA.packs.filter(function (p) { return p.id === id; })[0] || DATA.packs[0]; }
-function ctl(id) { return DATA.controls.filter(function (c) { return c.id === id; })[0]; }
+var CONTROLS_2026 = DATA.controls2026 || [], EVENTS_2026 = DATA.events2026 || [];
+var CAUTION_TEXT = 'This section describes the 2026 edition of ISO 9001 using the best available secondary commentary and informed estimates. It has not been verified against the published standard and may contain errors, omissions, or incorrect clause references. Do not use it as a substitute for the standard in audit preparation, certification decisions, procedure revisions, or training records. Always consult the published ISO 9001:2026 text and your certification body.';
+function curEdition() { return String((app.game && app.screen !== 'setup' ? app.game.cfg.edition : app.setupCfg.edition) || '2015'); }
+function isNew() { return QF.isNewEdition(curEdition()); }
+function decks() { return QF.decksFor(curEdition(), DATA.controls, DATA.events, CONTROLS_2026, EVENTS_2026); }
+function ctlList() { return decks().controls; }
+function evList() { return decks().events; }
+function evById(id) { return DATA.events.concat(EVENTS_2026).filter(function (e) { return e.id === id; })[0]; }
+function ctl(id) { return DATA.controls.concat(CONTROLS_2026).filter(function (c) { return c.id === id; })[0]; }
+function cautionBox() {
+  return '<aside class="caution" role="note" aria-label="Preliminary 2026 information"><div class="caution-label">Preliminary 2026 information</div><p><b>CAUTION: PRELIMINARY 2026 INFORMATION.</b> ' + CAUTION_TEXT + '</p></aside>';
+}
+function confBadge(item) { return item && item.edition === '2026' ? '<span class="conf" title="Confidence label for this 2026 item">2026 • ' + esc(item.confidence) + ' • unverified</span>' : ''; }
+// Clause reference by edition. Bridge mode shows "2015 / 2026". The other controls are reported to keep their numbers.
+function clauseRef(c) {
+  var ed = curEdition(), c15 = c.clause2015 || c.clause, c26 = c.clause;
+  if (ed === 'bridge') return c15 + ' / ' + c26;
+  if (ed === '2026') return c26;
+  return c15;
+}
+function editionLabel() { var ed = curEdition(); return ed === 'bridge' ? 'Bridge mode (2015 / 2026)' : ed === '2026' ? '2026 mode (preliminary)' : '2015 edition'; }
 function live(msg) { var el = document.getElementById('live'); if (el) el.textContent = msg; }
 function stageName(i) { return app.game.cfg.stages[i] ? app.game.cfg.stages[i].name : ''; }
 function term(plural) { var p = packById(app.game ? app.game.cfg.industryPack : app.setupCfg.industryPack); return plural ? p.term[1] : p.term[0]; }
@@ -121,6 +145,7 @@ function validateCfg(c) {
   if (!c.stages[4] || c.stages[4].id !== 'check') return 'The fifth stage must be the final check (id "check").';
   if (!packById(c.industryPack) || packById(c.industryPack).id !== c.industryPack) return 'industryPack must be one of the pack ids in this file.';
   if (!c.economics || typeof c.economics.goodItem !== 'number') return 'economics is missing or incomplete.';
+  if (c.edition != null && QF.EDITIONS.indexOf(String(c.edition)) < 0) return 'edition must be "2015", "2026" or "bridge".';
   return '';
 }
 
@@ -140,7 +165,8 @@ function clearSaved() { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /
 function newGame(cfg, names) {
   var pack = packById(cfg.industryPack);
   app.cfgUsed = JSON.parse(JSON.stringify(cfg));
-  app.game = QF.createGame(cfg, DATA.controls, DATA.events, pack);
+  var dk = QF.decksFor(cfg.edition, DATA.controls, DATA.events, CONTROLS_2026, EVENTS_2026);
+  app.game = QF.createGame(cfg, dk.controls, dk.events, pack);
   app.names = names.slice();
   app.game.teams.forEach(function (t, i) { t.name = names[i] || ('Team ' + (i + 1)); });
   app.actions = []; app.decisions = {}; app.corr = {};
@@ -181,6 +207,10 @@ function doNext() {
   save();
   live(app.phase === 'final' ? 'Game complete. Final audit shown.' : 'Round ' + g.round + ' started. Invest step.');
 }
+function doOpportunity(ti) {
+  var g = app.game;
+  if (QF.captureOpportunity(g, g.teams[ti])) { app.actions.push({ t: 'opp', team: ti }); save(); live(g.teams[ti].name + ' captured the opportunity'); }
+}
 function replaySaved(sv) {
   newGame(sv.cfg, sv.names || []);
   sv.actions.forEach(function (a) {
@@ -188,6 +218,7 @@ function replaySaved(sv) {
     else if (a.t === 'run') doRun();
     else if (a.t === 'resolve') { app.decisions = a.d; doResolve(); }
     else if (a.t === 'next') { app.corr = a.c || {}; doNext(); }
+    else if (a.t === 'opp') doOpportunity(a.team);
   });
 }
 
@@ -219,7 +250,7 @@ function render() {
     html = renderSetup();
   } else {
     var g = app.game, pack = packById(g.cfg.industryPack);
-    meta.textContent = g.cfg.company + ' • ' + pack.name + ' • Seed ' + g.cfg.seed + ' • ' + (app.screen === 'final' ? 'Final audit' : 'Round ' + g.round + ' of ' + g.cfg.rounds);
+    meta.textContent = g.cfg.company + ' • ' + pack.name + ' • ' + editionLabel() + ' • Seed ' + g.cfg.seed + ' • ' + (app.screen === 'final' ? 'Final audit' : 'Round ' + g.round + ' of ' + g.cfg.rounds);
     var tabs = [['fac', 'Facilitator view']];
     g.teams.forEach(function (t, i) { tabs.push(['team' + i, t.name]); });
     tabs.push(['ref', 'Controls and events']);
@@ -233,6 +264,9 @@ function render() {
     else if (app.view === 'final') html = renderFinal();
     else html = renderTeam(app.teamView);
   }
+  if (isNew()) html = cautionBox() + html;
+  var en = document.getElementById('edition-note');
+  if (en) en.textContent = curEdition() === 'bridge' ? 'Clause references are shown as 2015 / 2026; 2026 references are preliminary and unverified.' : curEdition() === '2026' ? 'Clause references use the reported 2026 numbering, which is preliminary and unverified.' : 'Clause references use the 2015 edition numbering.';
   document.getElementById('app').innerHTML = html;
   if (fid) { var el = document.querySelector('[data-fid="' + fid + '"]'); if (el) el.focus({ preventScroll: true }); }
   window.scrollTo(0, scrollY);
@@ -252,6 +286,9 @@ function renderSetup() {
     '<label for="f-pack">Industry pack</label><select id="f-pack" data-field="industryPack">' +
       packs.map(function (p) { return '<option value="' + esc(p.id) + '"' + (p.id === c.industryPack ? ' selected' : '') + '>' + esc(p.name) + ' (' + esc(p.company) + ')</option>'; }).join('') + '</select>' +
     '<p class="muted">The pack supplies stage names, the work item term and event wording. Mechanics and clause tags never change.</p>' +
+    '<label for="f-edition">Edition</label><select id="f-edition" data-field="edition">' +
+      [['2015', '2015 (current certified baseline)'], ['2026', '2026 mode (preliminary, adds C16, C17, E17 to E20)'], ['bridge', 'Bridge mode (2026 mechanics, clauses shown as 2015 / 2026)']].map(function (o) { return '<option value="' + o[0] + '"' + (String(c.edition || '2015') === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>' +
+    (QF.isNewEdition(String(c.edition)) ? '<p class="muted">2026 and bridge modes add controls C16 (quality culture and speak-up) and C17 (knowledge capture), events E17 to E20, and audit checks 13 and 14. Every 2026 item shows its confidence label. All 2026 content is preliminary and unverified.</p>' : '<p class="muted">2015 mode plays the core game. 2026 and bridge modes are preliminary.</p>') +
     '<label for="f-teams">Number of teams (1 to 6)</label><input id="f-teams" type="number" min="1" max="6" value="' + c.teams + '" data-field="teams">' +
     '<label for="f-rounds">Rounds</label><select id="f-rounds" data-field="rounds"><option value="6"' + (c.rounds === 6 ? ' selected' : '') + '>6 (short form, about 40 minutes)</option><option value="12"' + (c.rounds === 12 ? ' selected' : '') + '>12 (full game, 60 to 90 minutes)</option>' +
       (c.rounds !== 6 && c.rounds !== 12 ? '<option value="' + c.rounds + '" selected>' + c.rounds + ' (custom)</option>' : '') + '</select>' +
@@ -272,8 +309,9 @@ function renderSetup() {
     '<li><b>Process.</b> Work items pass six stages. Defects occur by chance. The final check detects some defects. Defects that pass are escapes and trigger complaints.</li>' +
     '<li><b>Disposition.</b> Choose redo or scrap for each held work item. Redo costs less on average but is not guaranteed.</li>' +
     '<li><b>Score.</b> Revenue, reputation and QP update. Every third round, teams with the corrective action control choose a past event to correct.</li>' +
-    '<li><b>Audit.</b> At the end, a mock audit awards points for owning controls and for using them.</li></ol>' +
-    '<p>Final score = revenue + audit points (maximum 24) + reputation × 3 − penalties.</p></div>';
+    '<li><b>Audit.</b> At the end, a mock audit awards points for owning controls and for using them.</li>' +
+    (QF.isNewEdition(String(c.edition)) ? '<li><b>2026 additions.</b> Culture, speak-up and knowledge events can strike. An opportunity card (E20) can be taken up only by teams that own C12.</li>' : '') + '</ol>' +
+    '<p>Final score = revenue + audit points (maximum ' + QF.auditMax(String(c.edition)) + ') + reputation × 3 − penalties.</p></div>';
 }
 
 function stageBoard(t) {
@@ -288,8 +326,8 @@ function stageBoard(t) {
 
 function eventCard(showFull) {
   var g = app.game, ev = g.event;
-  var mit = ev.mitigatedBy.map(function (id) { var c = ctl(id); return esc(id + ' ' + c.name + ' (Cl. ' + c.clause + ')'); }).join('; ');
-  return '<div class="event" aria-label="Event card"><div class="id">Event ' + esc(ev.id) + ' • Round ' + g.round + '</div>' +
+  var mit = ev.mitigatedBy.map(function (id) { var c = ctl(id); return esc(id + ' ' + c.name + ' (Cl. ' + clauseRef(c) + ')'); }).join('; ');
+  return '<div class="event" aria-label="Event card"><div class="id">Event ' + esc(ev.id) + ' • Round ' + g.round + (ev.opportunity ? ' <span class="badge ok">OPPORTUNITY</span>' : '') + confBadge(ev) + '</div>' +
     '<div class="txt">' + esc(QF.eventText(g, ev)) + '</div>' +
     (showFull ? '<div><b>Mitigated by:</b> ' + mit + '</div><div><b>Impact if unmitigated:</b> ' + esc(ev.impact) + '</div>' : '') + '</div>';
 }
@@ -331,7 +369,7 @@ function scoreboard(rows) {
   var g = app.game;
   return '<table><caption class="sr">Team scoreboard</caption><thead><tr><th>Rank</th><th>Team</th><th class="num">QP</th><th class="num">Controls</th><th class="num">Delivered</th><th class="num">Escapes</th><th class="num">Scrapped</th><th class="num">Revenue</th><th class="num">Reputation</th><th class="num">Score so far</th><th>Status</th></tr></thead><tbody>' +
     rows.map(function (t, i) {
-      return '<tr><td>' + (i + 1) + '</td><td>' + esc(t.name) + '</td><td class="num">' + t.qp + '</td><td class="num">' + QF.ownedCount(t) + ' of ' + DATA.controls.length + '</td><td class="num">' + t.delivered + '</td><td class="num">' + t.escapes + '</td><td class="num">' + t.scrapped + '</td><td class="num">' + n1(t.revenue) + '</td><td class="num">' + n1(t.rep) + '</td><td class="num"><b>' + n1(runningScore(t)) + '</b></td><td>' + (t.rep <= 0 ? '<span class="badge warn">SUPPLY ON HOLD</span>' : '<span class="badge ok">ACTIVE</span>') + '</td></tr>';
+      return '<tr><td>' + (i + 1) + '</td><td>' + esc(t.name) + '</td><td class="num">' + t.qp + '</td><td class="num">' + QF.ownedCount(t) + ' of ' + ctlList().length + '</td><td class="num">' + t.delivered + '</td><td class="num">' + t.escapes + '</td><td class="num">' + t.scrapped + '</td><td class="num">' + n1(t.revenue) + '</td><td class="num">' + n1(t.rep) + '</td><td class="num"><b>' + n1(runningScore(t)) + '</b></td><td>' + (t.rep <= 0 ? '<span class="badge warn">SUPPLY ON HOLD</span>' : '<span class="badge ok">ACTIVE</span>') + '</td></tr>';
     }).join('') + '</tbody></table><p class="muted">Score so far excludes audit points, which are added at the end.</p>';
 }
 
@@ -346,22 +384,23 @@ function costTable(g) {
 function renderTeam(ti) {
   var g = app.game, t = g.teams[ti], ph = app.phase;
   var html = '<h2>' + esc(t.name) + ' • Team view</h2>';
-  html += '<div class="kpis"><div class="kpi">Quality Points<b>' + t.qp + '</b></div><div class="kpi">Controls owned<b>' + QF.ownedCount(t) + ' of ' + DATA.controls.length + '</b></div><div class="kpi">Reputation<b>' + n1(t.rep) + '</b></div><div class="kpi">Revenue<b>' + n1(t.revenue) + '</b></div><div class="kpi">Escapes<b>' + t.escapes + '</b></div><div class="kpi">Delivered<b>' + t.delivered + '</b></div></div>';
+  html += '<div class="kpis"><div class="kpi">Quality Points<b>' + t.qp + '</b></div><div class="kpi">Controls owned<b>' + QF.ownedCount(t) + ' of ' + ctlList().length + '</b></div><div class="kpi">Reputation<b>' + n1(t.rep) + '</b></div><div class="kpi">Revenue<b>' + n1(t.revenue) + '</b></div><div class="kpi">Escapes<b>' + t.escapes + '</b></div><div class="kpi">Delivered<b>' + t.delivered + '</b></div></div>';
   if (t.rep <= 0) html += '<p><span class="badge warn">SUPPLY ON HOLD</span> The customer has placed supply on hold. Remaining output earns half value.</p>';
   html += '<h3>Workflow (' + esc(term(true)) + ')</h3>' + stageBoard(t);
   if (ph !== 'invest') html += '<h3>This round</h3>' + eventCard(false) + roundResult(t);
   if (ph === 'disposition') html += dispositionPanel(t);
+  if (ph === 'disposition' || ph === 'done') html += opportunityPanel(t, ti);
   if (ph === 'done') html += correctivePanel(t);
   html += '<h3>Controls' + (ph === 'invest' ? ' (Invest step: buy now)' : '') + '</h3>';
   if (ph !== 'invest') html += '<p class="muted">Purchases open again at the next Invest step.</p>';
-  html += '<div class="shop">' + DATA.controls.map(function (c) {
+  html += '<div class="shop">' + ctlList().map(function (c) {
     var owned = !!t.owned[c.id];
     var btn;
     if (owned) btn = '<span class="badge ok">OWNED</span>';
     else if (ph !== 'invest') btn = '<span class="muted">Not owned</span>';
     else if (t.qp < c.cost) btn = '<button type="button" disabled data-fid="buy-' + ti + '-' + c.id + '">Buy (' + c.cost + ' QP)</button> <span class="muted">Needs ' + (c.cost - t.qp) + ' more QP</span>';
     else btn = '<button type="button" class="primary" data-act="buy" data-team="' + ti + '" data-id="' + c.id + '" data-fid="buy-' + ti + '-' + c.id + '">Buy (' + c.cost + ' QP)</button>';
-    return '<div class="ctl' + (owned ? ' owned' : '') + '"><div class="head"><span>' + esc(c.id) + ' ' + esc(c.name) + '</span><span>' + c.cost + ' QP</span></div><small>Clause ' + esc(c.clause) + '</small><div>' + esc(c.effect) + '</div><div style="margin-top:.3rem">' + btn + '</div></div>';
+    return '<div class="ctl' + (owned ? ' owned' : '') + '"><div class="head"><span>' + esc(c.id) + ' ' + esc(c.name) + '</span><span>' + c.cost + ' QP</span></div><small>Clause ' + esc(clauseRef(c)) + confBadge(c) + '</small><div>' + esc(c.effect) + '</div><div style="margin-top:.3rem">' + btn + '</div></div>';
   }).join('') + '</div>';
   if (t.gaps.length) html += '<h3>Internal audit gaps found</h3><ul>' + t.gaps.map(function (id) { return '<li>' + esc(id + ' ' + ctl(id).name) + ' (no evidence at the time of the audit)</li>'; }).join('') + '</ul>';
   html += '<details><summary>Team log</summary><ul class="log">' + t.log.slice(-40).reverse().map(function (l) { return '<li>R' + l.round + ' [' + esc(l.kind) + '] ' + esc(l.text) + '</li>'; }).join('') + '</ul></details>';
@@ -386,6 +425,11 @@ function dispositionPanel(t) {
     }).join('') + '</div>';
 }
 
+function opportunityPanel(t, ti) {
+  if (!t.opportunityOffered) return '';
+  return '<div class="panel"><h3>Opportunity (E20)</h3><p>Your management review and objectives control (C12) lets you take up the trial. Invest 2 QP for a permanent final check detection increase of 5 points. Risks and opportunities are reported to be addressed more distinctly in 2026 (6.1, High, unverified).</p>' +
+    (t.qp >= 2 ? '<button type="button" class="primary" data-act="opp" data-team="' + ti + '" data-fid="opp-' + ti + '">Invest 2 QP in the trial</button>' : '<p class="muted">Needs 2 QP.</p>') + '</div>';
+}
 function correctivePanel(t) {
   var gm = app.game;
   if (!QF.correctiveAvailable(gm, t) || isLast()) return '';
@@ -393,27 +437,29 @@ function correctivePanel(t) {
   if (!opts.length) return '';
   return '<div class="panel"><h3>Corrective action opportunity</h3><p>Choose a past event. Name its cause with 5 Whys, then record the corrective action. Its future impact is halved.</p>' +
     '<label for="corr-' + t.index + '">Event to correct</label><select id="corr-' + t.index + '" data-corr="' + t.index + '"><option value="">No action this time</option>' +
-    opts.map(function (id) { var ev = DATA.events.filter(function (e) { return e.id === id; })[0]; return '<option value="' + id + '"' + (app.corr[t.index] === id ? ' selected' : '') + '>' + esc(id + ': ' + QF.eventText(gm, ev)) + '</option>'; }).join('') + '</select></div>';
+    opts.map(function (id) { var ev = evById(id); return '<option value="' + id + '"' + (app.corr[t.index] === id ? ' selected' : '') + '>' + esc(id + ': ' + QF.eventText(gm, ev)) + '</option>'; }).join('') + '</select></div>';
 }
 
 function renderRef() {
   var gm = app.game;
-  return '<h2>Controls</h2><table><thead><tr><th>ID</th><th>Control</th><th>Clause (2015)</th><th class="num">QP</th><th>Effect</th></tr></thead><tbody>' +
-    DATA.controls.map(function (c) { return '<tr><td>' + c.id + '</td><td>' + esc(c.name) + '</td><td>' + esc(c.clause) + '</td><td class="num">' + c.cost + '</td><td>' + esc(c.effect) + '</td></tr>'; }).join('') + '</tbody></table>' +
+  var ed = curEdition(), hdr = ed === 'bridge' ? 'Clause (2015 / 2026)' : ed === '2026' ? 'Clause (2026, preliminary)' : 'Clause (2015)';
+  return '<h2>Controls</h2><table><thead><tr><th>ID</th><th>Control</th><th>' + hdr + '</th><th class="num">QP</th><th>Effect</th></tr></thead><tbody>' +
+    ctlList().map(function (c) { return '<tr><td>' + c.id + '</td><td>' + esc(c.name) + '</td><td>' + esc(clauseRef(c)) + confBadge(c) + '</td><td class="num">' + c.cost + '</td><td>' + esc(c.effect) + (isNew() && c.id === 'C12' ? ' 2026 mode: also lets the team take up opportunity cards (E20).' : '') + '</td></tr>'; }).join('') + '</tbody></table>' +
+    (isNew() ? '<p class="muted">Controls other than C16 and C17 are reported to keep their clause numbers in 2026 (Medium; verify). C16 and C17 cost 4 QP in total.</p>' : '') +
     '<h2>Event deck (sector wording for this game)</h2><table><thead><tr><th>ID</th><th>Event</th><th>Mitigated by</th><th>Impact if unmitigated</th></tr></thead><tbody>' +
-    DATA.events.map(function (e) { return '<tr><td>' + e.id + '</td><td>' + esc(QF.eventText(gm, e)) + '</td><td>' + esc(e.mitigatedBy.join(', ')) + '</td><td>' + esc(e.impact) + '</td></tr>'; }).join('') + '</tbody></table>';
+    evList().map(function (e) { return '<tr><td>' + e.id + confBadge(e) + '</td><td>' + esc(QF.eventText(gm, e)) + '</td><td>' + esc(e.mitigatedBy.join(', ')) + '</td><td>' + esc(e.impact) + '</td></tr>'; }).join('') + '</tbody></table>';
 }
 
 function renderFinal() {
   var gm = app.game;
   var res = gm.teams.map(function (t) { return { t: t, s: QF.score(t), a: QF.finalAudit(t) }; }).sort(function (x, y) { return y.s.total - x.s.total; });
-  var html = '<h2>Final results</h2><table><thead><tr><th>Rank</th><th>Team</th><th class="num">Revenue</th><th class="num">Audit points (max 24)</th><th class="num">Reputation × 3</th><th class="num">Penalties</th><th class="num">Final score</th></tr></thead><tbody>' +
+  var html = '<h2>Final results</h2><table><thead><tr><th>Rank</th><th>Team</th><th class="num">Revenue</th><th class="num">Audit points (max ' + QF.auditMax(curEdition()) + ')</th><th class="num">Reputation × 3</th><th class="num">Penalties</th><th class="num">Final score</th></tr></thead><tbody>' +
     res.map(function (r, i) { return '<tr><td>' + (i + 1) + '</td><td>' + esc(r.t.name) + '</td><td class="num">' + n1(r.s.revenue) + '</td><td class="num">' + r.s.audit + '</td><td class="num">' + n1(r.s.reputation * 3) + '</td><td class="num">−' + n1(r.s.penalties) + '</td><td class="num"><b>' + n1(r.s.total) + '</b></td></tr>'; }).join('') + '</tbody></table>';
   html += '<h3>Quality cost breakdown</h3>' + costTable(gm);
   html += '<h2>Mock audit by team</h2>';
   res.forEach(function (r) {
-    html += '<details><summary><b>' + esc(r.t.name) + '</b>: ' + r.a.points + ' of 24 audit points</summary><table><thead><tr><th>#</th><th>Check</th><th>Controls</th><th>Owned</th><th>Evidence of use</th><th class="num">Points</th></tr></thead><tbody>' +
-      r.a.rows.map(function (row) { return '<tr><td>' + row.n + '</td><td>' + esc(row.name) + '</td><td>' + esc(row.controls.join(', ')) + '</td><td>' + (row.owned ? 'Yes' : 'No') + '</td><td>' + (row.used ? 'Yes' : 'No') + '</td><td class="num">' + row.points + '</td></tr>'; }).join('') + '</tbody></table>' +
+    html += '<details><summary><b>' + esc(r.t.name) + '</b>: ' + r.a.points + ' of ' + QF.auditMax(curEdition()) + ' audit points</summary><table><thead><tr><th>#</th><th>Check</th><th>Controls</th><th>Owned</th><th>Evidence of use</th><th class="num">Points</th></tr></thead><tbody>' +
+      r.a.rows.map(function (row) { return '<tr><td>' + row.n + '</td><td>' + esc(row.name) + (row.n > 12 ? confBadge(ctl(row.controls[0])) : '') + '</td><td>' + esc(row.controls.join(', ')) + '</td><td>' + (row.owned ? 'Yes' : 'No') + '</td><td>' + (row.used ? 'Yes' : 'No') + '</td><td class="num">' + row.points + '</td></tr>'; }).join('') + '</tbody></table>' +
       (r.t.auditPenalty ? '<p>Audit points reduced by ' + r.t.auditPenalty + ' (measuring resource found overdue).</p>' : '') + '</details>';
   });
   html += '<h2>Clause mapping debrief</h2><p>For each event your team met, name the clause. Then check the table.</p>';
@@ -421,8 +467,8 @@ function renderFinal() {
     var seen = r.t.eventsSeen;
     html += '<details><summary><b>' + esc(r.t.name) + '</b>: ' + seen.length + ' events</summary><table><thead><tr><th>Round</th><th>Event</th><th>Mitigating control and clause</th><th>Owned</th></tr></thead><tbody>' +
       seen.map(function (id, i) {
-        var ev = DATA.events.filter(function (e) { return e.id === id; })[0];
-        var ms = ev.mitigatedBy.map(function (m) { return m + ' (Cl. ' + ctl(m).clause + ')'; }).join('; ');
+        var ev = evById(id);
+        var ms = ev.mitigatedBy.map(function (m) { return m + ' (Cl. ' + clauseRef(ctl(m)) + ')'; }).join('; ');
         var own = ev.mitigatedBy.filter(function (m) { return r.t.owned[m]; });
         return '<tr><td>' + (i + 1) + '</td><td>' + esc(id + ': ' + QF.eventText(gm, ev)) + '</td><td>' + esc(ms) + '</td><td>' + (own.length ? 'Yes (' + esc(own.join(', ')) + ')' : 'No') + '</td></tr>';
       }).join('') + '</tbody></table></details>';
@@ -435,7 +481,11 @@ function renderFinal() {
     'Which records would you show an auditor? Which were missing?',
     'How does this compare with the factory game on Theory of Constraints?',
     '(Mixed-sector groups) Which controls looked different in your sector, and which looked identical?'
-  ].map(function (q) { return '<li>' + q + '</li>'; }).join('') + '</ol>';
+  ].concat(isNew() ? [
+    '(2026 mode) When the adjusted-reading or unreported near-miss event came up, what made the right action easy or hard? What would a leader need to do differently?',
+    '(2026 mode) Did your team take up the opportunity card? How is managing an opportunity different from managing a risk?',
+    '(2026 mode) Where does know-how in your process live today? What would be lost if one person moved roles?'
+  ] : []).map(function (q) { return '<li>' + q + '</li>'; }).join('') + '</ol>';
   html += '<div class="row noprint"><button type="button" class="primary" data-act="replay" data-fid="replay">Replay with the same seed</button> <button type="button" data-act="csv" data-fid="csv">Download log (CSV)</button> <button type="button" data-act="record" data-fid="record">Download game record (JSON)</button> <button type="button" data-act="print" data-fid="print">Print results</button> <button type="button" data-act="newgame" data-fid="newgame">New game</button></div>';
   if (app.csvText) html += '<details open><summary>Log text</summary><textarea readonly aria-label="Log text">' + esc(app.csvText) + '</textarea></details>';
   return html;
@@ -460,6 +510,7 @@ document.addEventListener('click', function (e) {
   switch (act) {
     case 'view': { var v = b.getAttribute('data-v'); if (v.indexOf('team') === 0) { app.view = 'team'; app.teamView = parseInt(v.slice(4), 10); } else app.view = v; break; }
     case 'buy': doBuy(parseInt(b.getAttribute('data-team'), 10), b.getAttribute('data-id')); break;
+    case 'opp': doOpportunity(parseInt(b.getAttribute('data-team'), 10)); break;
     case 'run': doRun(); break;
     case 'resolve': doResolve(); break;
     case 'next': doNext(); break;

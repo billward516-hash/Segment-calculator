@@ -1,0 +1,621 @@
+{
+  "pack": "discrete-manufacturing",
+  "specPrefix": "DM",
+  "specSection": "Appendix C C.2.1",
+  "specPackName": "Discrete Manufacturing",
+  "company": "Meridian Works",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "notes": "Items DM01 to DM12 are the Appendix C seed items (rationales added where the spec gave none). Items DM13 to DM24 were written for this build in the same style (C.5 task 5). Clause tags are references only and are unverified against the purchased standard. clause2015 holds the primary clause; clauseRefs lists every clause the spec or author cited. Spec pack prefix DM maps to pack id \"discrete-manufacturing\".",
+  "items": [
+    {
+      "id": "DM01",
+      "sector": "discrete-manufacturing",
+      "stem": "A machinist finds that the drawing at the workstation shows revision B. The document system shows revision C was released last week. What should the machinist do?",
+      "options": [
+        "Continue, since the difference is probably small.",
+        "Ask a colleague which revision they used last.",
+        "Stop, obtain the current revision, and inform the supervisor.",
+        "Finish the batch and report afterward."
+      ],
+      "answerIndex": 2,
+      "rationale": "Only current documents may be used at the point of use.",
+      "clause2015": "7.5.3",
+      "clauseRefs": [
+        "7.5.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "DM02",
+      "sector": "discrete-manufacturing",
+      "stem": "A torque wrench carries a calibration label that expired three weeks ago. What is the correct action?",
+      "options": [
+        "Use it and apply a safety margin.",
+        "Do not use it; flag it and report it to the supervisor or calibration owner.",
+        "Remove the label so the issue is not visible.",
+        "Borrow the same model from another area without checking it."
+      ],
+      "answerIndex": 1,
+      "rationale": "An instrument past its calibration interval cannot be relied on for valid results.",
+      "clause2015": "7.1.5",
+      "clauseRefs": [
+        "7.1.5"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "DM03",
+      "sector": "discrete-manufacturing",
+      "stem": "Three of 50 parts fail the final dimensional check. Production wants to ship the other 47. What must happen first?",
+      "options": [
+        "Ship the 47 with a note to the customer.",
+        "Re-measure only the three failed parts.",
+        "Rework the three and ship all 50.",
+        "Identify and segregate the failed parts and evaluate whether the remaining parts are affected before release."
+      ],
+      "answerIndex": 3,
+      "rationale": "Nonconforming output is controlled, and release follows verification.",
+      "clause2015": "8.7",
+      "clauseRefs": [
+        "8.7",
+        "8.6"
+      ],
+      "roles": [
+        "F",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "DM04",
+      "sector": "discrete-manufacturing",
+      "stem": "A customer sends free-issue components for an assembly job. One arrives damaged. Which action is correct?",
+      "options": [
+        "Record it, protect the item, and inform the customer.",
+        "Use the part if it looks usable.",
+        "Scrap it quietly.",
+        "Replace it from own stock without telling the customer."
+      ],
+      "answerIndex": 0,
+      "rationale": "Customer property that is damaged or unsuitable must be reported to the customer and recorded.",
+      "clause2015": "8.5.3",
+      "clauseRefs": [
+        "8.5.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "DM05",
+      "sector": "discrete-manufacturing",
+      "stem": "Two batches of similar parts are mixed in one container and their labels are lost. Which requirement is most directly affected?",
+      "options": [
+        "Awareness.",
+        "Identification and traceability.",
+        "Organizational context.",
+        "Customer satisfaction measurement."
+      ],
+      "answerIndex": 1,
+      "rationale": "Outputs must be identified, and where required, traceability maintained.",
+      "clause2015": "8.5.2",
+      "clauseRefs": [
+        "8.5.2"
+      ],
+      "roles": [
+        "F",
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "DM06",
+      "sector": "discrete-manufacturing",
+      "stem": "A batch has an open inspection discrepancy. Who may authorize release?",
+      "options": [
+        "Any operator on the shift.",
+        "The truck driver.",
+        "A person with defined authority and, where applicable, the customer.",
+        "Nobody; release is never allowed."
+      ],
+      "answerIndex": 2,
+      "rationale": "Release without completed arrangements needs authorization by a relevant authority and, where applicable, the customer.",
+      "clause2015": "8.6",
+      "clauseRefs": [
+        "8.6"
+      ],
+      "roles": [
+        "F",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "DM07",
+      "sector": "discrete-manufacturing",
+      "stem": "Bar stock arrives without the material certificate required by the purchase order. What is appropriate?",
+      "options": [
+        "Hold the lot and verify the requirement before use.",
+        "Machine one part to test it first.",
+        "Accept it and request the certificate later.",
+        "Ask the operator to judge the material by appearance."
+      ],
+      "answerIndex": 0,
+      "rationale": "Inputs from external providers are verified against requirements before use.",
+      "clause2015": "8.4",
+      "clauseRefs": [
+        "8.4"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "DM08",
+      "sector": "discrete-manufacturing",
+      "stem": "Engineering wants to raise the cutting speed on a process that controls a critical dimension. What should happen before the change?",
+      "options": [
+        "The operator adjusts it gradually.",
+        "The change is recorded after the next audit.",
+        "Only quality is told.",
+        "The change is reviewed for consequences, authorized, communicated, and recorded."
+      ],
+      "answerIndex": 3,
+      "rationale": "Changes to production are reviewed and controlled, with records.",
+      "clause2015": "8.5.6",
+      "clauseRefs": [
+        "8.5.6",
+        "6.3"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "DM09",
+      "sector": "discrete-manufacturing",
+      "stem": "At calibration, a micrometer is found out of tolerance. What must the organization do beyond adjusting it?",
+      "options": [
+        "Nothing further.",
+        "Evaluate the validity of earlier measurements and take action on any affected product.",
+        "Delete the old records.",
+        "Replace the label only."
+      ],
+      "answerIndex": 1,
+      "rationale": "The organization assesses the validity of previous results and acts appropriately.",
+      "clause2015": "7.1.5",
+      "clauseRefs": [
+        "7.1.5"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "DM10",
+      "sector": "discrete-manufacturing",
+      "stem": "The same burr defect recurs and is removed by hand each time. Which element of corrective action is missing?",
+      "options": [
+        "Faster hand removal.",
+        "A stricter shipping inspection only.",
+        "Investigation of the cause, action to eliminate it, and a check that it worked.",
+        "A written reminder to operators."
+      ],
+      "answerIndex": 2,
+      "rationale": "Correction deals with the output; corrective action removes the cause.",
+      "clause2015": "10.2",
+      "clauseRefs": [
+        "10.2"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "DM11",
+      "sector": "discrete-manufacturing",
+      "stem": "The machining supervisor audits his own department. What is the concern?",
+      "options": [
+        "Objectivity and impartiality.",
+        "The audit is too short.",
+        "Audits must be done by customers.",
+        "Audits apply only to offices."
+      ],
+      "answerIndex": 0,
+      "rationale": "Internal audits require objective and impartial auditors.",
+      "clause2015": "9.2",
+      "clauseRefs": [
+        "9.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "DM12",
+      "sector": "discrete-manufacturing",
+      "stem": "A customer tightens a tolerance on an open order. What must happen?",
+      "options": [
+        "Production continues unchanged.",
+        "Only sales is informed.",
+        "The next order will reflect it.",
+        "The change is reviewed, the ability to meet it confirmed, documents updated, and relevant people informed."
+      ],
+      "answerIndex": 3,
+      "rationale": "Changes to requirements are reviewed and communicated.",
+      "clause2015": "8.2.4",
+      "clauseRefs": [
+        "8.2.4",
+        "8.2.3"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "DM13",
+      "sector": "discrete-manufacturing",
+      "stem": "A new customer asks Meridian Works to keep inspection records for longer than the current practice. Where should the organization first take account of this expectation?",
+      "options": [
+        "Only in the sales contract file.",
+        "In its review of interested parties and their relevant requirements, and then in the affected processes.",
+        "Nowhere until the first audit.",
+        "Only in the operator handbook."
+      ],
+      "answerIndex": 1,
+      "rationale": "The organization determines the relevant requirements of interested parties, keeps them under review, and reflects them in its processes.",
+      "clause2015": "4.2",
+      "clauseRefs": [
+        "4.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "DM14",
+      "sector": "discrete-manufacturing",
+      "stem": "A new deburring cell is added between machining and assembly. What should the process description for the cell show?",
+      "options": [
+        "Only the purchase price of the machine.",
+        "Nothing; small cells do not need a description.",
+        "Its inputs, outputs, sequence, links to other processes, controls, and the person responsible.",
+        "Only the name of the operator."
+      ],
+      "answerIndex": 2,
+      "rationale": "Each process in the system has defined inputs, outputs, interactions, criteria, resources, and responsibilities.",
+      "clause2015": "4.4",
+      "clauseRefs": [
+        "4.4"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "DM15",
+      "sector": "discrete-manufacturing",
+      "stem": "An operator finds a part that may be nonconforming but does not know who can decide what happens to it. What does this indicate?",
+      "options": [
+        "Responsibilities and authorities have not been clearly assigned and communicated.",
+        "The operator should decide alone and tell no one.",
+        "The part should be shipped.",
+        "The issue concerns the operator's training only."
+      ],
+      "answerIndex": 0,
+      "rationale": "Top management assigns and communicates responsibilities and authorities, including who decides on nonconforming output.",
+      "clause2015": "5.3",
+      "clauseRefs": [
+        "5.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "DM16",
+      "sector": "discrete-manufacturing",
+      "stem": "During an audit, an assembler cannot explain how her inspection step affects the customer. Which requirement area is weakest?",
+      "options": [
+        "Calibration.",
+        "Customer property.",
+        "Design and development.",
+        "Awareness of how one's work contributes to quality and what happens if requirements are not met."
+      ],
+      "answerIndex": 3,
+      "rationale": "People doing work under the organization's control are aware of their contribution and of the effects of not conforming.",
+      "clause2015": "7.3",
+      "clauseRefs": [
+        "7.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "DM17",
+      "sector": "discrete-manufacturing",
+      "stem": "While planning a new product line, engineering finds that a single supplier provides a critical casting. What is the expected planning response?",
+      "options": [
+        "Wait until a supply failure occurs.",
+        "Record the risk, plan proportionate actions such as qualifying a second source, and later check that the actions worked.",
+        "Cancel the product line.",
+        "Ask operators to work faster."
+      ],
+      "answerIndex": 1,
+      "rationale": "Risks to conformity are addressed with actions proportionate to their potential effect, and the effectiveness of those actions is evaluated.",
+      "clause2015": "6.1",
+      "clauseRefs": [
+        "6.1"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "DM18",
+      "sector": "discrete-manufacturing",
+      "stem": "A press has a recurring oil leak that the maintenance plan does not cover. What is the most relevant action?",
+      "options": [
+        "Report it so the equipment is maintained and the maintenance plan is reviewed.",
+        "Wipe it each shift and say nothing.",
+        "Run the press until it stops.",
+        "Move the work to a machine that is not approved for it."
+      ],
+      "answerIndex": 0,
+      "rationale": "The organization provides and maintains the infrastructure needed for conforming output.",
+      "clause2015": "7.1.3",
+      "clauseRefs": [
+        "7.1.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "DM19",
+      "sector": "discrete-manufacturing",
+      "stem": "A shift ends without handing over an open quality hold to the next shift. What is the gap?",
+      "options": [
+        "Pricing.",
+        "Policy wording.",
+        "Internal communication: what is communicated, when, to whom, and how.",
+        "Calibration."
+      ],
+      "answerIndex": 2,
+      "rationale": "The organization decides what to communicate internally, when, to whom, and by which method.",
+      "clause2015": "7.4",
+      "clauseRefs": [
+        "7.4"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "DM20",
+      "sector": "discrete-manufacturing",
+      "stem": "Sales wants to accept an order with a delivery date and a tolerance the plant has never achieved. What should happen before the order is accepted?",
+      "options": [
+        "Accept it and resolve problems later.",
+        "Accept the delivery date only.",
+        "Let the customer find out at delivery.",
+        "Review the requirements and confirm the organization can meet them, resolving any differences before commitment."
+      ],
+      "answerIndex": 3,
+      "rationale": "Requirements are reviewed before the organization commits to supply, and differences are resolved.",
+      "clause2015": "8.2.3",
+      "clauseRefs": [
+        "8.2.3"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "DM21",
+      "sector": "discrete-manufacturing",
+      "stem": "An operator runs a job from memory because there is no work instruction at the station. Which condition for controlled production is missing?",
+      "options": [
+        "Available documented information that defines the work and the results to be achieved.",
+        "Customer satisfaction.",
+        "Management review.",
+        "Interested parties."
+      ],
+      "answerIndex": 0,
+      "rationale": "Controlled conditions include access to documented information describing the work and the expected results.",
+      "clause2015": "8.5.1",
+      "clauseRefs": [
+        "8.5.1"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "DM22",
+      "sector": "discrete-manufacturing",
+      "stem": "Finished parts are stored uncovered next to a grinding area. Which requirement is most at risk?",
+      "options": [
+        "Quality policy.",
+        "Internal audit.",
+        "Preservation of outputs during production and storage.",
+        "Organizational knowledge."
+      ],
+      "answerIndex": 2,
+      "rationale": "Outputs are preserved so that they remain conforming until delivery.",
+      "clause2015": "8.5.4",
+      "clauseRefs": [
+        "8.5.4"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "DM23",
+      "sector": "discrete-manufacturing",
+      "stem": "Scrap data is collected each week but nobody reviews it. What is missing?",
+      "options": [
+        "More data collection.",
+        "Analysis and evaluation of the data to judge performance and find where to improve.",
+        "A new form.",
+        "Nothing; collecting the data is sufficient."
+      ],
+      "answerIndex": 1,
+      "rationale": "Data from monitoring and measurement is analyzed and evaluated, and the results are used.",
+      "clause2015": "9.1.3",
+      "clauseRefs": [
+        "9.1.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "DM24",
+      "sector": "discrete-manufacturing",
+      "stem": "An operator suggests a fixture change that would prevent a common setup error. What is the best response?",
+      "options": [
+        "Reject it because operators do not design fixtures.",
+        "Adopt it at once without review.",
+        "Ignore it.",
+        "Record it, evaluate it through the change process, and give the operator feedback."
+      ],
+      "answerIndex": 3,
+      "rationale": "Continual improvement uses ideas from the workforce, and changes are evaluated before they are made.",
+      "clause2015": "10.3",
+      "clauseRefs": [
+        "10.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    }
+  ]
+}

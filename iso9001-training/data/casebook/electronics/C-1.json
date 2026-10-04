@@ -1,0 +1,285 @@
+{
+  "id": "ELX-C-01",
+  "pack": "electronics",
+  "type": "C",
+  "title": "The Repeating Scratch",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "At Meridian Microworks, a curved scratch appears on about 1 in 200 wafers after final clean. It has been seen for 3 months. Corrective action CA-77 says \"handlers to take more care\". You have 12 visit points to interview staff and reach a system cause.",
+  "visitPoints": 12,
+  "goal": "Cause depth",
+  "branches": [
+    "Cause"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Corrective action CA-77",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Scratch map data",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Final clean",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Technician: when scratches appear",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Observe",
+          "label": "Robot end effector",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Maintenance",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Robot maintenance record",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Ask",
+          "label": "Maintenance: what changed 3 months ago",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Engineering",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Robot calibration procedure",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Spare parts record",
+          "evidenceId": "E8"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Handlers",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Handler: how wafers are loaded",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Handler gloves",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Shift lead",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Shift overtime sheet",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Scratch inspection method",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "CA-77 cause \"handling\", action \"handlers to take more care\", closed after 2 weeks with no check; scratches continued at the same rate.",
+      "clause": "10.2",
+      "whyItMatters": "Corrective action must find and remove the cause and be checked.",
+      "missedExplanation": "Check whether the problem stopped after closure.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "observation",
+      "text": "Scratch map data: 41 of 43 scratches are at the same position near the notch, all on wafers from cassette slot 25.",
+      "clause": "9.1.3",
+      "whyItMatters": "The pattern points to equipment, not people.",
+      "missedExplanation": "Look for location patterns.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "conforming",
+      "text": "Technician: \"Always the top slot, I think. I log every one.\"",
+      "clause": "7.3",
+      "whyItMatters": "The technician reports issues and gives a lead.",
+      "missedExplanation": "Interviews give leads.",
+      "falseFindingNote": "The technician reports properly.",
+      "plantedPool": false
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Robot end effector R-3 has a worn pad on one finger; the pad is a non-standard part number EP-11X.",
+      "clause": "7.1.3",
+      "whyItMatters": "Equipment must be maintained to achieve conformity.",
+      "missedExplanation": "Look at the equipment that touches the product.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Robot maintenance record: pad inspection is scheduled every 4 weeks but last recorded 14 weeks ago.",
+      "clause": "7.1.3",
+      "whyItMatters": "Planned maintenance must be done as scheduled.",
+      "missedExplanation": "Compare planned and actual maintenance dates.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Maintenance: \"We switched to a cheaper pad EP-11X 3 months ago when the usual one was out of stock. No trial.\" (note 5)",
+      "clause": "8.5.6",
+      "whyItMatters": "Changes affecting production must be reviewed before use.",
+      "missedExplanation": "Ask what changed when the problem began.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "nonconformity",
+      "text": "Robot calibration procedure has no step for the top slot height; slot 25 is 0.4 mm closer to the arm than others.",
+      "clause": "8.5.1",
+      "whyItMatters": "Process settings must ensure conforming output in all conditions.",
+      "missedExplanation": "Check procedures cover every position.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Spare parts record shows EP-11X was bought from the approved supplier.",
+      "clause": "8.4",
+      "whyItMatters": "The supplier is approved; the gap is the change review.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Approved supplier.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Handler: \"We load full cassettes with the tool and don't touch wafer faces.\" Observation confirms this.",
+      "clause": "7.2",
+      "whyItMatters": "Handling follows the method.",
+      "missedExplanation": "Conforming evidence that rules out handling.",
+      "falseFindingNote": "Handlers follow the method.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "One handler wears gloves of a different color, from an approved type list.",
+      "clause": "7.1.4",
+      "whyItMatters": "Approved glove types are acceptable.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Approved type. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Overtime sheet shows normal hours.",
+      "clause": "7.1.4",
+      "whyItMatters": "Not linked.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Normal hours. Not a cause.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "conforming",
+      "text": "Scratch inspection method SI-2 is current and detects the scratch reliably.",
+      "clause": "8.6",
+      "whyItMatters": "Detection works; prevention is the gap.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Detection works.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which statement best describes the system cause?",
+      "options": [
+        "Handlers are careless",
+        "An unreviewed change to pad EP-11X, missed pad maintenance, and no calibration step for slot 25 let the robot touch wafers in the top slot",
+        "Wafers from the supplier are fragile",
+        "Scratches are normal and should be accepted"
+      ],
+      "bestIndex": 1,
+      "rationale": "The evidence points to equipment, maintenance, and change control."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Stop using slot 25 on robot R-3 and inspect wafers from it until fixed"
+    ],
+    "correction": [
+      "Replace the worn pad with the standard part and recalibrate"
+    ],
+    "cause": [
+      "Unreviewed part substitution, missed maintenance, and no calibration step for the top slot"
+    ],
+    "corrective": [
+      "Route part substitutions through change control, add maintenance due alerts, and add slot 25 to calibration",
+      "Reopen CA-77"
+    ],
+    "effectiveness": [
+      "Track scratches by slot for eight weeks, target zero at slot 25"
+    ]
+  },
+  "debriefText": {
+    "found": "You followed the pattern to the robot.",
+    "missed": "Position patterns usually point to equipment.",
+    "falseFinding": "Approved gloves and normal hours were not causes."
+  }
+}

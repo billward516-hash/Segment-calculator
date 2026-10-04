@@ -1,0 +1,287 @@
+{
+  "id": "ITS-C-01",
+  "pack": "it-software",
+  "type": "C",
+  "title": "The Third Regression",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "For the third release in a row, the Meridian Digital reporting service has shipped a regression in the export feature. Each time the defect was fixed quickly. Problem record PRB-40 says \"cause: developer oversight\". You have 12 visit points to interview the team and reach a system cause.",
+  "visitPoints": 12,
+  "goal": "Cause depth",
+  "branches": [
+    "Cause"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Problem records",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Problem record PRB-40",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Defect data for the last 3 releases",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Developers",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Developer: how export code is changed",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Ask",
+          "label": "Developer: what tests run before merge",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Test lead",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Test lead: who owns export tests",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Automated test coverage for export",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Pipeline",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Pipeline configuration history",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Observe",
+          "label": "Build duration chart",
+          "evidenceId": "E11"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Product owner",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "How export requirements are written",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Retrospective notes",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Training",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Onboarding checklist for new developers",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Review",
+          "label": "Team rota",
+          "evidenceId": "E12"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "PRB-40 lists \"developer oversight\" as the cause and \"be more careful\" as the action. It was closed after release 9 with no check; regressions recurred in releases 10 and 11.",
+      "clause": "10.2",
+      "whyItMatters": "Corrective action must find and remove the cause and confirm the action worked. Naming a person stops the analysis.",
+      "missedExplanation": "Read the cause and the check in every closed problem record.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "observation",
+      "text": "Defect data: all 3 regressions were in the CSV export path, each after a change to the shared formatting module.",
+      "clause": "9.1.3",
+      "whyItMatters": "The data points to a pattern. Analyzing it is the first step toward a system cause.",
+      "missedExplanation": "Look for what the recurrences have in common.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "conforming",
+      "text": "Developer: \"Export uses the shared formatter. We change the formatter for other features too.\" The developer raises the concern openly.",
+      "clause": "7.3",
+      "whyItMatters": "The developer gives a useful lead without blame.",
+      "missedExplanation": "Interviews give leads to records.",
+      "falseFindingNote": "The developer is describing the system, not making an error.",
+      "plantedPool": false
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Developer: \"Before merge only unit tests for the changed module run. Export tests run nightly, after merge.\" Pipeline stage list confirms this in stage 2.",
+      "clause": "8.5.1",
+      "whyItMatters": "Monitoring must happen at stages that prevent nonconforming output from moving on. Running export tests after merge lets regressions reach the release.",
+      "missedExplanation": "Ask which tests run before a change is merged.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Test lead: \"Nobody owns the export tests since the last reorganization in month 4. Failures in the nightly run are not assigned.\"",
+      "clause": "5.3",
+      "whyItMatters": "Responsibilities for quality-relevant activities must be assigned and understood.",
+      "missedExplanation": "Ask who owns each test suite and its failures.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Export test coverage: 2 of 9 export formats have automated tests. Requirement EXP-3 lists all 9.",
+      "clause": "8.3",
+      "unlockedBy": [
+        "E5"
+      ],
+      "whyItMatters": "Verification should cover stated requirements.",
+      "missedExplanation": "Compare requirement lists with test lists.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "observation",
+      "text": "Pipeline history: the export test stage was moved from pre-merge to nightly in change PL-19 to cut build time; no review of the effect is recorded.",
+      "clause": "8.5.6",
+      "whyItMatters": "This change explains when the problem began. A review of its effect is the missing step; recording it is an improvement opportunity.",
+      "missedExplanation": "Ask what changed in the pipeline and when.",
+      "plantedPool": true
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Product owner: export requirements are written with acceptance criteria for each format; requirement EXP-3 is current.",
+      "clause": "8.2.2",
+      "whyItMatters": "Requirements are defined.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "The requirements are clear. The gap is in verification.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Retrospective notes record the regressions and suggest \"more tests\" but no owner was assigned.",
+      "clause": "10.3",
+      "whyItMatters": "The team reflects on problems; the notes are honest and useful.",
+      "missedExplanation": "Conforming evidence of reflection.",
+      "falseFindingNote": "Retrospectives are working as a discussion forum. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "observation",
+      "text": "The onboarding checklist does not mention the shared formatter or its dependents; 2 of the 3 regressions were made by developers in their first 3 months.",
+      "clause": "7.2",
+      "whyItMatters": "Competence for working on shared modules could be improved through onboarding.",
+      "missedExplanation": "Check what new staff are taught about shared code.",
+      "plantedPool": true
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Build duration chart shows builds take 14 minutes on average.",
+      "clause": "7.1.3",
+      "whyItMatters": "Build time explains a past decision but is not itself a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Build time is context. It is not a breach.",
+      "plantedPool": false
+    },
+    {
+      "id": "E12",
+      "kind": "redHerring",
+      "text": "Team rota shows 2 developers on leave during release 11.",
+      "clause": "7.1.2",
+      "whyItMatters": "Normal leave is not a cause by itself; cover was arranged.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Leave was covered. Do not build a cause from it.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which statement best describes the system cause?",
+      "options": [
+        "Developers are not careful enough",
+        "Export tests were moved after merge, have no owner, and cover only 2 of 9 formats, so changes to the shared formatter reach release unverified",
+        "The release cadence is too fast",
+        "The formatting module is badly written"
+      ],
+      "bestIndex": 1,
+      "rationale": "The evidence shows conditions that would let anyone's change through: test timing, ownership, and coverage."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Run the full export tests before the next release and hold it until they pass"
+    ],
+    "correction": [
+      "Fix the current export regression and add tests for the failing format"
+    ],
+    "cause": [
+      "Export tests run after merge, have no owner, and cover only 2 of 9 formats"
+    ],
+    "corrective": [
+      "Restore export tests to pre-merge, assign an owner, extend coverage to all 9 formats, and review pipeline changes for effect",
+      "Reopen PRB-40 with the system cause"
+    ],
+    "effectiveness": [
+      "Track export regressions for the next six releases, target zero"
+    ]
+  },
+  "debriefText": {
+    "found": "You reached the system: test timing, ownership, and coverage.",
+    "missed": "When a defect recurs, look for what changed in the process and who owns the check.",
+    "falseFinding": "Build time and staff leave are context, not causes."
+  }
+}

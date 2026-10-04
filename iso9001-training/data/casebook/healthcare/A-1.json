@@ -1,0 +1,270 @@
+{
+  "id": "HCS-A-01",
+  "pack": "healthcare",
+  "type": "A",
+  "title": "Ward Systems Walk",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "You walk a day-surgery ward at Meridian Care as an internal auditor, a week before the certification audit. This visit covers management system topics only. Clinical decisions, clinical standards, and law are outside its scope; the investigator does not judge clinical care. Look at documents, equipment status, records, competence, and information handling across the ward. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Coverage",
+  "branches": [
+    "Evidence"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Nurses station",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Protocol sheets in the ward folder",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Observe",
+          "label": "Computer screens left open",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Equipment room",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Device verification labels",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Equipment service log",
+          "evidenceId": "E9"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Handover area",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Handover sheets for yesterday",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Ward office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Competence records for agency staff",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Patient feedback summary",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Supplies store",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Supplies with certificates",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Observe",
+          "label": "Stock shelf labels",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Ward manager",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "How staff learn of revised forms",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Observe",
+          "label": "Staff photo board",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "The ward folder holds admission protocol sheet version 3; the document system shows version 4 approved 6 weeks ago.",
+      "clause": "7.5.3",
+      "whyItMatters": "Current approved documents must be available where work is done.",
+      "missedExplanation": "Compare version numbers with the document system.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "2 workstations at the nurses station show patient records unattended and unlocked for 10 minutes (workstations WS-2 and WS-4).",
+      "clause": "8.5.3",
+      "whyItMatters": "Personal information belongs to the patient and must be protected.",
+      "missedExplanation": "Observe screens as well as paper.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "A blood pressure monitor (asset BP-17) in use carries a verification label overdue by 5 weeks.",
+      "clause": "7.1.5",
+      "whyItMatters": "Measuring devices must be verified at the planned interval. The device owner decides on any clinical review of readings.",
+      "missedExplanation": "Read verification labels on devices in use.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Handover sheets for 3 of 14 cases yesterday have blank sections for pending results (form HS-2 section C).",
+      "clause": "8.5.1, 7.5.1",
+      "whyItMatters": "Controlled service delivery includes complete handover records.",
+      "missedExplanation": "Read every section of handover forms.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "conforming",
+      "text": "Competence records for 6 agency staff on shift are current and checked by the ward.",
+      "clause": "7.2",
+      "whyItMatters": "Competence is verified for temporary staff.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Current records.",
+      "plantedPool": false
+    },
+    {
+      "id": "E6",
+      "kind": "observation",
+      "text": "Patient feedback summary for quarter 2 is collected but no actions are recorded against 3 recurring comments about discharge information.",
+      "clause": "9.1.2",
+      "whyItMatters": "Feedback should be analyzed and used.",
+      "missedExplanation": "Ask what was done with feedback.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Supplies received this week have certificates checked and filed.",
+      "clause": "8.4",
+      "whyItMatters": "Inputs verified.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Verified.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "observation",
+      "text": "Ward manager: \"Revised forms are emailed; not everyone reads email on shift.\" 2 staff were unaware of version 4.",
+      "clause": "7.4",
+      "whyItMatters": "Communication of changes could be improved.",
+      "missedExplanation": "Ask how changes reach staff.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "conforming",
+      "text": "Equipment service log is up to date for 31 devices.",
+      "clause": "7.1.3",
+      "whyItMatters": "Maintenance recorded.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Up to date.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Some shelf labels are handwritten but legible and current.",
+      "clause": "8.5.2",
+      "whyItMatters": "Legible labels are adequate.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Legible and current.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "The staff photo board is out of date by 2 names.",
+      "clause": "7.4",
+      "whyItMatters": "Not a quality requirement.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not a requirement.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What should the ward manager address today?",
+      "options": [
+        "The staff photo board",
+        "Remove device BP-17 from use pending the owner's review, lock unattended screens, and replace protocol version 3 with version 4",
+        "Nothing until the audit",
+        "Rewrite all ward procedures"
+      ],
+      "bestIndex": 1,
+      "rationale": "Issues affecting information protection, device status, and document use come first. Any clinical follow-up is for the responsible clinicians."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Withdraw BP-17 and refer the question of earlier readings to the device owner and responsible clinicians",
+      "Lock unattended workstations"
+    ],
+    "correction": [
+      "Replace protocol version 3, complete handover sections, and record actions on feedback"
+    ],
+    "cause": [
+      "Document changes and device due dates rely on email and memory, and screens do not lock automatically"
+    ],
+    "corrective": [
+      "Brief revised forms at shift handover, add device due alerts, and enable automatic screen lock"
+    ],
+    "effectiveness": [
+      "Repeat the walk monthly for three months"
+    ]
+  },
+  "debriefText": {
+    "found": "You covered documents, devices, records, information, and feedback.",
+    "missed": "Unattended screens are easy to walk past.",
+    "falseFinding": "Legible handwritten labels and a photo board are not findings."
+  }
+}

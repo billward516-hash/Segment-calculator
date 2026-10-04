@@ -1,0 +1,623 @@
+{
+  "pack": "it-software",
+  "specPrefix": "IT",
+  "specSection": "Appendix C C.2.5",
+  "specPackName": "IT and Software Services",
+  "company": "Meridian Digital",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "notes": "Items IT01 to IT12 are the Appendix C seed items (rationales added where the spec gave none). Items IT13 to IT24 were written for this build in the same style (C.5 task 5). Clause tags are references only and are unverified against the purchased standard. clause2015 holds the primary clause; clauseRefs lists every clause the spec or author cited. Spec pack prefix IT maps to pack id \"it-software\".",
+  "items": [
+    {
+      "id": "IT01",
+      "sector": "it-software",
+      "stem": "A team follows a deployment procedure from a shared-drive copy dated last year, while a newer version exists in the document repository. What is the issue?",
+      "options": [
+        "There is no issue.",
+        "An obsolete document is in use at the point of use.",
+        "It is a style issue only.",
+        "Customer property."
+      ],
+      "answerIndex": 1,
+      "rationale": "Only current, approved documents are used where the work is done.",
+      "clause2015": "7.5.3",
+      "clauseRefs": [
+        "7.5.3"
+      ],
+      "roles": [
+        "F",
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "IT02",
+      "sector": "it-software",
+      "stem": "A test suite is changed and no one verifies that it still detects known defects. Which requirement area applies to tools used to verify conformity?",
+      "options": [
+        "Context of the organization.",
+        "Quality policy.",
+        "Management review.",
+        "Monitoring and measuring resources."
+      ],
+      "answerIndex": 3,
+      "rationale": "Tools used to verify conformity must be suitable and maintained.",
+      "clause2015": "7.1.5",
+      "clauseRefs": [
+        "7.1.5"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "IT03",
+      "sector": "it-software",
+      "stem": "A defect is found on release day. The team proposes deploying and fixing it next week. What is required?",
+      "options": [
+        "Hold the release until the defect is dispositioned and release is authorized.",
+        "Deploy.",
+        "Deploy to half the users.",
+        "Delete the ticket."
+      ],
+      "answerIndex": 0,
+      "rationale": "Known nonconformities are controlled, and release requires completed verification or authorized approval.",
+      "clause2015": "8.7",
+      "clauseRefs": [
+        "8.7",
+        "8.6"
+      ],
+      "roles": [
+        "F",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "IT04",
+      "sector": "it-software",
+      "stem": "Customer data is copied to a personal device for convenience. What is the issue?",
+      "options": [
+        "There is no issue.",
+        "It is a speed matter only.",
+        "Customer property must be protected and safeguarded.",
+        "It is only the customer's concern."
+      ],
+      "answerIndex": 2,
+      "rationale": "Customer property includes data entrusted to the organization, which must be protected.",
+      "clause2015": "8.5.3",
+      "clauseRefs": [
+        "8.5.3"
+      ],
+      "roles": [
+        "F",
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "IT05",
+      "sector": "it-software",
+      "stem": "A production change is made without a change record. Which requirement is not met?",
+      "options": [
+        "Customer satisfaction.",
+        "Control of changes to service provision, with review and records.",
+        "Policy wording.",
+        "Supplier price."
+      ],
+      "answerIndex": 1,
+      "rationale": "Changes are reviewed and controlled, and records describe the change and who authorized it.",
+      "clause2015": "8.5.6",
+      "clauseRefs": [
+        "8.5.6"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "IT06",
+      "sector": "it-software",
+      "stem": "A third-party library update introduces a defect. Which control applies?",
+      "options": [
+        "Document control only.",
+        "Internal audit only.",
+        "Customer survey only.",
+        "Control of externally provided products and services, including evaluation and verification of updates."
+      ],
+      "answerIndex": 3,
+      "rationale": "Externally provided components are controlled and verified before they affect the service.",
+      "clause2015": "8.4",
+      "clauseRefs": [
+        "8.4"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "IT07",
+      "sector": "it-software",
+      "stem": "A release has a test sign-off, a reviewer, and a record of approval before deployment. This is evidence of:",
+      "options": [
+        "Release control.",
+        "Awareness.",
+        "Context analysis.",
+        "Policy communication."
+      ],
+      "answerIndex": 0,
+      "rationale": "Release records show conformity with acceptance criteria and identify who authorized release.",
+      "clause2015": "8.6",
+      "clauseRefs": [
+        "8.6"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "IT08",
+      "sector": "it-software",
+      "stem": "A customer reports the same defect type for the third release. Retesting each release has not stopped it. What should happen?",
+      "options": [
+        "Retest more.",
+        "Blame the developer.",
+        "Investigate the cause, act on it, and check effectiveness.",
+        "Close the ticket."
+      ],
+      "answerIndex": 2,
+      "rationale": "Recurring problems call for corrective action on the cause, not more detection.",
+      "clause2015": "10.2",
+      "clauseRefs": [
+        "10.2"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "IT09",
+      "sector": "it-software",
+      "stem": "An experienced engineer leaves and undocumented knowledge causes delays. Which concept helps?",
+      "options": [
+        "Calibration.",
+        "Organizational knowledge: determining and maintaining the knowledge needed for processes.",
+        "Customer property.",
+        "Hold status."
+      ],
+      "answerIndex": 1,
+      "rationale": "Knowledge needed for processes is determined, maintained, and made available.",
+      "clause2015": "7.1.6",
+      "clauseRefs": [
+        "7.1.6"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "IT10",
+      "sector": "it-software",
+      "stem": "New staff start on-call duty without induction on incident procedures. Which requirement is not met?",
+      "options": [
+        "Organizational context.",
+        "Design review.",
+        "Internal audit.",
+        "Competence."
+      ],
+      "answerIndex": 3,
+      "rationale": "People are competent for their work before they do it, including awareness of the procedures that apply.",
+      "clause2015": "7.2",
+      "clauseRefs": [
+        "7.2",
+        "7.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "IT11",
+      "sector": "it-software",
+      "stem": "A manager asks a tester to adjust a recorded test result to avoid a delay. How should the tester respond?",
+      "options": [
+        "Decline, record the actual result, and escalate.",
+        "Adjust it.",
+        "Adjust it once.",
+        "Delete the record."
+      ],
+      "answerIndex": 0,
+      "rationale": "Records must be accurate to serve as objective evidence.",
+      "clause2015": "7.5",
+      "clauseRefs": [
+        "7.5"
+      ],
+      "roles": [
+        "F",
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "IT12",
+      "sector": "it-software",
+      "stem": "Which is an example of a measurable service quality objective?",
+      "options": [
+        "\"Do our best.\"",
+        "\"Be excellent.\"",
+        "\"Resolve 90 percent of priority incidents within the agreed target time.\"",
+        "\"Have happy staff.\""
+      ],
+      "answerIndex": 2,
+      "rationale": "An objective is useful when it can be measured and monitored.",
+      "clause2015": "6.2",
+      "clauseRefs": [
+        "6.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "IT13",
+      "sector": "it-software",
+      "stem": "A cloud hosting provider changes its terms in a way that affects how Meridian Digital can deliver its service. Where should this be considered?",
+      "options": [
+        "Nowhere.",
+        "Only in finance.",
+        "In the review of external issues that affect the organization's ability to achieve its intended results.",
+        "Only at the next release."
+      ],
+      "answerIndex": 2,
+      "rationale": "External issues relevant to the organization's purpose are monitored and reviewed.",
+      "clause2015": "4.1",
+      "clauseRefs": [
+        "4.1"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "IT14",
+      "sector": "it-software",
+      "stem": "The service desk is outsourced. Should it be considered in the quality management system?",
+      "options": [
+        "No; outsourced processes fall outside the system.",
+        "Yes; the scope and the controls over externally provided processes must address it.",
+        "Only if the customer asks.",
+        "Only if it is cheaper."
+      ],
+      "answerIndex": 1,
+      "rationale": "Outsourcing a process does not remove it from the organization's responsibility; it is controlled as an externally provided process.",
+      "clause2015": "4.3",
+      "clauseRefs": [
+        "4.3",
+        "8.4"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "IT15",
+      "sector": "it-software",
+      "stem": "Nobody is named as owner of the release process. What is the risk?",
+      "options": [
+        "Responsibilities and authorities for the process are unclear, so its results may not be achieved.",
+        "There is no risk.",
+        "Releases become faster.",
+        "Costs fall."
+      ],
+      "answerIndex": 0,
+      "rationale": "Top management assigns responsibility and authority for making sure processes deliver their intended outputs.",
+      "clause2015": "5.3",
+      "clauseRefs": [
+        "5.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "IT16",
+      "sector": "it-software",
+      "stem": "A developer does not know that a skipped code review could reach customers as a defect. Which requirement area applies?",
+      "options": [
+        "Infrastructure.",
+        "Customer property.",
+        "Design and development.",
+        "Awareness of the consequences of not following the system."
+      ],
+      "answerIndex": 3,
+      "rationale": "People are aware of the effects of not conforming with the system's requirements.",
+      "clause2015": "7.3",
+      "clauseRefs": [
+        "7.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "IT17",
+      "sector": "it-software",
+      "stem": "One engineer holds the only access to a key production system. What is the expected response?",
+      "options": [
+        "Do nothing.",
+        "Identify this as a risk, plan proportionate actions, and then check their effect.",
+        "Share the access details by email.",
+        "Wait for an outage."
+      ],
+      "answerIndex": 1,
+      "rationale": "Risks to the service are addressed with proportionate actions that are later evaluated.",
+      "clause2015": "6.1",
+      "clauseRefs": [
+        "6.1"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "IT18",
+      "sector": "it-software",
+      "stem": "Monitoring alerts are so frequent that staff ignore them. What should be reviewed?",
+      "options": [
+        "What needs to be monitored and measured, the methods used, and when results are evaluated.",
+        "Nothing.",
+        "Turning off all alerts.",
+        "Adding more alerts."
+      ],
+      "answerIndex": 0,
+      "rationale": "Monitoring is planned so that it produces valid, usable results.",
+      "clause2015": "9.1.1",
+      "clauseRefs": [
+        "9.1.1"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "IT19",
+      "sector": "it-software",
+      "stem": "A customer emails a feature request to a support agent. What should the agent do?",
+      "options": [
+        "Ignore it.",
+        "Build it personally.",
+        "Record it and route it through the agreed customer communication process.",
+        "Delete it."
+      ],
+      "answerIndex": 2,
+      "rationale": "Customer communication follows defined routes so that requests are captured and handled.",
+      "clause2015": "8.2.1",
+      "clauseRefs": [
+        "8.2.1"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "IT20",
+      "sector": "it-software",
+      "stem": "A new feature is built without documented requirements or acceptance tests. Which control area is weak?",
+      "options": [
+        "Design and development inputs, reviews, verification, and validation.",
+        "Customer property.",
+        "Calibration.",
+        "Organizational context."
+      ],
+      "answerIndex": 0,
+      "rationale": "Design and development is planned and controlled from defined inputs through verification and validation.",
+      "clause2015": "8.3",
+      "clauseRefs": [
+        "8.3"
+      ],
+      "roles": [
+        "F",
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "IT21",
+      "sector": "it-software",
+      "stem": "Sales promises a recovery time the platform has never achieved. What should have happened first?",
+      "options": [
+        "Nothing.",
+        "Engineering finds out later.",
+        "The customer decides.",
+        "A review of the requirement and confirmation of the ability to meet it before commitment."
+      ],
+      "answerIndex": 3,
+      "rationale": "Requirements are reviewed before the organization commits to provide a service.",
+      "clause2015": "8.2.3",
+      "clauseRefs": [
+        "8.2.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "IT22",
+      "sector": "it-software",
+      "stem": "After go-live, the contract requires a period of stabilization support. Which requirement area covers it?",
+      "options": [
+        "Internal audit.",
+        "Post-delivery activities.",
+        "Organizational context.",
+        "Quality policy."
+      ],
+      "answerIndex": 1,
+      "rationale": "Agreed activities after delivery are planned and carried out.",
+      "clause2015": "8.5.5",
+      "clauseRefs": [
+        "8.5.5"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "IT23",
+      "sector": "it-software",
+      "stem": "Incident tickets are closed but never analyzed for trends. What is missing?",
+      "options": [
+        "More tickets.",
+        "A new tool.",
+        "Analysis and evaluation of the data to find recurring issues and improvement opportunities.",
+        "Nothing."
+      ],
+      "answerIndex": 2,
+      "rationale": "Data is analyzed and evaluated to judge performance and identify improvement.",
+      "clause2015": "9.1.3",
+      "clauseRefs": [
+        "9.1.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "IT24",
+      "sector": "it-software",
+      "stem": "A tester finds a nonconformity in a released build. What is the tester's first responsibility?",
+      "options": [
+        "Fix production directly without a record.",
+        "Keep it quiet.",
+        "Wait for the customer to notice.",
+        "Report it promptly so it can be controlled and its cause considered."
+      ],
+      "answerIndex": 3,
+      "rationale": "Prompt reporting allows the nonconformity to be controlled and its cause addressed.",
+      "clause2015": "8.7",
+      "clauseRefs": [
+        "8.7",
+        "10.2"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    }
+  ]
+}

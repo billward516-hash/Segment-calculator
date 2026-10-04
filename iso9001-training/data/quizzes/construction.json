@@ -1,0 +1,624 @@
+{
+  "pack": "construction",
+  "specPrefix": "CN",
+  "specSection": "Appendix C C.2.4",
+  "specPackName": "Construction and Engineering Projects",
+  "company": "Meridian Build",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "notes": "Items CN01 to CN12 are the Appendix C seed items (rationales added where the spec gave none). Items CN13 to CN24 were written for this build in the same style (C.5 task 5). Clause tags are references only and are unverified against the purchased standard. clause2015 holds the primary clause; clauseRefs lists every clause the spec or author cited. Spec pack prefix CN maps to pack id \"construction\".",
+  "items": [
+    {
+      "id": "CN01",
+      "sector": "construction",
+      "stem": "A crew is building to a drawing that is not the current revision. What should the crew leader do?",
+      "options": [
+        "Continue and fix it later.",
+        "Ask the designer informally.",
+        "Complete the work package first.",
+        "Stop the affected work, obtain the current drawing, and assess the work already done."
+      ],
+      "answerIndex": 3,
+      "rationale": "Superseded documents are not used, and work done to them is treated as potentially nonconforming.",
+      "clause2015": "7.5.3",
+      "clauseRefs": [
+        "7.5.3",
+        "8.7"
+      ],
+      "roles": [
+        "F",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "CN02",
+      "sector": "construction",
+      "stem": "Survey instruments used to set levels are past their verification date. What is correct?",
+      "options": [
+        "Stop using them, flag them, and assess earlier readings.",
+        "Continue.",
+        "Use them only for minor measurements.",
+        "Remove the label."
+      ],
+      "answerIndex": 0,
+      "rationale": "Measuring equipment past its verification date cannot be relied on, and earlier results are assessed.",
+      "clause2015": "7.1.5",
+      "clauseRefs": [
+        "7.1.5"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "CN03",
+      "sector": "construction",
+      "stem": "A hold point requires inspection sign-off before concrete is poured. The inspector is delayed. What should happen?",
+      "options": [
+        "Pour and inspect later.",
+        "The foreman signs for the inspector.",
+        "Wait for the inspection or an authorized release.",
+        "Pour half."
+      ],
+      "answerIndex": 2,
+      "rationale": "Work does not proceed past a planned verification point without completion or authorized release.",
+      "clause2015": "8.6",
+      "clauseRefs": [
+        "8.6"
+      ],
+      "roles": [
+        "F",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "CN04",
+      "sector": "construction",
+      "stem": "A client supplies existing drawings and site access for the work. How should these be treated?",
+      "options": [
+        "As the contractor's property.",
+        "As customer property that must be identified, protected, and reported if lost or damaged.",
+        "As disposable.",
+        "As confidential only if requested."
+      ],
+      "answerIndex": 1,
+      "rationale": "Property and information supplied by the customer are cared for while under the organization's control.",
+      "clause2015": "8.5.3",
+      "clauseRefs": [
+        "8.5.3"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "CN05",
+      "sector": "construction",
+      "stem": "A subcontractor starts work without being evaluated. What is the issue?",
+      "options": [
+        "There is no issue.",
+        "It concerns site safety only.",
+        "It concerns training only.",
+        "Externally provided processes must be controlled and providers evaluated."
+      ],
+      "answerIndex": 3,
+      "rationale": "Providers are evaluated and selected against criteria, and their processes are controlled.",
+      "clause2015": "8.4",
+      "clauseRefs": [
+        "8.4"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "CN06",
+      "sector": "construction",
+      "stem": "A change of concrete supplier is proposed mid-project. What is appropriate?",
+      "options": [
+        "Review the effect, approve, communicate, verify the new supply, and keep records.",
+        "Switch quietly.",
+        "Ask the crew.",
+        "Switch only if it is cheaper."
+      ],
+      "answerIndex": 0,
+      "rationale": "Changes are reviewed and controlled, and the new provider's supply is verified.",
+      "clause2015": "8.5.6",
+      "clauseRefs": [
+        "8.5.6",
+        "8.4"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "CN07",
+      "sector": "construction",
+      "stem": "Concrete test results are not recorded for one pour. What is the main concern?",
+      "options": [
+        "Wasted paper.",
+        "Appearance.",
+        "Lack of evidence of conformity and of who authorized release.",
+        "Weather."
+      ],
+      "answerIndex": 2,
+      "rationale": "Records of release show conformity with acceptance criteria and identify who authorized it.",
+      "clause2015": "8.6",
+      "clauseRefs": [
+        "8.6",
+        "7.5"
+      ],
+      "roles": [
+        "F",
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "CN08",
+      "sector": "construction",
+      "stem": "A misplaced anchor bolt is corrected. Which statement distinguishes correction from corrective action?",
+      "options": [
+        "They are identical.",
+        "Correction fixes the bolt; corrective action addresses why it was misplaced so that it does not recur.",
+        "Corrective action fixes the bolt.",
+        "Correction is only paperwork."
+      ],
+      "answerIndex": 1,
+      "rationale": "Correction deals with the nonconformity; corrective action deals with its cause.",
+      "clause2015": "10.2",
+      "clauseRefs": [
+        "10.2"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "CN09",
+      "sector": "construction",
+      "stem": "A site worker is new and has not received the required task training. What should be true before independent work?",
+      "options": [
+        "The supervisor intends to train later.",
+        "Another worker is nearby.",
+        "Training is optional.",
+        "Competence is determined, training provided, and evidence retained."
+      ],
+      "answerIndex": 3,
+      "rationale": "People are competent before working independently, and evidence is retained.",
+      "clause2015": "7.2",
+      "clauseRefs": [
+        "7.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "CN10",
+      "sector": "construction",
+      "stem": "Which inputs might a project review or management review consider?",
+      "options": [
+        "Customer feedback, nonconformities, provider performance, and project results.",
+        "Only the weather.",
+        "Only invoices.",
+        "Only photographs."
+      ],
+      "answerIndex": 0,
+      "rationale": "Review inputs include information on performance, customer feedback, nonconformities, and providers.",
+      "clause2015": "9.3",
+      "clauseRefs": [
+        "9.3"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "CN11",
+      "sector": "construction",
+      "stem": "A client changes the specification for a finish after procurement. What must occur?",
+      "options": [
+        "The crew decides.",
+        "Procurement ignores it.",
+        "The requirement change is reviewed, documents updated, and affected people informed.",
+        "Wait for final inspection."
+      ],
+      "answerIndex": 2,
+      "rationale": "Changed requirements are reviewed, documents amended, and the people affected informed.",
+      "clause2015": "8.2.4",
+      "clauseRefs": [
+        "8.2.4"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "CN12",
+      "sector": "construction",
+      "stem": "Who has authority to stop work when a nonconformity is found?",
+      "options": [
+        "Only the client.",
+        "People given that authority by the organization, which should be defined and communicated.",
+        "Nobody until the next audit.",
+        "Only head office."
+      ],
+      "answerIndex": 1,
+      "rationale": "Responsibilities and authorities, including stopping work, are assigned and communicated.",
+      "clause2015": "5.3",
+      "clauseRefs": [
+        "5.3"
+      ],
+      "roles": [
+        "F",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "appendix-c-seed"
+    },
+    {
+      "id": "CN13",
+      "sector": "construction",
+      "stem": "A project involves a client, a design consultant, a local authority inspector, and neighbors. Why identify these parties in planning?",
+      "options": [
+        "To determine their relevant requirements and keep them under review.",
+        "To send them invoices.",
+        "For marketing only.",
+        "It is not needed."
+      ],
+      "answerIndex": 0,
+      "rationale": "Interested parties and their relevant requirements are identified and monitored.",
+      "clause2015": "4.2",
+      "clauseRefs": [
+        "4.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "knowledge",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "CN14",
+      "sector": "construction",
+      "stem": "Before work starts on a new site, which activity reflects operational planning?",
+      "options": [
+        "Starting immediately.",
+        "Copying the previous project's plan unchanged.",
+        "Defining the requirements, acceptance criteria, resources, inspection and test points, and records for this project.",
+        "Waiting for the client to plan."
+      ],
+      "answerIndex": 2,
+      "rationale": "Operations are planned with criteria, resources, controls, and records suited to the work.",
+      "clause2015": "8.1",
+      "clauseRefs": [
+        "8.1"
+      ],
+      "roles": [
+        "T",
+        "S"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "CN15",
+      "sector": "construction",
+      "stem": "The client repeatedly complains about late handover documentation. What does customer focus expect from leadership?",
+      "options": [
+        "Ignore it.",
+        "Make sure the client's requirements are understood and met, and act on what affects satisfaction.",
+        "Blame the subcontractor.",
+        "Stop sending documentation."
+      ],
+      "answerIndex": 1,
+      "rationale": "Top management keeps customer requirements and satisfaction in focus.",
+      "clause2015": "5.1.2",
+      "clauseRefs": [
+        "5.1.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "CN16",
+      "sector": "construction",
+      "stem": "A crew member is unsure why hold points matter. What should the crew member understand?",
+      "options": [
+        "Hold points are optional.",
+        "Hold points are paperwork only.",
+        "Only inspectors need to know about them.",
+        "How their work affects conformity, and the consequences of covering work before inspection."
+      ],
+      "answerIndex": 3,
+      "rationale": "Awareness includes knowing the effect of one's work and the consequences of not following the system.",
+      "clause2015": "7.3",
+      "clauseRefs": [
+        "7.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "CN17",
+      "sector": "construction",
+      "stem": "Bad weather may delay a critical pour. What does risk-based planning look for?",
+      "options": [
+        "Actions planned in advance and proportionate to the effect, such as alternative dates, followed by a review of how they worked.",
+        "Hope for good weather.",
+        "Ignore the forecast.",
+        "Pour regardless of conditions."
+      ],
+      "answerIndex": 0,
+      "rationale": "Risks to planned results are addressed with proportionate actions whose effectiveness is evaluated.",
+      "clause2015": "6.1",
+      "clauseRefs": [
+        "6.1"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "CN18",
+      "sector": "construction",
+      "stem": "A site generator powering a test rig fails repeatedly. Which requirement area applies?",
+      "options": [
+        "Quality policy.",
+        "Infrastructure needed for conforming work, including its maintenance.",
+        "Design and development.",
+        "Awareness."
+      ],
+      "answerIndex": 1,
+      "rationale": "Equipment needed for conforming work is provided and maintained.",
+      "clause2015": "7.1.3",
+      "clauseRefs": [
+        "7.1.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "CN19",
+      "sector": "construction",
+      "stem": "A design change is issued to the office, but the site team receives it a week later. What is the gap?",
+      "options": [
+        "Calibration.",
+        "Customer property.",
+        "Organizational context.",
+        "Communication of changes: what, when, to whom, and how."
+      ],
+      "answerIndex": 3,
+      "rationale": "Internal communication arrangements make sure changes reach the people who need them in time.",
+      "clause2015": "7.4",
+      "clauseRefs": [
+        "7.4",
+        "7.5.3"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "CN20",
+      "sector": "construction",
+      "stem": "The firm designs a temporary works item for a client. Which activity confirms that the design meets its input requirements before use?",
+      "options": [
+        "Painting it.",
+        "Design review and verification, with records.",
+        "Billing the client.",
+        "Cleaning the site."
+      ],
+      "answerIndex": 1,
+      "rationale": "Design outputs are reviewed and verified against inputs, and records are kept.",
+      "clause2015": "8.3",
+      "clauseRefs": [
+        "8.3"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "CN21",
+      "sector": "construction",
+      "stem": "Precast units are delivered with no markings, and two similar types are on site. What is at risk?",
+      "options": [
+        "Pricing.",
+        "Quality policy.",
+        "Identification and traceability of outputs.",
+        "Awareness."
+      ],
+      "answerIndex": 2,
+      "rationale": "Outputs are identified so that the right item is used in the right place.",
+      "clause2015": "8.5.2",
+      "clauseRefs": [
+        "8.5.2"
+      ],
+      "roles": [
+        "F"
+      ],
+      "difficulty": 1,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "CN22",
+      "sector": "construction",
+      "stem": "After handover, the client reports a defect within the warranty period. Which requirement area covers this?",
+      "options": [
+        "Organizational context.",
+        "Calibration.",
+        "Internal audit.",
+        "Post-delivery activities, such as warranty work."
+      ],
+      "answerIndex": 3,
+      "rationale": "Agreed activities after delivery, such as warranty obligations, are planned and met.",
+      "clause2015": "8.5.5",
+      "clauseRefs": [
+        "8.5.5"
+      ],
+      "roles": [
+        "T"
+      ],
+      "difficulty": 2,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "CN23",
+      "sector": "construction",
+      "stem": "The contractor never asks clients for feedback after handover. What is missing?",
+      "options": [
+        "Monitoring of how customers perceive whether their needs and expectations were met.",
+        "Calibration.",
+        "Training.",
+        "Quality policy."
+      ],
+      "answerIndex": 0,
+      "rationale": "The organization monitors customer perceptions and decides how to obtain and review that information.",
+      "clause2015": "9.1.2",
+      "clauseRefs": [
+        "9.1.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    },
+    {
+      "id": "CN24",
+      "sector": "construction",
+      "stem": "An internal audit finds missing inspection records on two projects. What should management do?",
+      "options": [
+        "Ignore the finding.",
+        "Close it without action.",
+        "Take correction and corrective action without undue delay and check that the actions worked.",
+        "Dismiss the auditor."
+      ],
+      "answerIndex": 2,
+      "rationale": "Audit findings lead to timely correction and corrective action.",
+      "clause2015": "9.2",
+      "clauseRefs": [
+        "9.2",
+        "10.2"
+      ],
+      "roles": [
+        "S"
+      ],
+      "difficulty": 3,
+      "type": "scenario",
+      "edition": "2015",
+      "verifyStatus2015": "unverified",
+      "source": "added-build"
+    }
+  ]
+}

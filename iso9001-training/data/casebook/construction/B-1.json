@@ -1,0 +1,281 @@
+{
+  "id": "CON-B-01",
+  "pack": "construction",
+  "type": "B",
+  "title": "Pour Records",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "Cube results for Meridian Build pour {{pour}} (level 3 columns) came back below the specified strength. You need to trace the pour records and define which elements and pours are affected. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Scope accuracy",
+  "branches": [
+    "Mapping",
+    "Control"
+  ],
+  "tokens": {
+    "pour": [
+      "P-207",
+      "P-312",
+      "P-188"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Site laboratory",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Cube results for {{pour}}",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Cube curing tank log",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Batch plant records",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Delivery tickets for {{pour}}",
+          "evidenceId": "E3"
+        },
+        {
+          "verb": "Review",
+          "label": "Other pours from the same mix and day",
+          "evidenceId": "E4"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Site office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Pour record for {{pour}}",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Element register",
+          "evidenceId": "E6"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Supplier",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Concrete supplier approval",
+          "evidenceId": "E7"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Testing",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Cube press verification",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Site engineer",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Was water added on site",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Pour sequence chart",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Mud on site road",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "Cube results for {{pour}}: 28-day strength 31 against 35 specified; recorded and reported promptly.",
+      "clause": "8.6",
+      "whyItMatters": "Results recorded and reported.",
+      "missedExplanation": "The trail starts here.",
+      "falseFindingNote": "Correctly recorded.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "Curing tank log shows the heater failed for 3 days during the cubes' curing; no note of impact.",
+      "clause": "7.1.4, 8.5.1",
+      "whyItMatters": "Test conditions must be controlled; otherwise results may not reflect the concrete.",
+      "missedExplanation": "Check test conditions before trusting a result.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Delivery tickets: 6 trucks for {{pour}}; ticket T-5 has no time of addition of water recorded and a mix code differing from the others.",
+      "clause": "8.5.2",
+      "whyItMatters": "Delivery records must show what was placed and where.",
+      "missedExplanation": "Read every ticket in the pour.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "The same mix on the same day also went to pour P-209 (level 3 slab edge); its location on the element register is \"level 3, various\".",
+      "clause": "8.5.2",
+      "unlockedBy": [
+        "E3"
+      ],
+      "whyItMatters": "Elements must be traceable to their pour.",
+      "missedExplanation": "Find other pours from the same mix and day.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "nonconformity",
+      "text": "Pour record for {{pour}} does not record which column received which truck.",
+      "clause": "7.5.1",
+      "whyItMatters": "Records needed to trace work must be kept.",
+      "missedExplanation": "Check that pour records map trucks to elements.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "conforming",
+      "text": "Element register lists the 12 columns in {{pour}}.",
+      "clause": "8.5.2",
+      "whyItMatters": "Elements identified.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Concrete supplier is approved and evaluated 4 months ago.",
+      "clause": "8.4",
+      "whyItMatters": "Supplier approved.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Approved.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "observation",
+      "text": "Cube press verification is 10 days overdue (label LP-3).",
+      "clause": "7.1.5",
+      "whyItMatters": "Overdue verification weakens confidence; review recent results.",
+      "missedExplanation": "Check the test equipment.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "nonconformity",
+      "text": "Site engineer: \"The driver added water to truck T-5 to help placing. Nobody recorded it.\" (note 9)",
+      "clause": "8.5.1",
+      "supports": "E3",
+      "whyItMatters": "Changes to the product during placement must be controlled and recorded.",
+      "missedExplanation": "Ask what happened on the day.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "Pour sequence chart is hand-drawn but current.",
+      "clause": "7.4",
+      "whyItMatters": "Informal chart is acceptable.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Current and clear.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Mud on the site road.",
+      "clause": "7.1.4",
+      "whyItMatters": "Not linked.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not linked.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "Which elements need assessment?",
+      "options": [
+        "The 12 columns of {{pour}} only",
+        "All 12 columns of {{pour}}, the slab edge elements of P-209 from the same mix and day, and a review of cube results tested during the curing heater failure",
+        "The whole building",
+        "None; retest the cubes and wait"
+      ],
+      "bestIndex": 1,
+      "rationale": "The mix, the day, and the test conditions widen the scope."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Stop loading on affected elements until assessed; identify P-209 element locations"
+    ],
+    "correction": [
+      "Commission in-place testing of affected elements and decide disposition with the designer and client"
+    ],
+    "cause": [
+      "Pour records do not map trucks to elements, site water additions are not controlled, and curing conditions are not monitored"
+    ],
+    "corrective": [
+      "Add truck-to-element mapping and water addition control to the pour record, and alarm the curing tank"
+    ],
+    "effectiveness": [
+      "Audit the next ten pour records"
+    ]
+  },
+  "debriefText": {
+    "found": "You traced the pour to trucks, elements, and test conditions.",
+    "missed": "The other pour from the same mix and day is often missed.",
+    "falseFinding": "A hand-drawn current chart is conforming."
+  }
+}

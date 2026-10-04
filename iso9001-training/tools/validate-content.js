@@ -20,9 +20,16 @@ const problems = [];
 const warn = (f, m) => problems.push(f + ': ' + m);
 const norm = s => s.replace(/\s+/g, ' ').replace(/[>*_]/g, '').trim();
 
-function listMd(dir) { return fs.readdirSync(path.join(root, dir)).filter(f => f.endsWith('.md')).map(f => dir + '/' + f); }
+function listMd(dir, deep) {
+  if (!fs.existsSync(path.join(root, dir))) return [];
+  return fs.readdirSync(path.join(root, dir)).flatMap(f => {
+    const rel = dir + '/' + f;
+    if (deep && fs.statSync(path.join(root, rel)).isDirectory()) return listMd(rel, true);
+    return f.endsWith('.md') ? [rel] : [];
+  });
+}
 const pgFiles = listMd('content/participant-guide');
-const allFiles = pgFiles.concat(listMd('content/instructor-guide'), listMd('content/handouts'));
+const allFiles = pgFiles.concat(listMd('content/instructor-guide', true), listMd('content/handouts', true), listMd('content/sector-tracks', true));
 
 allFiles.forEach(f => {
   const text = read(f);
@@ -35,7 +42,7 @@ allFiles.forEach(f => {
   if (/\b5\.\d(\.\d)?\s*\(?[a-h]\)/.test(text) || /\b5\.\d\.\d[a-h]\b/.test(text)) warn(f, 'lettered Clause 5 sub-item cited');
   // Best estimate content confined to bridge boxes, module 11, appendix, handouts for 2026
   const base = path.basename(f);
-  if (/^\d\d-/.test(base) && !base.startsWith('11-')) {
+  if (f.startsWith('content/participant-guide/') && /^\d\d-/.test(base) && !base.startsWith('11-')) {
     text.split('\n').forEach((line, i) => { if (/best estimate/i.test(line) && !line.startsWith('>')) warn(f + ':' + (i + 1), '"Best estimate" outside a 2026 Bridge box'); });
   }
 });

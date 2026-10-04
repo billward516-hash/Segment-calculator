@@ -1,0 +1,269 @@
+{
+  "id": "PRO-A-01",
+  "pack": "professional-services",
+  "type": "A",
+  "title": "Office Walk",
+  "edition": "2015",
+  "verifyStatus2015": "unverified",
+  "brief": "You walk the Meridian Advisory office, which delivers financial reviews and training courses for clients, as an internal auditor before the certification audit. Cover scoping, delivery, review, client sign-off, and aftercare. You have 12 visit points.",
+  "visitPoints": 12,
+  "goal": "Coverage",
+  "branches": [
+    "Evidence"
+  ],
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Scoping desk",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Engagement letters this month",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the area",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Analyst team",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Report template in use",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Review",
+          "label": "Calculation model version",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Shared drive",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Client folder permissions",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Ask",
+          "label": "A staff member: anything else to mention",
+          "note": "The staff member has nothing further to add on this topic."
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Review desk",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Peer review records",
+          "evidenceId": "E5"
+        },
+        {
+          "verb": "Review",
+          "label": "Deliverables sent this week",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Training team",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Assessor competence records",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Course feedback analysis",
+          "evidenceId": "E8"
+        },
+        {
+          "verb": "Review",
+          "label": "Older records for this area",
+          "note": "The older records show nothing relevant to this visit."
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Office manager",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "How original client documents are returned",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Observe",
+          "label": "Clean desk",
+          "evidenceId": "E10"
+        },
+        {
+          "verb": "Observe",
+          "label": "Meeting room booking sheet",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Observe",
+          "label": "Notices and signs in the area",
+          "note": "The notices are current and not relevant to this visit."
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "conforming",
+      "text": "All 7 engagement letters this month define scope and deliverables and are signed.",
+      "clause": "8.2.2",
+      "whyItMatters": "Requirements agreed.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E2",
+      "kind": "nonconformity",
+      "text": "2 analysts use report template version 5; version 6, with a revised disclaimer section, was approved 4 weeks ago.",
+      "clause": "7.5.3",
+      "whyItMatters": "Current templates must be used.",
+      "missedExplanation": "Check template versions in use.",
+      "plantedPool": true
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Valuation model VM-3 was edited last week (cell formula change in sheet 4) with no verification record.",
+      "clause": "7.1.5, 8.5.6",
+      "whyItMatters": "Calculation models are measuring resources; changes need verification.",
+      "missedExplanation": "Ask how model changes are checked.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "nonconformity",
+      "text": "Client folder CL-118 on the shared drive is open to all 45 staff.",
+      "clause": "8.5.3",
+      "whyItMatters": "Client confidential information must be protected.",
+      "missedExplanation": "Check folder permissions.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "conforming",
+      "text": "Peer review records for last month's 12 reports are complete.",
+      "clause": "8.6",
+      "whyItMatters": "Review done.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Complete.",
+      "plantedPool": false
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "1 of 5 deliverables sent this week (report R-2207) has no peer review record.",
+      "clause": "8.6",
+      "whyItMatters": "Deliverables should be released after planned review or authorized decision.",
+      "missedExplanation": "Compare sent deliverables with review records.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Assessor competence records are current.",
+      "clause": "7.2",
+      "whyItMatters": "Competence recorded.",
+      "missedExplanation": "Conforming evidence.",
+      "falseFindingNote": "Current.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "observation",
+      "text": "Course feedback for quarter 3 is collected; 4 comments on unclear assessment criteria have no action (summary CF-3).",
+      "clause": "9.1.2",
+      "whyItMatters": "Feedback should be analyzed and used.",
+      "missedExplanation": "Ask what was done with feedback.",
+      "plantedPool": true
+    },
+    {
+      "id": "E9",
+      "kind": "observation",
+      "text": "Office manager: \"Original client documents go back by courier when someone remembers.\" Register of client originals RO-1 shows 6 items held over 90 days.",
+      "clause": "8.5.3",
+      "whyItMatters": "A defined return process would protect client property.",
+      "missedExplanation": "Ask about client originals.",
+      "plantedPool": true
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "One desk has personal photos.",
+      "clause": "7.1.4",
+      "whyItMatters": "Not a requirement.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Not relevant.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "redHerring",
+      "text": "Meeting room booking sheet is on paper.",
+      "clause": "7.1.3",
+      "whyItMatters": "Acceptable.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "Acceptable.",
+      "plantedPool": false
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "prompt": "What needs action first?",
+      "options": [
+        "The booking sheet",
+        "Restrict access to client folder CL-118 and check report R-2207 with the client after a peer review",
+        "Nothing until the audit",
+        "Retrain all staff"
+      ],
+      "bestIndex": 1,
+      "rationale": "Client confidentiality and an unreviewed deliverable come first."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Restrict CL-118 access; peer review R-2207 and inform the client of any change"
+    ],
+    "correction": [
+      "Replace template version 5, verify VM-3, act on feedback, and return client originals"
+    ],
+    "cause": [
+      "Access, template, and model controls rely on individual habit"
+    ],
+    "corrective": [
+      "Default client folders to restricted access, lock old templates, and require verification of model changes"
+    ],
+    "effectiveness": [
+      "Repeat the walk in three months"
+    ]
+  },
+  "debriefText": {
+    "found": "You covered scoping to aftercare.",
+    "missed": "Folder permissions are easy to overlook.",
+    "falseFinding": "Photos and paper booking sheets are not findings."
+  }
+}

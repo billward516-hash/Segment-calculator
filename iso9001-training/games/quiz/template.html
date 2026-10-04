@@ -15,13 +15,14 @@ header{border-bottom:2px solid var(--line);padding:.6rem 1rem;display:flex;justi
 header h1{font-size:1.3rem;margin:0}
 main{max-width:60rem;margin:0 auto;padding:1rem}
 h2{font-size:1.35rem;margin:1.2rem 0 .5rem}
-button,select,input{font:inherit;color:inherit}
+button,select,input,textarea{font:inherit;color:inherit}
 button{background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:.4rem .9rem;cursor:pointer;color:var(--fg)}
 button:hover:not(:disabled){border-color:var(--primary)}
 button.primary{background:var(--primary);color:var(--primary-fg);border-color:var(--primary);font-weight:600}
 button.big{font-size:1.1rem;padding:.6rem 1.3rem}
 button:disabled{opacity:.6;cursor:not-allowed}
-select,input{max-width:100%;background:var(--bg);border:2px solid var(--line);border-radius:6px;padding:.3rem .5rem}
+select,input,textarea{max-width:100%;background:var(--bg);border:2px solid var(--line);border-radius:6px;padding:.3rem .5rem}
+textarea{width:100%;min-height:8rem;font-family:ui-monospace,Consolas,monospace;font-size:.8rem}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 label{display:block;margin:.6rem 0 .15rem;font-weight:600}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.8rem 1rem;margin:.8rem 0}
@@ -37,15 +38,18 @@ label{display:block;margin:.6rem 0 .15rem;font-weight:600}
 .badge{display:inline-block;border:2px solid currentColor;border-radius:4px;padding:0 .35rem;font-size:.75rem;font-weight:700;margin-right:.3rem}
 .badge.ok{color:var(--ok);background:var(--ok-bg)}
 .badge.warn{color:var(--warn);background:var(--warn-bg)}
+.badge.sec{color:var(--primary)}
 .muted{color:var(--muted)}
 .progress{height:10px;background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden}
 .progress div{height:100%;background:var(--primary)}
 .timer{font-size:2rem;font-weight:800;font-variant-numeric:tabular-nums}
+.qtimer{font-weight:700;font-variant-numeric:tabular-nums}
 table{border-collapse:collapse;width:100%}
 th,td{border:1px solid var(--line);padding:.35rem .5rem;text-align:left;vertical-align:top}
 th{background:var(--panel)}
 .notice{border:2px solid var(--line);border-radius:8px;padding:.6rem .9rem;font-size:.85rem;color:var(--muted);margin-top:1.5rem}
 .sr{position:absolute;left:-9999px}
+.tablewrap{overflow-x:auto}
 @media print{header button,.noprint,button{display:none!important}}
 </style>
 </head>
@@ -59,41 +63,118 @@ th{background:var(--panel)}
 </header>
 <main id="app" tabindex="-1"></main>
 <div id="live" class="sr" role="status" aria-live="polite"></div>
-<main><p class="notice">This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body. Questions test ISO 9001:2015 requirements for __COMPANY__ and are unverified against the purchased standard until the owner confirms them. Clause numbers are references only.</p></main>
+<main><p class="notice">This material is an original training aid. It is not a substitute for the standard. Obtain ISO 9001 from ISO or a national standards body. Questions test ISO 9001:2015 requirements for __COMPANY__ and are unverified against the purchased standard until the owner confirms them. Clause numbers are references only. Sector quizzes use fictional organizations. Sector-specific legal, clinical, safety, and food safety requirements are outside the scope of these quizzes.</p></main>
 <script type="application/json" id="qdata">__QUESTIONS_JSON__</script>
+<script type="application/json" id="sdata">__SECTOR_QUIZZES_JSON__</script>
+<!-- Instructor-editable settings. passMark is a percentage. Times are in minutes (0 = no timer). -->
+<script type="application/json" id="qconfig">{"passMark":80,"maxAttempts":2,"times":{"sector":15,"role":15,"mixed":30,"quick":5,"capstone":30,"exit":5,"check":0,"module":0},"sprintSeconds":30,"showdownSeconds":60}</script>
 <script>
 (function () {
 'use strict';
-var QUESTIONS = JSON.parse(document.getElementById('qdata').textContent);
+var CORE_RAW = JSON.parse(document.getElementById('qdata').textContent);
+var SECTORS = {};
+try { SECTORS = JSON.parse(document.getElementById('sdata').textContent) || {}; } catch (err) { SECTORS = {}; }
+var CFG = { passMark: 80, maxAttempts: 2, times: {}, sprintSeconds: 30, showdownSeconds: 60 };
+try { var c = JSON.parse(document.getElementById('qconfig').textContent); for (var k in c) CFG[k] = c[k]; } catch (err) { /* defaults */ }
 var MODULE_NAMES = ['Orientation', 'Context and scope', 'Leadership and policy', 'Planning, risk, change', 'Support', 'Operation: requirements, design, providers', 'Operation: production, traceability, release', 'Nonconforming outputs', 'Performance evaluation', 'Improvement and corrective action', 'Audits: what to expect'];
-var app = { screen: 'menu', opts: { role: 'all', module: '1', pass: 80, seed: Math.floor(Math.random() * 900000) + 100000, teams: 3 }, run: null };
+var ROLE_CODE = { operator: 'F', technician: 'T', supervisor: 'S' };
+var ROLE_NAME = { all: 'All roles', operator: 'Operator (frontline)', technician: 'Technician', supervisor: 'Supervisor or team leader' };
+var CLAUSE_PARENTS = ['4', '5', '6', '7', '8', '9', '10'];
+var MODE_NAME = { quick: 'Quick round', check: 'Knowledge check', module: 'Module quiz', sprint: 'Clause Sprint', sector: 'Sector quiz', role: 'Role-filtered sector quiz', mixed: 'Mixed-sector quiz', capstone: 'Capstone sector set', exit: 'Exit ticket', showdown: 'Sector Showdown' };
+var ASSESSED = { check: 1, module: 1, sector: 1, role: 1, mixed: 1, capstone: 1, exit: 1 };
+
+function norm(q, packName) {
+  var isSector = q.answerIndex != null;
+  return {
+    id: q.id, stem: q.stem, options: q.options, ans: isSector ? q.answerIndex : q.answer, rationale: q.rationale || '',
+    clause: isSector ? q.clause2015 : q.clause, clauseRefs: q.clauseRefs || [isSector ? q.clause2015 : q.clause],
+    sector: isSector ? q.sector : 'core', sectorName: isSector ? packName : 'Core bank',
+    roles: isSector ? q.roles : q.roles.map(function (r) { return ROLE_CODE[r] || r; }),
+    type: q.type, module: q.module, edition: q.edition || '2015'
+  };
+}
+var CORE = CORE_RAW.map(function (q) { return norm(q); });
+var PACK_IDS = Object.keys(SECTORS);
+var BANK = {};
+PACK_IDS.forEach(function (id) { var p = SECTORS[id]; BANK[id] = (p.items || []).map(function (q) { return norm(q, p.specPackName || id); }); });
+function packName(id) { return SECTORS[id] ? (SECTORS[id].specPackName || id) : id; }
+
+var app = { screen: 'menu', opts: { role: 'all', module: '1', pass: CFG.passMark, seed: Math.floor(Math.random() * 900000) + 100000, teams: 3, sector: PACK_IDS[0] || '', quickSource: 'core', feedback: 'practice', name: '', instructor: '' }, run: null, attempts: {} };
 
 function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 function rng(seed) { var a = seed | 0; return function () { a |= 0; a = (a + 0x6D2B79F5) | 0; var t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
 function shuffle(arr, r) { var a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(r() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
 function live(m) { document.getElementById('live').textContent = m; }
+function parentOf(cl) { return String(cl).split('.')[0]; }
+function letter(i) { return 'ABCD'.charAt(i); }
 
+// Options are shuffled at render time; the stored answer index is never shown as a fixed position.
 function prepare(list, seed) {
   var r = rng(seed);
   return list.map(function (q) {
-    var opts = q.options.map(function (t, i) { return { text: t, correct: i === q.answer }; });
+    var opts = q.options.map(function (t, i) { return { text: t, correct: i === q.ans }; });
     return { q: q, opts: shuffle(opts, r) };
   });
 }
-function pool(role) { return QUESTIONS.filter(function (q) { return role === 'all' || q.roles.indexOf(role) >= 0; }); }
+function roleOk(q, role) { if (role === 'all') return true; var code = ROLE_CODE[role]; return q.roles.indexOf(code) >= 0 || q.roles.indexOf('F') >= 0; }
+function corePool(role) { return CORE.filter(function (q) { return q.edition !== '2026' && (role === 'all' || q.roles.indexOf(ROLE_CODE[role]) >= 0); }); }
+function sectorPool(id, role) { return (BANK[id] || []).filter(function (q) { return roleOk(q, role || 'all'); }); }
+
+// Picks n items while trying to keep any one clause to maxPerClause appearances.
+function balancedPick(items, n, r, maxPerClause, counts) {
+  counts = counts || {};
+  var pick = [], rest = [];
+  shuffle(items, r).forEach(function (q) {
+    if (pick.length < n && (counts[q.clause] || 0) < maxPerClause) { pick.push(q); counts[q.clause] = (counts[q.clause] || 0) + 1; } else rest.push(q);
+  });
+  while (pick.length < n && rest.length) { var q = rest.shift(); pick.push(q); counts[q.clause] = (counts[q.clause] || 0) + 1; }
+  return pick;
+}
+
+function buildList(mode) {
+  var o = app.opts, r = rng(o.seed), s = o.sector;
+  if (mode === 'quick') return o.quickSource === 'core' ? shuffle(corePool(o.role), r).slice(0, 5) : shuffle(sectorPool(o.quickSource, o.role), r).slice(0, 5);
+  if (mode === 'check') return shuffle(corePool(o.role), r).slice(0, 20);
+  if (mode === 'module') return CORE.filter(function (q) { return String(q.module) === o.module; });
+  if (mode === 'sprint') return shuffle(corePool(o.role).filter(function (q) { return q.type === 'scenario'; }), r).slice(0, 15);
+  if (mode === 'sector' || mode === 'showdown') return balancedPick(sectorPool(s, 'all'), 12, r, 2);
+  if (mode === 'role') { var p = sectorPool(s, o.role); return balancedPick(p, Math.min(12, p.length), r, 2); }
+  if (mode === 'exit') return shuffle(sectorPool(s, o.role), r).slice(0, 5);
+  if (mode === 'mixed') {
+    var counts = {}, out = [];
+    PACK_IDS.forEach(function (id) { out = out.concat(balancedPick(sectorPool(id, o.role), 3, r, 2, counts)); });
+    return shuffle(out, r);
+  }
+  if (mode === 'capstone') return balancedPick(sectorPool(s, o.role), 12, r, 2).concat(shuffle(corePool(o.role), r).slice(0, 8));
+  return [];
+}
+
+function stopTimers() { var run = app.run; if (!run) return; if (run.tid) { clearInterval(run.tid); run.tid = null; } if (run.qtid) { clearInterval(run.qtid); run.qtid = null; } }
 
 function start(mode) {
-  var o = app.opts, r = rng(o.seed), list;
-  if (mode === 'quick') list = shuffle(pool(o.role), r).slice(0, 5);
-  else if (mode === 'check') list = shuffle(pool(o.role), r).slice(0, 20);
-  else if (mode === 'module') list = QUESTIONS.filter(function (q) { return String(q.module) === o.module; });
-  else if (mode === 'sprint') list = shuffle(pool(o.role).filter(function (q) { return q.type === 'scenario'; }), r).slice(0, 15);
-  if (!list.length) { live('No questions match this selection.'); return; }
-  app.run = { mode: mode, items: prepare(list, o.seed + 1), idx: 0, answers: [], revealed: false, scores: [], secs: 30, tid: null };
-  if (mode === 'sprint') { for (var i = 0; i < o.teams; i++) app.run.scores.push(0); }
-  app.screen = mode === 'sprint' ? 'sprint' : 'quiz';
+  var o = app.opts, list = buildList(mode);
+  if (!list.length) { live('No questions match this selection.'); alertBox('No questions match this selection. Choose another sector or role.'); return; }
+  if (mode === 'role' && list.length < 8) live('Only ' + list.length + ' items match this role.');
+  stopTimers();
+  var key = mode + '|' + (o.sector || '') + '|' + o.role;
+  var teamMode = mode === 'sprint' || mode === 'showdown';
+  app.run = { mode: mode, key: key, items: prepare(list, o.seed + 1), idx: 0, answers: [], revealed: false, scores: [], bonus: [], secs: mode === 'showdown' ? CFG.showdownSeconds : CFG.sprintSeconds, tid: null, qtid: null,
+    feedback: mode === 'exit' || mode === 'capstone' ? 'assessment' : o.feedback, limit: (CFG.times[mode] || 0) * 60, started: Date.now(), timeUp: false, date: new Date().toISOString().slice(0, 10), seed: o.seed };
+  if (teamMode) { for (var i = 0; i < o.teams; i++) { app.run.scores.push(0); app.run.bonus.push(0); } }
+  app.screen = teamMode ? 'sprint' : 'quiz';
+  if (!teamMode && app.run.limit > 0) {
+    app.run.qtid = setInterval(function () {
+      var run = app.run; if (!run || !run.qtid) return;
+      var left = Math.max(0, run.limit - Math.floor((Date.now() - run.started) / 1000));
+      var el = document.getElementById('qtimer'); if (el) el.textContent = fmt(left);
+      if (left === 0 && !run.timeUp) { run.timeUp = true; clearInterval(run.qtid); run.qtid = null; live('Time is up. Finish the current question and submit.'); render(); }
+    }, 1000);
+  }
   render();
+  var a = document.getElementById('app'); if (a) a.focus({ preventScroll: true });
 }
+function fmt(s) { var m = Math.floor(s / 60), x = s % 60; return m + ':' + (x < 10 ? '0' : '') + x; }
+function alertBox(msg) { var el = document.getElementById('menu-msg'); if (el) el.textContent = msg; }
 
 function render() {
   var el = document.getElementById('app'), fid = document.activeElement && document.activeElement.getAttribute && document.activeElement.getAttribute('data-fid');
@@ -101,88 +182,180 @@ function render() {
   if (fid) { var n = document.querySelector('[data-fid="' + fid + '"]'); if (n) n.focus({ preventScroll: true }); }
 }
 
+function sel(id, opt, val, pairs) {
+  return '<select id="' + id + '" data-opt="' + opt + '">' + pairs.map(function (p) { return '<option value="' + esc(p[0]) + '"' + (String(p[0]) === String(val) ? ' selected' : '') + '>' + esc(p[1]) + '</option>'; }).join('') + '</select>';
+}
+
 function menu() {
   var o = app.opts;
-  var mods = MODULE_NAMES.map(function (n, i) { return '<option value="' + i + '"' + (String(i) === o.module ? ' selected' : '') + '>Module ' + i + ': ' + esc(n) + '</option>'; }).join('');
-  return '<h2>Choose a mode</h2><div class="panel"><div class="row">' +
-    '<div><label for="role">Role</label><select id="role" data-opt="role"><option value="all"' + (o.role === 'all' ? ' selected' : '') + '>All roles</option><option value="operator"' + (o.role === 'operator' ? ' selected' : '') + '>Operator</option><option value="technician"' + (o.role === 'technician' ? ' selected' : '') + '>Technician</option><option value="supervisor"' + (o.role === 'supervisor' ? ' selected' : '') + '>Supervisor</option></select></div>' +
+  var mods = MODULE_NAMES.map(function (n, i) { return [String(i), 'Module ' + i + ': ' + n]; });
+  var packs = PACK_IDS.map(function (id) { return [id, packName(id) + ' (' + BANK[id].length + ')']; });
+  var hasSectors = PACK_IDS.length > 0;
+  var html = '<h2>Choose a mode</h2><div class="panel"><div class="row">' +
+    '<div><label for="role">Role</label>' + sel('role', 'role', o.role, [['all', ROLE_NAME.all], ['operator', ROLE_NAME.operator], ['technician', ROLE_NAME.technician], ['supervisor', ROLE_NAME.supervisor]]) + '</div>' +
+    (hasSectors ? '<div><label for="sector">Sector pack</label>' + sel('sector', 'sector', o.sector, packs) + '</div>' : '') +
+    '<div><label for="feedback">Feedback</label>' + sel('feedback', 'feedback', o.feedback, [['practice', 'Practice: rationale after each answer'], ['assessment', 'Assessment: rationale after submission']]) + '</div>' +
     '<div><label for="pass">Pass mark (percent)</label><input id="pass" type="number" min="1" max="100" value="' + o.pass + '" data-opt="pass"></div>' +
-    '<div><label for="seed">Seed (same seed, same order)</label><input id="seed" type="number" value="' + o.seed + '" data-opt="seed"></div></div></div>' +
-    '<div class="modes">' +
-    '<div class="mode"><h3>Quick round</h3><p class="muted">5 questions. Warm-ups and micro-sessions.</p><button type="button" class="primary" data-start="quick" data-fid="m-quick">Start</button></div>' +
+    '<div><label for="seed">Seed (same seed, same order)</label><input id="seed" type="number" value="' + o.seed + '" data-opt="seed"></div></div>' +
+    '<div class="row"><div><label for="pname">Participant name (for the training record)</label><input id="pname" type="text" value="' + esc(o.name) + '" data-opt="name" autocomplete="off"></div>' +
+    '<div><label for="iname">Instructor</label><input id="iname" type="text" value="' + esc(o.instructor) + '" data-opt="instructor" autocomplete="off"></div></div>' +
+    '<p class="muted">Results record only name, role, date, score, and instructor. Nothing is sent over a network.</p></div><p id="menu-msg" role="alert"></p>';
+  if (hasSectors) {
+    html += '<h2>Sector quizzes</h2><div class="modes">' +
+      '<div class="mode"><h3>Sector quiz</h3><p class="muted">12 items from the selected sector pack. ' + (CFG.times.sector || 15) + ' minutes. Pass mark applies.</p><button type="button" class="primary" data-start="sector" data-fid="m-sector">Start</button></div>' +
+      '<div class="mode"><h3>Role-filtered sector quiz</h3><p class="muted">8 to 12 items for the selected role (frontline items are included for every role).</p><button type="button" class="primary" data-start="role" data-fid="m-role">Start</button></div>' +
+      '<div class="mode"><h3>Mixed-sector quiz</h3><p class="muted">3 items from each of the ' + PACK_IDS.length + ' packs, with no clause more than twice where possible. Results by sector and clause.</p><button type="button" class="primary" data-start="mixed" data-fid="m-mixed">Start</button></div>' +
+      '<div class="mode"><h3>Capstone sector set</h3><p class="muted">12 sector items plus 8 core bank items. Assessment mode. ' + (CFG.times.capstone || 30) + ' minutes.</p><button type="button" class="primary" data-start="capstone" data-fid="m-capstone">Start</button></div>' +
+      '<div class="mode"><h3>Exit ticket</h3><p class="muted">5 random items from the sector pack at the end of a session. Results feed the training record.</p><button type="button" class="primary" data-start="exit" data-fid="m-exit">Start</button></div>' +
+      '<div class="mode"><h3>Sector Showdown (teams)</h3><p class="muted">Teams answer the same sector quiz, then reveal together. One point per correct answer; one bonus point for citing the correct clause.</p><label for="teams2">Teams</label><input id="teams2" type="number" min="2" max="6" value="' + o.teams + '" data-opt="teams"><p><button type="button" class="primary" data-start="showdown" data-fid="m-showdown">Start</button></p></div>' +
+      '</div>';
+  }
+  html += '<h2>Core bank</h2><div class="modes">' +
+    '<div class="mode"><h3>Quick round</h3><p class="muted">5 questions. Warm-ups and micro-sessions.</p><label for="qsrc">Source</label>' + sel('qsrc', 'quickSource', o.quickSource, [['core', 'Core bank']].concat(PACK_IDS.map(function (id) { return [id, packName(id)]; }))) + '<p><button type="button" class="primary" data-start="quick" data-fid="m-quick">Start</button></p></div>' +
     '<div class="mode"><h3>Knowledge check</h3><p class="muted">20 questions for the selected role. Pass mark applies.</p><button type="button" class="primary" data-start="check" data-fid="m-check">Start</button></div>' +
-    '<div class="mode"><h3>Module quiz</h3><p class="muted">All questions for one module.</p><label for="mod" class="sr">Module</label><select id="mod" data-opt="module">' + mods + '</select><p><button type="button" class="primary" data-start="module" data-fid="m-module">Start</button></p></div>' +
+    '<div class="mode"><h3>Module quiz</h3><p class="muted">All questions for one module.</p><label for="mod" class="sr">Module</label>' + sel('mod', 'module', o.module, mods) + '<p><button type="button" class="primary" data-start="module" data-fid="m-module">Start</button></p></div>' +
     '<div class="mode"><h3>Clause Sprint (teams)</h3><p class="muted">Facilitator reads scenario questions. Teams race to name the answer and clause. Award points as you go.</p><label for="teams">Teams</label><input id="teams" type="number" min="2" max="6" value="' + o.teams + '" data-opt="teams"><p><button type="button" class="primary" data-start="sprint" data-fid="m-sprint">Start</button></p></div>' +
     '</div>' +
-    '<p class="muted">' + QUESTIONS.length + ' questions in the bank. Answer positions are shuffled each time.</p>';
+    '<p class="muted">' + CORE.length + ' questions in the core bank' + (hasSectors ? ' and ' + PACK_IDS.reduce(function (s, id) { return s + BANK[id].length; }, 0) + ' sector items in ' + PACK_IDS.length + ' packs' : '') + '. Answer positions are shuffled each time.</p>';
+  return html;
 }
 
 function quiz() {
   var run = app.run, it = run.items[run.idx], n = run.items.length;
-  var chosen = run.answers[run.idx];
-  var html = '<div class="row" style="justify-content:space-between"><div>Question ' + (run.idx + 1) + ' of ' + n + '</div><div class="muted">Clause ' + esc(it.q.clause) + ' (shown after you answer)</div></div>' +
-    '<div class="progress" aria-hidden="true"><div style="width:' + Math.round((run.idx / n) * 100) + '%"></div></div>' +
+  var chosen = run.answers[run.idx], practice = run.feedback === 'practice';
+  var head = '<div class="row" style="justify-content:space-between"><div>' + esc(MODE_NAME[run.mode]) + ': question ' + (run.idx + 1) + ' of ' + n + '</div>' +
+    (run.limit > 0 ? '<div>Time left <span class="qtimer" id="qtimer">' + fmt(Math.max(0, run.limit - Math.floor((Date.now() - run.started) / 1000))) + '</span></div>' : '') + '</div>';
+  var html = head + '<div class="progress" aria-hidden="true"><div style="width:' + Math.round((run.idx / n) * 100) + '%"></div></div>' +
+    (run.timeUp ? '<p class="panel"><span class="badge warn">TIME IS UP</span> Finish the current question and submit.</p>' : '') +
+    (it.q.sector !== 'core' || run.mode === 'capstone' ? '<p><span class="badge sec">' + esc(it.q.sectorName.toUpperCase()) + '</span></p>' : '') +
     '<p class="q" id="stem">' + esc(it.q.stem) + '</p><div role="radiogroup" aria-labelledby="stem">';
   it.opts.forEach(function (op, i) {
     var cls = 'opt';
     if (run.revealed) { if (op.correct) cls += ' correct'; else if (chosen === i) cls += ' wrong'; }
-    html += '<label class="' + cls + '"><input type="radio" name="opt" value="' + i + '"' + (chosen === i ? ' checked' : '') + (run.revealed ? ' disabled' : '') + ' data-fid="o' + i + '"><span><b>' + (i + 1) + '.</b> ' + esc(op.text) +
+    html += '<label class="' + cls + '"><input type="radio" name="opt" value="' + i + '"' + (chosen === i ? ' checked' : '') + (run.revealed ? ' disabled' : '') + ' data-fid="o' + i + '"><span><b>' + letter(i) + '.</b> ' + esc(op.text) +
       (run.revealed && op.correct ? ' <span class="badge ok">CORRECT ANSWER</span>' : '') + (run.revealed && chosen === i && !op.correct ? ' <span class="badge warn">YOUR ANSWER</span>' : '') + '</span></label>';
   });
   html += '</div>';
-  if (run.revealed) html += '<div class="panel"><b>Why:</b> ' + esc(it.q.rationale) + '<br><span class="muted">Clause reference: ' + esc(it.q.clause) + '</span></div>';
-  html += '<div class="row">' + (!run.revealed ? '<button type="button" class="primary big" data-act="check" data-fid="check"' + (chosen == null ? ' disabled' : '') + '>Check answer</button>' : '<button type="button" class="primary big" data-act="next" data-fid="next">' + (run.idx + 1 >= n ? 'See results' : 'Next question') + '</button>') +
-    ' <button type="button" data-act="menu" data-fid="quit">Quit</button></div><p class="muted">Keyboard: press 1 to 4 to choose, Enter to continue.</p>';
+  if (run.revealed) html += '<div class="panel"><b>Why:</b> ' + esc(it.q.rationale) + '<br><span class="muted">Clause reference: ' + esc(it.q.clauseRefs.join(', ')) + '</span></div>';
+  var last = run.idx + 1 >= n;
+  if (practice) {
+    html += '<div class="row">' + (!run.revealed ? '<button type="button" class="primary big" data-act="check" data-fid="check"' + (chosen == null ? ' disabled' : '') + '>Check answer</button>' : '<button type="button" class="primary big" data-act="next" data-fid="next">' + (last ? 'See results' : 'Next question') + '</button>');
+  } else {
+    html += '<div class="row">' + (run.idx > 0 ? '<button type="button" data-act="prev" data-fid="prev">Previous</button>' : '') +
+      '<button type="button" class="primary big" data-act="next" data-fid="next"' + (chosen == null ? ' disabled' : '') + '>' + (last ? 'Submit answers' : 'Next question') + '</button>';
+  }
+  html += ' <button type="button" data-act="menu" data-fid="quit">Quit</button></div><p class="muted">' + (practice ? 'Practice mode: the rationale and clause appear after each answer.' : 'Assessment mode: rationales and clauses appear after submission.') + ' Keyboard: press 1 to 4 (or A to D) to choose, Enter to continue.</p>';
   return html;
 }
 
 function sprint() {
-  var run = app.run, it = run.items[run.idx], n = run.items.length;
-  var html = '<div class="row" style="justify-content:space-between"><div>Scenario ' + (run.idx + 1) + ' of ' + n + '</div><div class="timer" id="timer">' + run.secs + '</div></div>' +
+  var run = app.run, it = run.items[run.idx], n = run.items.length, show = run.mode === 'showdown';
+  var html = '<div class="row" style="justify-content:space-between"><div>' + (show ? 'Sector Showdown: ' + esc(packName(app.opts.sector)) + '. Question ' : 'Scenario ') + (run.idx + 1) + ' of ' + n + '</div><div class="timer" id="timer">' + run.secs + '</div></div>' +
     '<div class="progress" aria-hidden="true"><div style="width:' + Math.round((run.idx / n) * 100) + '%"></div></div>' +
     '<p class="q">' + esc(it.q.stem) + '</p>';
   if (!run.revealed) {
-    html += '<ol>' + it.opts.map(function (op) { return '<li>' + esc(op.text) + '</li>'; }).join('') + '</ol>' +
+    html += '<ol type="A">' + it.opts.map(function (op) { return '<li>' + esc(op.text) + '</li>'; }).join('') + '</ol>' +
+      (show ? '<p class="muted">Teams write their letter and the clause they think applies, then reveal together.</p>' : '') +
       '<div class="row"><button type="button" data-act="timer" data-fid="t-btn">' + (run.tid ? 'Pause timer' : 'Start timer') + '</button><button type="button" class="primary big" data-act="reveal" data-fid="reveal">Reveal answer and clause</button></div>';
   } else {
-    var correct = it.opts.filter(function (o) { return o.correct; })[0].text;
-    html += '<div class="panel"><b>Answer:</b> ' + esc(correct) + '<br><b>Clause:</b> ' + esc(it.q.clause) + '<br><span class="muted">' + esc(it.q.rationale) + '</span></div>' +
-      '<p><b>Award points</b> (one point for the correct answer, one bonus point to the first team with the right immediate action):</p><div class="row">' +
-      run.scores.map(function (s, i) { return '<button type="button" data-act="pt" data-team="' + i + '" data-fid="pt' + i + '">Team ' + (i + 1) + ' +1</button>'; }).join('') + '</div>' +
-      '<p><button type="button" class="primary big" data-act="next" data-fid="next">' + (run.idx + 1 >= n ? 'Final scores' : 'Next scenario') + '</button></p>';
+    var ci = 0; it.opts.forEach(function (o, i) { if (o.correct) ci = i; });
+    html += '<div class="panel"><b>Answer:</b> ' + letter(ci) + '. ' + esc(it.opts[ci].text) + '<br><b>Clause:</b> ' + esc(it.q.clauseRefs.join(', ')) + '<br><span class="muted">' + esc(it.q.rationale) + '</span></div>';
+    if (show) {
+      html += '<p><b>Award points:</b> one point per correct answer; one bonus point for the correct clause.</p><div class="row">' +
+        run.scores.map(function (s, i) { return '<button type="button" data-act="pt" data-team="' + i + '" data-fid="pt' + i + '">Team ' + (i + 1) + ' correct +1</button><button type="button" data-act="bonus" data-team="' + i + '" data-fid="bn' + i + '">Team ' + (i + 1) + ' clause +1</button>'; }).join('') + '</div>';
+    } else {
+      html += '<p><b>Award points</b> (one point for the correct answer, one bonus point to the first team with the right immediate action):</p><div class="row">' +
+        run.scores.map(function (s, i) { return '<button type="button" data-act="pt" data-team="' + i + '" data-fid="pt' + i + '">Team ' + (i + 1) + ' +1</button>'; }).join('') + '</div>';
+    }
+    html += '<p><button type="button" class="primary big" data-act="next" data-fid="next">' + (run.idx + 1 >= n ? 'Final scores' : (show ? 'Next question' : 'Next scenario')) + '</button></p>';
   }
-  html += '<h2>Scores</h2><table><thead><tr><th>Team</th><th>Points</th></tr></thead><tbody>' + run.scores.map(function (s, i) { return '<tr><td>Team ' + (i + 1) + '</td><td><b>' + s + '</b></td></tr>'; }).join('') + '</tbody></table>' +
-    '<p><button type="button" data-act="menu" data-fid="quit">Quit to menu</button></p>';
+  html += '<h2>Scores</h2>' + scoreTable(false) + '<p><button type="button" data-act="menu" data-fid="quit">Quit to menu</button></p>';
   return html;
+}
+
+function scoreTable(final) {
+  var run = app.run, show = run.mode === 'showdown';
+  var tot = run.scores.map(function (s, i) { return s + (run.bonus[i] || 0); }), max = Math.max.apply(null, tot);
+  return '<table><thead><tr><th>Team</th>' + (show ? '<th>Correct</th><th>Clause bonus</th>' : '') + '<th>Points</th></tr></thead><tbody>' + tot.map(function (t, i) {
+    return '<tr><td>Team ' + (i + 1) + (final && t === max ? ' <span class="badge ok">LEADER</span>' : '') + '</td>' + (show ? '<td>' + run.scores[i] + '</td><td>' + run.bonus[i] + '</td>' : '') + '<td><b>' + t + '</b></td></tr>';
+  }).join('') + '</tbody></table>';
+}
+
+function tally(run) {
+  var right = 0, bySector = {}, byClause = {};
+  run.items.forEach(function (it, i) {
+    var ok = run.answers[i] != null && it.opts[run.answers[i]].correct;
+    if (ok) right++;
+    var s = bySector[it.q.sectorName] = bySector[it.q.sectorName] || [0, 0]; s[1]++; if (ok) s[0]++;
+    var c = byClause[it.q.clause] = byClause[it.q.clause] || [0, 0]; c[1]++; if (ok) c[0]++;
+  });
+  return { right: right, n: run.items.length, bySector: bySector, byClause: byClause };
+}
+
+function clauseCoverage(run) {
+  var tested = {};
+  run.items.forEach(function (it) { it.q.clauseRefs.forEach(function (c) { tested[c] = 1; }); });
+  var parents = {}; Object.keys(tested).forEach(function (c) { parents[parentOf(c)] = 1; });
+  var missing = CLAUSE_PARENTS.filter(function (p) { return !parents[p]; });
+  var list = Object.keys(tested).sort(function (a, b) { var x = a.split('.').map(Number), y = b.split('.').map(Number); for (var i = 0; i < 3; i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); } return 0; });
+  return '<h2>Clause coverage</h2><p>Clauses tested: ' + esc(list.join(', ')) + '.</p><p>' + (missing.length ? 'Clause groups with no items in this set: ' + esc(missing.join(', ')) + '. Cover these in discussion or another quiz.' : 'Every clause group from 4 to 10 has at least one item in this set.') + '</p>';
+}
+
+function breakdown(title, obj) {
+  var keys = Object.keys(obj);
+  if (keys.length < 2) return '';
+  return '<h2>' + esc(title) + '</h2><div class="tablewrap"><table><thead><tr><th>' + (title.indexOf('sector') >= 0 ? 'Sector' : 'Clause') + '</th><th>Correct</th><th>Items</th><th>Percent</th></tr></thead><tbody>' +
+    keys.map(function (k) { var v = obj[k]; return '<tr><td>' + esc(k) + '</td><td>' + v[0] + '</td><td>' + v[1] + '</td><td>' + Math.round(v[0] / v[1] * 100) + '%</td></tr>'; }).join('') + '</tbody></table></div>';
+}
+
+function csvRow(cells) { return cells.map(function (c) { var s = String(c == null ? '' : c); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }).join(','); }
+function resultsCsv() {
+  var run = app.run, o = app.opts, t = tally(run), pct = Math.round(t.right / t.n * 100);
+  var head = csvRow(['name', 'role', 'date', 'instructor', 'mode', 'sector', 'score', 'items', 'percent', 'passMark', 'result', 'attempt', 'seed']);
+  var row = csvRow([o.name, ROLE_NAME[o.role], run.date, o.instructor, MODE_NAME[run.mode], run.mode === 'mixed' ? 'mixed' : run.mode === 'quick' ? o.quickSource : run.mode === 'check' || run.mode === 'module' ? 'core' : o.sector, t.right, t.n, pct, o.pass, !ASSESSED[run.mode] ? 'NOT ASSESSED' : pct >= o.pass ? 'PASS' : 'BELOW PASS MARK', app.attempts[run.key] || 1, run.seed]);
+  var items = '\n\nitem,sector,clause,answered,correct\n' + run.items.map(function (it, i) { var a = run.answers[i]; return csvRow([it.q.id, it.q.sectorName, it.q.clause, a != null ? letter(a) : '', a != null && it.opts[a].correct ? 'yes' : 'no']); }).join('\n');
+  return head + '\n' + row + items + '\n';
+}
+function download(name, text) {
+  try {
+    var blob = new Blob([text], { type: 'text/csv' }), a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  } catch (err) { /* fall back to the text box below */ }
+  var box = document.getElementById('csvbox'); if (box) { box.value = text; box.parentNode.hidden = false; }
 }
 
 function result() {
   var run = app.run, o = app.opts;
-  if (run.mode === 'sprint') {
-    var max = Math.max.apply(null, run.scores);
-    return '<h2>Clause Sprint results</h2><table><thead><tr><th>Team</th><th>Points</th></tr></thead><tbody>' + run.scores.map(function (s, i) { return '<tr><td>Team ' + (i + 1) + (s === max ? ' <span class="badge ok">LEADER</span>' : '') + '</td><td>' + s + '</td></tr>'; }).join('') + '</tbody></table>' +
-      '<p>Debrief: which requirement did each scenario relate to? Which immediate action was hardest to name?</p><p><button type="button" class="primary" data-act="menu" data-fid="again">Back to menu</button></p>';
+  if (run.mode === 'sprint' || run.mode === 'showdown') {
+    return '<h2>' + esc(MODE_NAME[run.mode]) + ' results</h2>' + scoreTable(true) +
+      (run.mode === 'showdown' ? '<p><b>Debrief:</b> Which question looked sector-specific but tested a general requirement? Which clause appeared most often? What would you do differently at your workstation?</p>' + clauseCoverage(run)
+        : '<p>Debrief: which requirement did each scenario relate to? Which immediate action was hardest to name?</p>') +
+      '<p><button type="button" class="primary" data-act="menu" data-fid="again">Back to menu</button></p>';
   }
-  var n = run.items.length, right = 0;
-  run.items.forEach(function (it, i) { if (run.answers[i] != null && it.opts[run.answers[i]].correct) right++; });
-  var pct = Math.round((right / n) * 100), pass = pct >= o.pass;
-  var html = '<h2>Results</h2><div class="panel"><p style="font-size:1.4rem"><b>' + right + ' of ' + n + ' correct (' + pct + '%)</b> ' + (run.mode === 'check' || run.mode === 'module' ? (pass ? '<span class="badge ok">PASS</span>' : '<span class="badge warn">BELOW PASS MARK</span>') + ' Pass mark ' + o.pass + '%.' : '') + '</p>' +
-    (!pass && (run.mode === 'check' || run.mode === 'module') ? '<p>Review the items below with a trainer, then retake. One retake after coaching is allowed under the standard program rules.</p>' : '') + '</div>' +
-    '<h2>Review</h2><table><thead><tr><th>#</th><th>Question</th><th>Your answer</th><th>Result</th><th>Clause</th></tr></thead><tbody>' +
+  var t = tally(run), pct = Math.round((t.right / t.n) * 100), pass = pct >= o.pass, assessed = !!ASSESSED[run.mode];
+  var att = app.attempts[run.key] || 1, canRetake = att < CFG.maxAttempts;
+  var html = '<h2>Results: ' + esc(MODE_NAME[run.mode]) + '</h2><div class="panel"><p style="font-size:1.4rem"><b>' + t.right + ' of ' + t.n + ' correct (' + pct + '%)</b> ' + (assessed ? (pass ? '<span class="badge ok">PASS</span>' : '<span class="badge warn">BELOW PASS MARK</span>') + ' Pass mark ' + o.pass + '%.' : '') + '</p>' +
+    (o.name ? '<p>Participant: ' + esc(o.name) + '. Role: ' + esc(ROLE_NAME[o.role]) + '. Date: ' + esc(run.date) + (o.instructor ? '. Instructor: ' + esc(o.instructor) : '') + '. Attempt ' + att + '.</p>' : '') +
+    (!pass && assessed ? '<p>Review the items below with a trainer, then retake. ' + (canRetake ? 'One retake after coaching is allowed.' : 'The retake allowance has been used. Arrange coaching before any further attempt.') + '</p>' : '') + '</div>' +
+    (run.mode === 'mixed' ? breakdown('Results by sector', t.bySector) : '') + (run.mode === 'mixed' || run.mode === 'capstone' ? breakdown('Results by clause', t.byClause) : '') +
+    '<h2>Review</h2><div class="tablewrap"><table><thead><tr><th>#</th><th>Question</th><th>Your answer</th><th>Result</th><th>Clause</th></tr></thead><tbody>' +
     run.items.map(function (it, i) {
       var a = run.answers[i], ok = a != null && it.opts[a].correct;
       var correct = it.opts.filter(function (x) { return x.correct; })[0].text;
-      return '<tr><td>' + (i + 1) + '</td><td>' + esc(it.q.stem) + '<br><span class="muted">Correct answer: ' + esc(correct) + '</span></td><td>' + (a != null ? esc(it.opts[a].text) : 'No answer') + '</td><td>' + (ok ? '<span class="badge ok">CORRECT</span>' : '<span class="badge warn">INCORRECT</span>') + '</td><td>' + esc(it.q.clause) + '</td></tr>';
-    }).join('') + '</tbody></table>' +
-    '<div class="row noprint"><button type="button" class="primary" data-act="menu" data-fid="again">Back to menu</button> <button type="button" data-act="print" data-fid="print">Print results</button></div>';
+      return '<tr><td>' + (i + 1) + '</td><td>' + (it.q.sector !== 'core' || run.mode === 'capstone' ? '<span class="badge sec">' + esc(it.q.sectorName) + '</span> ' : '') + esc(it.q.stem) + '<br><span class="muted">Correct answer: ' + esc(correct) + '</span><br><span class="muted">Why: ' + esc(it.q.rationale) + '</span></td><td>' + (a != null ? esc(it.opts[a].text) : 'No answer') + '</td><td>' + (ok ? '<span class="badge ok">CORRECT</span>' : '<span class="badge warn">INCORRECT</span>') + '</td><td>' + esc(it.q.clauseRefs.join(', ')) + '</td></tr>';
+    }).join('') + '</tbody></table></div>' + clauseCoverage(run) +
+    '<div class="row noprint"><button type="button" class="primary" data-act="menu" data-fid="again">Back to menu</button> <button type="button" data-act="csv" data-fid="csv">Export results (CSV)</button> <button type="button" data-act="print" data-fid="print">Print results</button>' +
+    (assessed && !pass && canRetake ? ' <button type="button" data-act="retake" data-fid="retake">Retake after coaching (new order)</button>' : '') + '</div>' +
+    '<div class="noprint" hidden><label for="csvbox">CSV text (copy if the download was blocked)</label><textarea id="csvbox" readonly></textarea></div>';
   return html;
 }
 
 function advance() {
   var run = app.run;
   if (run.tid) { clearInterval(run.tid); run.tid = null; }
-  run.revealed = false; run.secs = 30;
-  if (run.idx + 1 >= run.items.length) { app.screen = 'result'; } else { run.idx++; }
+  run.revealed = false; run.secs = run.mode === 'showdown' ? CFG.showdownSeconds : CFG.sprintSeconds;
+  if (run.idx + 1 >= run.items.length) { stopTimers(); app.screen = 'result'; app.attempts[run.key] = app.attempts[run.key] || 1; } else { run.idx++; }
 }
 
 document.addEventListener('click', function (e) {
@@ -193,11 +366,15 @@ document.addEventListener('click', function (e) {
   if (t.id === 'btn-size') { var on = document.documentElement.style.getPropertyValue('--font') === '24px'; document.documentElement.style.setProperty('--font', on ? '18px' : '24px'); t.setAttribute('aria-pressed', on ? 'false' : 'true'); return; }
   if (t.id === 'btn-theme') { var cur = document.documentElement.getAttribute('data-theme'); var dark = cur ? cur === 'dark' : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark'); return; }
   if (!act) return;
-  if (act === 'menu') { if (run && run.tid) clearInterval(run.tid); app.screen = 'menu'; }
+  if (act === 'menu') { stopTimers(); app.screen = 'menu'; }
   else if (act === 'check') { run.revealed = true; }
   else if (act === 'next') { advance(); }
+  else if (act === 'prev') { if (run.idx > 0) run.idx--; }
   else if (act === 'reveal') { if (run.tid) { clearInterval(run.tid); run.tid = null; } run.revealed = true; }
   else if (act === 'pt') { run.scores[parseInt(t.getAttribute('data-team'), 10)]++; }
+  else if (act === 'bonus') { run.bonus[parseInt(t.getAttribute('data-team'), 10)]++; }
+  else if (act === 'retake') { var key = run.key, n = (app.attempts[key] || 1) + 1; app.opts.seed = app.opts.seed + 7919; start(run.mode); app.attempts[key] = n; return; }
+  else if (act === 'csv') { download('quiz-result-' + run.mode + '-' + run.date + '.csv', resultsCsv()); live('Results exported.'); return; }
   else if (act === 'timer') {
     if (run.tid) { clearInterval(run.tid); run.tid = null; }
     else run.tid = setInterval(function () { run.secs = Math.max(0, run.secs - 1); var el = document.getElementById('timer'); if (el) el.textContent = run.secs; if (run.secs === 0) { clearInterval(run.tid); run.tid = null; live('Time is up.'); render(); } }, 1000);
@@ -211,7 +388,9 @@ document.addEventListener('change', function (e) {
   if (el.hasAttribute('data-opt')) {
     var k = el.getAttribute('data-opt'), v = el.value;
     app.opts[k] = ['pass', 'seed', 'teams'].indexOf(k) >= 0 ? (parseInt(v, 10) || app.opts[k]) : v;
-    if (k === 'teams') app.opts.teams = Math.max(2, Math.min(6, app.opts.teams));
+    if (k === 'teams') { app.opts.teams = Math.max(2, Math.min(6, app.opts.teams)); render(); }
+    if (k === 'pass') app.opts.pass = Math.max(1, Math.min(100, app.opts.pass));
+    if (k === 'name') app.attempts = {}; // attempt count is per participant
   } else if (el.name === 'opt' && app.run && !app.run.revealed) {
     app.run.answers[app.run.idx] = parseInt(el.value, 10); render();
   }
@@ -220,13 +399,13 @@ document.addEventListener('change', function (e) {
 document.addEventListener('keydown', function (e) {
   if (app.screen !== 'quiz' || !app.run) return;
   if (/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName) && e.target.type !== 'radio') return;
-  var run = app.run;
-  if (!run.revealed && e.key >= '1' && e.key <= '4') {
-    var i = parseInt(e.key, 10) - 1;
+  var run = app.run, practice = run.feedback === 'practice', key = e.key.length === 1 ? e.key.toUpperCase() : e.key;
+  var i = key >= '1' && key <= '4' ? parseInt(key, 10) - 1 : 'ABCD'.indexOf(key);
+  if (!run.revealed && i >= 0 && key.length === 1) {
     if (i < run.items[run.idx].opts.length) { run.answers[run.idx] = i; render(); e.preventDefault(); }
   } else if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
-    if (!run.revealed && run.answers[run.idx] != null) { run.revealed = true; render(); e.preventDefault(); }
-    else if (run.revealed) { advance(); render(); e.preventDefault(); }
+    if (practice && !run.revealed && run.answers[run.idx] != null) { run.revealed = true; render(); e.preventDefault(); }
+    else if ((practice && run.revealed) || (!practice && run.answers[run.idx] != null)) { advance(); render(); e.preventDefault(); }
   }
 });
 
