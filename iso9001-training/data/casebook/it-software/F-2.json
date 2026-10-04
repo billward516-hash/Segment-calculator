@@ -1,0 +1,325 @@
+{
+  "id": "ITS-F-02",
+  "pack": "it-software",
+  "type": "F",
+  "title": "The Launch Date: Speak-Up Variant",
+  "edition": "2026",
+  "verifyStatus2015": "unverified",
+  "variantOf": "ITS-F-01",
+  "brief": "It is the morning of a client launch at Meridian Digital. Release candidate {{lot}} of the booking service is due to go live at 6 p.m. The regression suite failed 3 tests overnight. A tester reports that the delivery manager asked for the failing tests to be marked as known issues so the release gate passes. This is a 2026 variant on quality culture and speaking up. It is preliminary and excluded from badge scoring and the capstone until verified. You have 12 visit points to gather what you need and make a decision you can justify.",
+  "visitPoints": 12,
+  "goal": "Decision quality, including speaking up",
+  "branches": [
+    "Judgment"
+  ],
+  "tokens": {
+    "lot": [
+      "RC-4.8.1",
+      "RC-4.9.0",
+      "RC-4.9.2"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Release pipeline",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Release gate record for {{lot}}",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Test environment configuration check",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "Build dashboard",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Delivery manager",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Delivery manager: what was asked of the tester",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Development team",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Developers: what they would do if a test failed on launch day",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Review",
+          "label": "Retrospective notes and a word with the team",
+          "evidenceId": "E5"
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Quality lead",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Release procedure",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Defect tracker",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Head of delivery's office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Latest management review minutes",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Recognition notes",
+          "evidenceId": "E8"
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Team area",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Team board",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Release note draft history",
+          "evidenceId": "E10"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Release gate record for {{lot}}: 3 of 412 regression tests failed at 02:10; at 08:05 the same 3 tests were set to \"skipped, known issue\" with no defect ticket, and the gate shows green.",
+      "clause": "8.6",
+      "confidence": "Unclear",
+      "whyItMatters": "A release goes ahead only when the planned checks show the requirements are met, or when an authorized person approves with the customer where needed. Skipping failed tests with no record bypasses that. This 2015 requirement is reported to continue in intent; any change in the 2026 wording is unclear.",
+      "missedExplanation": "Compare the test results over time, not only the final gate status.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "The test environment matches production configuration baseline 7.2, checked and recorded at 07:00.",
+      "clause": "8.5.1",
+      "confidence": "Unclear",
+      "whyItMatters": "The tests ran in a controlled environment, so the failures cannot be set aside as an environment fault without investigation.",
+      "missedExplanation": "Conforming evidence: the data behind the result is sound.",
+      "falseFindingNote": "The environment is controlled. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Delivery manager: \"Mark them as known issues. The client has announced the date and we are not moving it.\" The manager says this was done for 2 earlier releases.",
+      "clause": "5.1.1",
+      "confidence": "High",
+      "whyItMatters": "The 2026 edition is reported to add a requirement for top management to promote and demonstrate a quality culture and ethical behavior (5.1.1). Pressure from a leader to change a result or skip a check works against it. Acting on a failed check is already a 2015 requirement.",
+      "missedExplanation": "Ask the person who applies the pressure what they asked for, and compare it with the release rule.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "observation",
+      "text": "Developer interviews: 2 of 3 developers asked did not know they could block a release, or whom to tell. Onboarding record ON-5 covers tools and coding rules but not raising concerns.",
+      "clause": "7.3",
+      "confidence": "High",
+      "whyItMatters": "Awareness is reported to extend to the organization's quality culture and ethical behavior (7.3). People need to know the route for raising a concern and that they may use it.",
+      "missedExplanation": "Ask frontline staff what they would do, and whom they would tell, if a check failed near a deadline.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "observation",
+      "text": "The retrospective notes show 0 quality concerns raised in 10 sprints. A developer says a colleague who challenged a release in the spring was moved off the client account.",
+      "clause": "7.1.4",
+      "confidence": "Medium",
+      "whyItMatters": "A note on the environment for operation of processes (7.1.4) is reported to recognize that culture can influence operating conditions. Silence after an earlier report was met badly is a sign that the environment discourages reporting. Recorded as an observation because the 2026 wording is unverified.",
+      "missedExplanation": "Compare the concern or near-miss log with what staff say in interview. The gap is the evidence.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Defect tracker: no ticket for the 3 failing tests. The last release-blocking ticket, DEF-311, is 6 weeks old.",
+      "clause": "8.7",
+      "confidence": "Unclear",
+      "unlockedBy": [
+        "E7"
+      ],
+      "whyItMatters": "A failed test that affects release needs a recorded defect so it can be assessed, fixed, or accepted by the right person. A missing ticket removes it from the system.",
+      "missedExplanation": "The procedure names the log. Follow the trail from the procedure to the record.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Release procedure RP-2 says a failed regression test blocks release unless the product owner approves a documented exception with the client's agreement. The product owner is available today.",
+      "clause": "8.6",
+      "confidence": "Unclear",
+      "whyItMatters": "The organization has a defined route, with named authority, for this exact situation.",
+      "missedExplanation": "Conforming evidence: a sound route exists. The risk is in bypassing it.",
+      "falseFindingNote": "The procedure is sound and the named person is available. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Recognition note RN-8: 1 month ago the head of delivery thanked a tester at the all-hands meeting for stopping a release when data migration counts did not match.",
+      "clause": "5.1.1",
+      "confidence": "High",
+      "whyItMatters": "Thanking a person who stopped work, and recording the outcome, shows leaders supporting the behavior that 5.1.1 is reported to expect.",
+      "missedExplanation": "Conforming evidence: a sign of the culture the organization wants.",
+      "falseFindingNote": "A recognized stop-work event is good practice, not an issue.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "The team board shows a countdown to the 6 p.m. launch.",
+      "clause": "7.4",
+      "confidence": "Unclear",
+      "whyItMatters": "A plan shown on a board is communication, not a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The board shows the plan. A deadline on display is not evidence of a breach.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "The release note draft has a version number corrected, with the change visible in the document history and the editor's name.",
+      "clause": "7.5.3",
+      "confidence": "Unclear",
+      "whyItMatters": "A correction that leaves the original legible, with initials and date, protects the integrity of the record.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "A single-line correction with initials and date is good record practice. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "observation",
+      "text": "Management review minutes of 10 September list 6 delivery and uptime measures and no item on concerns raised or how they were handled.",
+      "clause": "9.3",
+      "confidence": "Medium",
+      "whyItMatters": "Leaders are reported to need to demonstrate a quality culture with evidence (5.1.1). A review meeting is one place to show it. This is an observation, not a nonconformity: commentary says no separate culture program is required, so avoid audit criteria the standard may not state.",
+      "missedExplanation": "Read what leaders review. What is never discussed is rarely managed.",
+      "plantedPool": true
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "confidence": "High",
+      "prompt": "The delivery manager wants the gate left green. What do you do?",
+      "options": [
+        "Ask for the release gate to be held, restore the 3 failed results, raise defect tickets, and ask the product owner to decide today with the client whether to fix, switch off the affected feature, or move the time",
+        "Go live; 3 of 412 is a small share",
+        "Delay the launch by a month",
+        "Leave it to the delivery manager"
+      ],
+      "bestIndex": 0,
+      "rationale": "The product owner and client can decide today on the facts. Restoring the true results and speaking up through the named route is the behavior that 5.1.1 is reported to ask leaders to make easy.",
+      "optionFeedback": [
+        "This is proportionate, uses the named authority, and keeps the launch possible.",
+        "A small share of failures can still affect the client; it needs a decision, not a hidden result.",
+        "A month is disproportionate before the failures are assessed.",
+        "Staying silent leaves a known bypass unaddressed."
+      ]
+    },
+    {
+      "id": "D2",
+      "confidence": "High",
+      "prompt": "The tester asks whether reporting this will affect their review. What should the head of delivery do?",
+      "options": [
+        "Tell the tester to raise such matters only in retrospectives",
+        "Wait until after the launch to discuss it",
+        "Thank the tester, confirm that reporting was right, and review the practice of skipping failed tests as a system issue with the team",
+        "Move the tester off the account"
+      ],
+      "bestIndex": 2,
+      "rationale": "Leaders are reported to need to promote and demonstrate a quality culture (5.1.1). Supporting the reporter and changing the practice is the evidence an auditor would look for."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold the release gate for {{lot}} and restore the 3 failed results"
+    ],
+    "correction": [
+      "Raise defect tickets, fix or switch off the affected feature, and re-run the regression suite before release"
+    ],
+    "cause": [
+      "Launch-date pressure was allowed to override the release gate, and team members were not made aware of, or supported in using, the route for raising concerns"
+    ],
+    "corrective": [
+      "Leaders state and show that a failed gate stops a release; add raising concerns to onboarding; require a linked defect ticket before any test can be skipped"
+    ],
+    "effectiveness": [
+      "For the next 6 releases, check that no test was skipped without a ticket and approval, and that concerns raised were logged and answered"
+    ]
+  },
+  "debriefText": {
+    "found": "You kept the true result, used the defined route, and treated the pressure as a system condition rather than a personal failing.",
+    "missed": "In a culture case, compare what the records say with what people say in interview. Leaders' responses to earlier reports are part of the evidence.",
+    "falseFinding": "A deadline on a board and a properly corrected record are normal. They show planning and good record practice, not a weak culture."
+  },
+  "bridge2026": [
+    {
+      "text": "Top management is reported to be required to promote and demonstrate a quality culture and ethical behavior. In this case, look at how leaders respond when a test fails on launch day.",
+      "confidence": "High",
+      "clause": "5.1.1"
+    },
+    {
+      "text": "Awareness is reported to extend to the organization's quality culture and ethical behavior, so staff should know how to raise a concern and that they may do so.",
+      "confidence": "High",
+      "clause": "7.3"
+    },
+    {
+      "text": "A note on the environment for operation of processes is reported to recognize that culture and ethical behavior can influence operating conditions.",
+      "confidence": "Medium",
+      "clause": "7.1.4"
+    },
+    {
+      "text": "An auditor checking culture is likely to examine decisions, records of concerns raised, and how leaders responded, rather than attitudes or a separate culture program.",
+      "confidence": "Best estimate",
+      "reasoning": "Sources describe culture as shown through behavior and evidence, and commentary says no separate culture program is required.",
+      "check": "Read 5.1.1, its note, and the Annex A guidance on culture in the purchased 2026 text, and ask the certification body how it will audit culture.",
+      "clause": "5.1.1"
+    },
+    {
+      "text": "Release of products and services is reported as carried forward in intent from 2015; any change in wording is unclear.",
+      "confidence": "Unclear",
+      "clause": "8.6"
+    }
+  ]
+}

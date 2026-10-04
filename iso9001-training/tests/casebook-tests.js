@@ -27,11 +27,14 @@ check('sector codes are unique three-letter codes', new Set(catalog.sectors.map(
 const allCases = [];
 catalog.sectors.forEach(s => {
   const cs = catalog.cases[s.pack];
-  const types = cs.map(c => c.type).sort().join('');
-  check(s.pack + ': six cases, one per type A to F', types === 'ABCDEF', types);
+  const types = cs.filter(c => c.edition === '2015').map(c => c.type).sort().join('');
+  check(s.pack + ': six core (2015) cases, one per type A to F', types === 'ABCDEF', types);
+  const v26 = cs.filter(c => c.edition === '2026');
+  check(s.pack + ': one 2026 Type F variant that varies the sector\'s Type F case', v26.length === 1 && v26[0].type === 'F' && v26[0].variantOf === s.code + '-F-01' && v26[0].id === s.code + '-F-02', v26.map(c => c.id).join(','));
   cs.forEach(c => allCases.push({ c, s }));
 });
-check('48 cases in total', allCases.length === 48, String(allCases.length));
+const coreCases = allCases.filter(x => x.c.edition === '2015'), cases26 = allCases.filter(x => x.c.edition === '2026');
+check('48 core cases and 8 2026 variants in total', coreCases.length === 48 && cases26.length === 8, coreCases.length + '+' + cases26.length);
 check('schema file exists and names the required fields', exists('data/casebook/case.schema.json') && JSON.parse(read('data/casebook/case.schema.json')).required.indexOf('verifyStatus2015') >= 0);
 const clauseIds = new Set(JSON.parse(read('data/clause-map.json')).clauses.map(c => c.id));
 allCases.forEach(({ c, s }) => {
@@ -54,7 +57,7 @@ const titles = {
   'logistics': ['Dock Walk', 'Pallet Trail', 'The Weekly Mislabel', 'The Layout Change', 'The Wrong Item', 'The Waiting Driver'],
   'professional-services': ['Office Walk', 'Engagement File Trail', 'The Repeated Drafting Error', 'The Model Update', 'The Client Report Error', 'The Deadline Draft']
 };
-PACKS.forEach(p => check(p + ': case titles follow the D.7.2 catalog', JSON.stringify((catalog.cases[p] || []).slice().sort((a, b) => a.type < b.type ? -1 : 1).map(c => c.title)) === JSON.stringify(titles[p])));
+PACKS.forEach(p => check(p + ': case titles follow the D.7.2 catalog', JSON.stringify((catalog.cases[p] || []).filter(c => c.edition === '2015').sort((a, b) => a.type < b.type ? -1 : 1).map(c => c.title)) === JSON.stringify(titles[p])));
 
 /* ---------- validator catches problems ---------- */
 const ref = catalog.cases['discrete-manufacturing'].find(c => c.id === 'MFG-B-01');
@@ -259,6 +262,107 @@ check('the five measures are shown after every case', measuresAlways);
   check('a mistyped or altered results code is rejected', !!CB.decodeResult(tampered).error && !!CB.decodeResult('nonsense').error);
 }
 
+/* ---------- 2026 Type F variants (Appendix D.7.2; Section 0.1) ---------- */
+const CAUTION = 'CAUTION: PRELIMINARY 2026 INFORMATION. This section describes the 2026 edition of ISO 9001 using the best available secondary commentary and informed estimates. It has not been verified against the published standard and may contain errors, omissions, or incorrect clause references. Do not use it as a substitute for the standard in audit preparation, certification decisions, procedure revisions, or training records. Always consult the published ISO 9001:2026 text and your certification body.';
+const clauseMapRows = {}; JSON.parse(read('data/clause-map.json')).clauses.forEach(c => { clauseMapRows[c.id] = c; });
+check('the catalog carries the exact Section 0.1 caution', catalog.caution2026 === CAUTION);
+cases26.forEach(({ c, s }) => {
+  const base = catalog.cases[s.pack].find(x => x.id === c.variantOf);
+  check(c.id + ': title names the 2015 case it varies', base && c.title.indexOf(base.title) === 0, c.title);
+  check(c.id + ': centered on quality culture and speaking up (5.1.1 and 7.3 issues, two decisions)', c.evidence.some(e => e.plantedPool && /\b5\.1\.1\b/.test(e.clause)) && c.evidence.some(e => e.plantedPool && /\b7\.3\b/.test(e.clause)) && c.decisions.length >= 2);
+  const stmts = c.evidence.map(e => ['card ' + e.id, e]).concat(c.decisions.map(d => ['decision ' + d.id, d]), (c.bridge2026 || []).map((b, i) => ['bridge ' + i, b]));
+  const unlabeled = stmts.filter(([, o]) => CB.CONFIDENCE.indexOf(o.confidence) < 0).map(x => x[0]);
+  check(c.id + ': every 2026 statement (card, decision, bridge note) carries a confidence label', unlabeled.length === 0, unlabeled.join(', '));
+  const be = stmts.filter(([, o]) => o.confidence === 'Best estimate');
+  check(c.id + ': every best estimate states its reasoning and what to check', be.length >= 1 && be.every(([, o]) => o.reasoning && o.check));
+  const mism = c.evidence.filter(e => !e.clause.split(/,\s*/).some(cl => clauseMapRows[cl] && clauseMapRows[cl].confidence.indexOf(e.confidence) >= 0)).map(e => e.id + ' ' + e.clause + ' ' + e.confidence);
+  check(c.id + ': card confidence labels agree with the clause map for the cards\' clauses', mism.length === 0, mism.join(' | '));
+  check(c.id + ': bridge notes use clause tags from the clause map and paraphrase (no quotation marks)', c.bridge2026.length >= 3 && c.bridge2026.every(b => b.clause.split(/,\s*/).every(x => clauseIds.has(x)) && !/["\u201c\u201d]/.test(b.text)));
+  check(c.id + ': no lettered Clause 5 sub-items and no "shall"', !CB.LETTERED_CLAUSE5.test(JSON.stringify(c)) && !/\bshall\b/i.test(JSON.stringify(c)));
+  check(c.id + ': brief states that the variant is preliminary and excluded from badge scoring', /preliminary/.test(c.brief) && /excluded from badge scoring/.test(c.brief));
+  const g = CB.generate(c, 77, s);
+  check(c.id + ': generated case keeps edition 2026, bridge notes, and confidence on every card and decision', g.edition === '2026' && g.bridge2026.length === c.bridge2026.length && g.included.every(id => g.evidence[id].confidence) && g.decisions.every(d => d.confidence));
+  check(c.id + ': case code carries the variant number (<CODE>-F2-<SEED>)', g.code === s.code + '-F2-' + CB.seedText(77) && CB.buildFromCode(g.code, catalog).gen.id === c.id);
+});
+check('lettered Clause 5 pattern detects "5.1.1 a)" and "5.3(b)"', CB.LETTERED_CLAUSE5.test('see 5.1.1 a)') && CB.LETTERED_CLAUSE5.test('5.3(b)') && !CB.LETTERED_CLAUSE5.test('5.1.1 and 7.3'));
+{
+  const v = JSON.parse(JSON.stringify(cases26[0].c));
+  delete v.evidence[0].confidence; v.decisions[0].confidence = 'Probably'; v.bridge2026[3].reasoning = '';
+  const errs = CB.validateCase(v, { clauseIds: [...clauseIds] });
+  check('validator rejects a 2026 variant with a missing or unknown confidence label, or a best estimate without reasoning', errs.some(e => /E1 needs a confidence/.test(e)) && errs.some(e => /decision D1 needs a confidence/.test(e)) && errs.some(e => /best estimate/.test(e)), errs.join(' | '));
+  const v2 = JSON.parse(JSON.stringify(cases26[0].c)); v2.bridge2026[0].text += ' See 5.1.1 a) for detail.';
+  check('validator rejects a lettered Clause 5 citation', CB.validateCase(v2, { clauseIds: [...clauseIds] }).some(e => /lettered/.test(e)));
+  const core = JSON.parse(JSON.stringify(coreCases[0].c)); core.bridge2026 = cases26[0].c.bridge2026;
+  check('validator keeps 2026 content out of core cases', CB.validateCase(core, { clauseIds: [...clauseIds] }).some(e => /2015 case must not carry/.test(e)));
+}
+{
+  let noVariant = true;
+  catalog.sectors.forEach(s => { for (let seed = 1; seed < 400; seed += 7) { const g = CB.generateCapstone(catalog.cases[s.pack], seed, s); if (g.components.some(x => /-F-02$/.test(x.id)) || g.edition !== '2015') noVariant = false; } });
+  check('2026 variants are never used in a capstone', noVariant);
+}
+{
+  const tpl = read('games/casebook/template.html');
+  check('badge counts only 2015 attempts and 2015 cases', /a\.edition !== '2026'/.test(/function badgeStatus[\s\S]*?\n}/.exec(tpl)[0]) && /c\.edition === '2015'/.test(/function badgeStatus[\s\S]*?\n}/.exec(tpl)[0]));
+  check('skill map, recommendation, and Compare use only core cases and attempts', /CB\.skillMap\(attempts2015\(pack\)\)/.test(tpl) && /CB\.skillMap\(attempts2015\(g\.pack\)\)/.test(tpl) && /function issuesFor[\s\S]*?cases2015\(pack\)/.test(tpl));
+  check('the caution box is drawn on every screen that shows 2026 content (track section, case folder, Case Room, debrief exports)', /cs26\.length[\s\S]{0,200}cautionBox\(\)/.test(tpl) && /var h = g\.edition === '2026' \? cautionBox\(\)/.test(tpl) && /R\.gen\.edition === '2026'\) \? cautionBox\(\)/.test(tpl) && /DATA\.caution2026, '2026 variant/.test(tpl));
+  check('the old paraphrased caution has been replaced by the exact caution', tpl.indexOf('This case reflects unverified commentary') < 0 && /DATA\.caution2026/.test(/function cautionBox[\s\S]*?\n}/.exec(tpl)[0]));
+  const rrt = read('games/casebook/results-reader.template.html');
+  check('the Results Reader marks 2026 rows and shows the caution above them', /has26 \? cautionBox\(\)/.test(rrt) && /2026 variant/.test(rrt));
+}
+
+/* ---------- placement check (Appendix D.1) ---------- */
+{
+  const pl = catalog.placement;
+  check('placement check: eight items, valid answers, clause tags in the clause map, core module numbers', pl && pl.items.length === 8 && pl.items.every(it => it.options.length === 4 && it.answer >= 0 && it.answer < 4 && it.clause.split(/,\s*/).every(x => clauseIds.has(x)) && it.module >= 0 && it.module <= 12 && it.moduleTitle && it.rationale));
+  check('placement check: pass mark 80 percent and a stated pass rule', pl.meta.passMark === 80 && /80 percent/.test(pl.meta.passRule) && /7 of 8/.test(pl.meta.passRule));
+  const pos = [0, 0, 0, 0]; pl.items.forEach(it => pos[it.answer]++);
+  check('placement check: answer positions are spread', Math.max.apply(null, pos) <= 3, pos.join('/'));
+  check('placement check: covers at least six different core modules', new Set(pl.items.map(it => it.module)).size >= 6);
+  const tp = textProblems('placement.json', JSON.stringify(pl));
+  check('placement check: no banned phrases, unsafe instructions, "shall", or 2026 content', tp.length === 0 && !/2026/.test(JSON.stringify(pl.items)) && !CB.LETTERED_CLAUSE5.test(JSON.stringify(pl)), tp.join(' | '));
+  const errs = []; const { loadPlacement } = require('../tools/build-casebook.js');
+  check('placement loader reports no problems', loadPlacement([...clauseIds], errs) && errs.length === 0, errs.join(' | '));
+  // Pass rule
+  check('pass rule: 7 of 8 meets an 80 percent pass mark; 6 of 8 does not', CB.placementPassed(7, 8, 80) && !CB.placementPassed(6, 8, 80) && CB.placementNeeded(8, 80) === 7);
+  check('pass rule follows the configured pass mark (75 percent needs 6 of 8; 100 percent needs 8)', CB.placementPassed(6, 8, 75) && !CB.placementPassed(7, 8, 100) && CB.placementNeeded(8, 75) === 6 && CB.placementNeeded(8, 100) === 8);
+  // Sessions are seeded
+  const a = CB.placementSession(pl.items, 1234), b = CB.placementSession(pl.items, 1234), c = CB.placementSession(pl.items, 4321);
+  check('the same placement seed gives the same question and option order', JSON.stringify([a.order, a.optOrder]) === JSON.stringify([b.order, b.optOrder]) && a.code === 'PLC-P-' + CB.seedText(1234));
+  check('a different placement seed gives a different order', JSON.stringify([a.order, a.optOrder]) !== JSON.stringify([c.order, c.optOrder]));
+  check('every question appears once and every option order is a permutation', a.order.slice().sort().join() === '0,1,2,3,4,5,6,7' && Object.keys(a.optOrder).every(k => a.optOrder[k].slice().sort().join() === '0,1,2,3'));
+  // Scoring
+  pl.items.forEach((it, i) => CB.placementAnswer(a, i, it.answer));
+  const full = CB.placementScore(a, pl.meta.passMark);
+  check('all correct: 8 of 8, passed, nothing to review', full.correct === 8 && full.passed && full.modulesToReview.length === 0 && full.missedMask === 0);
+  CB.placementAnswer(a, 0, (pl.items[0].answer + 1) % 4);
+  const seven = CB.placementScore(a, pl.meta.passMark);
+  check('one wrong: 7 of 8 passes and names the module to review', seven.correct === 7 && seven.passed && seven.modulesToReview.join() === String(pl.items[0].module) && seven.missedMask === 1);
+  CB.placementAnswer(a, 7, (pl.items[7].answer + 1) % 4);
+  const six = CB.placementScore(a, pl.meta.passMark);
+  check('two wrong: 6 of 8 is below the pass mark and advises review of both modules', six.correct === 6 && !six.passed && six.modulesToReview.length === new Set([pl.items[0].module, pl.items[7].module]).size);
+  const none = CB.placementScore(CB.placementSession(pl.items, 9), pl.meta.passMark);
+  check('an unanswered check scores 0 and advises review (never blocks)', none.correct === 0 && !none.passed && none.answered === 0);
+  // Results code
+  let ok = true;
+  const rng = QF.mulberry32(5);
+  for (let i = 0; i < 200; i++) {
+    const correct = Math.floor(rng() * 9), mask = Math.floor(rng() * 256), seed = 1 + Math.floor(rng() * 1048574), pm = [60, 75, 80, 100][i % 4];
+    const date = new Date(2026, i % 12, 1 + (i % 28)); const learner = i % 3 ? 'L' + i : '';
+    const code = CB.encodePlacement({ seed, correct, total: 8, passMark: pm, missedMask: mask, date, learner });
+    const d = CB.decodeResult(code);
+    if (d.error || !d.placement || d.correct !== correct || d.total !== 8 || d.passMark !== pm || d.missedMask !== mask || d.learner !== learner || d.passed !== CB.placementPassed(correct, 8, pm) || d.code !== 'PLC-P-' + CB.seedText(seed)) { ok = false; break; }
+    if (d.date !== date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0')) { ok = false; break; }
+  }
+  check('placement results codes round-trip: score, pass mark, outcome, missed items, date, learner', ok);
+  const pc = CB.encodePlacement({ seed: 1234, correct: 7, total: 8, passMark: 80, missedMask: 1, date: new Date(2026, 9, 4) });
+  check('a mistyped placement code is rejected', !!CB.decodeResult(pc.replace(/\.(\w)(\w)/, (m, x, y) => '.' + x + (y === '7' ? '6' : '7'))).error);
+  check('a placement code is recognized but is not opened as a case', CB.parseCode('PLC-P-16J0').type === 'P' && CB.buildFromCode('PLC-P-16J0', catalog).placement === true);
+  check('case results codes still decode alongside placement codes', !CB.decodeResult(CB.encodeResult({ code: 'MFG-F2-16J0', measures: { coverage: 1, precision: 1, mapping: 1, statement: 4, action: 1, decision: 1 }, date: new Date(), foundMask: 3, plantedCount: 4 })).error);
+  const tpl = read('games/casebook/template.html');
+  check('the case shelf offers the placement check as optional and advisory, with skip', /placementSheet\(\)/.test(tpl) && /nothing is locked/.test(tpl) && /Skip the check/.test(tpl) && /PL\.meta\.passRule/.test(tpl));
+  check('the track record export includes the placement result', /PLACEMENT CHECK \(optional; advice only\)/.test(tpl));
+}
+
 /* ---------- built pages ---------- */
 const built = exists('games/casebook/index.html') && exists('games/casebook/results-reader.html');
 check('both pages are built', built);
@@ -276,6 +380,10 @@ if (built) {
   check('codes decode in the Results Reader page engine', !dd.error && dd.measures.statement === 2.5 && dd.learner === 'A. Example');
   const rdata = JSON.parse(dataBlock(rr));
   check('the Results Reader can rebuild the case from a code for the tally', !!ctx.CB.buildFromCode('ITS-B-2M9Q', rdata).gen);
+  check('the Results Reader rebuilds a 2026 variant case and knows its edition', ctx.CB.buildFromCode('ITS-F2-2M9Q', rdata).gen.edition === '2026');
+  const pdd = ctx.CB.decodeResult(CB.encodePlacement({ seed: 77, correct: 6, total: 8, passMark: 80, missedMask: 129, date: new Date(2026, 9, 4), learner: 'B. Example' }));
+  check('placement codes decode in the Results Reader page engine with the pass rule applied', pdd.placement && pdd.correct === 6 && pdd.passed === false && pdd.learner === 'B. Example');
+  check('both pages embed the exact Section 0.1 caution and the placement items', JSON.parse(dataBlock(idx)).caution2026 === CAUTION && rdata.caution2026 === CAUTION && rdata.placement.items.length === 8);
   check('the Results Reader describes codes as a training aid, not an assessment record', /training aid, not an assessment record/.test(rr) && /instructor/.test(rr));
   check('the badge requires instructor review (page text)', /recorded only after an instructor reviews/i.test(idx) && /No score decides the badge on its own|No measure decides the badge on its own/.test(idx + rr));
 
@@ -344,6 +452,11 @@ if (exists(ig)) {
   check('instructor chapter covers Case Room facilitation, rubrics, results codes, and badge review', ['Case Room', 'rubric', 'Results Reader', 'badge', 'Sector Practitioner', '60 minutes'].every(w => t.toLowerCase().indexOf(w.toLowerCase()) >= 0));
   const tp = textProblems(ig, t);
   check('instructor chapter: no banned phrases or unsafe instructions', tp.length === 0, tp.join(' | '));
+  check('instructor chapter explains the placement check, its pass rule, codes, and Results Reader display', /## 1a\. Placement check/.test(t) && /7 of 8/.test(t) && /PLC-P-/.test(t) && /Placement checks/.test(t));
+  const sec26 = (/## 2a\. 2026 variant cases[\s\S]*?\n## /.exec(t) || [''])[0];
+  check('instructor chapter 2026 section opens with the exact Section 0.1 caution and covers confidence labels and badge exclusion', sec26.replace(/\s+/g, ' ').replace(/[>*]/g, '').indexOf(CAUTION) >= 0 && /^## 2a[^\n]*\n\n> \*\*CAUTION/.test(sec26) && /Confidence labels/.test(sec26) && /Excluded from the badge and the capstone/.test(sec26));
+  const ex = /PLC-P-[0-9A-Z]{4}\.[0-9A-Z]{10}\.[0-9A-Z]{2} ~ [^`]+/.exec(t);
+  check('the example placement code in the chapter decodes', ex && !CB.decodeResult(ex[0]).error);
 }
 
 console.log('\n' + passed + ' passed, ' + failed + ' failed' + (failed ? '' : '. All casebook tests passed.'));

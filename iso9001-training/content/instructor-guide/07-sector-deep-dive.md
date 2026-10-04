@@ -14,10 +14,25 @@ This chapter supports instructors who run the optional Industry Deep-Dive Track 
 | Sector capstone | Sector Casebook, "Open a capstone" | 30 minutes |
 | Reflection | Sector Casebook, three questions | 10 minutes |
 | Results Reader | `games/casebook/results-reader.html` | As needed |
+| Placement check (optional) | Sector Casebook, case shelf, "Take the placement check" | About 5 minutes |
+| 2026 variant case (optional, preliminary) | Sector Casebook, below the six cases in each sector | About 15 minutes |
 
 Nothing is locked. A learner may begin at the casebook and read the primer afterward. The core modules are recommended first. The eight sectors match the industry packs: discrete manufacturing (case code MFG), process, food, and consumer goods (FOD), electronics and semiconductor (ELX), construction and engineering projects (CON), IT and software services (ITS), healthcare and clinical services, management system topics only (HCS), logistics, warehousing, and distribution (LOG), and professional, financial, and education services (PRO).
 
 **Scope limit.** The track teaches the quality management system only. It gives no clinical, food safety, safety, legal, or security instructions. In healthcare cases the investigator never makes a clinical decision; the correct answer is always to make sure the organization's own process is followed and the named person decides. If a learner raises a clinical, safety, or legal question, record it and refer it to the responsible function.
+
+## 1a. Placement check (optional)
+
+The placement check is for learners who skip the general instruction (core Modules 0 to 12) and go straight to the track. It has eight sector-neutral questions on the core modules (context, leadership, planning of changes, measuring resources, document control, traceability, nonconforming output, and corrective action). It uses the ISO 9001:2015 baseline and contains no 2026 content.
+
+- **It advises; it never blocks.** Nothing in the track is locked by the result. A learner may skip the check entirely.
+- **Pass rule.** The learner passes when the share answered correctly meets the pass mark, 80 percent by default, so at least 7 of 8. The pass mark is set in `data/casebook/placement.json` (`passMark`) and may be changed by the program owner. **[OWNER INPUT]**
+- **Outcome.** At or above the pass mark the learner sees "Ready for the track". Below it the learner sees "Review advised" with the core modules linked to the questions missed, and may still start a sector.
+- **Order.** The question and option order come from a seed. The check code (for example `PLC-P-16J0`) reproduces the same order; entering it in "Open a case by code" opens the check.
+- **Results code.** After checking, the learner receives a placement results code, for example `PLC-P-16J0.1782G010ZF.X6 ~ J. Lee`. It records the score, the total, the pass mark, which questions were missed, and the date, with two check characters. Like case codes, it is a training aid, not an assessment record. It does not count toward the badge.
+- **Results Reader.** Paste placement codes with case codes. They appear in a separate "Placement checks" table showing the score, the pass mark (and the number of correct answers it requires), the outcome under the pass rule, and the core modules to review. The CSV export includes them.
+
+Use the check to plan coaching: a learner below the pass mark may still take a Case Room session, but should review the listed modules first or pair with a learner who has completed them.
 
 ## 2. How a case works
 
@@ -32,6 +47,19 @@ Each case is a visit to a fictional Meridian organization. The learner is an inv
 **No hard fail.** When visit points run out, the visit ends and the learner continues with the evidence gathered. Hints are always available, are logged, and never change a measure. There is no pass or fail score for a case.
 
 **Case codes.** A case code has the form `<SECTOR>-<TYPE>-<SEED>`, for example `MFG-B-7K3Q`. Type X is the sector capstone. The same code produces the same case on any device. Seed `0000` of MFG-B is the worked example from the specification (The Shifted Batch), with four expected findings: 7.5.3, 7.1.5, 8.5.2, and 8.7.
+
+## 2a. 2026 variant cases (optional, preliminary)
+
+> **CAUTION: PRELIMINARY 2026 INFORMATION.** This section describes the 2026 edition of ISO 9001 using the best available secondary commentary and informed estimates. It has not been verified against the published standard and may contain errors, omissions, or incorrect clause references. Do not use it as a substitute for the standard in audit preparation, certification decisions, procedure revisions, or training records. Always consult the published ISO 9001:2026 text and your certification body.
+
+Each sector has one 2026 variant of its Pressure Decision (Type F) case, centered on quality culture and speaking up. The case file carries `edition: "2026"` and `variantOf` (the Type F case it varies), and the case code uses the variant number, for example `MFG-F2-7K3Q`. The casebook shows the caution above on the sector track section that lists the variant, on every tab of the case folder, in the Case Room view when a variant is loaded, in the Results Reader when a variant code is pasted, and at the top of the saved findings and track record text.
+
+- **Confidence labels.** Every 2026 statement carries a label: each evidence card's requirement link, each decision rationale, and each 2026 note in the brief. Labels are High, Medium, Single, Unclear, or Best estimate, consistent with `data/clause-map.json`. A best estimate states its reasoning and what to check in the standard.
+- **What the variant teaches (as reported).** Top management promoting and demonstrating a quality culture and ethical behavior (5.1.1, High); awareness of culture and ethics (7.3, High); culture as an influence on the environment for operation of processes (7.1.4, Medium). Controls on nonconforming output and release are reported as carried forward in intent (Unclear). Clause tags use 2015 numbering from the clause map. No lettered sub-item within Clause 5 is cited, and no requirement wording is quoted.
+- **Observations, not new audit criteria.** Silence after an earlier report and review minutes that never discuss concerns are planted as observations. Commentary says no separate culture program is required, so do not turn these into nonconformities against wording that has not been verified.
+- **Excluded from the badge and the capstone.** Variant attempts are not counted toward "All six cases attempted", are never drawn into a capstone, and do not change the overall skill map or the recommended next case. Their results codes are listed separately in the track record.
+- **Facilitation.** Run a variant in a Case Room only after the core Type F case, so learners compare the 2015 decision with the culture questions the variant adds. Keep discussion on fictional people; stop discussion that turns to real individuals. Ethics content is reviewed by Human Resources or Legal before delivery. **[OWNER INPUT]**
+- **Verification.** Confirm each 2026 statement against the purchased ISO 9001:2026 text and update the confidence labels, or remove the variants, before any authoritative use. **[VERIFY]**
 
 ## 3. Running a Case Room (60 minutes)
 
@@ -187,4 +215,6 @@ Each primer ends with five questions that link it to the casebook. These model a
 2. Whether results codes may include names, and how they will be collected. **[OWNER INPUT]**
 3. Whether the track is offered to people outside the company. **[OWNER INPUT]**
 4. Approval of the names "Sector Casebook" and "Sector Practitioner". **[OWNER INPUT]**
-5. The clause emphasis table in each primer is an informed estimate and must be validated with the sector reviewer and, where possible, certification body data. **[VERIFY]**
+5. The placement check pass mark (80 percent by default, 7 of 8) and whether placement codes are kept with the training record. **[OWNER INPUT]**
+6. The 2026 variant cases remain preliminary and excluded from badge scoring until each 2026 statement is verified. **[VERIFY]**
+7. The clause emphasis table in each primer is an informed estimate and must be validated with the sector reviewer and, where possible, certification body data. **[VERIFY]**

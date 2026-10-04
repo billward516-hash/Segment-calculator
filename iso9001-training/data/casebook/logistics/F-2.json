@@ -1,0 +1,325 @@
+{
+  "id": "LOG-F-02",
+  "pack": "logistics",
+  "type": "F",
+  "title": "The Waiting Driver: Speak-Up Variant",
+  "edition": "2026",
+  "verifyStatus2015": "unverified",
+  "variantOf": "LOG-F-01",
+  "brief": "At Meridian Logistics a trailer for a retail customer is due to leave at 7 p.m. The load check found 2 pallets whose labels do not match the order. A loader reports that the shift manager asked for the scan warnings to be overridden so the trailer can close. This is a 2026 variant on quality culture and speaking up. It is preliminary and excluded from badge scoring and the capstone until verified. You have 12 visit points to gather what you need and make a decision you can justify.",
+  "visitPoints": 12,
+  "goal": "Decision quality, including speaking up",
+  "branches": [
+    "Judgment"
+  ],
+  "tokens": {
+    "lot": [
+      "LC-7731",
+      "LC-7748",
+      "LC-7756"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Dock door 7",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Load check record {{lot}}",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Scanner start-of-shift test log",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the dock",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Shift manager",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Shift manager: what was asked of the loader",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Loaders",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Loaders: what they would do if a scan warning appeared at closing time",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Review",
+          "label": "Concern log and a word with the loaders",
+          "evidenceId": "E5"
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Shift quality lead",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Scan warning procedure",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Exception log",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Site manager's office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Latest site review minutes",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Recognition notes",
+          "evidenceId": "E8"
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Goods-in office",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Dock screen",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Goods-in sheet",
+          "evidenceId": "E10"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Load check record {{lot}}: 2 of 26 pallets flagged \"label does not match order\" at 18:12; at 18:15 both warnings were overridden with the shift manager's login and no reason, and the trailer status is ready.",
+      "clause": "8.6",
+      "confidence": "Unclear",
+      "whyItMatters": "A load is released only when the planned checks show it is right, or when an authorized person approves. An override with no reason bypasses the check. This 2015 requirement is reported to continue in intent; any change in the 2026 wording is unclear.",
+      "missedExplanation": "Look at who overrode the warnings, when, and with what reason.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Handheld scanner HS-9 passed its start-of-shift test scan at 14:00; the result is logged.",
+      "clause": "7.1.5",
+      "confidence": "Unclear",
+      "whyItMatters": "The scanner works, so the warnings cannot be set aside as a scanner fault without checking the pallets.",
+      "missedExplanation": "Conforming evidence: the data behind the result is sound.",
+      "falseFindingNote": "The scanner is working. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Shift manager: \"Override them. The driver's hours run out at 7:30 and the customer charges for a missed slot.\" The manager says overrides are normal at peak and were used 5 times last week.",
+      "clause": "5.1.1",
+      "confidence": "High",
+      "whyItMatters": "The 2026 edition is reported to add a requirement for top management to promote and demonstrate a quality culture and ethical behavior (5.1.1). Pressure from a leader to change a result or skip a check works against it. Acting on a failed check is already a 2015 requirement.",
+      "missedExplanation": "Ask the person who applies the pressure what they asked for, and compare it with the release rule.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "observation",
+      "text": "Loader interviews: 2 of 3 loaders asked did not know they could stop a trailer closing, or whom to tell. Induction record IN-4 covers equipment and housekeeping only.",
+      "clause": "7.3",
+      "confidence": "High",
+      "whyItMatters": "Awareness is reported to extend to the organization's quality culture and ethical behavior (7.3). People need to know the route for raising a concern and that they may use it.",
+      "missedExplanation": "Ask frontline staff what they would do, and whom they would tell, if a check failed near a deadline.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "observation",
+      "text": "The concern log has 0 entries in 15 weeks. A loader says a colleague who refused an override in July was taken off the evening shift.",
+      "clause": "7.1.4",
+      "confidence": "Medium",
+      "whyItMatters": "A note on the environment for operation of processes (7.1.4) is reported to recognize that culture can influence operating conditions. Silence after an earlier report was met badly is a sign that the environment discourages reporting. Recorded as an observation because the 2026 wording is unverified.",
+      "missedExplanation": "Compare the concern or near-miss log with what staff say in interview. The gap is the evidence.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Exception log: no entry for the 2 pallets. The last exception, EX-140, is 21 days old.",
+      "clause": "8.7",
+      "confidence": "Unclear",
+      "unlockedBy": [
+        "E7"
+      ],
+      "whyItMatters": "A label mismatch needs an exception record so it can be resolved and traced. A missing record removes it from the system.",
+      "missedExplanation": "The procedure names the log. Follow the trail from the procedure to the record.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Procedure QP-17 says a label mismatch is resolved by checking the pallet contents against the order, and only the shift quality lead may override a scan warning, with a recorded reason. The lead is on site.",
+      "clause": "8.6",
+      "confidence": "Unclear",
+      "whyItMatters": "The organization has a defined route, with named authority, for this exact situation.",
+      "missedExplanation": "Conforming evidence: a sound route exists. The risk is in bypassing it.",
+      "falseFindingNote": "The procedure is sound and the named person is available. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Recognition note RN-5: 3 weeks ago the site manager thanked a picker in writing for stopping a load when case counts did not match. The stop and its outcome are logged.",
+      "clause": "5.1.1",
+      "confidence": "High",
+      "whyItMatters": "Thanking a person who stopped work, and recording the outcome, shows leaders supporting the behavior that 5.1.1 is reported to expect.",
+      "missedExplanation": "Conforming evidence: a sign of the culture the organization wants.",
+      "falseFindingNote": "A recognized stop-work event is good practice, not an issue.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "The dock screen shows door 7 booked until 19:00.",
+      "clause": "7.4",
+      "confidence": "Unclear",
+      "whyItMatters": "A plan shown on a board is communication, not a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The board shows the plan. A deadline on display is not evidence of a breach.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "A goods-in sheet has a pallet count struck through with a single line, initialled and dated, with the correct count beside it.",
+      "clause": "7.5.3",
+      "confidence": "Unclear",
+      "whyItMatters": "A correction that leaves the original legible, with initials and date, protects the integrity of the record.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "A single-line correction with initials and date is good record practice. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "observation",
+      "text": "Site review minutes of 1 September list 7 throughput and on-time measures and no item on concerns raised or how they were handled.",
+      "clause": "9.3",
+      "confidence": "Medium",
+      "whyItMatters": "Leaders are reported to need to demonstrate a quality culture with evidence (5.1.1). A review meeting is one place to show it. This is an observation, not a nonconformity: commentary says no separate culture program is required, so avoid audit criteria the standard may not state.",
+      "missedExplanation": "Read what leaders review. What is never discussed is rarely managed.",
+      "plantedPool": true
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "confidence": "High",
+      "prompt": "The driver's hours run out in 75 minutes and the shift manager wants the trailer closed. What do you do?",
+      "options": [
+        "Override the warnings; the scanner is often wrong",
+        "Close the trailer and sort it out at the customer's site",
+        "Ask for the 2 pallets to be held, check their contents against the order with the shift quality lead now, and load them only if they match, or send the trailer without them and notify the customer",
+        "Unload the whole trailer and rebook for tomorrow"
+      ],
+      "bestIndex": 2,
+      "rationale": "Checking 2 pallets takes minutes and the lead is on site, so the trailer can still leave on time. Speaking up through the named route is the behavior that 5.1.1 is reported to ask leaders to make easy.",
+      "optionFeedback": [
+        "The scanner passed its test; the warnings need checking, not overriding.",
+        "This ships a possible error to the customer.",
+        "This is proportionate, uses the named authority, and keeps the slot.",
+        "Unloading 24 matching pallets is disproportionate."
+      ]
+    },
+    {
+      "id": "D2",
+      "confidence": "High",
+      "prompt": "The loader who reported the override asks not to be named. What should the site manager do?",
+      "options": [
+        "Ask the loader to explain in front of the shift",
+        "Thank the loader, respect the request, review the override practice as a system issue, and limit override rights to the role named in the procedure",
+        "Tell the team that overrides are acceptable at peak",
+        "Do nothing because the pallets were checked"
+      ],
+      "bestIndex": 1,
+      "rationale": "Leaders are reported to need to promote and demonstrate a quality culture (5.1.1). Protecting the reporter and fixing the override rights is the evidence an auditor would look for."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold the 2 flagged pallets on load {{lot}} until their contents are checked against the order"
+    ],
+    "correction": [
+      "Load the pallets only if they match, or ship without them and notify the customer; record both overrides as exceptions"
+    ],
+    "cause": [
+      "Slot pressure was allowed to override scan warnings, override rights were wider than the procedure allows, and staff were unsure of the route for raising concerns"
+    ],
+    "corrective": [
+      "Leaders state and show that warnings are checked; limit override rights to the shift quality lead with a reason; add raising concerns to the induction"
+    ],
+    "effectiveness": [
+      "For the next 8 weeks, review overrides weekly for reasons and authority, and review concerns raised and responses at the site review"
+    ]
+  },
+  "debriefText": {
+    "found": "You kept the true result, used the defined route, and treated the pressure as a system condition rather than a personal failing.",
+    "missed": "In a culture case, compare what the records say with what people say in interview. Leaders' responses to earlier reports are part of the evidence.",
+    "falseFinding": "A deadline on a board and a properly corrected record are normal. They show planning and good record practice, not a weak culture."
+  },
+  "bridge2026": [
+    {
+      "text": "Top management is reported to be required to promote and demonstrate a quality culture and ethical behavior. In this case, look at how leaders respond when a scan warning appears near a delivery slot.",
+      "confidence": "High",
+      "clause": "5.1.1"
+    },
+    {
+      "text": "Awareness is reported to extend to the organization's quality culture and ethical behavior, so staff should know how to raise a concern and that they may do so.",
+      "confidence": "High",
+      "clause": "7.3"
+    },
+    {
+      "text": "A note on the environment for operation of processes is reported to recognize that culture and ethical behavior can influence operating conditions.",
+      "confidence": "Medium",
+      "clause": "7.1.4"
+    },
+    {
+      "text": "An auditor checking culture is likely to examine decisions, records of concerns raised, and how leaders responded, rather than attitudes or a separate culture program.",
+      "confidence": "Best estimate",
+      "reasoning": "Sources describe culture as shown through behavior and evidence, and commentary says no separate culture program is required.",
+      "check": "Read 5.1.1, its note, and the Annex A guidance on culture in the purchased 2026 text, and ask the certification body how it will audit culture.",
+      "clause": "5.1.1"
+    },
+    {
+      "text": "Release of products and services is reported as carried forward in intent from 2015; any change in wording is unclear.",
+      "confidence": "Unclear",
+      "clause": "8.6"
+    }
+  ]
+}

@@ -42,6 +42,9 @@ td.num{text-align:right;font-family:var(--mono);white-space:nowrap}
 .stamp{display:inline-block;font-weight:800;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;border:2.5px double var(--stamp);color:var(--stamp);padding:.05rem .45rem;transform:rotate(-2deg)}
 .notice{border-top:3px double var(--rule);margin:2rem auto 0;padding:1rem;color:var(--ink-soft);font-size:.86rem;max-width:72rem}
 .sr{position:absolute;left:-9999px}
+.caution{border:3px double var(--stamp);background:var(--sheet);padding:.6rem .9rem;margin:.6rem 0 .9rem;font-size:.95rem}
+.caution strong{color:var(--stamp)}
+.conf{display:inline-block;font-size:.78rem;font-weight:700;border:1.5px solid var(--ink-soft);padding:0 .4rem}
 @media (max-width:640px){main,header{padding-left:16px;padding-right:16px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media print{.noprint,button{display:none!important}body{background:#fff;color:#000}}
@@ -56,6 +59,7 @@ td.num{text-align:right;font-family:var(--mono);white-space:nowrap}
   <div class="sheet memo">
     <p><span class="stamp">Training aid</span> Results codes summarize a learner's case attempt: the case code, the five measures, the decision result, the issues found, and the date. They are a training aid, not an assessment record, and they are not tamper-proof. The Sector Practitioner badge requires an instructor to review the learner's capstone findings and, preferably, to observe a short oral or on-the-job demonstration. No measure decides the badge on its own.</p>
     <p class="small">No accounts are used and nothing is sent anywhere. Codes stay on this device unless you save or print them.</p>
+    <p class="small">Codes from the optional placement check (<span class="mono">PLC-P-…</span>) are listed in their own table with the pass rule applied. Codes from 2026 variant cases are marked and shown under the 2026 caution; they are not counted toward the badge until the 2026 content is verified.</p>
   </div>
   <div class="sheet">
     <label for="codes">Paste results codes, one per line</label>
@@ -78,7 +82,7 @@ td.num{text-align:right;font-family:var(--mono);white-space:nowrap}
 'use strict';
 var DATA = JSON.parse(document.getElementById('cb-data').textContent);
 var TYPES = DATA.meta.caseTypes;
-var rows = [], bad = [], sortKey = 'learner', sortDir = 1, filters = { sector: '', type: '', learner: '' };
+var rows = [], bad = [], places = [], sortKey = 'learner', sortDir = 1, filters = { sector: '', type: '', learner: '' };
 function esc(s) { return String(s === undefined || s === null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 function pc(v) { return v === null || v === undefined ? 'n/a' : Math.round(v * 100) + '%'; }
 function st(v) { return v === null || v === undefined ? 'n/a' : v + '/4'; }
@@ -87,19 +91,34 @@ function caseInfo(d) {
   var sec = sectorOf(d.pack);
   if (!sec) return { sector: d.pack, title: '(unknown sector)', planted: [] };
   var built = CB.buildFromCode(d.code, DATA);
-  return { sector: sec.name, title: built.gen ? built.gen.title + (d.type === 'X' ? '' : '') : '(case not in this casebook)', gen: built.gen || null };
+  return { sector: sec.name, title: built.gen ? built.gen.title : '(case not in this casebook)', gen: built.gen || null, edition: built.gen ? built.gen.edition : '' };
 }
 function readCodes() {
-  rows = []; bad = [];
+  rows = []; bad = []; places = [];
   document.getElementById('codes').value.split('\n').forEach(function (line, i) {
     if (!line.trim()) return;
     var d = CB.decodeResult(line);
     if (d.error) { bad.push({ line: i + 1, text: line.trim(), error: d.error }); return; }
+    if (d.placement) { places.push(placementRow(d)); return; }
     var info = caseInfo(d);
-    rows.push({ learner: d.learner || '(no name)', sector: info.sector, type: d.type, typeName: TYPES[d.type] ? TYPES[d.type].name : d.type, title: info.title, code: d.code, date: d.date, m: d.measures, found: countBits(d.foundMask), planted: d.plantedCount, mask: d.foundMask, gen: info.gen });
+    rows.push({ learner: d.learner || '(no name)', sector: info.sector, type: d.type, typeName: TYPES[d.type] ? TYPES[d.type].name : d.type, title: info.title, code: d.code, date: d.date, m: d.measures, found: countBits(d.foundMask), planted: d.plantedCount, mask: d.foundMask, gen: info.gen, edition: info.edition });
   });
   draw();
 }
+// Placement check (Appendix D.1): the pass rule is applied from the score and pass mark in the code.
+function placementRow(d) {
+  var items = DATA.placement ? DATA.placement.items : [];
+  var mods = [];
+  items.forEach(function (it, i) { if ((d.missedMask & (1 << i)) && mods.indexOf(it.module) < 0) mods.push(it.module); });
+  mods.sort(function (a, b) { return a - b; });
+  return { learner: d.learner || '(no name)', code: d.code, date: d.date, correct: d.correct, total: d.total, passMark: d.passMark, passed: d.passed,
+    needed: CB.placementNeeded(d.total, d.passMark), modules: mods.map(function (m) { var it = items.filter(function (x) { return x.module === m; })[0]; return 'Module ' + m + (it ? ' ' + it.moduleTitle : ''); }) };
+}
+function cautionBox() {
+  var t = DATA.caution2026, head = 'CAUTION: PRELIMINARY 2026 INFORMATION.';
+  return '<div class="caution" role="note"><strong>' + esc(head) + '</strong>' + esc(t.slice(head.length)) + '</div>';
+}
+function confTag(o) { return o && o.confidence ? ' <span class="conf">2026 confidence: ' + esc(o.confidence) + '</span>' : ''; }
 function countBits(n) { var c = 0; while (n) { c += n & 1; n >>= 1; } return c; }
 var COLS = [['learner', 'Learner'], ['sector', 'Sector'], ['typeName', 'Case type'], ['title', 'Case'], ['code', 'Case code'], ['date', 'Date'], ['coverage', 'Coverage'], ['precision', 'Precision'], ['mapping', 'Mapping'], ['statement', 'Statement'], ['action', 'Action'], ['decision', 'Decision'], ['found', 'Issues found']];
 function val(r, k) { if (['coverage', 'precision', 'mapping', 'statement', 'action', 'decision'].indexOf(k) >= 0) { var v = r.m[k]; return v === null ? -1 : v; } return r[k]; }
@@ -111,9 +130,19 @@ function opts(list, cur, all) { return '<option value="">' + all + '</option>' +
 function uniq(a) { return a.filter(function (x, i) { return a.indexOf(x) === i; }).sort(); }
 function draw() {
   var out = document.getElementById('out');
-  if (!rows.length && !bad.length) { out.innerHTML = ''; return; }
+  if (!rows.length && !bad.length && !places.length) { out.innerHTML = ''; return; }
   var list = filtered();
-  var h = '<h2>Results</h2><p>' + rows.length + ' code' + (rows.length === 1 ? '' : 's') + ' read' + (bad.length ? '; ' + bad.length + ' line' + (bad.length === 1 ? '' : 's') + ' could not be read (listed below)' : '') + '.</p>';
+  var h = '';
+  if (places.length) {
+    h += '<h2>Placement checks</h2><p class="small">Optional check for learners who skip the core modules. ' + esc(DATA.placement ? DATA.placement.meta.passRule : '') + ' The result advises; it does not lock any part of the track or count toward the badge.</p>' +
+      '<div class="tablewrap"><table id="placement-table"><thead><tr><th scope="col">Learner</th><th scope="col">Code</th><th scope="col">Date</th><th scope="col">Score</th><th scope="col">Pass mark</th><th scope="col">Outcome</th><th scope="col">Core modules to review</th></tr></thead><tbody>' +
+      places.map(function (r) {
+        return '<tr><td>' + esc(r.learner) + '</td><td class="mono">' + esc(r.code) + '</td><td class="mono">' + esc(r.date) + '</td><td class="num">' + r.correct + ' of ' + r.total + '</td><td class="num">' + r.passMark + '% (' + r.needed + ' of ' + r.total + ')</td><td>' + (r.passed ? '<span class="stamp">Ready for the track</span>' : '<span class="stamp">Review advised</span>') + '</td><td class="small">' + esc(r.modules.join('; ') || 'None') + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+  if (!rows.length) { if (bad.length) h += badList(); out.innerHTML = h; return; }
+  var has26 = rows.some(function (r) { return r.edition === '2026'; });
+  h += '<h2>Results</h2>' + (has26 ? cautionBox() + '<p class="small">Rows marked "2026 variant" come from preliminary 2026 cases. They are excluded from badge scoring until verified.</p>' : '') + '<p>' + rows.length + ' code' + (rows.length === 1 ? '' : 's') + ' read' + (bad.length ? '; ' + bad.length + ' line' + (bad.length === 1 ? '' : 's') + ' could not be read (listed below)' : '') + '.</p>';
   h += '<div class="sheet row noprint"><label for="f-sector">Sector</label><select id="f-sector" data-f="sector">' + opts(uniq(rows.map(function (r) { return r.sector; })).map(function (x) { return [x, x]; }), filters.sector, 'All sectors') + '</select>' +
     '<label for="f-type">Case type</label><select id="f-type" data-f="type">' + opts(uniq(rows.map(function (r) { return r.type; })).map(function (x) { return [x, x + '. ' + (TYPES[x] ? TYPES[x].name : '')]; }), filters.type, 'All types') + '</select>' +
     '<label for="f-learner">Learner</label><select id="f-learner" data-f="learner">' + opts(uniq(rows.map(function (r) { return r.learner; })).map(function (x) { return [x, x]; }), filters.learner, 'All learners') + '</select></div>';
@@ -121,7 +150,7 @@ function draw() {
     var s = sortKey === c[0] ? (sortDir > 0 ? 'ascending' : 'descending') : 'none';
     return '<th scope="col" aria-sort="' + s + '"><button type="button" data-sort="' + c[0] + '">' + c[1] + (sortKey === c[0] ? (sortDir > 0 ? ' (up)' : ' (down)') : '') + '</button></th>';
   }).join('') + '</tr></thead><tbody>' + list.map(function (r) {
-    return '<tr><td>' + esc(r.learner) + '</td><td>' + esc(r.sector) + '</td><td>' + esc(r.type + '. ' + r.typeName) + '</td><td>' + esc(r.title) + '</td><td class="mono">' + esc(r.code) + '</td><td class="mono">' + esc(r.date) + '</td>' +
+    return '<tr><td>' + esc(r.learner) + '</td><td>' + esc(r.sector) + '</td><td>' + esc(r.type + '. ' + r.typeName) + '</td><td>' + esc(r.title) + (r.edition === '2026' ? ' <span class="stamp">2026 variant</span>' : '') + '</td><td class="mono">' + esc(r.code) + '</td><td class="mono">' + esc(r.date) + '</td>' +
       '<td class="num">' + pc(r.m.coverage) + '</td><td class="num">' + pc(r.m.precision) + '</td><td class="num">' + pc(r.m.mapping) + '</td><td class="num">' + st(r.m.statement) + '</td><td class="num">' + pc(r.m.action) + '</td><td class="num">' + pc(r.m.decision) + '</td><td class="num">' + r.found + ' of ' + r.planted + '</td></tr>';
   }).join('') + '</tbody></table></div><p class="small muted">n/a means the measure did not apply, for example precision when no findings were submitted.</p>';
   // Summary by case code with tally of planted issues
@@ -133,27 +162,29 @@ function draw() {
     codes.forEach(function (code) {
       var rs = byCode[code], g = rs[0].gen;
       var mean = function (k) { var v = rs.map(function (r) { return r.m[k]; }).filter(function (x) { return x !== null; }); return v.length ? v.reduce(function (a, b) { return a + b; }, 0) / v.length : null; };
-      h += '<div class="sheet"><h3 class="mono">' + esc(code) + ' · ' + esc(rs[0].title) + '</h3><p>' + rs.length + ' learner attempt' + (rs.length === 1 ? '' : 's') + '. Mean coverage ' + pc(mean('coverage')) + ', precision ' + pc(mean('precision')) + ', mapping ' + pc(mean('mapping')) + ', statement ' + (mean('statement') === null ? 'n/a' : Math.round(mean('statement') * 10) / 10 + '/4') + ', action ' + pc(mean('action')) + '.</p>';
+      h += '<div class="sheet">' + (rs[0].edition === '2026' ? cautionBox() : '') + '<h3 class="mono">' + esc(code) + ' · ' + esc(rs[0].title) + (rs[0].edition === '2026' ? ' (2026 variant, not counted toward the badge)' : '') + '</h3><p>' + rs.length + ' learner attempt' + (rs.length === 1 ? '' : 's') + '. Mean coverage ' + pc(mean('coverage')) + ', precision ' + pc(mean('precision')) + ', mapping ' + pc(mean('mapping')) + ', statement ' + (mean('statement') === null ? 'n/a' : Math.round(mean('statement') * 10) / 10 + '/4') + ', action ' + pc(mean('action')) + '.</p>';
       if (g) {
         h += '<details><summary>Tally of planted issues (answer key)</summary><table><thead><tr><th scope="col">Issue</th><th scope="col">Clause</th><th scope="col">Found by</th></tr></thead><tbody>' + g.planted.map(function (id, i) {
           var n = rs.filter(function (r) { return r.mask & (1 << i); }).length;
-          return '<tr><td>' + esc(id + ': ' + g.evidence[id].text) + '</td><td class="mono">' + esc(g.evidence[id].clauses.join(', ')) + '</td><td class="num">' + n + ' of ' + rs.length + '</td></tr>';
+          return '<tr><td>' + esc(id + ': ' + g.evidence[id].text) + confTag(g.evidence[id]) + '</td><td class="mono">' + esc(g.evidence[id].clauses.join(', ')) + '</td><td class="num">' + n + ' of ' + rs.length + '</td></tr>';
         }).join('') + '</tbody></table></details>';
       }
       h += '</div>';
     });
   }
-  if (bad.length) h += '<h2>Lines that could not be read</h2><ul>' + bad.map(function (b) { return '<li>Line ' + b.line + ': <span class="mono">' + esc(b.text) + '</span>. ' + esc(b.error) + '</li>'; }).join('') + '</ul>';
+  if (bad.length) h += badList();
   out.innerHTML = h;
 }
+function badList() { return '<h2>Lines that could not be read</h2><ul>' + bad.map(function (b) { return '<li>Line ' + b.line + ': <span class="mono">' + esc(b.text) + '</span>. ' + esc(b.error) + '</li>'; }).join('') + '</ul>'; }
 function csv() {
-  var head = ['learner', 'sector', 'case_type', 'case', 'case_code', 'date', 'coverage', 'precision', 'mapping', 'statement_0_4', 'action', 'decision', 'issues_found', 'issues_planted'];
+  var head = ['learner', 'sector', 'case_type', 'case', 'case_code', 'date', 'coverage', 'precision', 'mapping', 'statement_0_4', 'action', 'decision', 'issues_found', 'issues_planted', 'edition', 'placement_score', 'placement_outcome'];
   var q = function (s) { s = String(s === null || s === undefined ? '' : s); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
-  var lines = [head.join(',')].concat(filtered().map(function (r) { return [r.learner, r.sector, r.type, r.title, r.code, r.date, r.m.coverage, r.m.precision, r.m.mapping, r.m.statement, r.m.action, r.m.decision, r.found, r.planted].map(q).join(','); }));
+  var lines = [head.join(',')].concat(filtered().map(function (r) { return [r.learner, r.sector, r.type, r.title, r.code, r.date, r.m.coverage, r.m.precision, r.m.mapping, r.m.statement, r.m.action, r.m.decision, r.found, r.planted, r.edition === '2026' ? '2026 variant (not counted toward the badge)' : '2015'].map(q).join(','); }))
+    .concat(places.map(function (r) { return [r.learner, '', 'P', 'Placement check', r.code, r.date, '', '', '', '', '', '', '', '', '', r.correct + ' of ' + r.total, (r.passed ? 'Ready for the track' : 'Review advised') + ' (pass mark ' + r.passMark + ' percent)'].map(q).join(','); }));
   return lines.join('\n');
 }
 document.getElementById('read').addEventListener('click', readCodes);
-document.getElementById('clear').addEventListener('click', function () { document.getElementById('codes').value = ''; rows = []; bad = []; draw(); });
+document.getElementById('clear').addEventListener('click', function () { document.getElementById('codes').value = ''; rows = []; bad = []; places = []; draw(); });
 document.getElementById('csv').addEventListener('click', function () {
   var text = csv();
   try { var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: 'text/csv' })); a.download = 'casebook-results.csv'; document.body.appendChild(a); a.click(); setTimeout(function () { a.remove(); }, 300); }

@@ -10,7 +10,14 @@
     "pack": { "type": "string", "description": "Industry pack id from data/packs.json." },
     "type": { "enum": ["A", "B", "C", "D", "E", "F"] },
     "title": { "type": "string" },
-    "edition": { "enum": ["2015", "2026"], "description": "2026 variants are excluded from badge scoring and the capstone until verified." },
+    "edition": { "enum": ["2015", "2026"], "description": "2026 variants (Type F, file F-2.json) are excluded from badge scoring, the capstone, the skill map, and Compare until verified. They need variantOf, bridge2026, and a confidence label on every evidence card and decision, and they display the exact Section 0.1 caution." },
+    "variantOf": { "type": "string", "pattern": "^[A-Z]{3}-[A-F]-[0-9]{2}$", "description": "2026 variants only: id of the 2015 case of the same type that this case varies, for example MFG-F-01." },
+    "bridge2026": {
+      "type": "array",
+      "minItems": 2,
+      "description": "2026 variants only: paraphrased notes on the reported 2026 change, each with a confidence label and a clause tag from data/clause-map.json. No quoted requirement wording; no lettered Clause 5 sub-items.",
+      "items": { "type": "object", "required": ["text", "confidence", "clause"], "properties": { "text": { "type": "string" }, "confidence": { "enum": ["High", "Medium", "Single", "Unclear", "Best estimate"], "description": "2026 variants only (Section 0.1): confidence label for this 2026 statement. A best estimate also needs reasoning and check." }, "clause": { "type": "string" }, "reasoning": { "type": "string" }, "check": { "type": "string", "description": "What to confirm in the purchased standard." } } }
+    },
     "verifyStatus2015": { "enum": ["unverified", "verified"] },
     "brief": { "type": "string" },
     "visitPoints": { "type": "integer", "minimum": 6, "maximum": 30 },
@@ -69,7 +76,10 @@
           "whyItMatters": { "type": "string" },
           "missedExplanation": { "type": "string" },
           "falseFindingNote": { "type": "string", "description": "Optional. Why this conforming card or red herring is conforming." },
-          "plantedPool": { "type": "boolean", "description": "True for every planted issue (nonconformity or observation) the seed may select." }
+          "plantedPool": { "type": "boolean", "description": "True for every planted issue (nonconformity or observation) the seed may select." },
+          "confidence": { "enum": ["High", "Medium", "Single", "Unclear", "Best estimate"], "description": "2026 variants only (Section 0.1): confidence label for this 2026 statement. A best estimate also needs reasoning and check." },
+          "reasoning": { "type": "string", "description": "Required when confidence is Best estimate." },
+          "check": { "type": "string", "description": "Required when confidence is Best estimate: what to confirm in the standard." }
         }
       }
     },
@@ -84,7 +94,10 @@
           "options": { "type": "array", "items": { "type": "string" }, "minItems": 2 },
           "bestIndex": { "type": "integer", "minimum": 0 },
           "rationale": { "type": "string" },
-          "optionFeedback": { "type": "array", "items": { "type": "string" } }
+          "optionFeedback": { "type": "array", "items": { "type": "string" } },
+          "confidence": { "enum": ["High", "Medium", "Single", "Unclear", "Best estimate"], "description": "2026 variants only (Section 0.1): confidence label for this 2026 statement. A best estimate also needs reasoning and check." },
+          "reasoning": { "type": "string", "description": "Required when confidence is Best estimate." },
+          "check": { "type": "string", "description": "Required when confidence is Best estimate: what to confirm in the standard." }
         }
       }
     },

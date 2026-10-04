@@ -116,6 +116,11 @@ summary{cursor:pointer;font-weight:600}
 .opt{display:flex;gap:.6rem;align-items:flex-start;border:1px solid var(--rule);padding:.5rem .7rem;margin:.4rem 0;background:var(--paper);font-weight:400}
 .opt input{margin-top:.3rem}
 .hintlog li{margin:.2rem 0}
+/* 2026 caution box (Section 0.1) and confidence labels */
+.caution{border:3px double var(--stamp);background:var(--sheet);padding:.6rem .9rem;margin:.6rem 0 .9rem;font-size:.95rem}
+.caution strong{color:var(--stamp);letter-spacing:.03em}
+.conf{display:inline-block;font-family:var(--sans);font-size:.78rem;font-weight:700;border:1.5px solid var(--ink-soft);padding:0 .4rem;margin:.1rem .3rem .1rem 0;color:var(--ink)}
+.bridge li{margin:.35rem 0}
 @media (max-width:640px){
   main{padding:.7rem 16px}
   .masthead{padding:.7rem 16px}
@@ -219,6 +224,25 @@ function clauseOptions(sel, placeholder) {
   }).join('');
 }
 
+/* ---------- 2026 content helpers ---------- */
+// The exact Section 0.1 caution, from data/clause-map.json, shown in a visible box at the top of every screen
+// or section where 2026 content appears.
+function cautionBox() {
+  var t = DATA.caution2026, head = 'CAUTION: PRELIMINARY 2026 INFORMATION.';
+  return '<div class="caution" role="note"><strong>' + esc(head) + '</strong>' + esc(t.slice(head.length)) + '</div>';
+}
+// Confidence label for one 2026 statement; a best estimate also shows its reasoning and what to check.
+function confTag(o) {
+  if (!o || !o.confidence) return '';
+  return '<span class="conf">2026 confidence: ' + esc(o.confidence) + '</span>' + (o.confidence === 'Best estimate' && o.reasoning ? '<span class="small"> Reasoning: ' + esc(o.reasoning) + ' Check: ' + esc(o.check) + '</span>' : '');
+}
+function bridgeList(list) {
+  return '<ul class="plain bridge">' + list.map(function (b) { return '<li>' + confTag(b) + ' <span class="mono small">' + esc(b.clause) + '</span> ' + esc(b.text) + '</li>'; }).join('') + '</ul>';
+}
+function cases2015(p) { return casesOf(p).filter(function (c) { return c.edition !== '2026'; }); }
+function cases2026(p) { return casesOf(p).filter(function (c) { return c.edition === '2026'; }); }
+function attempts2015(p) { return prog(p).attempts.filter(function (a) { return a.edition !== '2026'; }); }
+
 /* ---------- rendering ---------- */
 function render() {
   var ae = document.activeElement, active = ae && ae.id, selS = null, selE = null;
@@ -230,6 +254,7 @@ function render() {
   else if (S.screen === 'drills') html = viewDrills();
   else if (S.screen === 'compare') html = viewCompare();
   else if (S.screen === 'room') html = viewRoom();
+  else if (S.screen === 'placement') html = viewPlacement();
   app.innerHTML = html;
   if (active) { var el = document.getElementById(active); if (el) { el.focus(); if (selS !== null) { try { el.setSelectionRange(selS, selE); } catch (e) { /* ignore */ } } } }
 }
@@ -258,6 +283,7 @@ function viewShelf() {
   if (S.resume) {
     h += '<div class="sheet clip memo"><h3>Unfinished visit</h3><p>A visit to case <span class="mono">' + esc(S.resume.code) + '</span> was saved on this device.</p><div class="row"><button type="button" class="ink" data-act="resume" id="b-resume">Resume the visit</button><button type="button" data-act="discard-resume" id="b-discard">Set it aside</button></div></div>';
   }
+  h += placementSheet();
   h += '<div class="sheet"><label for="learner">Name or initials for results codes (optional)</label><p class="small muted">Kept only on this device and inside the results codes you choose to share.</p><input type="text" id="learner" data-field="learner" maxlength="40" value="' + esc(S.progress.learner) + '"></div>';
   h += '<h3 id="sec-h">Choose a sector</h3><ul class="sector-list" aria-labelledby="sec-h">' + DATA.sectors.map(function (s) {
     return '<li><button type="button" id="sec-' + s.code + '" data-act="sector" data-pack="' + s.pack + '" aria-pressed="' + (S.sector === s.pack) + '" style="--swatch:' + s.accent.light + '">' + esc(s.name) + '<span class="co">' + esc(s.company) + ' · ' + esc(s.accent.name) + ' folder</span></button></li>';
@@ -274,9 +300,9 @@ function viewShelf() {
 }
 
 function viewTrack(pack) {
-  var s = sectorByPack(pack), p = prog(pack), cs = casesOf(pack);
+  var s = sectorByPack(pack), p = prog(pack), cs = cases2015(pack), cs26 = cases2026(pack);
   var attempts = p.attempts;
-  var map = CB.skillMap(attempts);
+  var map = CB.skillMap(attempts2015(pack));
   var rec = CB.recommendNext(map, attempts.map(function (a) { return a.caseId; }), cs);
   var h = '<section class="sheet clip memo" aria-labelledby="track-h"><h2 id="track-h">' + esc(s.name) + ' track</h2>' +
     '<p class="muted">' + esc(s.company) + ' (fictional). Process stages: ' + esc((s.stages || []).join(' → ')) + '.</p>';
@@ -287,14 +313,20 @@ function viewTrack(pack) {
   h += '<h3>2. Sector drills</h3><p>' + nd + ' untimed items with immediate feedback: multiple choice, Translate items, and a scenario sort. Missed items return until they are secure. The pass mark is 80 percent on the first try.</p>' +
     '<div class="row"><button type="button" data-act="drills" id="b-drills"' + (nd ? '' : ' disabled') + '>Start the drills</button><span>' + (p.drillBest === null ? 'Not yet taken.' : 'Best first-try score: ' + p.drillBest + ' percent.') + '</span>' +
     (DATA.primers[pack] ? '<a href="../../sector-tracks.html#' + esc(pack) + '-drills">Printable drills</a>' : '') + '</div>';
-  h += '<h3>3. Six cases</h3><div class="tablewrap"><table><thead><tr><th scope="col">Type</th><th scope="col">Case</th><th scope="col">Goal</th><th scope="col">Main branch</th><th scope="col">Status</th><th scope="col"><span class="sr">Open</span></th></tr></thead><tbody>' +
-    cs.map(function (c) {
+  var caseRows = function (list) { return list.map(function (c) {
       var mine = attempts.filter(function (a) { return a.caseId === c.id; });
       var lastA = mine[mine.length - 1];
       return '<tr><td>' + c.type + '. ' + esc(TYPES[c.type].name) + '</td><td><strong>' + esc(c.title) + '</strong>' + (c.edition === '2026' ? ' <span class="stamp">2026 variant, unverified</span>' : '') + '<br><span class="small muted">About ' + TYPES[c.type].minutes + ' minutes</span></td><td class="small">' + esc(c.goal) + '</td><td>' + esc(c.branches.join(', ')) + '</td><td>' +
         (lastA ? '<span class="stamp acc">Reviewed</span><br><span class="small">' + mine.length + ' attempt' + (mine.length === 1 ? '' : 's') + '; coverage ' + pctText(lastA.measures.coverage) + '</span>' : '<span class="small muted">Not yet attempted</span>') +
         '</td><td><button type="button" data-act="start" data-case="' + c.id + '" id="start-' + c.id + '">Open with a new seed</button></td></tr>';
-    }).join('') + '</tbody></table></div>';
+    }).join(''); };
+  var caseHead = '<div class="tablewrap"><table><thead><tr><th scope="col">Type</th><th scope="col">Case</th><th scope="col">Goal</th><th scope="col">Main branch</th><th scope="col">Status</th><th scope="col"><span class="sr">Open</span></th></tr></thead><tbody>';
+  h += '<h3>3. Six cases</h3>' + caseHead + caseRows(cs) + '</tbody></table></div>';
+  if (cs26.length) {
+    h += '<section aria-labelledby="v26-h"><h3 id="v26-h">2026 variant (optional, preliminary)</h3>' + cautionBox() +
+      '<p class="small">A Pressure Decision variant on quality culture and speaking up, based on unverified commentary on ISO 9001:2026. Each 2026 statement carries a confidence label. It is excluded from badge scoring, the capstone, and the skill map until verified.</p>' +
+      caseHead + caseRows(cs26) + '</tbody></table></div></section>';
+  }
   h += '<h3>4. Sector capstone</h3><p>An unseen visit built from at least three case types of this sector, with 16 visit points. About 30 minutes.</p><button type="button" data-act="start-cap" id="b-cap">Open a capstone</button>';
   h += '<h3>5. Reflection</h3><p class="small">Kept with your training record. Your instructor reads it during the badge review.</p>';
   DATA.meta.reflectionQuestions.forEach(function (q, i) {
@@ -308,7 +340,7 @@ function viewTrack(pack) {
   h += '<h3>Skill map</h3>' + skillTable(map, null) +
     (rec ? '<p><strong>Suggested next case:</strong> ' + esc(caseTitle(rec.caseId)) + '. ' + esc(rec.reason) + ' <button type="button" data-act="start" data-case="' + rec.caseId + '" id="rec-' + rec.caseId + '">Open it</button></p>' : '');
   if (attempts.length) {
-    var all = attempts.map(function (a) { return a.resultCode; }).join('\n');
+    var all = attempts.map(function (a) { return a.resultCode + (a.edition === '2026' ? '   (2026 variant, not counted toward the badge)' : ''); }).join('\n');
     h += '<h3>Your results codes</h3><label class="sr" for="codes-all">Results codes</label><textarea id="codes-all" class="mono" readonly rows="' + Math.min(8, attempts.length + 1) + '">' + esc(all) + '</textarea>' +
       '<div class="row"><button type="button" data-act="copy-codes" id="b-copy-codes">Copy all codes</button><button type="button" data-act="export-record" id="b-export-record">Save my track record as text</button></div>';
   }
@@ -335,7 +367,8 @@ function viewCase() {
   var tinfo = TYPES[g.type];
   var pips = '';
   for (var i = 0; i < g.visitPoints; i++) pips += '<i class="' + (i < v.points ? 'full' : '') + '"></i>';
-  var h = '<div class="folder-head"><div><p class="small muted" style="margin:0">' + esc(g.company) + ' · ' + esc(g.type + '. ' + tinfo.name) + '</p><h2 style="margin:.1rem 0">' + esc(g.title) + '</h2></div>' +
+  var h = g.edition === '2026' ? cautionBox() : '';
+  h += '<div class="folder-head"><div><p class="small muted" style="margin:0">' + esc(g.company) + ' · ' + esc(g.type + '. ' + tinfo.name) + (g.edition === '2026' ? ' · <span class="stamp">2026 variant, unverified</span>' : '') + '</p><h2 style="margin:.1rem 0">' + esc(g.title) + '</h2></div>' +
     '<div><span class="casecode" aria-label="Case code">' + esc(g.code) + '</span> <span class="points">Visit points left: ' + v.points + ' of ' + g.visitPoints + '</span><span class="pips" aria-hidden="true">' + pips + '</span></div></div>';
   h += '<div role="tablist" aria-label="Case folder">' + TABS.map(function (t) {
     var sel = S.tab === t[0];
@@ -363,7 +396,7 @@ function tabBrief() {
     '<tr><th scope="row">Skill branches</th><td>' + esc(g.branches.join(', ')) + '</td></tr>' +
     '<tr><th scope="row">Visit points</th><td>' + g.visitPoints + '. Each Observe, Ask, or Review costs one point.</td></tr>' +
     '<tr><th scope="row">Typical length</th><td>About ' + t.minutes + ' minutes</td></tr></tbody></table></div>';
-  if (g.edition === '2026') h += '<p class="msg">CAUTION: PRELIMINARY 2026 INFORMATION. This case reflects unverified commentary on the 2026 edition and is excluded from badge scoring until verified.</p>';
+  if (g.edition === '2026') h += '<div class="sheet"><h3>2026 notes for this case</h3><p class="small">Paraphrased from secondary commentary on ISO 9001:2026, each with its confidence label. Clause numbers use 2015 numbering. This variant is excluded from badge scoring, the capstone, and the skill map until verified.</p>' + bridgeList(g.bridge2026 || []) + '</div>';
   h += '<h3>How the visit works</h3><ol><li><strong>Site:</strong> choose where to look. Evidence cards go into your Notebook.</li><li><strong>Notebook:</strong> classify each card and link it to a clause.</li><li><strong>Findings:</strong> write a finding for each nonconformity, choose actions, and make any decisions.</li><li><strong>Debrief:</strong> see every planted issue and red herring, the reasoning, and your five measures.</li></ol>' +
     '<p>If the visit points run out, the visit ends and you continue with what you gathered. Nothing is lost. Hints are always available and never change a measure.</p>' +
     '<button type="button" class="ink" data-act="tab" data-tab="site" id="b-begin">Begin the visit</button>';
@@ -373,7 +406,7 @@ function tabSite() {
   var g = S.gen, v = S.visit;
   var h = '';
   if (v.visitEnded) h += '<p class="msg">' + (v.points === 0 ? 'The visit points are used, so the visit has ended. Nothing is lost: sort your evidence in the Notebook and write your findings.' : 'You ended the visit. Continue in the Notebook and Findings.') + '</p>';
-  if (S.last) h += '<div class="evcard" id="latest" tabindex="-1"><p class="meta">LATEST · ' + esc(S.last.verb + ': ' + S.last.label) + '</p><p class="txt">' + esc(S.last.text) + '</p>' + (S.last.unlocked ? '<p class="small"><strong>New lead:</strong> ' + esc(S.last.unlocked) + '</p>' : '') + '</div>';
+  if (S.last) h += '<div class="evcard" id="latest" tabindex="-1"><p class="meta">LATEST · ' + esc(S.last.verb + ': ' + S.last.label) + '</p><p class="txt">' + esc(S.last.text) + '</p>' + (S.last.ev ? confTag(S.last.ev) : '') + (S.last.unlocked ? '<p class="small"><strong>New lead:</strong> ' + esc(S.last.unlocked) + '</p>' : '') + '</div>';
   var avail = CB.availableActions(v);
   var groups = [];
   g.hotspots.forEach(function (hs) { if (groups.indexOf(hs.group) < 0) groups.push(hs.group); });
@@ -408,6 +441,7 @@ function tabNotebook() {
         return '<label class="choice"><input type="radio" name="cls-' + sid + '" id="cls-' + sid + '-' + k + '" data-act="cls" data-id="' + esc(id) + '" value="' + k + '"' + (c.cls === k ? ' checked' : '') + (v.closed ? ' disabled' : '') + '> ' + esc(CB.CLASS_LABEL[k]) + '</label>';
       }).join('') + '</fieldset>' +
       '<label for="cl-' + sid + '">Clause link</label> <select id="cl-' + sid + '" data-act="clause" data-id="' + esc(id) + '"' + (v.closed ? ' disabled' : '') + '>' + clauseOptions(c.clause, 'No clause linked') + '</select>' +
+      (ev.confidence ? '<p>' + confTag(ev) + '</p>' : '') +
       (c.cls ? '<details><summary>Why this matters</summary><p>' + esc(ev.whyItMatters) + '</p></details>' : '') + '</article>';
   });
   h += '<button type="button" class="ink" data-act="tab" data-tab="findings" id="b-to-findings">Go to Findings</button>';
@@ -449,7 +483,7 @@ function tabFindings() {
     h += '<section class="sheet" aria-labelledby="dc-h"><h3 id="dc-h">Decision' + (g.decisions.length > 1 ? 's' : '') + '</h3>';
     g.decisions.forEach(function (dd) {
       var sid = dd.id.replace(/\./g, '_');
-      h += '<fieldset style="border:0;padding:0;margin:.7rem 0"><legend><strong>' + esc(dd.prompt) + '</strong></legend>' + dd.options.map(function (o, i) {
+      h += '<fieldset style="border:0;padding:0;margin:.7rem 0"><legend><strong>' + esc(dd.prompt) + '</strong></legend>' + (dd.confidence ? '<p>' + confTag(dd) + '</p>' : '') + dd.options.map(function (o, i) {
         return '<label class="opt"><input type="radio" name="dec-' + sid + '" id="dec-' + sid + '-' + i + '" data-act="decide" data-id="' + esc(dd.id) + '" value="' + i + '"' + (v.decisions[dd.id] === i ? ' checked' : '') + '><span>' + esc(o) + '</span></label>';
       }).join('') + '<label for="just-' + sid + '">Your justification (optional, shown in the debrief)</label><textarea id="just-' + sid + '" data-field="just" data-id="' + esc(dd.id) + '" rows="2">' + esc(v.justifications[dd.id] || '') + '</textarea></fieldset>';
     });
@@ -477,9 +511,10 @@ function tabDebrief() {
   if (!v.closed) return '<p>The debrief opens when you close the case from the Findings tab. You can close it at any time; nothing ends the case before then.</p><button type="button" data-act="tab" data-tab="findings" id="b-db-findings">Go to Findings</button>';
   var db = S.debrief;
   var sec = sectorByPack(g.pack);
-  var map = CB.skillMap(prog(g.pack).attempts);
-  var rec = CB.recommendNext(map, prog(g.pack).attempts.map(function (a) { return a.caseId; }), casesOf(g.pack));
+  var map = CB.skillMap(attempts2015(g.pack));
+  var rec = CB.recommendNext(map, prog(g.pack).attempts.map(function (a) { return a.caseId; }), cases2015(g.pack));
   var h = '<p><span class="stamp">Reviewed</span> <span class="small muted">Case ' + esc(g.code) + ' · debrief</span></p>';
+  if (g.edition === '2026') h += '<p class="msg">This 2026 variant attempt is not counted toward the Sector Practitioner badge or the overall skill map until the 2026 content is verified.</p><h3>2026 notes</h3>' + bridgeList(g.bridge2026 || []);
   h += '<h3>Five measures</h3><p class="small">There is no pass or fail score. Each measure explains one part of the investigation.</p><div class="tablewrap"><table><thead><tr><th scope="col">Measure</th><th scope="col">Result</th><th scope="col">What it means</th></tr></thead><tbody>' + measureRows(db) + '</tbody></table></div>';
   h += '<p class="small muted">Visit points left over: ' + db.pointsLeft + '. Shown for information; it does not raise or lower any measure. Hints used: ' + db.hints.length + ' (never penalized).</p>';
   h += '<h3>Margin notes</h3>' + db.marginNotes.map(function (n) { return '<p class="margin"><b>Inspector</b>' + esc(n) + '</p>'; }).join('');
@@ -491,11 +526,11 @@ function tabDebrief() {
   }).join('') + '</div>';
   h += '<h3>Planted issues</h3>' + db.expected.map(function (x) {
     return '<div class="evcard"><p class="meta">CARD ' + esc(x.id) + (x.supports.length ? ' (supported by ' + esc(x.supports.join(', ')) + ')' : '') + ' · ' + esc(x.kind === 'observation' ? 'Observation' : 'Nonconformity') + ' · ' + esc(x.clauses.map(clauseLabel).join('; ')) + '</p>' +
-      '<span class="stamp' + (x.found ? ' acc' : '') + '">' + (x.found ? 'Found' : 'Missed') + '</span><p class="txt">' + esc(x.text) + '</p><p><strong>Why it matters:</strong> ' + esc(x.why) + '</p>' + (x.found ? '' : '<p><strong>How to notice it:</strong> ' + esc(x.missed) + '</p>') + '</div>';
+      '<span class="stamp' + (x.found ? ' acc' : '') + '">' + (x.found ? 'Found' : 'Missed') + '</span><p class="txt">' + esc(x.text) + '</p>' + (g.evidence[x.id].confidence ? '<p>' + confTag(g.evidence[x.id]) + '</p>' : '') + '<p><strong>Why it matters:</strong> ' + esc(x.why) + '</p>' + (x.found ? '' : '<p><strong>How to notice it:</strong> ' + esc(x.missed) + '</p>') + '</div>';
   }).join('');
   h += '<p class="margin"><b>Inspector</b>' + esc(db.missed.length ? db.text.missed : db.text.found) + '</p>';
-  h += '<h3>False-finding review</h3>' + (db.falseFindings.length ? db.falseFindings.map(function (x) { return '<div class="evcard"><p class="meta">CARD ' + esc(x.id) + '</p><p class="txt">' + esc(x.text) + '</p><p><strong>Why it conforms:</strong> ' + esc(x.why) + '</p></div>'; }).join('') + '<p class="margin"><b>Inspector</b>' + esc(db.text.falseFinding) + '</p>' : '<p>No conforming evidence was reported as an issue.</p>');
-  h += '<h3>Red herrings in this case</h3><ul>' + db.redHerrings.map(function (x) { return '<li><span class="mono small">' + esc(x.id) + '</span> ' + esc(x.text) + '<br><span class="small"><strong>' + esc(x.status.label) + '.</strong> ' + esc(x.why) + '</span></li>'; }).join('') + '</ul>';
+  h += '<h3>False-finding review</h3>' + (db.falseFindings.length ? db.falseFindings.map(function (x) { return '<div class="evcard"><p class="meta">CARD ' + esc(x.id) + '</p><p class="txt">' + esc(x.text) + '</p>' + (g.evidence[x.id] && g.evidence[x.id].confidence ? '<p>' + confTag(g.evidence[x.id]) + '</p>' : '') + '<p><strong>Why it conforms:</strong> ' + esc(x.why) + '</p></div>'; }).join('') + '<p class="margin"><b>Inspector</b>' + esc(db.text.falseFinding) + '</p>' : '<p>No conforming evidence was reported as an issue.</p>');
+  h += '<h3>Red herrings in this case</h3><ul>' + db.redHerrings.map(function (x) { return '<li><span class="mono small">' + esc(x.id) + '</span> ' + esc(x.text) + ' ' + confTag(g.evidence[x.id]) + '<br><span class="small"><strong>' + esc(x.status.label) + '.</strong> ' + esc(x.why) + '</span></li>'; }).join('') + '</ul>';
   h += '<h3>Your findings</h3>' + (v.findings.length ? db.score.rubrics.map(function (r) {
     var f = v.findings.filter(function (x) { return x.id === r.id; })[0];
     return '<div class="evcard"><p class="meta">FINDING ' + esc(f.id) + ' · ' + esc(f.clause ? clauseLabel(f.clause) : 'no clause') + ' · cards ' + esc(f.evidence.join(', ') || 'none') + ' · rubric ' + r.r.total + ' of 4</p><p class="txt">' + esc(f.statement) + '</p>' +
@@ -505,7 +540,7 @@ function tabDebrief() {
   if (db.decisions.length) {
     h += '<h3>Decision review</h3>' + db.decisions.map(function (d) {
       return '<div class="evcard"><p><strong>' + esc(d.prompt) + '</strong></p><p>Your decision: ' + esc(d.chosenText) + (d.chosen === d.best ? ' <span class="stamp acc">Best supported</span>' : '') + '</p>' + (d.feedback ? '<p class="small">' + esc(d.feedback) + '</p>' : '') +
-        (d.justification ? '<p class="small">Your justification: ' + esc(d.justification) + '</p>' : '') + '<p>Best-supported answer: ' + esc(d.bestText) + '</p><p><strong>Rationale:</strong> ' + esc(d.rationale) + '</p></div>';
+        (d.justification ? '<p class="small">Your justification: ' + esc(d.justification) + '</p>' : '') + '<p>Best-supported answer: ' + esc(d.bestText) + '</p><p><strong>Rationale:</strong> ' + esc(d.rationale) + '</p>' + confTag(g.decisions.filter(function (x) { return x.id === d.id; })[0]) + '</div>';
     }).join('');
   }
   if (db.expectedActions) {
@@ -523,6 +558,62 @@ function tabDebrief() {
   h += '<h3>Next</h3><div class="row"><button type="button" class="ink" data-act="retry-same" id="b-retry-same">Replay the same case (same seed)</button><button type="button" data-act="retry-new" id="b-retry-new">Try a new seed</button>' +
     (rec ? '<button type="button" data-act="start" data-case="' + rec.caseId + '" id="b-rec-next">Open the recommended case</button>' : '') + '<button type="button" data-act="home" id="b-db-home">Back to the case shelf</button></div>';
   return h;
+}
+
+/* ---------- placement check (Appendix D.1) ---------- */
+var PL = DATA.placement;
+function placementSheet() {
+  var last = S.progress.placement;
+  return '<div class="sheet memo" aria-labelledby="pl-h"><h3 id="pl-h">Placement check (optional)</h3>' +
+    '<p>Skipped the core modules? Take this ' + PL.items.length + '-question check on the general instruction before you choose a sector. It advises only: nothing is locked, and you may skip it.</p>' +
+    '<p class="small">Pass rule: ' + esc(PL.meta.passRule) + '</p>' +
+    (last ? '<p><strong>Last result:</strong> ' + last.correct + ' of ' + last.total + ' on ' + esc(last.date) + '. ' + (last.passed ? '<span class="stamp acc">Ready for the track</span>' : '<span class="stamp plain">Review advised</span>') + '</p>' : '') +
+    '<div class="row"><button type="button" class="ink" data-act="placement" id="b-placement">' + (last ? 'Take the placement check again' : 'Take the placement check') + '</button><span class="small muted">About 5 minutes. Untimed.</span></div></div>';
+}
+function startPlacement(seed) {
+  S.placement = { sess: CB.placementSession(PL.items, seed || CB.randomSeed()), result: null, code: '', error: '' };
+  S.screen = 'placement';
+}
+function viewPlacement() {
+  var P = S.placement, sess = P.sess;
+  var h = '<h2>Placement check</h2><p>Eight questions on the general instruction (core modules), in sector-neutral terms. Choose one answer for each. Untimed. The result advises; it never locks any part of the track.</p>' +
+    '<p class="small muted">Check code <span class="mono">' + esc(sess.code) + '</span>. The same code gives the same order of questions and options.</p>';
+  if (P.error) h += '<p class="msg" role="alert">' + esc(P.error) + '</p>';
+  var done = !!P.result;
+  sess.order.forEach(function (idx, n) {
+    var it = sess.items[idx], ch = sess.answers[idx];
+    h += '<div class="sheet"><fieldset style="border:0;padding:0;margin:0"><legend style="font-family:var(--serif);font-size:1.1rem"><span class="mono small">' + (n + 1) + '.</span> ' + esc(it.stem) + '</legend>' +
+      sess.optOrder[idx].map(function (oi) {
+        var mark = '';
+        if (done) { if (oi === it.answer) mark = ' (correct answer)'; else if (oi === ch) mark = ' (your answer)'; }
+        return '<label class="opt"><input type="radio" name="pl-' + idx + '" id="pl-' + idx + '-' + oi + '" data-act="pl-pick" data-i="' + idx + '" value="' + oi + '"' + (ch === oi ? ' checked' : '') + (done ? ' disabled' : '') + '><span>' + esc(it.options[oi]) + '<strong>' + esc(mark) + '</strong></span></label>';
+      }).join('') + '</fieldset>' +
+      (done ? '<p class="small"><strong>' + (ch === it.answer ? 'Correct.' : 'Not this time.') + '</strong> ' + esc(it.rationale) + ' <span class="mono">(Module ' + it.module + ', ' + esc(it.moduleTitle) + '; clause ' + esc(it.clause) + ')</span></p>' : '') + '</div>';
+  });
+  if (!done) {
+    var n = Object.keys(sess.answers).length;
+    h += '<div class="row"><button type="button" class="ink" data-act="pl-check" id="b-pl-check">Check my answers</button><span class="small">' + n + ' of ' + sess.items.length + ' answered</span><button type="button" data-act="home" id="b-pl-skip">Skip the check and go to the case shelf</button></div>';
+    return h;
+  }
+  var r = P.result;
+  h += '<section class="sheet memo" aria-labelledby="plr-h"><h3 id="plr-h">Your result</h3><p><strong>' + r.correct + ' of ' + r.total + ' correct (' + r.percent + ' percent).</strong> The pass mark is ' + r.passMark + ' percent, so at least ' + r.needed + ' of ' + r.total + '. ' +
+    (r.passed ? '<span class="stamp acc">Ready for the track</span></p><p>' + esc(PL.meta.adviceReady) + '</p>' : '<span class="stamp plain">Review advised</span></p><p>' + esc(PL.meta.adviceReview) + '</p>') +
+    (r.modulesToReview.length ? '<p><strong>Core modules to review:</strong></p><ul>' + r.modulesToReview.map(function (m) { var it = PL.items.filter(function (x) { return x.module === m; })[0]; return '<li>Module ' + m + ': ' + esc(it.moduleTitle) + '</li>'; }).join('') + '</ul>' : '') +
+    '<p><label for="pl-rc">Placement results code</label><br><input type="text" id="pl-rc" class="mono" readonly size="40" value="' + esc(P.code) + '"></p><p class="small">Give this code to your instructor if asked. It records the score, the pass mark, the questions missed, and the date. It is a training aid, not an assessment record.</p>' +
+    '<div class="row"><button type="button" data-act="copy-pl" id="b-copy-pl">Copy the code</button><button type="button" data-act="placement" id="b-pl-again">Take it again with a new order</button><button type="button" class="ink" data-act="home" id="b-pl-home">Go to the case shelf</button></div></section>';
+  return h;
+}
+function checkPlacement() {
+  var P = S.placement, sess = P.sess;
+  var n = Object.keys(sess.answers).length;
+  if (n < sess.items.length) { P.error = 'Answer all ' + sess.items.length + ' questions before checking. ' + (sess.items.length - n) + ' still open.'; return; }
+  P.error = '';
+  var r = CB.placementScore(sess, PL.meta.passMark);
+  P.result = r;
+  var date = new Date();
+  P.code = CB.encodePlacement({ seed: sess.seed, correct: r.correct, total: r.total, passMark: r.passMark, missedMask: r.missedMask, date: date, learner: S.progress.learner });
+  S.progress.placement = { correct: r.correct, total: r.total, passMark: r.passMark, passed: r.passed, date: date.toISOString().slice(0, 10), code: P.code, modulesToReview: r.modulesToReview };
+  save();
 }
 
 /* ---------- drills ---------- */
@@ -556,7 +647,7 @@ function viewDrills() {
 /* ---------- compare (cross-sector) ---------- */
 function issuesFor(pack, clause) {
   var out = [];
-  casesOf(pack).forEach(function (c) { c.evidence.forEach(function (ev) { if ((ev.kind === 'nonconformity') && !ev.supports && ev.clause.split(/,\s*/).indexOf(clause) >= 0) out.push({ c: c, ev: ev }); }); });
+  cases2015(pack).forEach(function (c) { c.evidence.forEach(function (ev) { if ((ev.kind === 'nonconformity') && !ev.supports && ev.clause.split(/,\s*/).indexOf(clause) >= 0) out.push({ c: c, ev: ev }); }); });
   return out;
 }
 function plainText(s) { return String(s).replace(/\{\{(\w+)\}\}/g, function (m, k) { return '[' + k + ']'; }); }
@@ -564,7 +655,7 @@ function plainFor(c, s) { return String(s).replace(/\{\{(\w+)\}\}/g, function (m
 function viewCompare() {
   var cmp = S.compare;
   var clauseSet = {};
-  DATA.sectors.forEach(function (s) { casesOf(s.pack).forEach(function (c) { c.evidence.forEach(function (ev) { if (ev.kind === 'nonconformity' && !ev.supports) ev.clause.split(/,\s*/).forEach(function (k) { clauseSet[k] = (clauseSet[k] || 0) + 1; }); }); }); });
+  DATA.sectors.forEach(function (s) { cases2015(s.pack).forEach(function (c) { c.evidence.forEach(function (ev) { if (ev.kind === 'nonconformity' && !ev.supports) ev.clause.split(/,\s*/).forEach(function (k) { clauseSet[k] = (clauseSet[k] || 0) + 1; }); }); }); });
   var cls = Object.keys(clauseSet).filter(function (k) { return clauseSet[k] >= 2; }).sort(function (a, b) { var x = a.split('.').map(Number), y = b.split('.').map(Number); for (var i = 0; i < 3; i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); } return 0; });
   if (!cmp.clause) cmp.clause = cls.indexOf('8.6') >= 0 ? '8.6' : cls[0];
   if (!cmp.a) cmp.a = 'process-food';
@@ -594,13 +685,14 @@ function viewCompare() {
 function fmtTime(s) { var m = Math.floor(s / 60), r = s % 60; return (m < 10 ? '0' : '') + m + ':' + (r < 10 ? '0' : '') + r; }
 function viewRoom() {
   var R = S.room;
-  var h = '<h2>Case Room: facilitator view</h2><p class="small">For the projector. Every learner opens the same case code, investigates, and then the group compares notebooks and findings.</p>';
+  var h = (R.gen && R.gen.edition === '2026') ? cautionBox() : '';
+  h += '<h2>Case Room: facilitator view</h2><p class="small">For the projector. Every learner opens the same case code, investigates, and then the group compares notebooks and findings.</p>';
   h += '<div class="sheet row"><label for="room-code">Case code</label><input type="text" id="room-code" class="mono" size="14" value="' + esc(R.code) + '" placeholder="MFG-B-7K3Q"><button type="button" class="ink" data-act="room-load" id="b-room-load">Show this case</button>' +
-    '<label for="room-new" class="sr">Case for a new code</label><select id="room-new">' + DATA.sectors.map(function (s) { return casesOf(s.pack).map(function (c) { return '<option value="' + c.id + '">' + esc(s.code + ' · ' + c.type + '. ' + c.title) + '</option>'; }).join('') + '<option value="CAP-' + s.code + '">' + esc(s.code + ' · Sector capstone') + '</option>'; }).join('') + '</select><button type="button" data-act="room-newcode" id="b-room-newcode">Make a new code for this case</button></div>';
+    '<label for="room-new" class="sr">Case for a new code</label><select id="room-new">' + DATA.sectors.map(function (s) { return casesOf(s.pack).map(function (c) { return '<option value="' + c.id + '">' + esc(s.code + ' · ' + c.type + '. ' + c.title + (c.edition === '2026' ? ' (2026 variant, preliminary and unverified)' : '')) + '</option>'; }).join('') + '<option value="CAP-' + s.code + '">' + esc(s.code + ' · Sector capstone') + '</option>'; }).join('') + '</select><button type="button" data-act="room-newcode" id="b-room-newcode">Make a new code for this case</button></div>';
   if (R.error) h += '<p class="msg" role="alert">' + esc(R.error) + '</p>';
   if (!R.gen) return h + '<button type="button" data-act="home" id="b-room-home">Back to the case shelf</button>';
   var g = R.gen;
-  h += '<div class="sheet memo" style="text-align:center"><p class="small muted">' + esc(g.company + ' · ' + TYPES[g.type].name + ' · ' + g.title) + '</p><p class="big">' + esc(g.code) + '</p></div>';
+  h += '<div class="sheet memo" style="text-align:center"><p class="small muted">' + esc(g.company + ' · ' + TYPES[g.type].name + ' · ' + g.title) + '</p><p class="big">' + esc(g.code) + '</p>' + (g.edition === '2026' ? '<p><span class="stamp">2026 variant, unverified</span> Excluded from badge scoring.</p>' : '') + '</div>';
   h += '<div class="sheet"><h3>Timer</h3><p class="timer" aria-live="off" id="room-timer">' + fmtTime(R.left) + '</p><div class="row"><label for="room-min">Minutes</label><input type="text" id="room-min" size="3" value="' + Math.round(R.secs / 60) + '"><button type="button" data-act="timer-toggle" id="b-timer">' + (R.running ? 'Pause' : 'Start') + '</button><button type="button" data-act="timer-reset" id="b-timer-reset">Reset</button></div></div>';
   h += '<div class="sheet"><h3>Session guide (60 minutes)</h3><table><tbody><tr><td>0:00 to 0:05</td><td>Introduce the sector and the case type; give the case code</td></tr><tr><td>0:05 to 0:30</td><td>Learners investigate individually or in pairs</td></tr><tr><td>0:30 to 0:45</td><td>Compare findings; reveal the coverage map and answer key</td></tr><tr><td>0:45 to 0:55</td><td>Discuss missed evidence, false findings, and the best actions</td></tr><tr><td>0:55 to 1:00</td><td>Reflection: one change to make at work</td></tr></tbody></table>' +
     '<p class="small"><strong>Prompts:</strong> What did you notice first? What made you look at that record? Which evidence looked suspicious but was conforming? What system condition allowed the issue? What would you check at your own workplace?</p></div>';
@@ -623,11 +715,12 @@ function viewRoom() {
     h += '<h3>Planted issues</h3><ol>' + g.planted.map(function (id) {
       var ev = g.evidence[id]; var src = srcOf(g, id);
       var sup = g.included.filter(function (x) { return g.evidence[x].supports === id; });
-      return '<li><span class="mono small">' + esc(id) + '</span> <strong>' + esc(ev.kind === 'observation' ? 'Observation' : 'Nonconformity') + ', ' + esc(ev.clauses.map(clauseLabel).join('; ')) + '</strong> (' + esc(src.h.name + ' · ' + src.a.verb + ': ' + src.a.label) + ')' + (sup.length ? ' · supported by ' + esc(sup.join(', ')) : '') + '<br>' + esc(ev.text) + '</li>';
+      return '<li><span class="mono small">' + esc(id) + '</span> <strong>' + esc(ev.kind === 'observation' ? 'Observation' : 'Nonconformity') + ', ' + esc(ev.clauses.map(clauseLabel).join('; ')) + '</strong> (' + esc(src.h.name + ' · ' + src.a.verb + ': ' + src.a.label) + ')' + (sup.length ? ' · supported by ' + esc(sup.join(', ')) : '') + '<br>' + esc(ev.text) + ' ' + confTag(ev) + '</li>';
     }).join('') + '</ol><h3>Red herrings and conforming evidence</h3><ul>' + g.included.filter(function (id) { var k = g.evidence[id].kind; return k === 'redHerring' || k === 'conforming'; }).map(function (id) {
-      var ev = g.evidence[id]; return '<li><span class="mono small">' + esc(id) + '</span> ' + esc(ev.kind === 'redHerring' ? 'Red herring' : 'Conforming') + ': ' + esc(ev.text) + '</li>';
+      var ev = g.evidence[id]; return '<li><span class="mono small">' + esc(id) + '</span> ' + esc(ev.kind === 'redHerring' ? 'Red herring' : 'Conforming') + ': ' + esc(ev.text) + ' ' + confTag(ev) + '</li>';
     }).join('') + '</ul>';
-    if (g.decisions.length) h += '<h3>Decisions</h3>' + g.decisions.map(function (d) { return '<p><strong>' + esc(d.prompt) + '</strong><br>Best supported: ' + esc(d.options[d.bestIndex]) + '<br><span class="small">' + esc(d.rationale) + '</span></p>'; }).join('');
+    if (g.decisions.length) h += '<h3>Decisions</h3>' + g.decisions.map(function (d) { return '<p><strong>' + esc(d.prompt) + '</strong><br>Best supported: ' + esc(d.options[d.bestIndex]) + '<br><span class="small">' + esc(d.rationale) + '</span> ' + confTag(d) + '</p>'; }).join('');
+    if (g.edition === '2026') h += '<h3>2026 notes</h3>' + bridgeList(g.bridge2026 || []);
     if (g.expectedActions) h += '<h3>Expected actions' + (g.actionFocus ? ' for: ' + esc(g.actionFocus) : '') + '</h3><ul>' + CB.ACTION_CATS.map(function (k) { return '<li><strong>' + esc(CB.ACTION_LABEL[k]) + ':</strong> ' + esc(g.expectedActions[k].join('; ')) + '</li>'; }).join('') + '</ul>';
   }
   h += '</div><button type="button" data-act="home" id="b-room-home2">Back to the case shelf</button>';
@@ -637,6 +730,7 @@ function viewRoom() {
 /* ---------- actions ---------- */
 function openCase(code, opts) {
   var r = CB.buildFromCode(code, DATA);
+  if (r.placement) { startPlacement(r.seed); return ''; }
   if (r.error) return r.error;
   S.gen = r.gen; S.visit = CB.newVisit(r.gen); S.tab = 'brief'; S.last = null; S.flash = ''; S.debrief = null; S.resultCode = '';
   S.draft = { clause: '', evidence: null, statement: '', editing: null };
@@ -664,8 +758,8 @@ function closeCase() {
 }
 function findingsText() {
   var g = S.gen, v = S.visit;
-  var out = ['Sector Casebook: findings record', 'Case code: ' + g.code + ' (' + g.title + ', ' + g.company + ')', 'Learner: ' + (S.progress.learner || '(not given)'), 'Results code: ' + S.resultCode, 'Training aid, not an assessment record.', '', 'NOTEBOOK'];
-  v.collected.forEach(function (id) { var c = v.cls[id] || {}; out.push(id + ' [' + (c.cls ? CB.CLASS_LABEL[c.cls] : 'not classified') + (c.clause ? '; ' + c.clause : '') + '] ' + g.evidence[id].text); });
+  var out = (g.edition === '2026' ? [DATA.caution2026, '2026 variant: excluded from badge scoring until verified.', ''] : []).concat(['Sector Casebook: findings record', 'Case code: ' + g.code + ' (' + g.title + ', ' + g.company + ')', 'Learner: ' + (S.progress.learner || '(not given)'), 'Results code: ' + S.resultCode, 'Training aid, not an assessment record.', '', 'NOTEBOOK']);
+  v.collected.forEach(function (id) { var c = v.cls[id] || {}, ev = g.evidence[id]; out.push(id + ' [' + (c.cls ? CB.CLASS_LABEL[c.cls] : 'not classified') + (c.clause ? '; ' + c.clause : '') + '] ' + ev.text + (ev.confidence ? ' (2026 confidence: ' + ev.confidence + ')' : '')); });
   out.push('', 'FINDINGS');
   v.findings.forEach(function (f) { out.push(f.id + ' (' + (f.clause || 'no clause') + '; cards ' + (f.evidence.join(', ') || 'none') + '): ' + f.statement); });
   if (g.actionOptions) {
@@ -679,7 +773,11 @@ function recordText(pack) {
   var s = sectorByPack(pack), p = prog(pack), bs = badgeStatus(pack);
   var out = ['Sector Casebook: track record', 'Sector: ' + s.name, 'Learner: ' + (S.progress.learner || '(not given)'), 'Date: ' + new Date().toISOString().slice(0, 10), '',
     'Primer read: ' + (p.primer ? 'yes' : 'no'), 'Drills best first-try score: ' + (p.drillBest === null ? 'not taken' : p.drillBest + ' percent'), '', 'RESULTS CODES (training aid, not an assessment record)'];
-  p.attempts.forEach(function (a) { out.push(a.resultCode); });
+  p.attempts.filter(function (a) { return a.edition !== '2026'; }).forEach(function (a) { out.push(a.resultCode); });
+  var a26 = p.attempts.filter(function (a) { return a.edition === '2026'; });
+  if (a26.length) { out.push('', '2026 VARIANT ATTEMPTS (not counted toward the badge until verified)', DATA.caution2026); a26.forEach(function (a) { out.push(a.resultCode); }); }
+  var pl = S.progress.placement;
+  out.push('', 'PLACEMENT CHECK (optional; advice only)', pl ? pl.correct + ' of ' + pl.total + ' correct on ' + pl.date + ' (' + (pl.passed ? 'meets' : 'below') + ' the ' + pl.passMark + ' percent pass mark). Code: ' + pl.code : 'Not taken.');
   out.push('', 'REFLECTION' + (p.reflectionSubmitted ? '' : ' (not yet submitted)'));
   DATA.meta.reflectionQuestions.forEach(function (q, i) { out.push((i + 1) + '. ' + q, '   ' + (p.reflection[i] || '')); });
   out.push('', 'Badge status: ' + (bs.ready ? 'ready for instructor review' : 'in progress') + '. The badge requires instructor review of the capstone findings.');
@@ -732,7 +830,7 @@ document.addEventListener('click', function (e) {
     case 'act':
       var r = CB.act(v, t.getAttribute('data-key'));
       if (r.ok) {
-        S.last = { verb: r.action.verb, label: r.action.label, text: r.evidence ? r.evidence.text : r.action.note, unlocked: r.unlocked.map(function (a) { return a.verb + ': ' + a.label; }).join('; ') };
+        S.last = { verb: r.action.verb, label: r.action.label, text: r.evidence ? r.evidence.text : r.action.note, ev: r.evidence || null, unlocked: r.unlocked.map(function (a) { return a.verb + ': ' + a.label; }).join('; ') };
         S.flash = r.visitEnded ? 'That was the last visit point. The visit has ended; nothing is lost. Continue in the Notebook.' : '';
         save(); render();
         live((r.evidence ? 'Card ' + r.evidence.id + ' added to the Notebook. ' : 'Nothing of note. ') + (r.unlocked.length ? 'New lead available. ' : '') + v.points + ' visit points left.');
@@ -802,6 +900,10 @@ document.addEventListener('click', function (e) {
       S.room.secs = (mins > 0 && mins < 240 ? mins : 25) * 60; S.room.left = S.room.secs; S.room.running = false; clearInterval(S.room.timerId); render(); return;
     case 'room-reveal': S.room.reveal = !S.room.reveal; render(); return;
     case 'room-names': S.room.names = t.checked; render(); return;
+    case 'placement': startPlacement(); render(); document.getElementById('app').focus(); live('Placement check opened. Eight questions.'); return;
+    case 'pl-pick': CB.placementAnswer(S.placement.sess, parseInt(t.getAttribute('data-i'), 10), parseInt(t.value, 10)); S.placement.error = ''; return;
+    case 'pl-check': checkPlacement(); render(); var plr = document.getElementById(S.placement.result ? 'plr-h' : 'b-pl-check'); if (plr) { plr.setAttribute('tabindex', '-1'); plr.focus(); } live(S.placement.result ? 'Result: ' + S.placement.result.correct + ' of ' + S.placement.result.total + ' correct.' : S.placement.error); return;
+    case 'copy-pl': copyText(S.placement.code, 'Placement code copied.'); return;
   }
 });
 document.addEventListener('change', function (e) {

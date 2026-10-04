@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "name": "Placement check",
+    "version": 1,
+    "note": "Optional placement check for the Industry Deep-Dive Track (Appendix D.1). Eight sector-neutral questions on the general instruction (core Modules 1 to 10), for learners who skip the core modules. It advises; it never locks any part of the track. ISO 9001:2015 baseline; no 2026 content. Clause tags are unverified until confirmed against the purchased standard.",
+    "edition": "2015",
+    "verifyStatus2015": "unverified",
+    "passMark": 80,
+    "passRule": "Pass when the share answered correctly meets the pass mark (default 80 percent, so at least 7 of 8). The program owner may change the pass mark here.",
+    "adviceReady": "You are ready for the sector track. Choose any sector and begin with the primer or go straight to the casebook.",
+    "adviceReview": "Before the sector track, review the core modules listed below. This is advice only: you may still start a sector now, and nothing is locked.",
+    "codePrefix": "PLC-P"
+  },
+  "items": [
+    {
+      "id": "PC-01",
+      "module": 1,
+      "moduleTitle": "Context and Scope",
+      "clause": "4.1, 4.2",
+      "stem": "A company is setting up its quality management system. What does it look at first to decide what the system needs to address?",
+      "options": [
+        "Its internal and external issues and the needs of relevant interested parties, such as customers and regulators",
+        "The number of documents a competitor keeps",
+        "Only the list of products it sells this year",
+        "Whatever the certification auditor asks for on the day"
+      ],
+      "answer": 0,
+      "rationale": "The system is shaped by the organization's context: the issues that affect its intended results and the requirements of interested parties that matter to it."
+    },
+    {
+      "id": "PC-02",
+      "module": 2,
+      "moduleTitle": "Leadership and Policy",
+      "clause": "5.1.1, 5.3",
+      "stem": "Who is accountable for the effectiveness of the quality management system?",
+      "options": [
+        "The quality department alone",
+        "Top management, who may assign roles and authorities but keep the accountability",
+        "The certification body",
+        "Each operator, separately"
+      ],
+      "answer": 1,
+      "rationale": "Top management can delegate tasks and authority, but accountability for the system's effectiveness stays with them."
+    },
+    {
+      "id": "PC-03",
+      "module": 3,
+      "moduleTitle": "Planning, Risk, and Change",
+      "clause": "6.3, 8.5.6",
+      "stem": "A team wants to change a process step to save time. What is the sound first step?",
+      "options": [
+        "Make the change at once and see whether complaints arrive",
+        "Make the change only on the night shift",
+        "Plan the change: consider its purpose and consequences, the resources and responsibilities needed, and how output will be verified, and record the review",
+        "Wait until the next certification audit"
+      ],
+      "answer": 2,
+      "rationale": "Changes are planned and controlled so that the integrity of the system and the conformity of output are kept."
+    },
+    {
+      "id": "PC-04",
+      "module": 4,
+      "moduleTitle": "Support",
+      "clause": "7.1.5",
+      "stem": "A gauge used for final inspection is found to be out of calibration. What else is needed besides recalibrating it?",
+      "options": [
+        "Nothing, once it is recalibrated",
+        "Replace the operator who used it",
+        "Change the tolerance on the drawing",
+        "Assess whether earlier results were affected and act on any output measured since the last good calibration"
+      ],
+      "answer": 3,
+      "rationale": "When a measuring resource is found unfit, the validity of earlier results is assessed and appropriate action is taken on affected output."
+    },
+    {
+      "id": "PC-05",
+      "module": 4,
+      "moduleTitle": "Support",
+      "clause": "7.5.3",
+      "stem": "An operator finds a printed work instruction at the workstation that is one revision behind the controlled system. What is the right response?",
+      "options": [
+        "Remove or mark the obsolete copy, use the current revision, and report how the old copy came to be there",
+        "Keep using it until the stock runs out",
+        "Write the changes on the old copy by hand",
+        "Ignore it if the steps look similar"
+      ],
+      "answer": 0,
+      "rationale": "Documented information is available in its current version where it is used, and obsolete versions are prevented from unintended use."
+    },
+    {
+      "id": "PC-06",
+      "module": 6,
+      "moduleTitle": "Operation, Part B: Production, Traceability, and Release",
+      "clause": "8.5.2",
+      "stem": "Why does an organization keep the identity of each batch, lot, order, or version through its process when traceability is a requirement?",
+      "options": [
+        "To increase the number of records",
+        "So that, if a problem is found, it can tell exactly which output, inputs, and records are affected",
+        "Because the customer will inspect every label",
+        "So that each person's speed can be ranked"
+      ],
+      "answer": 1,
+      "rationale": "Unique identification lets the organization trace output and define the scope of any problem precisely."
+    },
+    {
+      "id": "PC-07",
+      "module": 7,
+      "moduleTitle": "Nonconforming Outputs",
+      "clause": "8.7",
+      "stem": "A result is just outside its limit and the delivery is due within the hour. What happens to the affected output?",
+      "options": [
+        "It ships, and the result is noted for later",
+        "The check is repeated until a reading falls inside the limit",
+        "It is identified and held, recorded, and released only by an authorized disposition, with the customer's agreement where required",
+        "It is scrapped without a record"
+      ],
+      "answer": 2,
+      "rationale": "Nonconforming output is identified and controlled to prevent unintended delivery, and the action taken and the authority are recorded."
+    },
+    {
+      "id": "PC-08",
+      "module": 9,
+      "moduleTitle": "Improvement and Corrective Action",
+      "clause": "10.2",
+      "stem": "The same defect has appeared three times this quarter. What does a sound corrective action include?",
+      "options": [
+        "A reminder to staff to take more care",
+        "A written warning to the last person involved",
+        "Closing the record once the defective item is fixed",
+        "Correction of the output, a cause stated as a system condition, an action on that cause, and a later check that it worked"
+      ],
+      "answer": 3,
+      "rationale": "Corrective action deals with the consequences, finds and removes the cause so the problem does not recur, and reviews effectiveness."
+    }
+  ]
+}

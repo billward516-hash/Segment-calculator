@@ -10,6 +10,11 @@ var CB = (function (mulberry32) {
   var ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ'; // readable base 32 (no I, L, O, U)
   var TYPES = ['A', 'B', 'C', 'D', 'E', 'F'];
   var CAPSTONE = 'X';
+  var PLACEMENT = 'P';
+  var PLACEMENT_PACK = 'PLC';
+  var CONFIDENCE = ['High', 'Medium', 'Single', 'Unclear', 'Best estimate'];
+  // Lettered sub-items within Clause 5 must not be cited in 2026 content (Section 0.1, rule 5).
+  var LETTERED_CLAUSE5 = /\b5\.\d(\.\d)?\s*\(?[a-h]\)|\b5\.\d\.\d[a-h]\b/;
   var CLASSES = ['conforming', 'nonconformity', 'observation', 'more'];
   var CLASS_LABEL = { conforming: 'Conforming', nonconformity: 'Nonconformity', observation: 'Observation', more: 'Need more evidence' };
   var ACTION_CATS = ['containment', 'correction', 'cause', 'corrective', 'effectiveness'];
@@ -74,7 +79,7 @@ var CB = (function (mulberry32) {
 
   // Case code: <PACK>-<TYPE>[n]-<SEED>, for example MFG-B-7K3Q. Type X is the sector capstone.
   function parseCode(str) {
-    var m = /^\s*([A-Za-z]{3})-([A-Fa-fXx])(\d{0,2})-([0-9A-Za-z]{4})\s*$/.exec(String(str || ''));
+    var m = /^\s*([A-Za-z]{3})-([A-Fa-fXxPp])(\d{0,2})-([0-9A-Za-z]{4})\s*$/.exec(String(str || ''));
     if (!m) return { error: 'A case code has the form ABC-T-SEED, for example MFG-B-7K3Q.' };
     var seed = fromB32(m[4]);
     if (isNaN(seed)) return { error: 'The seed part of the code contains a character that is not used in case codes.' };
@@ -153,6 +158,31 @@ var CB = (function (mulberry32) {
     if (!c.debriefText || !c.debriefText.found || !c.debriefText.missed || !c.debriefText.falseFinding) e('debriefText needs found, missed, and falseFinding');
     if (c.referenceSelection) (c.referenceSelection.evidence || []).forEach(function (id) { if (!ids[id]) e('referenceSelection names unknown evidence ' + id); });
     if (c.tokens) Object.keys(c.tokens).forEach(function (k) { if (!Array.isArray(c.tokens[k]) || !c.tokens[k].length) e('token ' + k + ' needs options'); });
+    // 2026 variants (Appendix D.7.2; Section 0.1): every 2026 statement carries a confidence label, a best estimate
+    // states its reasoning and what to check, no lettered Clause 5 sub-item is cited, and wording is paraphrase only.
+    var confOk = function (o, label) {
+      if (CONFIDENCE.indexOf(o.confidence) < 0) { e(label + ' needs a confidence label (' + CONFIDENCE.join(', ') + ')'); return; }
+      if (o.confidence === 'Best estimate' && (!o.reasoning || !o.check)) e(label + ' is a best estimate and needs "reasoning" and "check" (what to confirm in the standard)');
+    };
+    if (c.edition === '2026') {
+      c.evidence.forEach(function (ev) { confOk(ev, ev.id); });
+      (c.decisions || []).forEach(function (d) { confOk(d, 'decision ' + d.id); });
+      if (!Array.isArray(c.bridge2026) || c.bridge2026.length < 2) e('a 2026 variant needs at least two bridge2026 statements');
+      (c.bridge2026 || []).forEach(function (b, i) {
+        var lab = 'bridge2026[' + i + ']';
+        if (!b.text) e(lab + ' has no text');
+        confOk(b, lab);
+        if (!b.clause || !clauses(b.clause).length) e(lab + ' has no clause tag');
+        if (validClauses) clauses(b.clause).forEach(function (cl) { if (!validClauses.has(cl)) e(lab + ' clause ' + cl + ' is not in the clause map'); });
+        if (/["\u201c\u201d]/.test(b.text)) e(lab + ' must paraphrase; quotation marks suggest quoted requirement wording');
+      });
+      if (!c.variantOf || !/^[A-Z]{3}-[A-F]-\d\d$/.test(c.variantOf)) e('a 2026 variant needs "variantOf" naming the 2015 case it varies');
+    } else {
+      if (c.bridge2026 || c.variantOf) e('a 2015 case must not carry bridge2026 or variantOf (2026 content stays out of the core cases)');
+      c.evidence.forEach(function (ev) { if (ev.confidence) e(ev.id + ' carries a 2026 confidence label in a 2015 case'); });
+    }
+    if (LETTERED_CLAUSE5.test(JSON.stringify(c))) e('cites a lettered sub-item within Clause 5');
+    if (/\bshall\b/i.test(JSON.stringify(c))) e('uses "shall"; paraphrase requirements instead');
     var str = JSON.stringify(c);
     var tk = str.match(/\{\{(\w+)\}\}/g) || [];
     tk.forEach(function (t) { var k = t.slice(2, -2); if (!c.tokens || !c.tokens[k]) e('text uses token ' + t + ' that is not defined'); });
@@ -245,6 +275,7 @@ var CB = (function (mulberry32) {
         id: ev.id, kind: ev.kind, text: opts[vi], variantIndex: vi, clauses: clauses(ev.clause), unlockedBy: ev.unlockedBy || [],
         supports: ev.supports || null, whyItMatters: ev.whyItMatters, missedExplanation: ev.missedExplanation, falseFindingNote: ev.falseFindingNote || ''
       };
+      if (ev.confidence) { evidence[ev.id].confidence = ev.confidence; evidence[ev.id].reasoning = ev.reasoning || ''; evidence[ev.id].check = ev.check || ''; }
     });
     var hotspots = [];
     base.hotspots.forEach(function (h) {
@@ -260,9 +291,10 @@ var CB = (function (mulberry32) {
       code: code, seed: seed, id: c.id, pack: c.pack, type: c.type, title: base.title, edition: c.edition, verifyStatus2015: c.verifyStatus2015,
       company: sector ? sector.company : '', brief: base.brief, visitPoints: c.visitPoints, goal: c.goal, branches: c.branches.slice(),
       hotspots: hotspots, evidence: evidence, included: included, planted: planted,
-      decisions: (base.decisions || []).map(function (d) { return { id: d.id, prompt: d.prompt, options: d.options, bestIndex: d.bestIndex, rationale: d.rationale, optionFeedback: d.optionFeedback || null }; }),
+      decisions: (base.decisions || []).map(function (d) { var x = { id: d.id, prompt: d.prompt, options: d.options, bestIndex: d.bestIndex, rationale: d.rationale, optionFeedback: d.optionFeedback || null }; if (d.confidence) { x.confidence = d.confidence; x.reasoning = d.reasoning || ''; x.check = d.check || ''; } return x; }),
       expectedActions: base.expectedActions, actionOptions: buildActionOptions(base.expectedActions, base.actionDistractors, ar, ''),
-      actionFocus: '', debriefText: base.debriefText, tokens: tokens, components: null
+      actionFocus: '', debriefText: base.debriefText, tokens: tokens, components: null,
+      bridge2026: c.edition === '2026' ? (base.bridge2026 || []) : null, variantOf: c.variantOf || null
     };
   }
 
@@ -333,6 +365,7 @@ var CB = (function (mulberry32) {
   function buildFromCode(code, catalog) {
     var p = parseCode(code);
     if (p.error) return p;
+    if (p.type === PLACEMENT) return { error: 'This is a placement check code, not a case code. Open the placement check from the case shelf.', placement: true, seed: p.seed };
     var sector = catalog.sectors.filter(function (s) { return s.code === p.pack; })[0];
     if (!sector) return { error: 'No sector uses the code ' + p.pack + '.' };
     var list = catalog.cases[sector.pack] || [];
@@ -694,6 +727,7 @@ var CB = (function (mulberry32) {
     if (parts.length !== 3) return { error: 'A results code has three parts separated by full stops.' };
     var cc = parseCode(parts[0]);
     if (cc.error) return { error: cc.error };
+    if (cc.type === PLACEMENT) return decodePlacement(cc, parts, label);
     var p = normB32(parts[1]);
     if (p.length !== 19) return { error: 'The results part of the code has the wrong length.' };
     var body = cc.code + '.' + p;
@@ -706,6 +740,53 @@ var CB = (function (mulberry32) {
       measures: { coverage: cov === NA ? NA : cov / 100, precision: pre === NA ? NA : pre / 100, mapping: map === NA ? NA : map / 100, statement: st === NA ? NA : st / 10, action: ac === NA ? NA : ac / 100, decision: de === NA ? NA : de / 100 },
       foundMask: n(16, 18), plantedCount: n(18, 19)
     };
+  }
+
+  /* ---------- placement check (Appendix D.1) ---------- */
+  // Optional, 8 questions, for learners who skip the general instruction. It advises; it never locks anything.
+  // Pass rule: the share correct meets the pass mark (default 80 percent, so 7 of 8). The seed sets the item
+  // and option order, so a placement code reproduces the same check.
+  function placementSession(items, seed) {
+    var rng = rngFor(seed || 1, 'placement', 'order');
+    var order = shuffle(items.map(function (x, i) { return i; }), rng);
+    var optOrder = {};
+    order.forEach(function (i) { optOrder[i] = shuffle(items[i].options.map(function (o, k) { return k; }), rng); });
+    return { seed: seed || 1, code: formatCode(PLACEMENT_PACK, PLACEMENT, 1, seed || 1), items: items, order: order, optOrder: optOrder, answers: {} };
+  }
+  function placementAnswer(sess, idx, choice) { sess.answers[idx] = choice; }
+  function placementPassed(correct, total, passMark) { return total > 0 && correct * 100 >= passMark * total; }
+  function placementNeeded(total, passMark) { return Math.ceil(passMark * total / 100); }
+  function placementScore(sess, passMark) {
+    var pm = passMark === undefined ? 80 : passMark;
+    var correct = 0, missed = [], mask = 0;
+    sess.items.forEach(function (it, i) {
+      if (sess.answers[i] === it.answer) correct++;
+      else { missed.push(i); mask |= (1 << i); }
+    });
+    var total = sess.items.length;
+    var modules = uniq(missed.map(function (i) { return sess.items[i].module; })).sort(function (a, b) { return a - b; });
+    return { correct: correct, total: total, percent: Math.round(100 * correct / (total || 1)), passMark: pm, needed: placementNeeded(total, pm), passed: placementPassed(correct, total, pm),
+      missed: missed, missedMask: mask, modulesToReview: modules, answered: Object.keys(sess.answers).length };
+  }
+  // Placement results code: PLC-P-<SEED>.<payload>.<check>[ ~ learner]. Payload: version, correct, total, pass mark,
+  // missed-item mask, and day. The outcome (pass or not) is recomputed from these by the reader.
+  function encodePlacement(r) {
+    var payload = toB32(VERSION, 1) + toB32(Math.min(31, r.correct), 1) + toB32(Math.min(31, r.total), 1) + toB32(Math.max(0, Math.min(100, r.passMark)), 2) +
+      toB32((r.missedMask || 0) & 1023, 2) + toB32(Math.max(0, Math.min(32767, dayNumber(r.date || new Date()))), 3);
+    var label = String(r.learner || '').replace(/[\r\n~]/g, ' ').trim().slice(0, 40);
+    var body = formatCode(PLACEMENT_PACK, PLACEMENT, 1, r.seed || 1) + '.' + payload;
+    return body + '.' + checksum(body + '|' + label) + (label ? ' ~ ' + label : '');
+  }
+  function decodePlacement(cc, parts, label) {
+    var p = normB32(parts[1]);
+    if (p.length !== 10) return { error: 'The results part of the placement code has the wrong length.' };
+    var body = cc.code + '.' + p;
+    if (normB32(parts[2]) !== checksum(body + '|' + label)) return { error: 'The check characters do not match. The code may have been mistyped.' };
+    var n = function (a, b) { return fromB32(p.slice(a, b)); };
+    if (n(0, 1) !== VERSION) return { error: 'Unknown results code version.' };
+    var correct = n(1, 2), total = n(2, 3), pm = n(3, 5);
+    return { placement: true, code: cc.code, pack: cc.pack, type: PLACEMENT, seed: cc.seed, learner: label, date: dateFromDay(n(7, 10)),
+      correct: correct, total: total, passMark: pm, passed: placementPassed(correct, total, pm), missedMask: n(5, 7) };
   }
 
   /* ---------- drills ---------- */
@@ -730,14 +811,15 @@ var CB = (function (mulberry32) {
   }
 
   return {
-    VERSION: VERSION, TYPES: TYPES, CAPSTONE: CAPSTONE, CLASSES: CLASSES, CLASS_LABEL: CLASS_LABEL, ACTION_CATS: ACTION_CATS, ACTION_LABEL: ACTION_LABEL, BRANCHES: BRANCHES,
+    VERSION: VERSION, TYPES: TYPES, CAPSTONE: CAPSTONE, PLACEMENT: PLACEMENT, PLACEMENT_PACK: PLACEMENT_PACK, CONFIDENCE: CONFIDENCE, LETTERED_CLAUSE5: LETTERED_CLAUSE5, CLASSES: CLASSES, CLASS_LABEL: CLASS_LABEL, ACTION_CATS: ACTION_CATS, ACTION_LABEL: ACTION_LABEL, BRANCHES: BRANCHES,
     GENERIC_DISTRACTORS: GENERIC_DISTRACTORS, MEASURE_TEXT: MEASURE_TEXT,
     mulberry32: mulberry32, fnv: fnv, shuffle: shuffle, seedText: seedText, fromB32: fromB32, toB32: toB32, randomSeed: randomSeed,
     parseCode: parseCode, formatCode: formatCode, validateCase: validateCase, selectEvidence: selectEvidence, generate: generate, generateCapstone: generateCapstone, buildFromCode: buildFromCode,
     newVisit: newVisit, availableActions: availableActions, act: act, endVisit: endVisit, classify: classify, addFinding: addFinding, updateFinding: updateFinding, removeFinding: removeFinding,
     setActions: setActions, decide: decide, closeCase: closeCase, hint: hint, statementRubric: statementRubric, score: score, debrief: debrief,
     branchValues: branchValues, marker: marker, skillMap: skillMap, recommendNext: recommendNext, encodeResult: encodeResult, decodeResult: decodeResult, dayNumber: dayNumber,
-    drillSession: drillSession, drillAnswer: drillAnswer, drillScore: drillScore, clauseFamily: clauseFamily
+    drillSession: drillSession, drillAnswer: drillAnswer, drillScore: drillScore, clauseFamily: clauseFamily,
+    placementSession: placementSession, placementAnswer: placementAnswer, placementScore: placementScore, placementPassed: placementPassed, placementNeeded: placementNeeded, encodePlacement: encodePlacement
   };
 })(typeof module !== 'undefined' && module.exports ? require('../quality-flow/engine.js').mulberry32 : CB_MULBERRY32);
 if (typeof module !== 'undefined' && module.exports) module.exports = CB;

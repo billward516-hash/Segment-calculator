@@ -1,0 +1,325 @@
+{
+  "id": "ELX-F-02",
+  "pack": "electronics",
+  "type": "F",
+  "title": "The Month-End Lot: Speak-Up Variant",
+  "edition": "2026",
+  "verifyStatus2015": "unverified",
+  "variantOf": "ELX-F-01",
+  "brief": "It is the last day of the month at Meridian Microworks. Lot {{lot}} is needed to meet the month-end output figure. Film thickness on 3 of 25 wafers measured above the upper limit. A technician has told the quality office that the area manager asked for the lot to be measured again on a different tool. This is a 2026 variant on quality culture and speaking up. It is preliminary and excluded from badge scoring and the capstone until verified. You have 12 visit points to gather what you need and make a decision you can justify.",
+  "visitPoints": 12,
+  "goal": "Decision quality, including speaking up",
+  "branches": [
+    "Judgment"
+  ],
+  "tokens": {
+    "lot": [
+      "W-5512",
+      "W-5527",
+      "W-5540"
+    ]
+  },
+  "hotspots": [
+    {
+      "id": "H1",
+      "name": "Metrology bay",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Film thickness record for lot {{lot}}",
+          "evidenceId": "E1"
+        },
+        {
+          "verb": "Review",
+          "label": "Daily standard checks for tools MT-4 and MT-7",
+          "evidenceId": "E2"
+        },
+        {
+          "verb": "Observe",
+          "label": "General condition of the bay",
+          "note": "Nothing of note for the purpose of this visit."
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "Area manager",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Area manager: what was asked of the technician",
+          "evidenceId": "E3"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "name": "Technicians",
+      "actions": [
+        {
+          "verb": "Ask",
+          "label": "Technicians: what they would do if a lot failed at month-end",
+          "evidenceId": "E4"
+        },
+        {
+          "verb": "Review",
+          "label": "Concern log and a word with the technicians",
+          "evidenceId": "E5"
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "name": "Quality office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Out-of-limit lot procedure",
+          "evidenceId": "E7"
+        },
+        {
+          "verb": "Review",
+          "label": "Material review board log",
+          "evidenceId": "E6"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "name": "Site director's office",
+      "actions": [
+        {
+          "verb": "Review",
+          "label": "Latest management review minutes",
+          "evidenceId": "E11"
+        },
+        {
+          "verb": "Review",
+          "label": "Recognition notes",
+          "evidenceId": "E8"
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "name": "Shipping cage",
+      "actions": [
+        {
+          "verb": "Observe",
+          "label": "Month-end output chart",
+          "evidenceId": "E9"
+        },
+        {
+          "verb": "Review",
+          "label": "Run sheets",
+          "evidenceId": "E10"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "nonconformity",
+      "text": "Film thickness record for lot {{lot}}: 3 of 25 wafers at 1,212 nm against an upper limit of 1,200 nm on tool MT-4; the lot was then measured on tool MT-7 and recorded as within limits, with no reason given. The lot is moved to shipping.",
+      "clause": "8.7",
+      "confidence": "Unclear",
+      "whyItMatters": "Out-of-limit output is held for an authorized disposition. Measuring on a second tool until the lot passes, with no reason, hides the first result. This 2015 requirement is reported to continue in intent; any change in the 2026 wording is unclear.",
+      "missedExplanation": "Check which tool produced each result and why the second measurement was made.",
+      "plantedPool": true
+    },
+    {
+      "id": "E2",
+      "kind": "conforming",
+      "text": "Both tools, MT-4 and MT-7, passed their daily standard check at 06:30; the results are logged.",
+      "clause": "7.1.5",
+      "confidence": "Unclear",
+      "whyItMatters": "Both tools are verified, so the first result on MT-4 cannot be set aside as a tool error without investigation.",
+      "missedExplanation": "Conforming evidence: the data behind the result is sound.",
+      "falseFindingNote": "The tools are verified. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E3",
+      "kind": "nonconformity",
+      "text": "Area manager: \"Run it on the other tool. We need this lot out for month-end.\" The area manager says month-end output is the only figure the director asks about, and that 2 earlier lots were handled the same way.",
+      "clause": "5.1.1",
+      "confidence": "High",
+      "whyItMatters": "The 2026 edition is reported to add a requirement for top management to promote and demonstrate a quality culture and ethical behavior (5.1.1). Pressure from a leader to change a result or skip a check works against it. Acting on a failed check is already a 2015 requirement.",
+      "missedExplanation": "Ask the person who applies the pressure what they asked for, and compare it with the release rule.",
+      "plantedPool": true
+    },
+    {
+      "id": "E4",
+      "kind": "observation",
+      "text": "Technician interviews: 2 of 3 technicians asked did not know they could place a lot on hold without a manager, or whom to tell. Awareness record AT-31 covers clean room rules only.",
+      "clause": "7.3",
+      "confidence": "High",
+      "whyItMatters": "Awareness is reported to extend to the organization's quality culture and ethical behavior (7.3). People need to know the route for raising a concern and that they may use it.",
+      "missedExplanation": "Ask frontline staff what they would do, and whom they would tell, if a check failed near a deadline.",
+      "plantedPool": true
+    },
+    {
+      "id": "E5",
+      "kind": "observation",
+      "text": "The concern log has 1 entry in 20 weeks. A technician says an engineer who challenged a month-end release in March was left off the next shift rota.",
+      "clause": "7.1.4",
+      "confidence": "Medium",
+      "whyItMatters": "A note on the environment for operation of processes (7.1.4) is reported to recognize that culture can influence operating conditions. Silence after an earlier report was met badly is a sign that the environment discourages reporting. Recorded as an observation because the 2026 wording is unverified.",
+      "missedExplanation": "Compare the concern or near-miss log with what staff say in interview. The gap is the evidence.",
+      "plantedPool": true
+    },
+    {
+      "id": "E6",
+      "kind": "nonconformity",
+      "text": "Material review board log: no entry for lot {{lot}}. The last entry, MRB-77, is 15 days old.",
+      "clause": "8.7",
+      "confidence": "Unclear",
+      "unlockedBy": [
+        "E7"
+      ],
+      "whyItMatters": "An out-of-limit lot needs a material review record so it can be dispositioned and traced. A missing record removes it from the system.",
+      "missedExplanation": "The procedure names the log. Follow the trail from the procedure to the record.",
+      "plantedPool": true
+    },
+    {
+      "id": "E7",
+      "kind": "conforming",
+      "text": "Procedure QP-40 sends any out-of-limit lot to the material review board and does not allow re-measurement on a second tool without a recorded engineering reason. Two board members are on shift.",
+      "clause": "8.7",
+      "confidence": "Unclear",
+      "whyItMatters": "The organization has a defined route, with named authority, for this exact situation.",
+      "missedExplanation": "Conforming evidence: a sound route exists. The risk is in bypassing it.",
+      "falseFindingNote": "The procedure is sound and the named person is available. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E8",
+      "kind": "conforming",
+      "text": "Recognition note RN-3: 7 weeks ago the site director thanked an operator in writing for stopping a tool when a recipe looked wrong. The stop and its outcome are logged.",
+      "clause": "5.1.1",
+      "confidence": "High",
+      "whyItMatters": "Thanking a person who stopped work, and recording the outcome, shows leaders supporting the behavior that 5.1.1 is reported to expect.",
+      "missedExplanation": "Conforming evidence: a sign of the culture the organization wants.",
+      "falseFindingNote": "A recognized stop-work event is good practice, not an issue.",
+      "plantedPool": false
+    },
+    {
+      "id": "E9",
+      "kind": "redHerring",
+      "text": "The month-end output chart shows 94 percent of the target.",
+      "clause": "7.4",
+      "confidence": "Unclear",
+      "whyItMatters": "A plan shown on a board is communication, not a nonconformity.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "The board shows the plan. A deadline on display is not evidence of a breach.",
+      "plantedPool": false
+    },
+    {
+      "id": "E10",
+      "kind": "redHerring",
+      "text": "A run sheet has one wafer count struck through with a single line, initialled and dated, with the correct count beside it.",
+      "clause": "7.5.3",
+      "confidence": "Unclear",
+      "whyItMatters": "A correction that leaves the original legible, with initials and date, protects the integrity of the record.",
+      "missedExplanation": "Not applicable.",
+      "falseFindingNote": "A single-line correction with initials and date is good record practice. Conforming.",
+      "plantedPool": false
+    },
+    {
+      "id": "E11",
+      "kind": "observation",
+      "text": "Management review minutes of 8 September list 9 yield and output measures and no item on concerns raised or how they were handled.",
+      "clause": "9.3",
+      "confidence": "Medium",
+      "whyItMatters": "Leaders are reported to need to demonstrate a quality culture with evidence (5.1.1). A review meeting is one place to show it. This is an observation, not a nonconformity: commentary says no separate culture program is required, so avoid audit criteria the standard may not state.",
+      "missedExplanation": "Read what leaders review. What is never discussed is rarely managed.",
+      "plantedPool": true
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "confidence": "High",
+      "prompt": "The area manager asks you to accept the second measurement as the result. What do you do?",
+      "options": [
+        "Accept the second measurement; both tools are verified",
+        "Raise it after month-end",
+        "Scrap the whole lot",
+        "Ask for the lot to be held, keep both measurements on the record, send it to the material review board now, and propose segregating the 3 wafers so the conforming wafers can still move"
+      ],
+      "bestIndex": 3,
+      "rationale": "The board is on shift, so a disposition can be made today. Keeping the true result and speaking up through the named route is the behavior that 5.1.1 is reported to ask leaders to make easy.",
+      "optionFeedback": [
+        "Two verified tools disagree; that needs investigation, not a choice of the better number.",
+        "Waiting lets the lot ship with a hidden result.",
+        "Scrapping is disproportionate when 22 wafers are within limits.",
+        "This is proportionate, uses the named authority, and protects month-end where possible."
+      ]
+    },
+    {
+      "id": "D2",
+      "confidence": "High",
+      "prompt": "The technician who flagged the first measurement asks to stay anonymous. What should the site director do?",
+      "options": [
+        "Thank the technician, respect the request, review the second-tool practice as a system issue, and tell the area what has changed",
+        "Find out who reported it and ask them to explain",
+        "Remind everyone that month-end output comes first",
+        "Do nothing because the lot was held"
+      ],
+      "bestIndex": 0,
+      "rationale": "Leaders are reported to need to promote and demonstrate a quality culture (5.1.1). Protecting the reporter and changing the condition is the evidence an auditor would look for."
+    }
+  ],
+  "expectedActions": {
+    "containment": [
+      "Hold lot {{lot}} and keep the MT-4 results on the record"
+    ],
+    "correction": [
+      "Segregate the 3 wafers for material review disposition and release the conforming wafers through the board"
+    ],
+    "cause": [
+      "Month-end pressure was allowed to override the out-of-limit rule, and staff were not made aware of, or protected in using, the route for raising concerns"
+    ],
+    "corrective": [
+      "Leaders state and show that holding a lot is expected; add raising concerns to awareness training; block re-measurement on a second tool without a recorded engineering reason"
+    ],
+    "effectiveness": [
+      "For the next 3 month-ends, check that no lot was re-measured without a reason and that concerns raised were logged and answered"
+    ]
+  },
+  "debriefText": {
+    "found": "You kept the true result, used the defined route, and treated the pressure as a system condition rather than a personal failing.",
+    "missed": "In a culture case, compare what the records say with what people say in interview. Leaders' responses to earlier reports are part of the evidence.",
+    "falseFinding": "A deadline on a board and a properly corrected record are normal. They show planning and good record practice, not a weak culture."
+  },
+  "bridge2026": [
+    {
+      "text": "Top management is reported to be required to promote and demonstrate a quality culture and ethical behavior. In this case, look at how leaders respond when a lot fails at month-end.",
+      "confidence": "High",
+      "clause": "5.1.1"
+    },
+    {
+      "text": "Awareness is reported to extend to the organization's quality culture and ethical behavior, so staff should know how to raise a concern and that they may do so.",
+      "confidence": "High",
+      "clause": "7.3"
+    },
+    {
+      "text": "A note on the environment for operation of processes is reported to recognize that culture and ethical behavior can influence operating conditions.",
+      "confidence": "Medium",
+      "clause": "7.1.4"
+    },
+    {
+      "text": "An auditor checking culture is likely to examine decisions, records of concerns raised, and how leaders responded, rather than attitudes or a separate culture program.",
+      "confidence": "Best estimate",
+      "reasoning": "Sources describe culture as shown through behavior and evidence, and commentary says no separate culture program is required.",
+      "check": "Read 5.1.1, its note, and the Annex A guidance on culture in the purchased 2026 text, and ask the certification body how it will audit culture.",
+      "clause": "5.1.1"
+    },
+    {
+      "text": "Control of nonconforming output is reported as carried forward in intent from 2015; any change in wording is unclear.",
+      "confidence": "Unclear",
+      "clause": "8.7"
+    }
+  ]
+}

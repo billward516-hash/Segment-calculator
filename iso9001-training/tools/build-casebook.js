@@ -3,6 +3,9 @@
 //   games/casebook/template.html                -> games/casebook/index.html
 //   games/casebook/results-reader.template.html -> games/casebook/results-reader.html
 // Every case file is checked with the case schema validator; the build stops on any error.
+// 2026 variants (edition "2026", Appendix D.7.2) are checked for confidence labels and carry the exact Section 0.1
+// caution, taken from data/clause-map.json. The optional placement check (Appendix D.1) is read from
+// data/casebook/placement.json and checked here.
 // Run: node tools/build-casebook.js
 const fs = require('fs');
 const path = require('path');
@@ -43,13 +46,45 @@ function loadCatalog() {
     drills[s.pack] = fs.existsSync(path.join(root, dPath)) ? parseDrills(read(dPath), dPath, errors) : [];
     primers[s.pack] = fs.existsSync(path.join(root, 'content/sector-tracks/' + s.pack + '/primer.md'));
   });
+  const caution = clauseMap.meta.caution;
+  if (!/^CAUTION: PRELIMINARY 2026 INFORMATION\. /.test(caution || '')) errors.push('data/clause-map.json: meta.caution is missing or altered');
+  Object.keys(cases).forEach(p => cases[p].filter(c => c.edition === '2026').forEach(c => {
+    const base = cases[p].find(x => x.id === c.variantOf);
+    if (!base) errors.push(c.id + ': variantOf ' + c.variantOf + ' is not a case in this sector');
+    else if (base.edition !== '2015' || base.type !== c.type) errors.push(c.id + ': variantOf must name a 2015 case of the same type');
+  }));
+  const placement = loadPlacement(clauseIds, errors);
   return {
     catalog: {
       meta: sectorsFile.meta, sectors: sectorsFile.sectors, cases, drills, primers,
-      clauses: clauseMap.clauses.map(c => ({ id: c.id, title: c.title2015 }))
+      clauses: clauseMap.clauses.map(c => ({ id: c.id, title: c.title2015, ref2026: c.ref2026, confidence2026: c.confidence })),
+      caution2026: caution, placement
     },
     errors
   };
+}
+
+// Placement check: exactly eight sector-neutral items with four options, a valid answer, a clause tag in the
+// clause map, and a core module number. No 2026 content.
+function loadPlacement(clauseIds, errors) {
+  const f = 'data/casebook/placement.json';
+  if (!fs.existsSync(path.join(root, f))) { errors.push(f + ' is missing'); return null; }
+  const pl = json(f);
+  const e = m => errors.push(f + ': ' + m);
+  if (!pl.meta || !(pl.meta.passMark > 0 && pl.meta.passMark <= 100)) e('meta.passMark must be a percentage from 1 to 100');
+  if (!pl.meta || !pl.meta.adviceReady || !pl.meta.adviceReview || !pl.meta.passRule) e('meta needs passRule, adviceReady, and adviceReview');
+  if (!Array.isArray(pl.items) || pl.items.length !== 8) { e('needs exactly 8 items'); return pl; }
+  const ids = new Set();
+  pl.items.forEach(it => {
+    if (!it.id || ids.has(it.id)) e('item id missing or duplicated: ' + it.id); ids.add(it.id);
+    if (!it.stem || !Array.isArray(it.options) || it.options.length !== 4 || it.options.some(o => !o)) e(it.id + ' needs a stem and four options');
+    if (!(Number.isInteger(it.answer) && it.answer >= 0 && it.answer < 4)) e(it.id + ' answer out of range');
+    if (!it.rationale) e(it.id + ' needs a rationale');
+    if (!(Number.isInteger(it.module) && it.module >= 0 && it.module <= 12) || !it.moduleTitle) e(it.id + ' needs a core module number and title');
+    String(it.clause || '').split(/,\s*/).forEach(cl => { if (!clauseIds.includes(cl)) e(it.id + ' clause ' + cl + ' is not in the clause map'); });
+  });
+  if (/2026/.test(JSON.stringify(pl.items))) e('items must not contain 2026 content');
+  return pl;
 }
 
 // Parses drills.md. Multiple-choice and Translate items use the same block format:
@@ -94,8 +129,9 @@ function build() {
   });
   const n = Object.keys(catalog.cases).reduce((k, p) => k + catalog.cases[p].length, 0);
   const d = Object.keys(catalog.drills).reduce((k, p) => k + catalog.drills[p].length, 0);
-  console.log('Casebook: ' + catalog.sectors.length + ' sectors, ' + n + ' cases, ' + d + ' drill items.');
+  const n26 = Object.keys(catalog.cases).reduce((k, p) => k + catalog.cases[p].filter(c => c.edition === '2026').length, 0);
+  console.log('Casebook: ' + catalog.sectors.length + ' sectors, ' + n + ' cases (' + (n - n26) + ' core, ' + n26 + ' 2026 variants), ' + d + ' drill items, placement check of ' + catalog.placement.items.length + ' items.');
 }
 
 if (require.main === module) build();
-module.exports = { loadCatalog, parseDrills, safe };
+module.exports = { loadCatalog, loadPlacement, parseDrills, safe };
