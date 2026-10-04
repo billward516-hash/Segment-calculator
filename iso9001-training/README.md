@@ -61,7 +61,7 @@ Open a file in `games/printables/` and print at Letter size with margins as set 
 
 Everything in the specification's repository layout: participant guide Modules 0 to 12 with 2026 Bridge boxes and Appendix A, glossary, instructor guide (formats A to E, facilitation notes for every module, game facilitation, assessment and records, troubleshooting, 2026 bridge session, sector deep-dive, 28 micro-sessions, answer keys), handouts and one-page summaries, 120 core questions, 192 sector quiz questions, 42 bridge questions, 86 scenarios plus 2026 scenarios, Quality Flow with eight packs and a 2015 / 2026 / bridge edition setting, the quiz app in all Appendix C modes, Audit Day, the Sector Casebook (48 cases), the 2026 bridge games, printable kits for every game, and tests for each part.
 
-Known gaps: Sector drills run inside the Casebook rather than as a quiz-app mode; no 2026 variant cases are written for the Casebook; the optional placement check is not built.
+Known gaps: no 2026 variant cases are written for the Casebook; the optional placement check is not built.
 
 ## Points to confirm
 

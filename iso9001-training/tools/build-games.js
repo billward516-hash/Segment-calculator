@@ -40,8 +40,21 @@ if (fs.existsSync(qt)) {
       sectorQuizzes[bank.pack || path.basename(f, '.json')] = bank;
     });
   }
+  // Sector drills (Appendix D.10): content/sector-tracks/<pack>/drills.md, parsed by the Casebook builder's parser
+  // so the quiz app's "Sector drill" mode and the Casebook use the same items.
+  const { loadCatalog } = require(path.join(root, 'tools/build-casebook.js'));
+  const { catalog, errors: drillErrors } = loadCatalog();
+  if (drillErrors.length) {
+    console.error('Quiz build stopped. ' + drillErrors.length + ' drill or casebook problem(s):\n' + drillErrors.map(e => ' - ' + e).join('\n'));
+    process.exit(1);
+  }
+  const sectorDrills = {};
+  catalog.sectors.forEach(s => {
+    if ((catalog.drills[s.pack] || []).length) sectorDrills[s.pack] = { name: s.name, items: catalog.drills[s.pack] };
+  });
   let q = fs.readFileSync(qt, 'utf8');
-  q = q.replace('__QUESTIONS_JSON__', () => safe(questions)).replace('__SECTOR_QUIZZES_JSON__', () => safe(sectorQuizzes)).replace('__COMPANY__', () => company.company);
+  q = q.replace('__QUESTIONS_JSON__', () => safe(questions)).replace('__SECTOR_QUIZZES_JSON__', () => safe(sectorQuizzes))
+    .replace('__SECTOR_DRILLS_JSON__', () => safe(sectorDrills)).replace('__COMPANY__', () => company.company);
   fs.writeFileSync(path.join(root, 'games/quiz/index.html'), q);
   console.log('Built games/quiz/index.html (' + Math.round(q.length / 1024) + ' KB)');
 }
